@@ -1,2 +1,2 @@
 # web
-Sources files for website
+Sources files for website and tools publicly available.
