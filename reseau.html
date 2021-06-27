@@ -1,0 +1,845 @@
+<head>
+    <meta charset="utf-8">
+    <title>Outils réseau</title>
+    <meta name="description" content="">
+  
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <!-- Font
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+  
+      <style type="text/css">
+          body{
+          font-family: 'new_yorkregular';
+              }
+      </style>
+  
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="css/theme.css">
+  
+    <!-- Favicon
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="./js/jquery.min.js" type="text/javascript"></script>
+  <script src="./js/engine.js" type="text/javascript"></script>
+  <script src="./js/network.js" type="text/javascript"></script>
+
+</head>
+<body>
+
+  <!-- Navigation
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <nav>
+    <a href="conversion.html">Outils de conversion</a>
+    <a href="generateur.html">Générateurs</a>
+    <a href="reseau.html">Outils réseau</a>
+    <a href="raid-calc.html">Calculateur RAID</a>
+    <a href="ip.php">API - Mon adresse IP</a>
+    <a href="rps.html">Calculateur de points de restauration</a>
+    <a href="base64.html">Conversion en Base 64</a>
+  </nav>
+
+    <!-- Contenu
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<div class="container">
+<div class="row">
+    <div class="eleven columns">
+        <h1>Outils réseau</h1>
+        <h4>Mon adresse IP</h4>
+
+<div id="mydiv"></div>
+
+<script>var getIP = function(json) {  document.getElementById("mydiv").innerHTML = json.ip;}</script>
+<script type="application/javascript" src="https://api.ipify.org/?format=jsonp&callback=getIP"></script>
+
+<h4>Calculateur de sous-réseau</h4>
+
+<form>
+<fieldset>
+<label for="addressSubnets">Addresse</label>
+<input id="addressSubnets" value="10.0.0.0"type="text">
+<label for="subnetBits">Bits du sous-réseau</label>
+<select id="subnetBits">
+    <option value="9" selected="selected">1</option>
+    <option value="10">2</option>
+    <option value="11">3</option>
+    <option value="12">4</option>
+    <option value="13">5</option>
+    <option value="14">6</option>
+    <option value="15">7</option>
+    <option value="16">8</option>
+    <option value="17">9</option>
+    <option value="18">10</option>
+    <option value="19">11</option>
+    <option value="20">12</option>
+    <option value="21">13</option>
+    <option value="22">14</option>
+    <option value="23">15</option>
+    <option value="24">16</option>
+    <option value="25">17</option>
+    <option value="26">18</option>
+    <option value="27">19</option>
+    <option value="28">20</option>
+    <option value="29">21</option>
+    <option value="30">22</option>
+    <option value="31">23</option>
+</select>
+<label for="maxSubnets">Max de sous-réseaux</label>
+<select id="maxSubnets">
+    <option value="9" selected="selected">2</option>
+    <option value="10">4</option>
+    <option value="11">8</option>
+    <option value="12">16</option>
+    <option value="13">32</option>
+    <option value="14">64</option>
+    <option value="15">128</option>
+    <option value="16">256</option>
+    <option value="17">512</option>
+    <option value="18">1024</option>
+    <option value="19">2048</option>
+    <option value="20">4096</option>
+    <option value="21">8192</option>
+    <option value="22">16384</option>
+    <option value="23">32768</option>
+    <option value="24">65536</option>
+    <option value="25">131072</option>
+    <option value="26">262144</option>
+    <option value="27">524288</option>
+    <option value="28">1048576</option>
+    <option value="29">2097152</option>
+    <option value="30">4194304</option>
+    <option value="31">8388608</option>
+</select>
+
+<label>ID de sous-réseau</label>
+<div class="input">
+    <span id="subnetId">10.0.0.0</span>
+</div>
+<label>Addresse hôte</label>
+<div class="input">
+    <span id="hostAddresses" class="uneditable-input">10.0.0.1-10.127.255.254</span>
+</div>
+<label for="subnetMask">Masque de sous-réseau</label>
+<div>
+<select id="subnetMask">
+    <option value="9" selected="selected">255.128.0.0 &nbsp;&nbsp; (/9)</option>
+    <option value="10">255.192.0.0 &nbsp;&nbsp; (/10)</option>
+    <option value="11">255.224.0.0 &nbsp;&nbsp; (/11)</option>
+    <option value="12">255.240.0.0 &nbsp;&nbsp; (/12)</option>
+    <option value="13">255.248.0.0 &nbsp;&nbsp; (/13)</option>
+    <option value="14">255.252.0.0 &nbsp;&nbsp; (/14)</option>
+    <option value="15">255.254.0.0 &nbsp;&nbsp; (/15)</option>
+    <option value="16">255.255.0.0 &nbsp;&nbsp; (/16)</option>
+    <option value="17">255.255.128.0 &nbsp;&nbsp; (/17)</option>
+    <option value="18">255.255.192.0 &nbsp;&nbsp; (/18)</option>
+    <option value="19">255.255.224.0 &nbsp;&nbsp; (/19)</option>
+    <option value="20">255.255.240.0 &nbsp;&nbsp; (/20)</option>
+    <option value="21">255.255.248.0 &nbsp;&nbsp; (/21)</option>
+    <option value="22">255.255.252.0 &nbsp;&nbsp; (/22)</option>
+    <option value="23">255.255.254.0 &nbsp;&nbsp; (/23)</option>
+    <option value="24">255.255.255.0 &nbsp;&nbsp; (/24)</option>
+    <option value="25">255.255.255.128 &nbsp;&nbsp; (/25)</option>
+    <option value="26">255.255.255.192 &nbsp;&nbsp; (/26)</option>
+    <option value="27">255.255.255.224 &nbsp;&nbsp; (/27)</option>
+    <option value="28">255.255.255.240 &nbsp;&nbsp; (/28)</option>
+    <option value="29">255.255.255.248 &nbsp;&nbsp; (/29)</option>
+    <option value="30">255.255.255.252 &nbsp;&nbsp; (/30)</option>
+    <option value="31">255.255.255.254 &nbsp;&nbsp; (/31)</option>
+</select>
+<label for="hostBits">Bits hôte</label>
+<select id="hostBits">
+    <option value="9" selected="selected">23</option>
+    <option value="10">22</option>
+    <option value="11">21</option>
+    <option value="12">20</option>
+    <option value="13">19</option>
+    <option value="14">18</option>
+    <option value="15">17</option>
+    <option value="16">16</option>
+    <option value="17">15</option>
+    <option value="18">14</option>
+    <option value="19">13</option>
+    <option value="20">12</option>
+    <option value="21">11</option>
+    <option value="22">10</option>
+    <option value="23">9</option>
+    <option value="24">8</option>
+    <option value="25">7</option>
+    <option value="26">6</option>
+    <option value="27">5</option>
+    <option value="28">4</option>
+    <option value="29">3</option>
+    <option value="30">2</option>
+    <option value="31">1</option>
+</select>
+</div>
+<div>
+<label for="maxHosts">Max Hôtes</label>
+<select id="maxHosts">
+    <option value="9" selected="selected">8388608</option>
+    <option value="10">4194302</option>
+    <option value="11">2097150</option>
+    <option value="12">1048574</option>
+    <option value="13">524286</option>
+    <option value="14">262142</option>
+    <option value="15">131070</option>
+    <option value="16">65534</option>
+    <option value="17">32766</option>
+    <option value="18">16382</option>
+    <option value="19">8190</option>
+    <option value="20">4094</option>
+    <option value="21">2046</option>
+    <option value="22">1022</option>
+    <option value="23">510</option>
+    <option value="24">254</option>
+    <option value="25">126</option>
+    <option value="26">62</option>
+    <option value="27">30</option>
+    <option value="28">14</option>
+    <option value="29">6</option>
+    <option value="30">2</option>
+    <option value="31">2</option>
+</select>
+</div>
+<label>Diffusion de sous-réseau</label>
+<div class="input">
+    <span id="subnetBroadcast" class="uneditable-input">10.127.255.255</span>
+</div>
+<label>Masque générique</label>
+<div class="input">
+    <span id="wildcardMask" class="uneditable-input">0.127.255.255</span>
+</div>
+</div>
+
+<div class="row">
+<div class="eleven columns">
+
+<label>Utilisation des bits de classe (n=Network; h=Host)</label>
+<div class="input">
+<span id="subnetsBitUsage" class="uneditable-input"><font class="network">0nnnnnnn.</font><font class="subnet">s</font><font class="host">hhhhhhh.hhhhhhhh.hhhhhhhh</font></span>
+</div>
+
+<label id="optionsCheckboxes">Options</label>
+<div class="input">
+<label>
+<input id="rfc3021" checked="checked" type="checkbox">
+<span>RFC 3021</span>
+</label>
+</div>
+
+</fieldset>
+</form>
+<div class="row">
+<div class="eleven columns">
+<h5>Calculateur de sous-réseau</h5>
+
+<h4>Comment l'utiliser</h4>
+
+<p>Saisissez l'adresse IP au format décimal pointé (par exemple, 10.0.0.1). Le calcul 
+avec classe est basé sur une architecture d'adressage réseau avec classe. La mise en 
+réseau avec classe a été utilisée jusqu'à l'introduction du CIDR (routage interdomaine sans classe). 
+Les calculs sont donnés instantanément lors de la frappe. Une entrée non valide ne donne aucun résultat. 
+La calculatrice supposera que les adresses IP non terminées se terminent par des zéros. 
+La classe de réseau sera déterminée automatiquement. 
+Seules les classes de réseau A, B et C calculent les résultats.</p>
+
+<table>
+<thead>
+<tr>
+    <th>Classe</th>
+    <th>Plage du premier octet</th>
+    <th>Bits de tête</th>
+    <th>Nombre de sous-réseaux</th>
+    <th>Nombre d'hôtes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+    <th>Classe A</th>
+    <td>1-126</td>
+    <td>0</td>
+    <td>128 (2<sup>7</sup>)</td>
+    <td>16777216 (2<sup>24</sup>)</td>
+</tr>
+<tr>
+    <th>Classe B</th>
+    <td>128-191</td>
+    <td>10</td>
+    <td>16384 (2<sup>14</sup>)</td>
+    <td>65536 (2<sup>16</sup>)</td>
+</tr>
+<tr>
+    <th>Classe C</th>
+    <td>192-223</td>
+    <td>110</td>
+    <td>2097152 (2<sup>21</sup>)</td>
+    <td>256 (2<sup>8</sup>)</td>
+</tr>
+</tbody>
+</table>
+
+<p>Sélectionnez Masque au format décimal pointé ou en ajustant les bits de réseau ou les sous-réseaux max de votre choix.</p>
+
+<h4>Fonctions:</h4>
+
+<ul>
+<li>Fournit des calculs en utilisant l'adresse IP et le masque (bits de sous-réseau, réseaux max, bits hôtes, hôtes max);</li>
+<li>L'ID de sous-réseau, la diffusion, les adresses d'hôte, le masque générique et le bitmap d'utilisation des bits de classe sont fournis comme résultats de calcul;</li>
+<li>Support de RFC 3021.</li>
+</ul>
+
+<h4>Addresse</h4>
+
+<p>L'adresse de protocole Internet (ou IP) est utilisée par les périphériques réseau comme hôte 
+identifiants pour la communication avec d'autres périphériques réseau utilisant Internet Protocole. 
+Le protocole Internet version 4 (IPv4) sont des nombres binaires 32 bits, généralement représenté 
+sous forme décimale à points lisibles par l'homme (par ex. 78.84.160.206). Certaines adresses IP 
+sont réservées par Internet Autorité des numéros attribués (IANA) pour un usage spécial et ne peut 
+pas être utilisée adresses d'hôte (répertoriées dans RFC 5735).</p>
+
+<h4>Masque</h4>
+
+<p>Le MASQUE est un nombre binaire (également généralement représenté dans 
+format décimal en pointillés) utilisé pour séparer les parties réseau et hôte dans IP adresse. 
+Le masque de sous-réseau IPv4 mesure 32 bits. Dans un masque de sous-réseau valide la partie réseau 
+est représentée avec "1" du côté gauche suivi et terminé par partie hôte 
+"0" - 11111111.11111111.11111111.00000000 (forme binaire), 255.255.255.0 
+(forme décimale à points) ou simplement "/ 24" (où 24 représente cette partie 
+du réseau de sous-réseau a une longueur de 24 bits). Le calculateur de sous-réseau permet 
+calcul pour 255.255.255.254.</p>
+
+<h4>Bits hôtes</h4>
+
+<p>Les bits de sous-réseau sont le nombre de bits utilisés pour identifier le sous-réseau. IP le réseau est divisé en préfixe de réseau et identifiant d'hôte. Bits d'hôte sont là pour identifier les hôtes et il est divisé en sous-réseau et hôte identifiant.</p>
+
+<table>
+<tbody>
+<tr>
+<td></td>
+<td colspan="3">Masque de sous-réseau</td>
+</tr>
+<tr>
+    <td>Addresse IP</td>
+    <td>Réseau</td>
+    <td colspan="2">Hôtes</td>
+</tr>
+<tr>
+    <td>Addresse IP</td>
+    <td>Réseau</td>
+    <td>Sous-réseau</td>
+    <td>Hôtes</td>
+</tr>
+</tbody>
+</table>
+
+<h4>Nombre maximum de réseaux et d'hôtes</h4>
+
+<p>Nombre maximal de sous-réseaux et d'hôtes disponibles dans le masque de sous-réseau spécifié.</p>
+
+<ul>
+    <li>Max sous-réseau = 2<sup>subnet_bits</sup></li>
+    <li>Max Hôtes = 2<sup>host_bits</sup> - 2 (soustraction d'adresses réseau et de diffusion.
+        Les exceptions sont les sous-réseaux avec le masque de sous-réseau /31 où il n'y a pas de partie de soustraction)</li>
+</ul>
+
+<h4>ID de réseau</h4>
+
+<p>Il s'agit de l'adresse réservée qui représente le réseau. Il fait partie de la destination des routes IP et ne peut pas être attribué à l'hôte comme identifiant. L'ID réseau est calculé en utilisant ET au niveau du bit entre l'adresse IP et le masque de sous-réseau.</p>
+
+<pre>11000000.10101000.01011000.00000001 (192.168.88.1) ET 11111111.11111111.00000000.00000000 (255.255.0.0 ou /16) = 11000000.10101000.00000000.00000000 (192.168.0.0)</pre>
+
+<h4>Adresse de dffusion</h4>
+
+<p>Adresse réservée utilisée pour cibler tous les appareils d'un réseau donné. Il ne peut pas être attribué à l'hôte. L'adresse de diffusion est calculée en effectuant PAS au niveau du bit sur le masque de sous-réseau:</p>
+
+<pre>NON 11111111.11111111.00000000.00000000 (255.255.0.0 or /16) = 00000000.00000000.11111111.11111111</pre>
+
+<p>puis en utilisant OR au niveau du bit entre le masque de sous-réseau inversé et l'adresse IP:</p>
+
+<pre>11000000.10101000.01011000.00000001 (192.168.88.1) OU 00000000.00000000.11111111.11111111 (~255.255.0.0) = 11000000.10101000.11111111.11111111 (192.168.255.255)</pre>
+
+<h4>Addresses hôtes</h4>
+
+<p>Calcul de la plage d'adresses: ID réseau + 1 à diffuser - 1</p>
+
+<h4>Masque générique</h4>
+
+<p>Le masque générique est calculé en inversant le masque de sous-réseau:</p>
+
+<pre>NON 11111111.11111111.00000000.00000000 (255.255.0.0) = 00000000.00000000.11111111.11111111 (0.0.255.255)</pre>
+
+<h4>Utilisation des bits de classe</h4>
+
+<p>Voir visuellement le préfixe du réseau, le sous-réseau et la structure des bits d'hôte dans l'adresse IP donnée.
+    "n" signifie partie réseau du réseau, "s" - partie sous-réseau et "h" - partie hôte.</p>
+
+<h4>Options</h4>
+
+<p>Que ce soit pour utiliser /31 ou 255.255.255.254 masque de sous-réseau spécifié dans RFC 3021</p>
+
+<h3>Conversion d'adresse IP</h3>
+
+<form>
+<fieldset>
+<label for="dottedDecimal">Décimal avec point</label>
+<input id="dottedDecimal" type="text">
+<label for="dottedHexadecimal">Hexadecimal avec point</label>
+<input id="dottedHexadecimal" type="text">
+
+<label for="decimal">Décimal</label>
+<input id="decimal" type="text">
+<label for="hexadecimal">Hexadécimal</label>
+<input id="hexadecimal" type="text">
+
+<label for="dottedBinary">Binaire avec point</label>
+<input id="dottedBinary" type="text">
+<label for="binary">Binaire</label>
+<input id="binary" type="text">
+</fieldset>
+</form>
+
+<h4>Utilisation</h4>
+<ul>
+    <li>Saisissez l'adresse IP au format valide (radix approprié et notation décimale à points ou forme normale) et tous les autres champs seront mis à jour en conséquence;
+     Les entrées invalides ne montreront aucun résultat.</li>
+</ul>
+
+<h3>Calculateur CIDR</h3>
+
+<form class="form-stacked">
+<fieldset>
+<label for="cidrAddress">Addresse</label>
+<input id="cidrAddress" value="10.0.0.0" type="text">
+<label for="cidrMask">Masque CIDR</label>
+<select id="cidrMask">
+<option value="1" selected="selected">128.0.0.0 &nbsp;&nbsp; (/1)</option>
+<option value="2">192.0.0.0 &nbsp;&nbsp; (/2)</option>
+<option value="3">224.0.0.0 &nbsp;&nbsp; (/3)</option>
+<option value="4">240.0.0.0 &nbsp;&nbsp; (/4)</option>
+<option value="5">248.0.0.0 &nbsp;&nbsp; (/5)</option>
+<option value="6">252.0.0.0 &nbsp;&nbsp; (/6)</option>
+<option value="7">254.0.0.0 &nbsp;&nbsp; (/7)</option>
+<option value="8">255.0.0.0 &nbsp;&nbsp; (/8)</option>
+<option value="9">255.128.0.0 &nbsp;&nbsp; (/9)</option>
+<option value="10">255.192.0.0 &nbsp;&nbsp; (/10)</option>
+<option value="11">255.224.0.0 &nbsp;&nbsp; (/11)</option>
+<option value="12">255.240.0.0 &nbsp;&nbsp; (/12)</option>
+<option value="13">255.248.0.0 &nbsp;&nbsp; (/13)</option>
+<option value="14">255.252.0.0 &nbsp;&nbsp; (/14)</option>
+<option value="15">255.254.0.0 &nbsp;&nbsp; (/15)</option>
+<option value="16">255.255.0.0 &nbsp;&nbsp; (/16)</option>
+<option value="17">255.255.128.0 &nbsp;&nbsp; (/17)</option>
+<option value="18">255.255.192.0 &nbsp;&nbsp; (/18)</option>
+<option value="19">255.255.224.0 &nbsp;&nbsp; (/19)</option>
+<option value="20">255.255.240.0 &nbsp;&nbsp; (/20)</option>
+<option value="21">255.255.248.0 &nbsp;&nbsp; (/21)</option>
+<option value="22">255.255.252.0 &nbsp;&nbsp; (/22)</option>
+<option value="23">255.255.254.0 &nbsp;&nbsp; (/23)</option>
+<option value="24">255.255.255.0 &nbsp;&nbsp; (/24)</option>
+<option value="25">255.255.255.128 &nbsp;&nbsp; (/25)</option>
+<option value="26">255.255.255.192 &nbsp;&nbsp; (/26)</option>
+<option value="27">255.255.255.224 &nbsp;&nbsp; (/27)</option>
+<option value="28">255.255.255.240 &nbsp;&nbsp; (/28)</option>
+<option value="29">255.255.255.248 &nbsp;&nbsp; (/29)</option>
+<option value="30">255.255.255.252 &nbsp;&nbsp; (/30)</option>
+<option value="31">255.255.255.254 &nbsp;&nbsp; (/31)</option>
+<option value="32">255.255.255.255 &nbsp;&nbsp; (/32)</option>
+</select>
+
+<label for="cidrNotation">Notation CIDR</label>
+<span id="cidrNotation" class="uneditable-input">10.0.0.0/1</span>
+
+<label for="cidrWildcardMask">Masque générique</label>
+<span id="cidrWildcardMask" class="uneditable-input">127.255.255.255</span>
+
+<label for="cidrMaximumSubnets">Maximum de sous-réseaux</label>
+<select id="cidrMaximumSubnets">
+    <option value="1" selected="selected">2147483648</option>
+    <option value="2">1073741824</option>
+    <option value="3">536870912</option>
+    <option value="4">268435456</option>
+    <option value="5">134217728</option>
+    <option value="6">67108864</option>
+    <option value="7">33554432</option>
+    <option value="8">16777216</option>
+    <option value="9">8388608</option>
+    <option value="10">4194304</option>
+    <option value="11">2097152</option>
+    <option value="12">1048576</option>
+    <option value="13">524288</option>
+    <option value="14">262144</option>
+    <option value="15">131072</option>
+    <option value="16">65536</option>
+    <option value="17">32768</option>
+    <option value="18">16384</option>
+    <option value="19">8192</option>
+    <option value="20">4096</option>
+    <option value="21">2048</option>
+    <option value="22">1024</option>
+    <option value="23">512</option>
+    <option value="24">256</option>
+    <option value="25">128</option>
+    <option value="26">64</option>
+    <option value="27">32</option>
+    <option value="28">16</option>
+    <option value="29">8</option>
+    <option value="30">4</option>
+    <option value="31">2</option>
+    <option value="32">1</option>
+</select>
+
+<label for="cidrMaximumAddresses">Maximum d'adresses</label>
+<select id="cidrMaximumAddresses">
+    <option value="1" selected="selected">2147483646</option>
+    <option value="2">1073741822</option>
+    <option value="3">536870910</option>
+    <option value="4">268435454</option>
+    <option value="5">134217726</option>
+    <option value="6">67108862</option>
+    <option value="7">33554430</option>
+    <option value="8">16777214</option>
+    <option value="9">8388606</option>
+    <option value="10">4194302</option>
+    <option value="11">2097150</option>
+    <option value="12">1048574</option>
+    <option value="13">524286</option>
+    <option value="14">262142</option>
+    <option value="15">131070</option>
+    <option value="16">65534</option>
+    <option value="17">32766</option>
+    <option value="18">16382</option>
+    <option value="19">8190</option>
+    <option value="20">4094</option>
+    <option value="21">2046</option>
+    <option value="22">1022</option>
+    <option value="23">510</option>
+    <option value="24">254</option>
+    <option value="25">126</option>
+    <option value="26">62</option>
+    <option value="27">30</option>
+    <option value="28">14</option>
+    <option value="29">6</option>
+    <option value="30">2</option>
+    <option value="31">2</option>
+    <option value="32">1</option>
+</select>
+<label>Plage d'adresses CIDR</label>
+<div class="input">
+    <span id="cidrAddressRange" class="uneditable-input" style="width: 450px;">0.0.0.0-127.255.255.255</span>
+</div>
+</fieldset>
+</form>
+
+
+<h4>Comment utiliser</h4>
+<ul>
+<li> Saisissez l'adresse IP. Les adresses IP incomplètes seront automatiquement terminées avec des zéros si nécessaire; </li>
+<li> Les adresses IP non valides apparaîtront lues et ne montreront aucun résultat de calcul; </li>
+<li> Sélectionnez le masque de réseau CIDR ou le paramètre associé - max réseaux ou adresses; </li>
+<li> Le calculateur CIDR calculera la notation CIDR, le masque générique, le nombre maximal de sous-réseaux et d'adresses et la plage d'adresses CIDR; </li>
+<li> La calculatrice peut être utilisée pour planifier la mise en place de grands ou moyens réseaux ou pour étudier. </li>
+</ul>
+
+<h4>Notes</h4>
+
+<p> Cet outil est utilisé pour calculer différents
+paramètres réseau (route IP, diffusion, plage d'adresses, etc.) lorsque
+méthode de routage inter-domaine sans classe d'attribution d'adresses IP et
+le routage des paquets IP est utilisé. La méthode Classful a été remplacée par CIDR
+en 1993 et la motivation était une nécessité pour réduire la croissance de
+tables de routage et d'utiliser plus efficacement le pool d'adresses IPv4. </p>
+
+<h4>VLSM</h4>
+
+<p> Le routage inter-domaines sans classe est basé sur le <strong> VLSM </strong>
+(variable length subnet mask / masque de sous-réseau de longueur variable). Il permet de diviser les réseaux en
+différents sous-réseaux de taille et de type tout en ne gaspillant aucune adresse IP
+adresses. Par exemple, le réseau 192.168.1.0/24 peut être divisé en deux
+/ 26 et un / 25 sous-réseaux - 192.168.1.0/26, 192.168.1.64/26 et
+192.168.1.128/25. Processus inversé de division des réseaux en variable
+les sous-réseaux de masque de sous-réseau de longueur sont appelés supernetting. </p>
+<p> Informations plus détaillées Remarques VLSM peut être trouvé dans RFC 950. </p>
+
+<h4>Masque</h4>
+
+<p> Le masque (préfixe de routage) indique quelle partie d'une adresse IP est
+partie réseau et qui est une partie hôte. Le masque CIDR dans IP version 4 est 32
+bits de long et est généralement représenté en utilisant la forme décimale en pointillés. Valide
+La forme binaire des masques CIDR commence par un ou plusieurs (une partie)
+suivi d'un flux de zéros (partie zéros). Après le premier zéro, il peut
+soyez seulement ceux. Par exemple, 11111111.11111111.11110000.00000000
+(255.255.240.0). </p>
+
+<h5> Nombre maximal de sous-réseaux </h5>
+
+<p>Nombre maximal de sous-réseaux disponibles pour le masque CIDR spécifié. Il est calculé par:
+    2<sup>32-préfixe de routage</sup>
+</p>
+
+<h5>Nombre maximal d'adresses</h5>
+
+<p>Nombre maximal d'adresses disponibles pour le masque CIDR spécifié, calculé par:
+    2<sup>32-préfixe de routage</sup> - 2. Les réseaux avec des masques "/ 32" font exception: 2<sup>32-préfixe de routage</sup>.
+</p>
+
+<h4> Notation CIDR </h4>
+
+<p> La notation CIDR est un format d'adresse IP et le préfixe de routage. Ce
+le format se compose de l'ID réseau calculé à partir de l'adresse IP et du masque CIDR
+et à partir du masque CIDR lui-même comme préfixe de routage (par exemple,
+10.5.100.0/24 ou 10.5.100.0/255.255.255.0). La notation CIDR est également utilisée
+pour le routage IPv6. </p>
+<h4> Masque générique </h4>
+
+<p> Le masque générique est un masque CIDR inversé et il est calculé en effectuant un NOT binaire sur le masque CIDR: </p>
+<pre> PAS 11111111.11111111.11111111.00000000 (255.255.255.0) = 00000000.11111111.11111111.11111111 (0.255.255.255) </pre>
+
+<h4> Plage d'adresses </h4>
+
+<p> Plage d'adresses que l'adresse IP et le masque de sous-réseau sélectionnés couvrent.
+Le premier est calculé en ajoutant 1 à l'ID réseau et le dernier est calculé par
+  soustraire 1 de la diffusion. </p>
+
+ 
+<h5> Outil de classe de sous-réseau</h5>
+
+<form class="form-stacked">
+<fieldset>
+<label for="address">Adresse</label>
+<input id="address" value="0.0.0.0" type="text">
+<label for="class">Classe</label>
+<select id="class">
+    <option value="1" selected="selected">Cet hôte</option>
+    <option value="2">Ce réseau</option>
+    <option value="3">Classe A</option>
+    <option value="4">Loopback</option>
+    <option value="5">Classe B</option>
+    <option value="6">Classe C</option>
+    <option value="7">Classe D/Multicast</option>
+    <option value="8">Classe E/Expérimental</option>
+    <option value="9">Broadcast</option>
+</select>
+<label>Plage d'adresses de classe</label>
+<div class="input">
+<span id="classAddressRange" style="width: 330px;">0.0.0.0</span>
+</div>
+
+<label>Utilisation des bits de classe (n=Network; h=Host; x=Open)</label>
+<div class="input">
+<span id="classBitUsage" style="width: 330px;">00000000.00000000.00000000.00000000</span>
+</div>
+</fieldset>
+</form>
+
+<h4>Comment utiliser l'outil de plage d'adresses de classe</h4>
+
+<ul>
+     <li>Saisissez une adresse IP valide au format décimal à points. Une entrée non valide ne montrera aucun résultat.</li>
+     <li>La classe du sous-réseau sera déterminée automatiquement.</li>
+     <li>L'outil de classe de sous-réseau n'affichera pas seulement les classes de sous-réseau allant de A à E,
+         mais aussi des cas particuliers - "Cet" hôte, "Ce" réseau, bouclage et diffusion.</li>
+     <li>Cet outil affichera la plage d'adresses pour chaque classe.</li>
+     <li>Une représentation bit à bit de l'adresse IP et de la combinaison de classes sera également affichée.
+         Vous pouvez facilement vérifier l'utilisation des bits pour chaque classe. La lettre "n" représente les bits de réseau,
+         "h" pour les bits d'hôte et "x" est un bit de type ouvert.</li>
+</ul>
+
+<h4>Description du réseau avec classe</h4>
+
+<p><strong>Réseau de classes</strong> est une méthode d'adressage réseau remplacée par
+  l'adressage CIDR en 1993. L'adressage par classes a été introduit en 1981 et est
+décrit dans RFC 791. Le préfixe du réseau est déterminé à partir de l'adresse IP et
+sa classe. La version IP obsolète utilisait 5 classes de réseau:</p>
+
+<table>
+<tbody>
+<tr>
+    <th>Classe</th>
+    <th>Premier octet</th>
+    <th>Plage d'adresses de classe</th>
+    <th>Masque de sous-réseau</th>
+    <th>Préfixe de routage</th>
+    <th>Utilisation</th>
+</tr>
+<tr>
+    <td>Classe A</td>
+    <td>0</td>
+    <td>0 - 126.255.255.255</td>
+    <td>255.0.0.0</td>
+    <td>/8</td>
+    <td>Général</td>
+</tr>
+<tr>
+    <td>Classe B</td>
+    <td>10</td>
+    <td>128 - 191.255.255.255</td>
+    <td>255.255.0.0</td>
+    <td>/16</td>
+    <td>General</td>
+ </tr>
+<tr>
+    <td>Classe C</td>
+    <td>110</td>
+    <td>192 - 223.255.255.255</td>
+    <td>255.255.255.0</td>
+    <td>/24</td>
+    <td>Général</td>
+</tr>
+<tr>
+    <td>Classe D</td>
+    <td>1110</td>
+    <td>224 - 239.255.255.255</td>
+    <td></td>
+    <td></td>
+    <td>Multicast</td>
+</tr>
+<tr>
+    <td>Classe E</td>
+    <td>1111</td>
+    <td>240 - 255.255.255.254</td>
+    <td></td>
+    <td></td>
+    <td>Réservé/Expérimental</td>
+</tr>
+</tbody>
+</table>
+
+<h5>Réseau privé</h5>
+
+<p>De nos jours, les concepts de réseau classe peuvent être utilisés dans les réseaux privés.
+Avec l'aide du traducteur d'adresses réseau (NAT), les adresses IP privées peuvent
+être traduite en adresses publiques et vice versa. Tableau des IP privées
+plages d'adresses:</p>
+
+<table>
+<tbody>
+<tr>
+    <th>Bloc</th>
+    <th>Plage</th>
+    <th>Taille de l'ID d'hôte</th>
+    <th>Nombre d'hôtes</th>
+</tr>
+<tr>
+    <td>24-bit</td>
+    <td>10.0.0.0 - 10.255.255.255</td>
+    <td>24</td>
+    <td>16,777,216</td>
+</tr>
+<tr>
+    <td>20-bit</td>
+    <td>172.16.0.0 - 172.31.255.255</td>
+    <td>20</td>
+    <td>1,048,576</td>
+</tr>
+<tr>
+    <td>16-bit</td>
+    <td>192.168.0.0 - 192.168.255.255</td>
+    <td>16</td>
+    <td>65,536</td>
+</tr>
+</tbody>
+</table>
+
+<p>Plus d'informations peuvent être trouvées dans RFC 1918.</p>
+
+<h5>Calculatrice de supernets</h5>
+
+<form>
+
+<label for="cidrAddress">Réseaux</label>
+<textarea id="supernetsNetworks">
+192.168.1.0/24
+192.168.2.0/24
+192.168.3.0/24
+192.168.4.0/24
+</textarea>
+
+<p>* - Invalide</p>
+
+<input id="supernetsAggregate" value="Aggregation" class="btn" type="button">
+
+</form>
+
+
+<h4> Qu'est-ce que le supernet? </h4>
+
+
+<p> Les réseaux ou sous-réseaux combinés en un seul réseau avec un masque CIDR commun sont appelés <strong> supernets </strong> ou <strong> supernetworks </strong>.
+  Le préfixe de routage commun de supernet est agrégé à partir des préfixes
+de réseaux ou de sous-réseaux donnés et il doit être plus petit ou identique à
+plus petit préfixe de réseau de composants. Ce concept de création d'un supernet
+est appelé agrégation de supernetting ou de routage. L'agrégation de routes réduit
+  le nombre d'itinéraires annoncés sur d'énormes réseaux en résumant les itinéraires.</p>
+
+
+<p>Le supernetting a été introduit pour résoudre le problème de la croissance rapide
+  tables de routage et en raison de l'épuisement du pool d'adresses IP version 4. le
+  les principaux avantages de l'agrégation de routes (sur-réseau) sont moins de mémoire et
+Besoins en puissance CPU pour le stockage et le traitement des routes. Plus
+informations sur les supernets peuvent être trouvés dans RFC 1338 - Supernetting: an Address Assignment and Aggregation Strategy.</p>
+
+
+<h5>Exemple</h5>
+
+<p>Considérez les réseaux suivants:</p>
+
+<pre>
+192.168.1.0/24
+192.168.2.0/24
+192.168.3.0/24
+192.168.4.0/24
+</pre>
+
+Pour déterminer le supernet des réseaux de composants, procédez comme suit:
+<ol>
+<li>
+Convertissez toutes les adresses IP des réseaux et alignez-les dans une liste:
+
+<pre>
+11000000101010000000000100000000
+11000000101010000000001000000000
+11000000101010000000001100000000
+11000000101010000000010000000000
+</pre>
+</li>
+
+<li>
+    Recherchez le modèle de bits commun à partir de la gauche qui est commun à toutes les adresses IP binaires IP.
+Dans ce cas c'est:
+<pre>110000001010100000000</pre>
+</li>
+
+<li> Comptez le nombre de bits du modèle commun - il sera utilisé comme préfixe réseau. </li>
+<li> Terminez la même chaîne de bits par des zéros, de sorte qu'il y ait 32 bits.
+Convertissez le résultat au format décimal pointé et ajoutez le préfixe de routage.
+Le supernet de résultat de ces réseaux est 192.168.0.0/21
+</li>
+</ol>
+
+
+<h4>Utilisation</h4>
+
+<ul>
+     <li> Saisissez un ou plusieurs ID réseau chacun sur une ligne distincte au format de notation CIDR, par exemple, 10.5.200.0/16.
+         Les réseaux sans préfixe de routage spécifié seront traités comme des hôtes "/ 32". </li>
+     <li> Appuyez sur agrégat pour résumer le supernet des réseaux d'entrée. </li>
+     <li> Les réseaux invalides seront exclus du calcul et "*" y sera ajouté. </li>
+</ul>
+
+</div>
+</div>
+</div>
+
+<!-- End Document
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+</body>
+</html>
