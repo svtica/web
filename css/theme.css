@@ -983,7 +983,7 @@ button.primary:hover, button.primary:focus, [type="button"].primary:hover, [type
 
 button.secondary, [type="button"].secondary, [type="submit"].secondary, [type="reset"].secondary, .button.secondary, [role="button"].secondary {
   --button-back-color: #d32f2f;
-  --button-fore-color: black;
+  --button-fore-color: transparent;
 }
 
 button.secondary:hover, button.secondary:focus, [type="button"].secondary:hover, [type="button"].secondary:focus, [type="submit"].secondary:hover, [type="submit"].secondary:focus, [type="reset"].secondary:hover, [type="reset"].secondary:focus, .button.secondary:hover, .button.secondary:focus, [role="button"].secondary:hover, [role="button"].secondary:focus {
@@ -1029,7 +1029,7 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
   --header-border-color: gray;
   --nav-back-color: transparent;
   --nav-hover-back-color: orange;
-  --nav-fore-color: #7575754;
+  --nav-fore-color: #757575;
   --nav-border-color: gray;
   --nav-link-color: #0277bd;
   --footer-fore-color: transparent;
