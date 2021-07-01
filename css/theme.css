@@ -627,7 +627,7 @@ a:hover, a:focus {
 :root {
   --card-back-color: var(--back-color);
   --card-fore-color: var(--fore-color)
-  --card-border-color: #444;
+  --card-border-color: black;
 }
 
 .card {
@@ -702,7 +702,7 @@ a:hover, a:focus {
 .card.error {
   --card-back-color: var(--back-color);
   --card-fore-color: var(--fore-color);
-  --card-border-color: #a71a1a;
+  --card-border-color: red;
 }
 
 .card > .section.dark {
@@ -725,7 +725,7 @@ a:hover, a:focus {
   --input-fore-color: var(--fore-color);
   --input-border-color: black;
   --input-focus-color: #0288d1;
-  --input-invalid-color: #d32f2f;
+  --input-invalid-color: red;
   --button-back-color: var(--back-color);
   --button-hover-back-color: var(--back-color);
   --button-fore-color: var(--fore-color);
@@ -1490,7 +1490,7 @@ table.striped tr:nth-of-type(2n) > td {
 }
 
 :root {
-  --table-body-hover-back-color: #90caf9;
+  --table-body-hover-back-color: lightblue;
 }
 
 table.hoverable tr:hover, table.hoverable tr:hover > td, table.hoverable tr:focus, table.hoverable tr:focus > td {
@@ -1795,7 +1795,7 @@ mark.inline-block {
   Custom elements for contextual background elements, toasts and tooltips.
 */
 mark.secondary {
-  --mark-back-color: #d32f2f;
+  --mark-back-color: red;
 }
 
 mark.tertiary {
@@ -1813,7 +1813,7 @@ mark.tag {
 /* Progess module CSS variable definitions */
 :root {
   --progress-back-color: var(--back-color);
-  --progress-fore-color: #var(--fore-color);
+  --progress-fore-color: var(--fore-color);
 }
 
 progress {
@@ -1862,7 +1862,7 @@ progress.inline {
 
 :root {
   --spinner-back-color: var(--back-color);
-  --spinner-fore-color: #var(--fore-color);
+  --spinner-fore-color: var(--fore-color);
 }
 
 @keyframes spinner-donut-anim {
