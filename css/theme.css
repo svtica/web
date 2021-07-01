@@ -1,14 +1,14 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: #f8f8f8;
-  --secondary-fore-color: #f0f0f0;
-  --back-color: #111;
+  --fore-color: gray;
+  --secondary-fore-color: orange;
+  --back-color: #757575;
   --secondary-back-color: #444;
-  --blockquote-color: #f57c00;
+  --blockquote-color: orange;
   --pre-color: #1565c0;
-  --border-color: #aaa;
-  --secondary-border-color: #ddd;
+  --border-color: black;
+  --secondary-border-color: gray;
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
@@ -626,7 +626,7 @@ a:hover, a:focus {
 /* Card component CSS variable definitions */
 :root {
   --card-back-color: #444;
-  --card-fore-color: #ddd;
+  --card-fore-color: gray;
   --card-border-color: #444;
 }
 
@@ -701,7 +701,7 @@ a:hover, a:focus {
 
 .card.error {
   --card-back-color: #b71c1c;
-  --card-fore-color: #f8f8f8;
+  --card-fore-color: black;
   --card-border-color: #a71a1a;
 }
 
@@ -719,16 +719,16 @@ a:hover, a:focus {
 /* Input_control module CSS variable definitions */
 :root {
   --form-back-color: #444;
-  --form-fore-color: #ddd;
+  --form-fore-color: gray;
   --form-border-color: #444;
   --input-back-color: #444;
-  --input-fore-color: #ddd;
+  --input-fore-color: gray;
   --input-border-color: #444;
   --input-focus-color: #0288d1;
   --input-invalid-color: #d32f2f;
   --button-back-color: #444;
-  --button-hover-back-color: #ddd;
-  --button-fore-color: #ddd;
+  --button-hover-back-color: gray;
+  --button-fore-color: gray;
   --button-border-color: transparent;
   --button-hover-border-color: transparent;
   --button-group-border-color: rgba(124, 124, 124, 0.54);
@@ -974,7 +974,7 @@ input:disabled, input[disabled], textarea:disabled, textarea[disabled], select:d
 */
 button.primary, [type="button"].primary, [type="submit"].primary, [type="reset"].primary, .button.primary, [role="button"].primary {
   --button-back-color: #1976d2;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: black;
 }
 
 button.primary:hover, button.primary:focus, [type="button"].primary:hover, [type="button"].primary:focus, [type="submit"].primary:hover, [type="submit"].primary:focus, [type="reset"].primary:hover, [type="reset"].primary:focus, .button.primary:hover, .button.primary:focus, [role="button"].primary:hover, [role="button"].primary:focus {
@@ -983,7 +983,7 @@ button.primary:hover, button.primary:focus, [type="button"].primary:hover, [type
 
 button.secondary, [type="button"].secondary, [type="submit"].secondary, [type="reset"].secondary, .button.secondary, [role="button"].secondary {
   --button-back-color: #d32f2f;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: black;
 }
 
 button.secondary:hover, button.secondary:focus, [type="button"].secondary:hover, [type="button"].secondary:focus, [type="submit"].secondary:hover, [type="submit"].secondary:focus, [type="reset"].secondary:hover, [type="reset"].secondary:focus, .button.secondary:hover, .button.secondary:focus, [role="button"].secondary:hover, [role="button"].secondary:focus {
@@ -992,7 +992,7 @@ button.secondary:hover, button.secondary:focus, [type="button"].secondary:hover,
 
 button.tertiary, [type="button"].tertiary, [type="submit"].tertiary, [type="reset"].tertiary, .button.tertiary, [role="button"].tertiary {
   --button-back-color: #308732;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: black;
 }
 
 button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [type="button"].tertiary:focus, [type="submit"].tertiary:hover, [type="submit"].tertiary:focus, [type="reset"].tertiary:hover, [type="reset"].tertiary:focus, .button.tertiary:hover, .button.tertiary:focus, [role="button"].tertiary:hover, [role="button"].tertiary:focus {
@@ -1001,7 +1001,7 @@ button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [t
 
 button.inverse, [type="button"].inverse, [type="submit"].inverse, [type="reset"].inverse, .button.inverse, [role="button"].inverse {
   --button-back-color: #212121;
-  --button-fore-color: #f8f8f8;
+  --button-fore-color: black;
 }
 
 button.inverse:hover, button.inverse:focus, [type="button"].inverse:hover, [type="button"].inverse:focus, [type="submit"].inverse:hover, [type="submit"].inverse:focus, [type="reset"].inverse:hover, [type="reset"].inverse:focus, .button.inverse:hover, .button.inverse:focus, [role="button"].inverse:hover, [role="button"].inverse:focus {
@@ -1023,22 +1023,22 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
 */
 /* Navigation module CSS variable definitions */
 :root {
-  --header-back-color: #f8f8f8;
-  --header-hover-back-color: #f0f0f0;
-  --header-fore-color: #444;
-  --header-border-color: #ddd;
-  --nav-back-color: #f8f8f8;
-  --nav-hover-back-color: #f0f0f0;
-  --nav-fore-color: #444;
-  --nav-border-color: #ddd;
+  --header-back-color: #757575;
+  --header-hover-back-color: gray;
+  --header-fore-color: #757575;
+  --header-border-color: gray;
+  --nav-back-color: #757575;
+  --nav-hover-back-color: orange;
+  --nav-fore-color: #7575754;
+  --nav-border-color: gray;
   --nav-link-color: #0277bd;
-  --footer-fore-color: #444;
-  --footer-back-color: #f8f8f8;
-  --footer-border-color: #ddd;
+  --footer-fore-color: #757575;
+  --footer-back-color: #757575;
+  --footer-border-color: gray;
   --footer-link-color: #0277bd;
-  --drawer-back-color: #f8f8f8;
-  --drawer-hover-back-color: #f0f0f0;
-  --drawer-border-color: #ddd;
+  --drawer-back-color: #757575;
+  --drawer-hover-back-color: orange;
+  --drawer-border-color: gray;
   --drawer-close-color: #444;
 }
 
@@ -1263,7 +1263,7 @@ footer.sticky {
 :root {
   --table-head-back-color: #e6e6e6;
   --table-head-fore-color: #111;
-  --table-body-back-color: #f8f8f8;
+  --table-body-back-color: black;
   --table-body-fore-color: #111;
   --table-body-alt-back-color: #eee;
 }
@@ -1617,7 +1617,7 @@ mark.inline-block {
 :root {
   --modal-overlay-color: rgba(0, 0, 0, 0.45);
   --modal-close-color: #444;
-  --modal-close-hover-color: #f0f0f0;
+  --modal-close-hover-color: orange;
 }
 
 [type="checkbox"].modal {
@@ -1688,9 +1688,9 @@ mark.inline-block {
 :root {
   --collapse-label-back-color: #e8e8e8;
   --collapse-label-fore-color: #212121;
-  --collapse-label-hover-back-color: #f0f0f0;
+  --collapse-label-hover-back-color: orange;
   --collapse-selected-label-back-color: #ececec;
-  --collapse-border-color: #ddd;
+  --collapse-border-color: gray;
   --collapse-content-back-color: #fafafa;
   --collapse-selected-label-border-color: #0277bd;
 }
@@ -1812,7 +1812,7 @@ mark.tag {
 */
 /* Progess module CSS variable definitions */
 :root {
-  --progress-back-color: #ddd;
+  --progress-back-color: gray;
   --progress-fore-color: #555;
 }
 
@@ -1861,7 +1861,7 @@ progress.inline {
 }
 
 :root {
-  --spinner-back-color: #ddd;
+  --spinner-back-color: gray;
   --spinner-fore-color: #555;
 }
 
