@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: white;
+  --fore-color: black;
   --secondary-fore-color: orange;
-  --back-color: #757575;
+  --back-color: darkgrey;
   --secondary-back-color: transparent;
   --blockquote-color: orange;
   --pre-color: #1565c0;
@@ -718,7 +718,7 @@ a:hover, a:focus {
 */
 /* Input_control module CSS variable definitions */
 :root {
-  --form-back-color: #757575;
+  --form-back-color: darkgrey;
   --form-fore-color: white;
   --form-border-color: transparent;
   --input-back-color: transparent;
@@ -1029,7 +1029,7 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
   --header-border-color: gray;
   --nav-back-color: transparent;
   --nav-hover-back-color: orange;
-  --nav-fore-color: #757575;
+  --nav-fore-color: darkgrey;
   --nav-border-color: gray;
   --nav-link-color: #0277bd;
   --footer-fore-color: transparent;
@@ -1265,7 +1265,7 @@ footer.sticky {
   --table-head-fore-color: transparent;
   --table-body-back-color: transparent;
   --table-body-fore-color: transparent;
-  --table-body-alt-back-color: #757575;
+  --table-body-alt-back-color: darkgrey;
 }
 
 table {
