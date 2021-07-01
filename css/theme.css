@@ -2,19 +2,19 @@
 
 :root {
   --fore-color: black;
-  --secondary-fore-color: orange;
+  --secondary-fore-color: wheat;
   --back-color: darkgrey;
   --secondary-back-color: transparent;
-  --blockquote-color: orange;
-  --pre-color: #1565c0;
+  --blockquote-color: wheat;
+  --pre-color: wheat;
   --border-color: black;
   --secondary-border-color: gray;
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
   --universal-border-radius: 0.125rem;
-  --a-link-color: #0277bd;
-  --a-visited-color: #01579b;
+  --a-link-color: lightblue;
+  --a-visited-color: indigo;
 }
 
 html {
