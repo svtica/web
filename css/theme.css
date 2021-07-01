@@ -1690,7 +1690,7 @@ mark.inline-block {
   --collapse-label-fore-color: var(--fore-color);
   --collapse-label-hover-back-color: orange;
   --collapse-selected-label-back-color: var(--back-color);
-  --collapse-border-color: var(--back-color);
+  --collapse-border-color: black;
   --collapse-content-back-color: var(--back-color);
   --collapse-selected-label-border-color: #0277bd;
 }
