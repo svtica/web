@@ -1449,7 +1449,7 @@ table.horizontal thead tr:first-child th:last-child {
     display: block;
     border: 0.0625rem solid var(--table-border-color);
     border-radius: var(--universal-border-radius);
-    background: #fafafa;
+    background: transparent;
     padding: var(--universal-padding);
     margin: var(--universal-margin);
     margin-bottom: calc(2 * var(--universal-margin));
@@ -1476,7 +1476,7 @@ table.horizontal thead tr:first-child th:last-child {
 }
 
 :root {
-  --table-body-alt-back-color: #eee;
+  --table-body-alt-back-color: transparent;
 }
 
 table.striped tr:nth-of-type(2n) > td {
@@ -1509,7 +1509,7 @@ table.hoverable tr:hover, table.hoverable tr:hover > td, table.hoverable tr:focu
 /* Contextual module CSS variable definitions */
 :root {
   --mark-back-color: #0277bd;
-  --mark-fore-color: #fafafa;
+  --mark-fore-color: white;
 }
 
 mark {
@@ -1530,7 +1530,7 @@ mark.inline-block {
 
 :root {
   --toast-back-color: transparent;
-  --toast-fore-color: #fafafa;
+  --toast-fore-color: white;
 }
 
 .toast {
@@ -1547,7 +1547,7 @@ mark.inline-block {
 
 :root {
   --tooltip-back-color: transparent;
-  --tooltip-fore-color: #fafafa;
+  --tooltip-fore-color: white;
 }
 
 .tooltip {
@@ -1687,7 +1687,7 @@ mark.inline-block {
 
 :root {
   --collapse-label-back-color: transparent;
-  --collapse-label-fore-color: transparent;
+  --collapse-label-fore-color: white;
   --collapse-label-hover-back-color: orange;
   --collapse-selected-label-back-color: transparent;
   --collapse-border-color: transparent;
