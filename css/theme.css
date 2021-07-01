@@ -720,10 +720,10 @@ a:hover, a:focus {
 :root {
   --form-back-color: var(--back-color);
   --form-fore-color: var(--fore-color);
-  --form-border-color: transparent;
+  --form-border-color: black;
   --input-back-color: var(--back-color);
   --input-fore-color: var(--fore-color);
-  --input-border-color: transparent;
+  --input-border-color: black;
   --input-focus-color: #0288d1;
   --input-invalid-color: #d32f2f;
   --button-back-color: var(--back-color);
@@ -731,7 +731,7 @@ a:hover, a:focus {
   --button-fore-color: var(--fore-color);
   --button-border-color: black;
   --button-hover-border-color: gray;
-  --button-group-border-color: transparent;
+  --button-group-border-color: black;
 }
 
 form {
@@ -1584,7 +1584,7 @@ mark.inline-block {
 .tooltip:before {
   content: '';
   background: transparent;
-  border: var(--universal-margin) solid transparent;
+  border: black;
   left: calc(50% - var(--universal-margin));
 }
 
