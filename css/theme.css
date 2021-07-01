@@ -706,7 +706,7 @@ a:hover, a:focus {
 }
 
 .card > .section.dark {
-  --card-back-color: #444;
+  --card-back-color: var(--back-color);
 }
 
 .card > .section.double-padded {
