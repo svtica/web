@@ -625,9 +625,9 @@ a:hover, a:focus {
 
 /* Card component CSS variable definitions */
 :root {
-  --card-back-color: #f8f8f8;
-  --card-fore-color: #111;
-  --card-border-color: #ddd;
+  --card-back-color: #444;
+  --card-fore-color: #ddd;
+  --card-border-color: #444;
 }
 
 .card {
@@ -706,7 +706,7 @@ a:hover, a:focus {
 }
 
 .card > .section.dark {
-  --card-back-color: #e0e0e0;
+  --card-back-color: #444;
 }
 
 .card > .section.double-padded {
@@ -718,17 +718,17 @@ a:hover, a:focus {
 */
 /* Input_control module CSS variable definitions */
 :root {
-  --form-back-color: #f0f0f0;
-  --form-fore-color: #111;
-  --form-border-color: #ddd;
-  --input-back-color: #f8f8f8;
-  --input-fore-color: #111;
-  --input-border-color: #ddd;
+  --form-back-color: #444;
+  --form-fore-color: #ddd;
+  --form-border-color: #444;
+  --input-back-color: #444;
+  --input-fore-color: #ddd;
+  --input-border-color: #444;
   --input-focus-color: #0288d1;
   --input-invalid-color: #d32f2f;
-  --button-back-color: #e2e2e2;
-  --button-hover-back-color: #dcdcdc;
-  --button-fore-color: #212121;
+  --button-back-color: #444;
+  --button-hover-back-color: #ddd;
+  --button-fore-color: #ddd;
   --button-border-color: transparent;
   --button-hover-border-color: transparent;
   --button-group-border-color: rgba(124, 124, 124, 0.54);
