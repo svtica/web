@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: gray;
+  --fore-color: #757575;
   --secondary-fore-color: orange;
   --back-color: #757575;
-  --secondary-back-color: #444;
+  --secondary-back-color: #757575;
   --blockquote-color: orange;
   --pre-color: #1565c0;
   --border-color: black;
@@ -718,12 +718,12 @@ a:hover, a:focus {
 */
 /* Input_control module CSS variable definitions */
 :root {
-  --form-back-color: #444;
-  --form-fore-color: gray;
-  --form-border-color: #444;
-  --input-back-color: #444;
+  --form-back-color: #757575;
+  --form-fore-color: #757575;
+  --form-border-color: black;
+  --input-back-color: #757575;
   --input-fore-color: gray;
-  --input-border-color: #444;
+  --input-border-color: black;
   --input-focus-color: #0288d1;
   --input-invalid-color: #d32f2f;
   --button-back-color: #444;
@@ -731,7 +731,7 @@ a:hover, a:focus {
   --button-fore-color: gray;
   --button-border-color: transparent;
   --button-hover-border-color: transparent;
-  --button-group-border-color: rgba(124, 124, 124, 0.54);
+  --button-group-border-color: black;
 }
 
 form {
