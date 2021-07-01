@@ -1039,7 +1039,7 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
   --drawer-back-color: #757575;
   --drawer-hover-back-color: orange;
   --drawer-border-color: gray;
-  --drawer-close-color: #444;
+  --drawer-close-color: ##757575;
 }
 
 header {
@@ -1262,9 +1262,9 @@ footer.sticky {
 /* Table module CSS variable definitions. */
 :root {
   --table-head-back-color: #e6e6e6;
-  --table-head-fore-color: #111;
-  --table-body-back-color: black;
-  --table-body-fore-color: #111;
+  --table-head-fore-color: #757575;
+  --table-body-back-color: #757575;
+  --table-body-fore-color: #757575;
   --table-body-alt-back-color: #eee;
 }
 
@@ -1529,7 +1529,7 @@ mark.inline-block {
 }
 
 :root {
-  --toast-back-color: #424242;
+  --toast-back-color: #757575;
   --toast-fore-color: #fafafa;
 }
 
@@ -1546,7 +1546,7 @@ mark.inline-block {
 }
 
 :root {
-  --tooltip-back-color: #212121;
+  --tooltip-back-color: #757575;
   --tooltip-fore-color: #fafafa;
 }
 
@@ -1589,11 +1589,11 @@ mark.inline-block {
 }
 
 .tooltip:not(.bottom):before {
-  border-top-color: #212121;
+  border-top-color: #757575;
 }
 
 .tooltip.bottom:before {
-  border-bottom-color: #212121;
+  border-bottom-color: #757575;
 }
 
 .tooltip:after {
@@ -1615,8 +1615,8 @@ mark.inline-block {
 }
 
 :root {
-  --modal-overlay-color: rgba(0, 0, 0, 0.45);
-  --modal-close-color: #444;
+  --modal-overlay-color: #757575;
+  --modal-close-color: #757575;
   --modal-close-hover-color: orange;
 }
 
@@ -1686,12 +1686,12 @@ mark.inline-block {
 }
 
 :root {
-  --collapse-label-back-color: #e8e8e8;
-  --collapse-label-fore-color: #212121;
+  --collapse-label-back-color: #757575;
+  --collapse-label-fore-color: #757575;
   --collapse-label-hover-back-color: orange;
-  --collapse-selected-label-back-color: #ececec;
-  --collapse-border-color: gray;
-  --collapse-content-back-color: #fafafa;
+  --collapse-selected-label-back-color: #757575;
+  --collapse-border-color: #757575;
+  --collapse-content-back-color: #757575;
   --collapse-selected-label-border-color: #0277bd;
 }
 
@@ -2019,7 +2019,7 @@ span.icon-user {
 */
 /* Utility module CSS variable definitions */
 :root {
-  --generic-border-color: rgba(0, 0, 0, 0.3);
+  --generic-border-color: #757575;
   --generic-box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.125), 0 0.125rem 0.125rem -0.125rem rgba(0, 0, 0, 0.25);
 }
 
