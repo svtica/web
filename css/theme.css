@@ -7,7 +7,7 @@
   --secondary-back-color: #757575;
   --blockquote-color: orange;
   --pre-color: #1565c0;
-  --border-color: black;
+  --border-color: #757575;
   --secondary-border-color: gray;
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
@@ -974,7 +974,7 @@ input:disabled, input[disabled], textarea:disabled, textarea[disabled], select:d
 */
 button.primary, [type="button"].primary, [type="submit"].primary, [type="reset"].primary, .button.primary, [role="button"].primary {
   --button-back-color: #1976d2;
-  --button-fore-color: black;
+  --button-fore-color: #757575;
 }
 
 button.primary:hover, button.primary:focus, [type="button"].primary:hover, [type="button"].primary:focus, [type="submit"].primary:hover, [type="submit"].primary:focus, [type="reset"].primary:hover, [type="reset"].primary:focus, .button.primary:hover, .button.primary:focus, [role="button"].primary:hover, [role="button"].primary:focus {
@@ -992,7 +992,7 @@ button.secondary:hover, button.secondary:focus, [type="button"].secondary:hover,
 
 button.tertiary, [type="button"].tertiary, [type="submit"].tertiary, [type="reset"].tertiary, .button.tertiary, [role="button"].tertiary {
   --button-back-color: #308732;
-  --button-fore-color: black;
+  --button-fore-color: #757575;
 }
 
 button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [type="button"].tertiary:focus, [type="submit"].tertiary:hover, [type="submit"].tertiary:focus, [type="reset"].tertiary:hover, [type="reset"].tertiary:focus, .button.tertiary:hover, .button.tertiary:focus, [role="button"].tertiary:hover, [role="button"].tertiary:focus {
@@ -1000,12 +1000,12 @@ button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [t
 }
 
 button.inverse, [type="button"].inverse, [type="submit"].inverse, [type="reset"].inverse, .button.inverse, [role="button"].inverse {
-  --button-back-color: #212121;
-  --button-fore-color: black;
+  --button-back-color: #757575;
+  --button-fore-color: gray;
 }
 
 button.inverse:hover, button.inverse:focus, [type="button"].inverse:hover, [type="button"].inverse:focus, [type="submit"].inverse:hover, [type="submit"].inverse:focus, [type="reset"].inverse:hover, [type="reset"].inverse:focus, .button.inverse:hover, .button.inverse:focus, [role="button"].inverse:hover, [role="button"].inverse:focus {
-  --button-hover-back-color: #111;
+  --button-hover-back-color: #757575;
 }
 
 button.small, [type="button"].small, [type="submit"].small, [type="reset"].small, .button.small, [role="button"].small {
