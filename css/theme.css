@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: transparent;
+  --fore-color: white;
   --secondary-fore-color: orange;
-  --back-color: transparent;
+  --back-color: #757575;
   --secondary-back-color: transparent;
   --blockquote-color: orange;
   --pre-color: #1565c0;
