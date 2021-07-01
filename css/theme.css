@@ -1,10 +1,10 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: #111;
-  --secondary-fore-color: #444;
-  --back-color: #f8f8f8;
-  --secondary-back-color: #f0f0f0;
+  --fore-color: #f8f8f8;
+  --secondary-fore-color: #f0f0f0;
+  --back-color: #111;
+  --secondary-back-color: #444;
   --blockquote-color: #f57c00;
   --pre-color: #1565c0;
   --border-color: #aaa;
