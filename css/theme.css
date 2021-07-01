@@ -701,7 +701,7 @@ a:hover, a:focus {
 
 .card.error {
   --card-back-color: #b71c1c;
-  --card-fore-color: black;
+  --card-fore-color: #757575;
   --card-border-color: #a71a1a;
 }
 
@@ -720,10 +720,10 @@ a:hover, a:focus {
 :root {
   --form-back-color: #757575;
   --form-fore-color: #757575;
-  --form-border-color: black;
+  --form-border-color: #757575;
   --input-back-color: #757575;
   --input-fore-color: gray;
-  --input-border-color: black;
+  --input-border-color: #757575;
   --input-focus-color: #0288d1;
   --input-invalid-color: #d32f2f;
   --button-back-color: #444;
@@ -731,7 +731,7 @@ a:hover, a:focus {
   --button-fore-color: gray;
   --button-border-color: transparent;
   --button-hover-border-color: transparent;
-  --button-group-border-color: black;
+  --button-group-border-color: #757575;
 }
 
 form {
