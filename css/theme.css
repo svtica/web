@@ -1,13 +1,13 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: #757575;
+  --fore-color: transparent;
   --secondary-fore-color: orange;
-  --back-color: #757575;
-  --secondary-back-color: #757575;
+  --back-color: transparent;
+  --secondary-back-color: transparent;
   --blockquote-color: orange;
   --pre-color: #1565c0;
-  --border-color: #757575;
+  --border-color: transparent;
   --secondary-border-color: gray;
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
@@ -701,7 +701,7 @@ a:hover, a:focus {
 
 .card.error {
   --card-back-color: #b71c1c;
-  --card-fore-color: #757575;
+  --card-fore-color: transparent;
   --card-border-color: #a71a1a;
 }
 
@@ -718,12 +718,12 @@ a:hover, a:focus {
 */
 /* Input_control module CSS variable definitions */
 :root {
-  --form-back-color: #757575;
-  --form-fore-color: #757575;
-  --form-border-color: #757575;
-  --input-back-color: #757575;
+  --form-back-color: transparent;
+  --form-fore-color: transparent;
+  --form-border-color: transparent;
+  --input-back-color: transparent;
   --input-fore-color: gray;
-  --input-border-color: #757575;
+  --input-border-color: transparent;
   --input-focus-color: #0288d1;
   --input-invalid-color: #d32f2f;
   --button-back-color: #444;
@@ -731,7 +731,7 @@ a:hover, a:focus {
   --button-fore-color: gray;
   --button-border-color: transparent;
   --button-hover-border-color: transparent;
-  --button-group-border-color: #757575;
+  --button-group-border-color: transparent;
 }
 
 form {
@@ -974,7 +974,7 @@ input:disabled, input[disabled], textarea:disabled, textarea[disabled], select:d
 */
 button.primary, [type="button"].primary, [type="submit"].primary, [type="reset"].primary, .button.primary, [role="button"].primary {
   --button-back-color: #1976d2;
-  --button-fore-color: #757575;
+  --button-fore-color: transparent;
 }
 
 button.primary:hover, button.primary:focus, [type="button"].primary:hover, [type="button"].primary:focus, [type="submit"].primary:hover, [type="submit"].primary:focus, [type="reset"].primary:hover, [type="reset"].primary:focus, .button.primary:hover, .button.primary:focus, [role="button"].primary:hover, [role="button"].primary:focus {
@@ -992,7 +992,7 @@ button.secondary:hover, button.secondary:focus, [type="button"].secondary:hover,
 
 button.tertiary, [type="button"].tertiary, [type="submit"].tertiary, [type="reset"].tertiary, .button.tertiary, [role="button"].tertiary {
   --button-back-color: #308732;
-  --button-fore-color: #757575;
+  --button-fore-color: transparent;
 }
 
 button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [type="button"].tertiary:focus, [type="submit"].tertiary:hover, [type="submit"].tertiary:focus, [type="reset"].tertiary:hover, [type="reset"].tertiary:focus, .button.tertiary:hover, .button.tertiary:focus, [role="button"].tertiary:hover, [role="button"].tertiary:focus {
@@ -1000,12 +1000,12 @@ button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [t
 }
 
 button.inverse, [type="button"].inverse, [type="submit"].inverse, [type="reset"].inverse, .button.inverse, [role="button"].inverse {
-  --button-back-color: #757575;
+  --button-back-color: transparent;
   --button-fore-color: gray;
 }
 
 button.inverse:hover, button.inverse:focus, [type="button"].inverse:hover, [type="button"].inverse:focus, [type="submit"].inverse:hover, [type="submit"].inverse:focus, [type="reset"].inverse:hover, [type="reset"].inverse:focus, .button.inverse:hover, .button.inverse:focus, [role="button"].inverse:hover, [role="button"].inverse:focus {
-  --button-hover-back-color: #757575;
+  --button-hover-back-color: transparent;
 }
 
 button.small, [type="button"].small, [type="submit"].small, [type="reset"].small, .button.small, [role="button"].small {
@@ -1023,23 +1023,23 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
 */
 /* Navigation module CSS variable definitions */
 :root {
-  --header-back-color: #757575;
+  --header-back-color: transparent;
   --header-hover-back-color: gray;
-  --header-fore-color: #757575;
+  --header-fore-color: transparent;
   --header-border-color: gray;
-  --nav-back-color: #757575;
+  --nav-back-color: transparent;
   --nav-hover-back-color: orange;
   --nav-fore-color: #7575754;
   --nav-border-color: gray;
   --nav-link-color: #0277bd;
-  --footer-fore-color: #757575;
-  --footer-back-color: #757575;
+  --footer-fore-color: transparent;
+  --footer-back-color: transparent;
   --footer-border-color: gray;
   --footer-link-color: #0277bd;
-  --drawer-back-color: #757575;
+  --drawer-back-color: transparent;
   --drawer-hover-back-color: orange;
   --drawer-border-color: gray;
-  --drawer-close-color: ##757575;
+  --drawer-close-color: #transparent;
 }
 
 header {
@@ -1261,11 +1261,11 @@ footer.sticky {
 */
 /* Table module CSS variable definitions. */
 :root {
-  --table-head-back-color: #e6e6e6;
-  --table-head-fore-color: #757575;
-  --table-body-back-color: #757575;
-  --table-body-fore-color: #757575;
-  --table-body-alt-back-color: #eee;
+  --table-head-back-color: transparent;
+  --table-head-fore-color: transparent;
+  --table-body-back-color: transparent;
+  --table-body-fore-color: transparent;
+  --table-body-alt-back-color: #757575;
 }
 
 table {
@@ -1529,7 +1529,7 @@ mark.inline-block {
 }
 
 :root {
-  --toast-back-color: #757575;
+  --toast-back-color: transparent;
   --toast-fore-color: #fafafa;
 }
 
@@ -1546,7 +1546,7 @@ mark.inline-block {
 }
 
 :root {
-  --tooltip-back-color: #757575;
+  --tooltip-back-color: transparent;
   --tooltip-fore-color: #fafafa;
 }
 
@@ -1589,11 +1589,11 @@ mark.inline-block {
 }
 
 .tooltip:not(.bottom):before {
-  border-top-color: #757575;
+  border-top-color: transparent;
 }
 
 .tooltip.bottom:before {
-  border-bottom-color: #757575;
+  border-bottom-color: transparent;
 }
 
 .tooltip:after {
@@ -1615,8 +1615,8 @@ mark.inline-block {
 }
 
 :root {
-  --modal-overlay-color: #757575;
-  --modal-close-color: #757575;
+  --modal-overlay-color: transparent;
+  --modal-close-color: transparent;
   --modal-close-hover-color: orange;
 }
 
@@ -1686,12 +1686,12 @@ mark.inline-block {
 }
 
 :root {
-  --collapse-label-back-color: #757575;
-  --collapse-label-fore-color: #757575;
+  --collapse-label-back-color: transparent;
+  --collapse-label-fore-color: transparent;
   --collapse-label-hover-back-color: orange;
-  --collapse-selected-label-back-color: #757575;
-  --collapse-border-color: #757575;
-  --collapse-content-back-color: #757575;
+  --collapse-selected-label-back-color: transparent;
+  --collapse-border-color: transparent;
+  --collapse-content-back-color: transparent;
   --collapse-selected-label-border-color: #0277bd;
 }
 
@@ -2019,7 +2019,7 @@ span.icon-user {
 */
 /* Utility module CSS variable definitions */
 :root {
-  --generic-border-color: #757575;
+  --generic-border-color: transparent;
   --generic-box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.125), 0 0.125rem 0.125rem -0.125rem rgba(0, 0, 0, 0.25);
 }
 
