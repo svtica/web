@@ -718,7 +718,7 @@ a:hover, a:focus {
 */
 /* Input_control module CSS variable definitions */
 :root {
-  --form-back-color: transparent;
+  --form-back-color: #757575;
   --form-fore-color: white;
   --form-border-color: transparent;
   --input-back-color: transparent;
