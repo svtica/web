@@ -1026,19 +1026,19 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
   --header-back-color: var(--back-color);
   --header-hover-back-color: gray;
   --header-fore-color: var(--fore-color);
-  --header-border-color: gray;
+  --header-border-color: black;
   --nav-back-color: var(--back-color);
   --nav-hover-back-color: var(--back-color);
   --nav-fore-color: var(--fore-color);
-  --nav-border-color: gray;
+  --nav-border-color: black;
   --nav-link-color: #0277bd;
   --footer-fore-color: var(--fore-color);
   --footer-back-color: var(--back-color);
-  --footer-border-color: gray;
+  --footer-border-color: black;
   --footer-link-color: #0277bd;
   --drawer-back-color: var(--back-color);
   --drawer-hover-back-color: orange;
-  --drawer-border-color: gray;
+  --drawer-border-color: black;
   --drawer-close-color: var(--fore-color);
 }
 
