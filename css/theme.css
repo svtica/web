@@ -2,7 +2,7 @@
 
 :root {
   --fore-color: gray;
-  --secondary-fore-color: LightGray;
+  --secondary-fore-color: transparent;
   --back-color: black;
   --secondary-back-color: transparent;
   --blockquote-color: LightGray;
