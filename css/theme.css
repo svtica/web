@@ -1,20 +1,20 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: black;
-  --secondary-fore-color: wheat;
-  --back-color: darkgrey;
+  --fore-color: gray;
+  --secondary-fore-color: LightGray;
+  --back-color: DimGray;
   --secondary-back-color: transparent;
-  --blockquote-color: wheat;
-  --pre-color: wheat;
+  --blockquote-color: LightGray;
+  --pre-color: LightGray;
   --border-color: black;
   --secondary-border-color: gray;
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
   --universal-border-radius: 0.125rem;
-  --a-link-color: lightblue;
-  --a-visited-color: indigo;
+  --a-link-color: SteelBlue;
+  --a-visited-color: MidnightBlue;
 }
 
 html {
@@ -626,8 +626,8 @@ a:hover, a:focus {
 /* Card component CSS variable definitions */
 :root {
   --card-back-color: var(--back-color);
-  --card-fore-color: var(--fore-color)
-  --card-border-color: black;
+  --card-fore-color: var(--fore-color);
+  --card-border-color: var(--border-color);
 }
 
 .card {
@@ -702,7 +702,7 @@ a:hover, a:focus {
 .card.error {
   --card-back-color: var(--back-color);
   --card-fore-color: var(--fore-color);
-  --card-border-color: red;
+  --card-border-color: DarkGreen;
 }
 
 .card > .section.dark {
@@ -720,18 +720,18 @@ a:hover, a:focus {
 :root {
   --form-back-color: var(--back-color);
   --form-fore-color: var(--fore-color);
-  --form-border-color: black;
+  --form-border-color: var(--border-color);
   --input-back-color: var(--back-color);
   --input-fore-color: var(--fore-color);
-  --input-border-color: black;
+  --input-border-color: var(--border-color);
   --input-focus-color: #0288d1;
   --input-invalid-color: red;
   --button-back-color: var(--back-color);
   --button-hover-back-color: var(--back-color);
   --button-fore-color: var(--fore-color);
-  --button-border-color: black;
+  --button-border-color: var(--border-color);
   --button-hover-border-color: gray;
-  --button-group-border-color: black;
+  --button-group-border-color: var(--border-color);
 }
 
 form {
@@ -996,7 +996,7 @@ button.tertiary, [type="button"].tertiary, [type="submit"].tertiary, [type="rese
 }
 
 button.tertiary:hover, button.tertiary:focus, [type="button"].tertiary:hover, [type="button"].tertiary:focus, [type="submit"].tertiary:hover, [type="submit"].tertiary:focus, [type="reset"].tertiary:hover, [type="reset"].tertiary:focus, .button.tertiary:hover, .button.tertiary:focus, [role="button"].tertiary:hover, [role="button"].tertiary:focus {
-  --button-hover-back-color: var(--back-color)
+  --button-hover-back-color: var(--back-color);
 }
 
 button.inverse, [type="button"].inverse, [type="submit"].inverse, [type="reset"].inverse, .button.inverse, [role="button"].inverse {
@@ -1026,19 +1026,19 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
   --header-back-color: var(--back-color);
   --header-hover-back-color: gray;
   --header-fore-color: var(--fore-color);
-  --header-border-color: black;
+  --header-border-color: var(--border-color);
   --nav-back-color: var(--back-color);
   --nav-hover-back-color: var(--back-color);
   --nav-fore-color: var(--fore-color);
-  --nav-border-color: black;
+  --nav-border-color: var(--border-color);
   --nav-link-color: #0277bd;
   --footer-fore-color: var(--fore-color);
   --footer-back-color: var(--back-color);
-  --footer-border-color: black;
+  --footer-border-color: var(--border-color);
   --footer-link-color: #0277bd;
   --drawer-back-color: var(--back-color);
   --drawer-hover-back-color: orange;
-  --drawer-border-color: black;
+  --drawer-border-color: var(--border-color);
   --drawer-close-color: var(--fore-color);
 }
 
@@ -1265,7 +1265,7 @@ footer.sticky {
   --table-head-fore-color: var(--fore-color);
   --table-body-back-color: var(--back-color);
   --table-body-fore-color: var(--fore-color);
-  --table-body-alt-back-color: darkgrey;
+  --table-body-alt-back-color: DimGray;
 }
 
 table {
@@ -1584,7 +1584,7 @@ mark.inline-block {
 .tooltip:before {
   content: '';
   background: transparent;
-  border: black;
+  border: var(--border-color);
   left: calc(50% - var(--universal-margin));
 }
 
@@ -1690,7 +1690,7 @@ mark.inline-block {
   --collapse-label-fore-color: var(--fore-color);
   --collapse-label-hover-back-color: orange;
   --collapse-selected-label-back-color: var(--back-color);
-  --collapse-border-color: black;
+  --collapse-border-color: var(--border-color);
   --collapse-content-back-color: var(--back-color);
   --collapse-selected-label-border-color: #0277bd;
 }
@@ -1795,11 +1795,11 @@ mark.inline-block {
   Custom elements for contextual background elements, toasts and tooltips.
 */
 mark.secondary {
-  --mark-back-color: red;
+  --mark-back-color: DarkGreen;
 }
 
 mark.tertiary {
-  --mark-back-color: #308732;
+  --mark-back-color: DarkGreen;
 }
 
 mark.tag {
@@ -2017,7 +2017,7 @@ span.icon-user {
 */
 /* Utility module CSS variable definitions */
 :root {
-  --generic-border-color: black;
+  --generic-border-color: var(--border-color);
   --generic-box-shadow: 0 0.25rem 0.25rem 0 rgba(0, 0, 0, 0.125), 0 0.125rem 0.125rem -0.125rem rgba(0, 0, 0, 0.25);
 }
 
