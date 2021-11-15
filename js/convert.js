@@ -1,5 +1,5 @@
 function setfocus() {
-	document.calcform.x.focus();
+	// document.calcform.x.focus();
 }
 function calc() {
 	x = document.calcform.x.value;
