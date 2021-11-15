@@ -129,7 +129,7 @@
 
   <!-- Chaleur
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<div>
+
 	<h3><a name="calculator"></a>Conversion des watts en BTU/h</h3>
 	<p>Inscrivez la puissance en watts et appuyez sur le bouton convertir<i>Convertir</i></p>
 	 <form name="calcform" autocomplete="off">
@@ -199,7 +199,6 @@
 		 	return x*3.412141633;
 		}
 	</script>
-  </div>
   <br/>
   <br/>
 <!-- Taille Données
@@ -228,6 +227,7 @@
   <th><label id='_th_r1'></label></th><th class='form_dts_copy'><img style='cursor:pointer;' src='./images/copy.png' alt='' title='Copier' height='22' width='22' onclick='_dcopy("1");'></th></tr><tr style='background-color: #E9FFE3;'><th id='_th_s0'>?</th>
   <th><label id='_th_r0'></label></th><th class='form_dts_copy'><img style='cursor:pointer;' src='./images/copy.png' alt='' title='Copier' height='22' width='22' onclick='_dcopy("0");'></th></tr>
 </table>
+</div>
 <div id='copy_str' style='width:99%;text-align:right;display:none'>Copié!</div>
 </div>
 <script language='JavaScript'>var dsc_input=_obj('_data_size');var dsc_radio_tb=_obj('_radio_tb');var dsc_radio_gb=_obj('_radio_gb');var dsc_radio_mb=_obj('_radio_mb');var dsc_radio_kb=_obj('_radio_kb');var dsc_radio_b=_obj('_radio_b');var dsc_copy_str=_obj('copy_str');const dsc_dval = [1,1024,1048576,1073741824, 1099511627776];const space=String.fromCharCode(32);const dsc_dstr = ['Bytes','KB','MB','GB', 'TB'];if ((dsc_input.value.length) > 0) _convert_ds();dsc_input.focus();dsc_input.select();function _dcopy(trow) {var tid=_obj('_th_r' + trow);   var tstr=tid.textContent;   var instr=tstr.search(space);    var rstr=tstr.substring(0,instr);var copystr,rdiv;var copycolor = ['#000000','#AA0000','#00AA00','#0000DD'];if (rstr.length>0) {copystr = _obj('_data_copy');copystr.style.display = 'block';copystr.value=rstr;copystr.select();document.execCommand('copy');copystr.value='';copystr.style.display = 'none';rdiv = document.createRange();rdiv.setStartBefore(tid);rdiv.setEndAfter(tid);window.getSelection().addRange(rdiv);dsc_copy_str.style.display = 'block';dsc_copy_str.style.color = copycolor[trow];} else {dsc_copy_str.style.display = 'none';dsc_input.focus();}}function _convert_ds() {var sData = dsc_input.value;sData = Number(sData.replace(',', '.'));var dtype = 0,trow=-1,swstr='?';if (dsc_radio_kb.checked==true) {dtype = 1;} else if (dsc_radio_mb.checked==true) {dtype = 2;} else if (dsc_radio_gb.checked==true) {dtype = 3;} else if (dsc_radio_tb.checked==true) {dtype = 4;} else {}if ((sData > 0) && (Number.isNaN(sData)==false)) swstr=sData.toString() + space + dsc_dstr[dtype];_obj('_th_s0').innerHTML = swstr;_obj('_th_s1').innerHTML = swstr;_obj('_th_s2').innerHTML = swstr;_obj('_th_s3').innerHTML = swstr;dsc_copy_str.style.display = 'none';_updateURL(dtype,sData);sData = (sData  * dsc_dval[dtype]);for (i = 0; i < dsc_dval.length; i++) {if (i!=dtype) {trow = trow+1;_obj('_th_r' + trow.toString()).innerHTML = _convert_byte(sData,i);}}}function _convert_byte(bytes, dtype = 0) {var Space=String.fromCharCode(32);bytes = Number(bytes);if ((bytes == 0) || (Number.isNaN(bytes))) return '';var RetStr=(bytes  / dsc_dval[dtype]);/*if ((RetStr.toString().search('-')) > 0) RetStr=0;*/return RetStr.toString() + space + dsc_dstr[dtype];}function _obj(scr_id){return document.getElementById(scr_id);}function _updateURL(s_type,s_size) {s_type = Number(s_type);if (Number.isNaN(s_type) || s_type < 0 || s_type > 4) s_type = 3;var s_param = '?type=' + dsc_dstr[s_type].toLowerCase();s_size = Number(s_size);if ((s_size > 0) && (Number.isNaN(s_size)==false)) s_param = s_param + '&size=' + s_size.toString();if (history.pushState) {var newurl = window.location.protocol + '//' + window.location.host + window.location.pathname + s_param;window.history.pushState({path:newurl},'',newurl);}}</script>
