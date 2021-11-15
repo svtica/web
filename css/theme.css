@@ -727,7 +727,7 @@ a:hover, a:focus {
   --input-focus-color: #0288d1;
   --input-invalid-color: orange;
   --button-back-color: var(--back-color);
-  --button-hover-back-color: var(--back-color);
+  --button-hover-back-color: var(secondary-fore-color);
   --button-fore-color: var(--fore-color);
   --button-border-color: var(--border-color);
   --button-hover-border-color: #0288d1;
