@@ -725,7 +725,7 @@ a:hover, a:focus {
   --input-fore-color: var(--fore-color);
   --input-border-color: var(--border-color);
   --input-focus-color: #0288d1;
-  --input-invalid-color: red;
+  --input-invalid-color: orange;
   --button-back-color: var(--back-color);
   --button-hover-back-color: var(--back-color);
   --button-fore-color: var(--fore-color);
@@ -1893,7 +1893,7 @@ progress.primary {
 }
 
 progress.secondary {
-  --progress-fore-color: red;
+  --progress-fore-color: orange;
 }
 
 progress.tertiary {
@@ -1905,11 +1905,11 @@ progress.tertiary {
 }
 
 .spinner.secondary {
-  --spinner-fore-color: red;
+  --spinner-fore-color: orange;
 }
 
 .spinner.tertiary {
-  --spinner-fore-color: #DarkGreen;
+  --spinner-fore-color: DarkGreen;
 }
 
 
