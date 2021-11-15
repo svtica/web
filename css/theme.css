@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: rgb(53, 53, 35);
+  --fore-color: LightGray;
   --secondary-fore-color: rgb(39, 39, 39);
   --back-color: rgb(30, 30, 30);
   --secondary-back-color: rgb(39, 39, 39);
@@ -1508,7 +1508,7 @@ table.hoverable tr:hover, table.hoverable tr:hover > td, table.hoverable tr:focu
 */
 /* Contextual module CSS variable definitions */
 :root {
-  --mark-back-color: #0277bd;
+  --mark-back-color: var(--a-link-color);
   --mark-fore-color: var(--fore-color);
 }
 
