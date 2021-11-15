@@ -112,7 +112,7 @@ hr {
   line-height: 1.25em;
   margin: var(--universal-margin);
   height: 0.0625rem;
-  background: linear-gradient(to right, transparent, var(--border-color) 20%, var(--border-color) 80%, transparent);
+  background: linear-gradient(to right, var(--border-color) 60%, var(--border-color) 100%);
 }
 
 blockquote {
@@ -730,7 +730,7 @@ a:hover, a:focus {
   --button-hover-back-color: var(--back-color);
   --button-fore-color: var(--fore-color);
   --button-border-color: var(--border-color);
-  --button-hover-border-color: gray;
+  --button-hover-border-color: #0288d1;
   --button-group-border-color: var(--border-color);
 }
 
