@@ -1,19 +1,19 @@
 @charset "UTF-8";
 
 :root {
-  --fore-color: gray;
-  --secondary-fore-color: transparent;
-  --back-color: black;
-  --secondary-back-color: transparent;
+  --fore-color: rgb(53, 53, 35);
+  --secondary-fore-color: rgb(39, 39, 39);
+  --back-color: rgb(30, 30, 30);
+  --secondary-back-color: rgb(39, 39, 39);
   --blockquote-color: LightGray;
   --pre-color: LightGray;
-  --border-color: black;
-  --secondary-border-color: gray;
+  --border-color: rgb(53, 53, 35);
+  --secondary-border-color: rgb(39, 39, 39);
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
   --universal-border-radius: 0.125rem;
-  --a-link-color: SteelBlue;
+  --a-link-color: #2e86c1;
   --a-visited-color: MidnightBlue;
 }
 
@@ -1265,7 +1265,7 @@ footer.sticky {
   --table-head-fore-color: var(--fore-color);
   --table-body-back-color: var(--back-color);
   --table-body-fore-color: var(--fore-color);
-  --table-body-alt-back-color: DimGray;
+  --table-body-alt-back-color: rgb(53, 53, 35);
 }
 
 table {
