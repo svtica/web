@@ -6,9 +6,9 @@
   --back-color: rgb(30, 30, 30);
   --secondary-back-color: rgb(39, 39, 39);
   --blockquote-color: LightGray;
-  --pre-color: LightGray;
-  --border-color: LightGray;
-  --secondary-border-color: rgb(39, 39, 39);
+  --pre-color: rgb(53, 53, 53);
+  --border-color: rgb(53, 53, 53);
+  --secondary-border-color: rgb(53, 53, 53);
   --heading-ratio: 1.19;
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
