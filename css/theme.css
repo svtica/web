@@ -1490,7 +1490,7 @@ table.striped tr:nth-of-type(2n) > td {
 }
 
 :root {
-  --table-body-hover-back-color: lightblue;
+  --table-body-hover-back-color: #0288d1;
 }
 
 table.hoverable tr:hover, table.hoverable tr:hover > td, table.hoverable tr:focus, table.hoverable tr:focus > td {
@@ -1795,11 +1795,11 @@ mark.inline-block {
   Custom elements for contextual background elements, toasts and tooltips.
 */
 mark.secondary {
-  --mark-back-color: DarkGreen;
+  --mark-back-color: var(--mark-fore-color);
 }
 
 mark.tertiary {
-  --mark-back-color: DarkGreen;
+  --mark-back-color: var(--mark-fore-color);
 }
 
 mark.tag {
@@ -1889,27 +1889,27 @@ progress.inline {
   Custom elements for progress bars and spinners.
 */
 progress.primary {
-  --progress-fore-color: #1976d2;
+  --progress-fore-color: #2e86c1;
 }
 
 progress.secondary {
-  --progress-fore-color: #d32f2f;
+  --progress-fore-color: red;
 }
 
 progress.tertiary {
-  --progress-fore-color: #308732;
+  --progress-fore-color: DarkGreen;
 }
 
 .spinner.primary {
-  --spinner-fore-color: #1976d2;
+  --spinner-fore-color: #2e86c1;
 }
 
 .spinner.secondary {
-  --spinner-fore-color: #d32f2f;
+  --spinner-fore-color: red;
 }
 
 .spinner.tertiary {
-  --spinner-fore-color: #308732;
+  --spinner-fore-color: #DarkGreen;
 }
 
 
