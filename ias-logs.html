@@ -1,6 +1,6 @@
 <head>
     <meta charset="utf-8">
-    <title>Accueil</title>
+    <title>Microsoft IAS/NPS Log Viewer</title>
     <meta name="description" content="">
   
     <!-- Mobile Specific Metas
@@ -24,9 +24,16 @@
     <!-- Favicon
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="icon" type="image/png" href="images/favicon.png">
+  
+  <!-- Scripts
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="./js/jquery.min.js" type="text/javascript"></script>
+  <script src="./js/engine.js" type="text/javascript"></script>
+  <script src="./js/ias-logs.js" type="text/javascript"></script>
+
 </head>
 <body>
-  <!-- Navigation
+      <!-- Navigation
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <nav>
     <a href="conversion.html">Outils de conversion</a>
@@ -36,4 +43,42 @@
     <a href="base64.html">Conversion en Base 64</a>
     <a href="ias-logs.html">Analyseur de Log IAS/NPS</a>
   </nav>
+
+    <!-- Contenu
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  
+<div class="container">
+<div class="row">
+<div class="eleven columns">
+<div id="mydiv"></div>
+<h1>Analyseur de Log IAS/NPS</h1>
+
+
+<form>
+
+<p><label for="in_box" >
+Copie des logs au format IAS <kbd>C:\Windows\system32\LogFiles\IN*.log.</kbd> </label>  
+<p>
+<textarea rows="2" cols="120" id="in_box" oninput="parseNPS(this)">
+</textarea>
+<p>
+
+<p><label for="out_box">Sortie Formattée</label>:
+
+<p>
+<textarea rows="40" cols="80" id="out_box" readonly>
+</textarea>
+
+
+</form>
+
+<p>
+Références:
+<ol>
+<li><a href="https://technet.microsoft.com/en-us/library/dd197432(v=WS.10).aspx">Interpret IAS Format Log Files</a>
+<!-- <li><a href="http://cpansearch.perl.org/src/BINGOS/Parse-IASLog-1.12/lib/Parse/IASLog.pm">Parse::IASLog CPAN perl package</a> -->
+<li><a href="https://fastapi.metacpan.org/source/BINGOS/Parse-IASLog-1.12/lib/Parse/IASLog.pm">Parse::IASLog CPAN perl package</a>
+</ol>
+
 </body>
+</html>
