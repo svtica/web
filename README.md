@@ -1,2 +1,5 @@
 # web
-Sources files for website and tools publicly available. Tools in development are in a staging repository.
+
+Fichiers source pour le site web.
+
+Ensemble d'outils web pour Sysadmins et facilement portables.
