@@ -1,0 +1,87 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/vb/syntax-loops.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:41 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>looping  - VBScript - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vbsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">VBScript <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: VBScript Looping statements</h1> 
+<p>Looping Through Code, Looping allows you to run a group of statements 
+  repeatedly. </p>
+<pre><b><a href="do.html">Do Loop</a></b>
+Do...Loop to run a block of statements <b>While</b> a Condition is True
+
+   Do <b>While</b> IntMyInteger > 10
+      IntMyInteger = IntMyInteger - 1
+   Loop
+or
+   Do
+      IntMyInteger = IntMyInteger - 1
+   Loop <b>While</b> IntMyInteger > 10
+
+Do...Loop to run a block of statements <b>Until</b> a Condition Becomes True
+
+   Do <b>Until</b> IntMyInteger = 10
+      IntMyInteger = IntMyInteger - 1
+   Loop
+or
+   Do
+      IntMyInteger = IntMyInteger + 1
+   Loop <b>Until</b> IntMyInteger = 10
+
+Exit a Do...Loop  from inside the Loop with the <b>Exit Do</b> statement.
+
+
+<b><a href="for.html">For...Next</a></b>
+For...Next to run statements a specific number of times. 
+
+   For IntMyInteger = 1 To 50
+      MyProcedure
+   Next
+
+This can be modified with a positive or negative Step value
+
+   For IntMyInteger = 50 To 1 step -5
+      MyProcedure
+   Next
+
+Exit a For...Next statement prematurely with the <b>Exit For</b> statement.
+
+
+<b><a href="foreach.html">For Each...Next</a>
+</b>A For Each...Next loop repeats a group of statements for each item
+in a collection of <i>objects</i> or for each element of an <i>array</i>.
+
+<a href="while.html"><b>While...Wend</b></a>   Conditionally repeat a block of statements:
+
+While second(Time()) &gt; 30 
+   WScript<a href="echo.html">.Echo</a> &quot;This line will repeat for 30 seconds&quot;
+Wend
+</pre>
+<p class="quote"><i>&ldquo;It's a good rule to follow the first law of holes: If you are in one, stop digging&rdquo; ~ Denis Healey</i></p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/vb/syntax-loops.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:41 GMT -->
+</html>

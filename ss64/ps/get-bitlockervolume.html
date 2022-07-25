@@ -1,0 +1,71 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-bitlockervolume.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:42 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-BitLockerVolume - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Get-BitLockerVolume</h1> 
+<p>Get information about volumes that BitLocker can protect.</p>
+<pre>Syntax
+      Get-BitLockerVolume [[-MountPoint] <i>String</i>[]]  [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -MountPoint <i>String</i>[]
+       An array of drive letters. This cmdlet will get these BitLocker volumes.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Get-BitLockerVolume: <i>none</i>, but if you want to add a short alias like <span class="code">gbl</span>, set it with <a href="set-alias.html">set-alias</a></p>
+<p>Get-BitLockerVolume  gets information about volumes that BitLocker Drive Encryption can protect. You can      specify a BitLocker volume by drive letter, followed by a colon (C:, E:). If you do not specify a drive letter,      this cmdlet will get all volumes for the current computer.          </p>
+<p>You can use this cmdlet to get BitLocker volumes to use with other cmdlets, such as the Enable-BitLocker cmdlet or      the Add-BitLockerKeyProtector cmdlet. You can also use this cmdlet to view the following information about a      BitLocker volume:</p>
+<ul>
+<li>VolumeType. Data or Operating System.</li>
+<li>  Mount Point. Drive letter. </li>
+<li> CapacityGB. Size of drive. </li>
+<li> VolumeStatus. Whether BitLocker currently protects some, all, or none of the data on the volume. </li>
+<li> Encryption Percentage. Percent of the volume protected by BitLocker. </li>
+<li> KeyProtector. Type of key protector or protectors.</li>
+<li>  AutoUnlock Enabled. Whether BitLocker uses automatic unlocking for the volume.     </li>
+<li> Protection Status. Whether BitLocker currently uses a key protector to encrypt the volume encryption key.</li>
+</ul>
+<p>An overview of   <a href="https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-device-encryption-overview-windows-10">BitLocker Drive Encryption.</a></p>
+<p>This cmdlet was introduced in Windows PowerShell 5.0.</p>
+<p><b>Examples</b></p>
+<p>Get all BitLocker volumes:</p>
+<pre>PS C:\&gt; Get-BitLockerVolume 
+ VolumeType   Mount CapacityGB VolumeStatus           Encryption KeyProtector              AutoUnlock Protection
+              Point                                   Percentage                           Enabled    Status
+ ----------   ----- ---------- ------------           ---------- ------------              ---------- ----------
+ Data         D:        931.51 EncryptionInProgress   1          {RecoveryPassword, Pas...            Off
+ Data         E:        928.83 FullyDecrypted         0          {}                                   Off</pre>
+<p>Get a specific BitLocker volume:</p>
+<p><span class="code">PS C:\&gt; Get-BitLockerVolume -MountPoint &quot;E:&quot;</span></p>
+<p><i class="quote">“Brothers and sisters! Pump up the volume, Pump that beat” ~  M|A|R|R|S</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="enable-bitlocker.html">Enable-BitLocker</a> - Enable encryption for a BitLocker volume.<br>
+<a href="enable-bitlockerautounlock.html">Enable-BitLockerAutoUnlock</a> - Enable automatic unlocking for a BitLocker volume.<br>
+<a href="suspend-bitlocker.html">Suspend-BitLocker</a> - Suspend Bitlocker encryption for the specified volume.<br>
+BitLocker Drive Encryption Service - <a href="../nt/syntax-services.html">Services</a></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-bitlockervolume.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:42 GMT -->
+</html>

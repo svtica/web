@@ -1,0 +1,59 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/howto-subqueries.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:52 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="The error 'You tried to assign the null value to a variable that is not a variant data type' is often produced when working with 'Required' database fields, if the required item is missing/NULL it will raise an engine-level error">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Embed a Subquery - Access - SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Embed a Subquery</h1>
+<p>A common requirement in Microsoft Access is to write a subquery, often when there is a requirement to return rows from one table along with aggregate data from another table e.g. Supplier names along with a count of the number of orders places with each one.</p>
+<p>A  common approach to this is writing one query, saving it as a query object, then writing a second query and adding the first query as one of the sources.<br>
+That does work, but can be difficult to maintain, if you or someone else, edits (or deletes) the first query, that's going to break the second query. So you  need something - a naming convention, or some kind of  source code control which will keep track of all those relationships between different query objects.</p>
+<p>There is an easier way - embed the subquery into a single query object.</p>
+<p>As an example look at this query, it could be almost any query viewed as SQL
+</p>
+<blockquote>
+<p><span class="code">SELECT Table1.column2, Count(Table2.Column2) AS CountOfSomething<br>
+FROM Table1 LEFT JOIN Table2 ON Table1.Column_ID  = Table2.Column_ID <br>
+GROUP BY Table1.column2<br>
+ORDER BY Table1.column2</span></p>
+</blockquote>
+<p>To make this a subquery,  add the parts shown in bold below:</p>
+<blockquote>
+<p class="code"><b>SELECT * FROM (</b><br>
+SELECT Table1.column2, Count(Table2.Column2) AS CountOfSomething<br>
+FROM Table1 LEFT JOIN Table2 ON Table1.Column_ID  = Table2.Column_ID <br>
+GROUP BY Table1.column2 <br>
+ORDER BY Table1.column2<b>)  AS MySubQuery1</b></p>
+</blockquote>
+<p>You can now return to design view and you will see <b>MySubQuery1</b> as an object just like any other Table/Query, you can then build upon that and save the entire expression into a single Query object.</p>
+<p class="quote"><i>&ldquo;It is important to remember that we all have magic inside us”  ~  Joanne Kathleen Rowling  (author of Harry Potter)</i></p><p><b>Related</b>:</p>
+<p><a href="syntax-null.html">NULL values</a> - Dealing with NULL values.<br>
+<a href="syntax-datatypes.html">Number Data Types</a> - Access data Types.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/howto-subqueries.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:52 GMT -->
+</html>

@@ -1,0 +1,447 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/fsutil.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:36 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<style>
+summary {
+  color: blue;
+  cursor: pointer;
+  font-size:18px;
+  margin-left: 20px;
+  width: 265px;
+}
+
+details > summary {
+  padding: 2px 6px;
+  background-color: #ddd;
+  border: none;
+  box-shadow: 1px 1px 2px black;
+}
+</style>
+<title>Fsutil - File system utilities - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>FSUTIL.exe</h1>
+<p>File and Volume specific commands, Hardlink management, Quota management, USN, Sparse file, Object ID and Reparse point management.</p>
+<p>Filename management options (for the Local System):</p>
+<details><summary>FSUTIL 8dot3name</summary>
+<pre>    Show the current setting for shortname behaviour:
+    FSUTIL <b>8dot3name query</b>
+          
+    Scan for affected registry entries:
+    FSUTIL <b>8dot3name scan</b> [/s] [/l <i>log_file</i>] [/v] <i>DirectoryPath</i>       
+         /s  Recurse to subdirectories.
+         /l  Log to file.
+         /v  Verbose, output log to the console.
+
+    Change the setting for shortname behaviour:
+    FSUTIL <b>8dot3name set</b> [0 through 3] [<i>volume_Path</i>] 1 | 0]
+
+        When a volume is not specified, this updates the registry
+          0 - Enable 8dot3 creation on all volumes
+          1 - Disable 8dot3 creation on all volumes
+          2 - Set 8dot3 creation on a per volume basis
+          3 - Disable 8dot3 creation on all volumes other than the system volume.
+
+        When a volume is  specified, this updates individual volume's on disk flag.
+        This operation is only meaningful if the registry value is set to 2.
+          0 - Enable 8dot3 creation on this volume
+          1 - Disable 8dot3 creation on this volume
+
+    Remove the shortnames for all files within a directory:
+    FSUTIL <b>8dot3name strip</b> [/t] [/s] [/f] [/l <i>log_file</i>] [/v] <i>DirectoryPath</i>
+        This command will permanently remove 8dot3 filenames from a volume.
+        It will list the registry keys pointing to the stripped filenames but will not
+        modify the affected registry keys. Stripping will not be performed on any
+        files with full path names longer than the maximum path length of 260 chars.
+
+        **WARNING** If there are affected registry keys and you use the override switch /f
+        it is recommended that you backup your volume as it may lead to unexpected
+        application failures including the inability to uninstall.
+
+          /t - Test mode, perform all operations except the actual stripping of filenames.
+          /s - Recurse all subdirectories
+          /f - Force, Strip the directory 8.3 filenames even if there are registry conflicts.
+          /v - Verbose mode, output log to the console.
+          /l - Specify an output log file, if not specified this will default
+               to &quot;%temp%\8dot3_removal_log@(GMT YYYY-MM-DD HH-MM-SS)&quot;
+
+        EXAMPLE: fsutil 8dot3name strip /l SS64.log /s D:\datafiles</pre>
+</details>
+
+
+<p><a id="behavior"></a>View or set File system Behavior:</p>
+<details><summary>FSUTIL behavior</summary>
+<p>View File system Behavior:</p>
+<pre>    FSUTIL <b><a href="#behavior">behavior</a> query</b> <i>option</i></pre>
+<p>Set File system Behavior:</p>
+<pre>    FSUTIL <b><a href="#behavior">behavior</a> set</b> <i>option</i>
+
+      Where <i>option</i> is one of:
+       AllowExtChar {0|1}       Allow extended characters in filenames
+       BugcheckOnCorrupt {0|1}  Enable bugcheck
+       Disable8dot3 [<i>volumePath</i>] <i>sfnNum</i>
+          <i>sfnNum</i> is between 0 and 3 
+           0 = Create short file names (default).
+           1 = don&rsquo;t create short file names. 
+           2 = Set 8.3 names on a per volume basis.
+           3 = Disable 8.3 names on all volumes except the system volume.
+       DisableCompression {0|1} Disable compression
+       DisableCompressionlimit {0|1} 
+       DisableEncryption {0|1}  Disable encryption
+       DisableDeleteNotify {0| [NTFS|ReFS] 1} SSD <a href="https://en.wikipedia.org/wiki/Trim_(computing)">TRIM</a> Delete notifications for all volumes
+                                 0=TRIM enabled, 1=TRIM disabled.
+       DisableFileMetadataOptimization {0|1|2|3} 0=<u>Enable</u>, 1=Disable   file metadata optimization.
+                                                 2=Disable incremental file metadata optimization only.
+                                                 3=Disable all file metadata optimization
+       DisableLastAccess {0|1|2|3}  0=Enable last-access updates  1=Disable / Don&rsquo;t generate last-access times,
+                                    2=System managed Enabled      3=System managed Disabled.
+                                    When system managed, it allows system policy to control this.
+                                    Which may in turn be overridden by Group Policy.
+                                    This parameter can affect programs such as Backup and Remote Storage.
+       DisableSpotCorruptionHandling {0|1}   Disable (1) or <u>Enable</u> spot <a href="chkdsk.html">corruption</a> handling.
+                                             This feature allows system administrators to run CHKDSK to analyze the state
+                                             of a volume without taking it offline. We do not recommend disabling this feature.
+       DisableWriteAutoTiering [<i>voumePath</i> 0|1]   1=Disable ReFS v2 auto tiering logic for tiered volumes.
+       EncryptPagingfile {0|1}  Encrypt or do not encrypt the memory paging file.
+       MemoryUsage {1|2}           Paged-pool memory cache, 1=default
+       QuotaNotify <i>NumSeconds</i>   Log quota violations, default=3600 seconds
+       MftZone {1|2|3|4}        Set MFT Zone, multiple of 200MB
+       SymlinkEvaluation L2L:{0|1}    Local to local symbolic links
+       SymlinkEvaluation L2R:{0|1}    Local to remote symbolic links
+       SymlinkEvaluation R2R:{0|1}    Remote to local symbolic links
+       SymlinkEvaluation R2L:{0|1}    Remote to remote symbolic links
+
+  <b>1</b> = Set the option to True/On/Enable.
+  <b>0</b> = Set the option to False/Off/Disable.
+
+    Eg :  FSUTIL behavior set disablelastaccess 1</pre>
+<p>With 8.3 filennames  disabled  you'll notice a  performance improvement only with a  large number of files (over 300,000) in relatively few folders where a lot of the filenames start with similar names. Not having 8.3 filenames available will prevent the use of old applications such as Word 2.0 and Excel 4.0 </p>
+<p>If you have a lot of small files, you might need a larger Master File Table to avoid MFT fragmentation:<br>
+<span class="code">FSUTIL  behavior set <b>mftzone</b> 2</span> will reserve approximately twice the space for the MFT.<br>
+The exact ratios for each setting are undocumented because they are not standardized and may change in future releases.<br>
+Pre Windows 7 the following ratios were used:
+<br>
+1 = 12.5 % (default)<br>
+2 = 25%
+<br>
+3 = 37.5%<br> 
+4 = 50%</p>
+<p>This won't affect existing disk partitions, after changing the mftzone size, reboot the machine and create a new partition.</p>
+<p> 
+Increasing the MFT zone does not decrease the disk space available for data files.</p>
+<p>The NTFS last access time attribute can affect performance on very busy drives, if you disable it, the time set will be the Creation Time.<br>
+<span class="code">FSUTIL behavior set disablelastaccess 1</span></p>
+</details>
+
+
+<p><a id="dirty"></a>Mark a File system as dirty to invoke Chkdsk:</p>
+<details><summary>FSUTIL dirty</summary>
+<pre>    Query the dirty bit for a volume:
+    FSUTIL <b><a href="#dirty">dirty</a> query</b> <i>volume</i> [<i>pathname</i>]
+
+    Mark a file system as dirty:
+    FSUTIL <b><a href="#dirty">dirty</a> set</b> <i>volume</i> [<i>pathname</i>]
+
+    Marking a disk as dirty will prompt a <a href="chkdsk.html">Chkdsk</a> at next boot
+    Eg :  FSUTIL dirty query C:</pre>
+</details>
+
+
+<p><a id="file"></a>File operations:</p>
+<details><summary>FSUTIL file</summary>
+<p>Create a new file of a specific size:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> createnew</b> <i>filename</i> <i>length</i>
+
+    Eg : fsutil file createnew C:\testfile.txt 1000</pre>
+<p>Find a file by user name / sAMAccountName (only if Disk Quotas are enabled):</p>
+<pre>    FSUTIL <b><a href="#file">file</a> findbysid</b> <i>user directory</i>
+
+    Eg : fsutil file findbysid scottb C:\users</pre>
+<p>Query the allocated ranges for a file:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> queryallocranges</b> offset=<i>val</i> length=<i>val filename</i>
+
+    offset : File Offset, the start of the range to query
+    length : Size, in bytes, of the range
+
+    Eg : fsutil file queryallocranges offset=1024 length=64 C:\Temp\sample.txt</pre>
+
+<p> Queries extents for a file:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> queryextents</b> [/R] <i>filename</i> [<i>startingvcn</i> [<i>numvcns</i>]]</pre>
+<p>Query the  file ID of a file:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> queryFileid</b> <i>filename</i></pre>
+<p>Display a random link name for the file ID (in most cases the file ID will only have one link name):</p>
+<pre>    FSUTIL <b><a href="#file">file</a> queryFileNamebyid</b> <i>volume fileID</i></pre>
+<p>Perform an immediate compaction of the metadata for a given file:<br>
+</p>
+<pre>    FSUTIL <b><a href="#file">file</a> queryoptimizemetadata</b> <i>filename</i></pre>
+<p> Query the valid data length for a file:<br>
+</p>
+<pre>
+    FSUTIL <b><a href="#file">file</a> queryvaliddata</b> [/R] [/D] <i>filename</i></pre>
+<p>Enable or disable linux style case sensitivity support for a folder (Windows 10 <a href="ver.html">1803</a>+) <br>
+This option requires 'Windows Subsystem for Linux' to be enabled:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> SetCaseSensitiveInfo</b> C:\folder\path enable
+    FSUTIL <b><a href="#file">file</a> SetCaseSensitiveInfo</b> C:\folder\path <u>disable</u></pre>
+<p>Set the EOF of the given file:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> seteof </b><i>filename length</i></pre>
+<p>Set the short NTFS filename for a file:</p>
+<pre>
+    FSUTIL <b><a href="#file">file</a> setshortname</b> <i>filename</i> <i>ShortName</i>
+
+    Eg : fsutil file setshortname C:\testfile.txt tes1.txt</pre>
+
+<p>Set the valid data length for a file:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> setvaliddata</b> <i>filename</i> <i>datalength</i>
+
+    Eg : fsutil file setvaliddata C:\testfile.txt 4096</pre>
+<p>Set the zero data for a file:</p>
+<pre>    FSUTIL <b><a href="#file">file</a> setzerodata</b> offset=<i>val</i> length=<i>val filename</i>
+
+    offset : File offset, the start of the range to set to zeroes
+    length : Byte length of the zeroed range
+        Eg : fsutil file setzerodata offset=100 length=150 C:\Temp\sample.txt</pre>
+</details>
+
+
+<p><a id="fsinfo"></a>Display filesystem information:</p>
+<details><summary>FSUTIL fsinfo</summary>
+<p>List all drives (including mapped and Subst drives):</p>
+<pre>    FSUTIL <b><a href="#fsinfo">fsinfo</a> drives</b></pre>
+<p>Query drive type for a drive:</p>
+<pre>    FSUTIL <b><a href="#fsinfo">fsinfo</a> drivetype</b> <i>volume pathname</i>
+
+    Eg : fsutil fsinfo drivetype C:
+    
+    Script to list all drives on the local computer:
+    @Echo off
+    :: Store all the drive letters currently in use in a variable
+    For /f &quot;tokens=*&quot; %%L in ('<b>FSUTIL fsinfo drives</b>') do (set _drives=%%L)
+    :: Remove the <a href="syntax-substring.html">first 8</a> characters - the 'Drives:' prefix 
+    :: this may need to adjusted for other languages/locales
+    Set _drives=%_drives:~8%
+    :: Find and Display the drive type of each drive
+    For %%D in (%_drives%) do (<b>FSUTIL fsinfo drivetype</b> %%D)</pre>
+<p>Query volume information:</p>
+<pre>    FSUTIL <b><a href="#fsinfo">fsinfo</a> volumeinfo</b> <i>volume pathname</i>
+    Eg : fsutil fsinfo volumeinfo C:\</pre>
+<p>Query NTFS specific volume information:</p>
+<pre>    FSUTIL <b><a href="#fsinfo">fsinfo</a> ntfsinfo</b> <i>volume pathname</i>
+
+    Eg : fsutil fsinfo ntfsinfo C:</pre>
+<p>Query file system statistics:</p>
+<pre>    FSUTIL <b><a href="#fsinfo">fsinfo</a> statistics</b> <i>volume pathname</i>
+
+    Eg : fsutil fsinfo statistics C:</pre>
+</details>
+
+
+<p><a id="hardlink"></a>Manage hardlink(s):</p>
+<details><summary>FSUTIL hardlink</summary>
+<p>List hardlink(s) for a file:</p>
+<pre>    FSUTIL <b><a href="#hardlink">hardlink</a> list</b><i><b> </b>filename</i></pre>
+<p>Create hardlink(s) for a file:</p>
+<pre>    FSUTIL <b><a href="#hardlink">hardlink</a> create</b> <i>New_filename</i> <i>Existing_filename</i>
+    Eg : fsutil hardlink create c:\foo.txt c:\bar.txt</pre>
+</details>
+
+
+<p><a id="objectid"></a>Edit an object identifier:<br>
+<details><summary>FSUTIL objectid</summary>
+<p>Query or Edit an objectID. Deleting or setting an object identifier can result in the loss of data from portions of a file, up to and including entire volumes of data.</p>
+<pre>    FSUTIL <b><a href="#objectid">objectid</a></b> {query | set | delete | create}</pre>
+</details>
+
+<p><a id="quota"></a>QUOTA Management:</p>
+<details><summary>FSUTIL quota</summary>
+<p>Query or edit the quota limits for a volume:</p>
+<pre>    FSUTIL <b><a href="#quota">quota</a></b> {query|disable|track|enforce } C:
+    
+    FSUTIL <b><a href="#quota">quota</a> violations</b>
+    
+    FSUTIL <b><a href="#quota">quota</a> modify</b> <i>volume_pathname Threshold Limit User</i>Name
+
+    Eg : fsutil quota modify c: 3000 5000 domain\user</pre>
+</details>
+
+
+<p><a id="repair"></a>Self healing management:</p>
+<details><summary>FSUTIL repair</summary>
+<p>Administer and monitor NTFS self-healing repair operations:</p>
+<pre>    FSUTIL <b><a href="#repair">repair</a> query</b> <i>VolumePath</i>
+
+    FSUTIL <b><a href="#repair">repair</a> enumerate</b> <i>VolumePath</i> [<i>LogName</i>]
+
+    FSUTIL <b><a href="#repair">repair</a> set</b><i> VolumePath</i><i>flags</i>
+       Flags: 0x01 - enable general repair
+              0x09 - warn about potential data loss
+              0x10 - Disable general repair and bugcheck once on first corruption.
+
+    FSUTIL <b><a href="#repair">repair</a> wait </b><i>VolumePath</i> [<i>wait_type</i>]
+       Wait types: 0 - Wait for all repairs (default)
+                   1 - Wait for the current repair
+
+    FSUTIL <b><a href="#repair">repair</a> initiate</b> <i>VolumePath file_ref#
+       file_ref#</i> : File reference including segment number of the file.</pre>
+</details>
+
+
+<p><a id="reparsepoint"></a>Query a reparse point:</p>
+<details><summary>FSUTIL reparsepoint</summary>
+<p>List reparse points:</p>
+<pre>    FSUTIL <b><a href="#reparsepoint">reparsepoint</a> query</b> <i>filename</i>
+
+    Eg : fsutil reparsepoint query C:\Server</pre>
+<p>Delete a reparse point:</p>
+<pre>    FSUTIL <b><a href="#reparsepoint">reparsepoint</a> delete</b> <i>filename</i>
+
+    Eg : fsutil reparsepoint delete C:\Server</pre>
+</details>
+
+
+<p><a id="resource"></a>Transactional Resource Manager:</p>
+<details><summary>FSUTIL resource</summary>
+<p>Create a Secondary Transactional Resource Manager, start or stop a Transactional Resource Manager:</p>
+<pre>    Create new:
+    FSUTIL <b><a href="#resource">resource</a> create </b><i>RM_root_pathanme</i>
+    FSUTIL <b><a href="#resource">resource</a> info</b> <i>RM_root_pathanme</i>
+
+    Specify whether a default <a href="https://en.wikipedia.org/wiki/Transactional_NTFS">Transactional Resource Manager</a> will clean the transactional metadata on the next mount:
+    FSUTIL <b><a href="#resource">resource</a> setautoreset</b> {true|false} <i>RM_root_pathanme</i>
+
+    Prefer availability over consistency:
+    FSUTIL <b><a href="#resource">resource</a> setavailable</b> <i>RM_root_pathanme</i>
+
+    Prefer consistency over availability:
+    FSUTIL <b><a href="#resource">resource</a> setconsistent</b> <i>RM_root_pathanme</i>
+
+    FSUTIL <b><a href="#resource">resource</a> setlog</b> [growth {<i>Containers</i> containers |<i> Percent</i> percent} <i>RmRootPathname</i>]
+                              [maxextents <i>Containers</i> <i>RmRootPathname</i>]
+                                 [minextents <i>Containers</i> <i>RmRootPathname</i>]
+                                    [mode {full|undo} <i>RmRootPathname</i>] [rename <i>RmRootPathname</i>]
+                                       [shrink <i>Percent</i> <i>RmRootPathname</i>] [size <i>Containers</i> <i>RmRootPathname</i>]
+
+    FSUTIL <b><a href="#resource">resource</a> start</b> <i>RM_root_pathanme</i> <i>RM_log_pathanme</i>
+    FSUTIL <b><a href="#resource">resource</a> stop</b> <i>RM_root_pathanme</i> <i>RM_log_pathanme</i></pre>
+</details>
+
+<p><a id="sparse"></a>Sparse files:</p>
+<details><summary>FSUTIL sparse</summary>
+<p>Set sparse file properties:</p>
+<pre>    FSUTIL <b><a href="#sparse">sparse</a> queryflag</b> <i>filename</i>
+    FSUTIL <b><a href="#sparse">sparse</a> setflag</b> <i>filename</i>
+
+    FSUTIL <b><a href="#sparse">sparse</a> queryrange</b> <i>filename</i>
+    FSUTIL <b><a href="#sparse">sparse</a> setrange</b> <i>filename</i> <i>Beginning_offset Length</i>
+    
+    Eg : fsutil sparse queryflag "C:\My Test.txt"</pre>
+<p>Sparse files provide a method of saving disk space for files that contain meaningful data as well as large sections of data composed of zeros. If an NTFS file is marked as sparse, then disk clusters are allocated only for the data explicitly specified by the application.<br>
+e.g. The Indexing Service, stores it's catalogs as sparse files.</p>
+</details>
+
+
+<p><a id="tiering"></a>Management storage tier functions</p>
+<details><summary>FSUTIL tiering</summary>
+<p>Manage storage tier functions, such as setting and disabling flags and listing of tiers:</p>
+<pre>    FSUTIL <b><a href="#tiering">tiering</a></b> [clearflags] <i>volume</i> <i>flags</i>
+    FSUTIL <b><a href="#tiering">tiering</a></b> [queryflags] <i>volume</i>
+    FSUTIL <b><a href="#tiering">tiering</a></b> [regionlist] <i>volume</i>
+    FSUTIL <b><a href="#tiering">tiering</a></b> [setflags] <i>volume</i> <i>flags</i>
+    FSUTIL <b><a href="#tiering">tiering</a></b> [tierlist] <i>volume</i>
+
+    Eg : fsutil tiering tierlist C:</pre>
+</details>
+
+<p><a id="transaction"></a>NTFS transactions.</p>
+<details><summary>FSUTIL transaction</summary>
+<p>Manage NTFS transactions:</p>
+<pre>    FSUTIL <b><a href="#transaction">transaction</a> commit</b> <i>guid</i>
+    FSUTIL <b><a href="#transaction">transaction</a> list</b>
+    FSUTIL <b><a href="#transaction">transaction</a> fileinfo </b><i>filename</i>
+    FSUTIL <b><a href="#transaction">transaction</a> query</b> {files|all} <i>guid</i>
+    FSUTIL <b><a href="#transaction">transaction</a> rollback</b> <i>guid</i></pre>
+</details>
+
+<p><a id="usn"></a>The Update Sequence Number (USN) change journal:</p>
+<details><summary>FSUTIL usn</summary>
+<p>Manage the update sequence number (USN) change journal:</p>
+<pre>    FSUTIL <b><a href="#usn">usn</a> createjournal</b> m=<i>maxSize</i> a=A<i>llocationDelta VolumePath</i>
+    FSUTIL <b><a href="#usn">usn</a> deltejournal</b> {/D | /N}<i> VolumePath</i>
+       Deleting the change journal impacts the File Replication and the Indexing Service, it
+       will require a complete (and time-consuming) scan of the volume. 
+    FSUTIL <b><a href="#usn">usn</a> enablerangetracking</b> <i>VolumePath</i> [<i>options</i>]
+
+    FSUTIL <b><a href="#usn">usn</a> enumdata</b> <i>file_ref# lowUSN highUSN VolumePath</i>
+    FSUTIL <b><a href="#usn">usn</a> queryjournal</b><i> VolumePath</i>
+    FSUTIL <b><a href="#usn">usn</a> readdata</b> <i>filename</i>
+    FSUTIL <b><a href="#usn">usn</a> readjournal</b> [c=<i>ChunkSize</i> s=<i>FileSizeThreshold</i>] <i>VolumePath</i></pre>
+</details>
+
+
+<p>Volume management, Dismount or query free space</p>
+<details><summary>FSUTIL volume</summary>
+<p><a id="volume"></a>Dismount a volume, or query the hard drive to determine how much free space is currently available  or which file is using a particular cluster:</p>
+<pre>    FSUTIL <b><a href="#volume">volume</a> allocationreport</b><i> VolumePath</i>
+    FSUTIL <b><a href="#volume">volume</a> diskfree</b><i> VolumePath</i>
+    FSUTIL <b><a href="#volume">volume</a> dismount</b><i> VolumePath</i>
+    FSUTIL <b><a href="#volume">volume</a> filelayout</b> <i>VolumePath fileid</i>
+    FSUTIL <b><a href="#volume">volume</a> list</b>
+    FSUTIL <b><a href="#volume">volume</a> querycluster</b><i> VolumePath cluster</i> [<i>cluster</i>...]
+</pre>
+</details>
+
+<p><a id="wim"></a>Windows Image (WIM)-backed files:</p>
+<details><summary>FSUTIL wim</summary>
+<p>Functions to discover and manage Windows Image (WIM)-backed files.:</p>
+<pre>
+    FSUTIL <b><a href="#wim">wim</a> enumfiles</b> <i>DriveName</i> <i>DataSource</i>
+    FSUTIL <b><a href="#wim">wim</a> enumwims</b> <i>DriveName</i>
+    FSUTIL <b><a href="#wim">wim</a> queryfile</b> <i>Filename</i>
+    FSUTIL <b><a href="#wim">wim</a> removewim</b> <i>DriveName</i> <i>DataSource</i></pre>
+</details>
+
+<p>To run FSUTIL, you must be logged on as an administrator or a member of the Administrators group.</p>
+<p><b>Bugs</b></p>
+<blockquote>
+<p>FSUTIL outputs a NULL character (not a space) after every drive specifier, this can cause difficulty when piping the output of fsutil into other commands (particularly FOR). The output from FSUTIL varies by OS see <a href="https://ss64.org/viewtopic.php?id=327">this forum thread</a> for more detail.</p>
+<p>Some features in fsutil are reported to not work correctly under FAT or FAT32 volumes e.g. FSUTIL dirty query.</p>
+</blockquote>
+<p><i class="quote">&ldquo;You can tune a file system, but you can't tune a fish&rdquo; ~ Sun man page for tunefs</i> <br>
+<br>
+<b>Related:</b></p>
+<p><span class="space"><a href="https://support.microsoft.com/en-gb/help/982018/">Q982018</a> - FSUTIL update -  compatibility with Advanced Format Disks.<br>
+<a href="cacls.html">CACLS</a> - Change file permissions</a>.<br>
+<a href="chkdsk.html">CHKDSK</a> - Check Disk - check and repair disk problems<br>
+<a href="chkntfs.html">CHKNTFS</a> - Check the NTFS file system.<br>
+<a href="devcon.html">DevCon</a> - Device Manager Command Line Utility.<br>
+<a href="diruse.html">DIRUSE</a> - Display disk usage.<br>
+<a href="diskshadow.html">DISKSHADOW</a> - Volume Shadow Copy Service.<br>
+<a href="mklink.html">MKLINK</a> - Create a symbolic link (</span><span class="code">linkd</span><span class="space">)<br>
+<a href="psinfo.html">PSINFO</a> -d - Display drive information.<br>
+<a href="https://support.microsoft.com/en-gb/help/174619/">Q174619</a> - MFT How NTFS reserves space for its Master File Table.</span><br></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/fsutil.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:36 GMT -->
+</html>

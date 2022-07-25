@@ -1,0 +1,76 @@
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+The amount of data is divided by the (average) transfer in order to find how long the transfer will take.
+<br />
+<script type="text/javascript">
+function calculate() {
+ var c = new Number(); var a,b,m,u,ua,ia,ib,oa;ia=parseFloat(document.calculator.ia.value);u=document.calculator.uia.options[document.calculator.uia.selectedIndex].value;ua=u.split(":",3);m=parseFloat(ua[0]);b=parseFloat(ua[1]);a=parseFloat(ua[2]);if(m == 0 && a == 0 && b == 0) { return false; };ia=Math.pow(((ia-a)/m),(1/b));
+ib=parseFloat(document.calculator.ib.value);u=document.calculator.uib.options[document.calculator.uib.selectedIndex].value;ua=u.split(":",3);m=parseFloat(ua[0]);b=parseFloat(ua[1]);a=parseFloat(ua[2]);if(m == 0 && a == 0 && b == 0) { return false; };ib=Math.pow(((ib-a)/m),(1/b));
+
+oa = 8*ia/ib;
+u=document.calculator.uoa.options[document.calculator.uoa.selectedIndex].value;ua=u.split(":",3);m=parseFloat(ua[0]);b=parseFloat(ua[1]);a=parseFloat(ua[2]);if(m == 0 && a == 0 && b == 0) { return false; };oa=Math.pow(oa,b)*m+a;
+if(oa.toPrecision) { oa=oa.toPrecision(6); } document.calculator.oa.value = oa;
+ return false;
+}
+</script>
+<form onsubmit="return calculate()" name="calculator" action="#">
+<br />
+<tr><td>Amount of data:</td><td><input type="text" name="ia" value="0" size="10" class="infield" onblur="calculate();" /></td><td><select name="uia" onchange="calculate();" class="infield"><option value="1:1:0" >bytes</option>
+<option value="0:0:0" >-- Decimal --</option>
+<option value="8:1:0" >bits</option>
+<option value="0.001:1:0" >KB</option>
+<option value="1e-06:1:0" selected="selected">MB</option>
+<option value="1e-09:1:0" >GB</option>
+<option value="1e-12:1:0" >TB</option>
+<option value="0.008:1:0" >Kbit</option>
+<option value="8e-06:1:0" >Mbit</option>
+<option value="8e-09:1:0" >Gbit</option>
+<option value="0:0:0" >--- Binary ---</option>
+<option value="0.0009765625:1:0" >KiB</option>
+<option value="9.5367431641e-07:1:0" >MiB</option>
+<option value="9.332257462e-10:1:0" >GiB</option>
+<option value="9.0949470177e-13:1:0" >TiB</option>
+<option value="0:0:0" >--- Media ---</option>
+<option value="1.5384615385e-09:1:0" >CD</option>
+<option value="2.1243510974e-10:1:0" >DVD-5</option>
+<option value="3.9953778405e-11:1:0" >BD-R (s)</option>
+<option value="4.5474735089e-14:1:0" >LiCo</option>
+</select></td></tr>
+<br />
+<tr><td>Transfer rate:</td><td><input type="text" name="ib" value="0" size="10" class="infield" onblur="calculate();" /></td><td><select name="uib" onchange="calculate();" class="infield"><option value="1:1:0" >bits/s</option>
+<option value="0.125:1:0" >bytes/s</option>
+<option value="0.0009765625:1:0" >kbps</option>
+<option value="0.0001220703125:1:0" >KBps</option>
+<option value="9.5367431640625e-07:1:0" selected="selected">Mbps</option>
+<option value="1.19209289550781e-07:1:0" >MBps</option>
+<option value="9.31322574615479e-10:1:0" >Gbps</option>
+<option value="1.16415321826935e-10:1:0" >GBps</option>
+<option value="7.15255737304688e-06:1:0" >MB/minute</option>
+<option value="0.000429153442382812:1:0" >MB/hour</option>
+</select></td></tr>
+<br />
+<tr><td colspan="3"></td></tr>
+<tr><td>Transfer time:</td><td><input type="text" name="oa" value="Wait" size="10" readonly="readonly" class="outfield" /></td><td><select name="uoa" onchange="calculate();" class="outfield"><option value="1:1:0" >s</option>
+<option value="1e+15:1:0" >fs</option>
+<option value="1000000000000:1:0" >ps</option>
+<option value="1000000000:1:0" >ns</option>
+<option value="1000000:1:0" >&micro;s</option>
+<option value="1000:1:0" >ms</option>
+<option value="0.016666666666667:1:0" selected="selected">minutes</option>
+<option value="0.0002777777777778:1:0" >hours</option>
+<option value="1.15740740740741e-05:1:0" >days</option>
+<option value="1.6534391534e-06:1:0" >weeks</option>
+<option value="3.9194290803e-07:1:0" >months (lunar)</option>
+<option value="3.8580246914e-07:1:0" >months (30d)</option>
+<option value="1.2675014316e-07:1:0" >quarters</option>
+<option value="3.168753579e-08:1:0" >years</option>
+<option value="3.168753579e-09:1:0" >decades</option>
+<option value="3.168753579e-10:1:0" >centuries</option>
+<option value="3.168753579e-11:1:0" >millenia</option>
+<option value="8.267195767e-07:1:0" >fortnight</option>
+</select></td></tr><br /><br />
+<tr><td></td><td><input type="button" name="go" value="Calculate!" onclick="return calculate()" class="calculate" /></td></tr></form><script type="text/javascript">
+</script>
+Note that transfer rates are quoted as binary values (i.e. 1 Mbps = 1024 Kbps). Also note the difference between the case of the "b" - "-bps" means bits per second and "-Bps" means Bytes per second. For data quantity, you may choose between binary (e.g. MiB) or decimal (e.g. MB) versions of units.<br />
+For reference, typical modem is 56 kbps and broadband connection may range from 128 kbps to 25 Mbps (although it is normally in the 1-5 Mbps range).
+</body>
+</html>

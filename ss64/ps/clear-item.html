@@ -1,0 +1,100 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/clear-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:44 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Clear-Item - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Clear-Item</h1> 
+<p>Remove content from a variable, or alias. Remove a registry entry.<br> 
+Clearing an alias will also delete the alias, clearing a variable will empty the variable contents. </p>
+<pre>Syntax
+      Clear-item <b>[</b>[-path] | [-literalPath] <b>]</b> <i>string</i>[]
+         [-include <i>string</i>[]] [-exclude <i>string</i>[] ]
+            [-filter <i>string</i>] [-force] [-credential <i>PSCredential</i>] [-confirm]
+               [-whatIf] [-UseTransaction] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -Path <i>string</i>
+       The paths to the items from which content is deleted.
+       Wildcards are permitted.
+
+   -LiteralPath <i>string</i>
+       Like Path above, only the value is used exactly as typed.
+       No characters are interpreted as wildcards. If the path includes any
+       escape characters then enclose the path in single quotation marks.
+
+   -Include <i>string</i>
+       Clear only the specified items from the Path. e.g. "May*"
+
+   -Exclude <i>string</i>
+       Omits the specified items from the Path e.g. "*SS64*&quot;
+
+   -Filter <i>string</i>
+       A filter in the provider's format or language. 
+       The exact syntax of the filter (wildcard support etc) depends on the provider.
+       Filters are more efficient than -include/-exclude, because the provider
+       applies the filter when retrieving the objects, rather than having 
+       PowerShell filter the objects after they are retrieved.
+
+   -Force
+       Override any restrictions that would prevent the command from succeeding,
+       apart from security settings. e.g. Force will create file path directories
+       or override a files read-only attribute, but will not change file permissions.
+
+   -Credential <i>PSCredential</i>
+       Uses a <i>credential</i> to validate access to the file. Credential represents
+       a user-name, such as "User01" or "Domain01\User01", or a PSCredential
+       object, such as the one retrieved using <a href="get-credential.html">Get-Credential</a>.
+       This parameter appears, but it is not yet supported in any PowerShell core 
+       cmdlets or providers.
+
+   -Confirm
+       Prompt for confirmation before executing the command.
+
+   -WhatIf
+       Describe what would happen if you executed the command without actually
+       executing the command.
+ 
+   -UseTransaction
+       Include the command in the active <a href="syntax-transactions.html">transaction</a>.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Clear-Item: <span class="code"> <b>cli</b></span></p>
+<p><b>Examples</b></p>
+<p>Delete the content of a MyTestVariable: </p>
+<pre>PS C:&gt; clear-item Variable:MyTestVariable
+or
+PS C:> Set-location Variable:
+PS Variable:\> clear-item MyTestVariable</pre>
+<p>Remove the aliases: ss64demo1, ss64demo2:</p>
+<pre>PS C:&gt; clear-item Alias:ss64* -include *demo*</pre>
+<p>Remove all the registry entries under : hklm\Software\SS64\DemoKey:</p>
+<pre>PS C:&gt; clear-item registry::HKLM\Software\SS64\DemoKey</pre>
+<p class="quote"><i>"All of Western logic is based upon the law of contradiction -- if two things contradict, then at least one of them is false. But Islamic logic is dualistic; two things can contradict each other and both are true" ~ Bill Warner</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="clear-content.html">Clear-Content</a> is similar to Clear-Item, but works on files, instead of aliases and variables.<br>
+<a href="remove-item.html">Remove-Item</a> - Remove an item.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/clear-item.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:44 GMT -->
+</html>

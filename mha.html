@@ -1,0 +1,95 @@
+﻿
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Message Header Analyzer</title>
+        <meta name="description" content="">
+        
+          <!-- Mobile Specific Metas
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+        <!-- Font
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+      
+          <style type="text/css">
+              body{
+              font-family: 'new_yorkregular';
+                  }
+          </style>
+      
+        <!-- CSS
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="stylesheet" href="css/theme.css">
+        <link rel="stylesheet" type="text/css" href="/css/office.css" />
+        <link rel="stylesheet" type="text/css" href="/css/app.css" />
+        
+        <!-- Favicon
+        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+        <link rel="icon" type="image/png" href="images/favicon.png">
+      <!-- Scripts
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <script src="/js/jquery.min.js" type="text/javascript"></script>
+    
+      <!-- Navigation
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <nav>
+        <a href="conversion.html">Outils de conversion</a>
+        <a href="generateur.html">Générateurs</a>
+        <a href="reseau.html">Outils réseau</a>
+        <a href="raid-calc.html">Calculateur RAID</a>
+        <a href="base64.html">Conversion en Base 64</a>
+        <a href="ias-logs.html">Analyseur de Log IAS/NPS</a>
+        <a href="rps.html">Simulateur de sauvegardes</a>
+      </nav>
+
+    <script crossorigin="anonymous" src="https://cdnjs.cloudflare.com/ajax/libs/stacktrace.js/2.0.0/stacktrace-with-promises-and-json-polyfills.min.js"></script>
+    <script>
+        (window.StackTrace || document.write('<script src="/node_modules/stacktrace-js/dist/stacktrace-with-promises-and-json-polyfills.min.js"><\/script>'));
+    </script>
+
+    <script src="/js/diag.min.js"></script>
+
+    <script crossorigin="anonymous" src="https://unpkg.com/codepage@1.14.0/dist/sbcs.full.js"></script>
+    <script>
+        (window.cptable || document.write('<script src="/node_modules/codepage/dist/sbcs.full.js"><\/script>'));
+    </script>
+
+    <script crossorigin="anonymous" src="https://unpkg.com/codepage@1.14.0/bits/936.js"></script>
+    <script>
+        (window.cptable || document.write('<script src="/node_modules/codepage/bits/936.js"><\/script>'));
+    </script>
+
+    <script src="/js/Strings.min.js"></script>
+    <script src="/js/Antispam.min.js"></script>
+    <script src="/js/ForefrontAntispam.min.js"></script>
+    <script src="/js/2047.min.js"></script>
+    <script src="/js/Other.min.js"></script>
+    <script src="/js/Received.min.js"></script>
+    <script src="/js/Summary.min.js"></script>
+    <script src="/js/Headers.min.js"></script>
+    <script src="/js/Table.min.js"></script>
+    <script src="/js/StandAlone.min.js"></script>
+
+</head>
+    
+        <!-- Contenu
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<body>
+    <div id="SectionHeader">
+        <div id="floater"></div>
+        <h1 id="title">Message Header Analyzer</h1>
+    </div>
+        <div id="response" class="hiddenElement">
+            <div class="responsePane">
+                <div id="status"></div>
+                <table id="summary"></table>
+                <table id="receivedHeaders"></table>
+                <table id="forefrontAntiSpamReport"></table>
+                <table id="antiSpamReport"></table>
+                <table id="otherHeaders"></table>
+            </div>
+        </div>
+</body>
+</html>

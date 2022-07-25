@@ -1,0 +1,50 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/pause.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:05 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Pause - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Pause</h1> 
+<p>Pause and display the message &quot;<b>Press Enter to continue...</b>&quot;</p>
+<pre>Syntax
+      pause</pre>
+<p>When the pause command is run, PowerShell will display the message &quot;<b>Press Enter to continue...</b>&quot; and then halt any further execution until the user presses the ENTER key on the keyboard.</p>
+<p>In Windows CMD the <a href="../nt/pause.html">PAUSE</a> command displays the message &quot;Press any key to continue . . .&quot;<br>
+This can be more convenient as it will work with the space bar and many other keys. <br>
+The &quot;any key&quot; message is slightly misleading because not every key will work to continue: Ctrl, Shift, Win,Alt</p>
+<p>An  alternative PowerShell PAUSE command, which behaves more like the CMD PAUSE:</p>
+<p class="code">C:\PS> [void][System.Console]::ReadKey($FALSE)</p>
+<p>Alternatively as performance/speed is unlikely to be an issue, you can just call CMD:</p>
+<p><span class="code">C:\PS> CMD /c PAUSE</span><br>
+</p>
+<p class="quote"><i> “Now at the close of this soft summer's day, Inclined upon the river's flowery side, <br>
+I pause to see the sportive fishes play, And cut with finny oars the sparkling tide” ~ Thomas Forster's Perennial Calendar.</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="exit-pssession.html">Exit-PSSession</a> -  Exit PowerShell (or exit a script)<br>
+<a href="https://adamstech.wordpress.com/2011/05/12/how-to-properly-pause-a-powershell-script/">Pause script</a> with configurable response keys via AdamsTech.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/pause.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:05 GMT -->
+</html>

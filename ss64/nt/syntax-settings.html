@@ -1,0 +1,456 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/syntax-settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:46 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>ms-settings - Windows CMD - SS64.com</title>
+<script src="../css/sorttable.js"></script>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Quickly open control panel applets with ms-settings</h1>
+<p>These URI's can be used in the <a href="run.html">Start &gt; Run</a> box, in the Windows Explorer address bar, in a <a href="shortcut.html">Shortcut</a> <br>
+or from the command line: <span class="code"><a href="start.html">START</a> ms-settings:</span></p>
+
+<table class="sortable">
+<tbody>
+<tr>
+<th scope="col" class="">Settings page</th>
+<th scope="col">Uri</th>
+</tr>
+<tr>
+<td>Landing page for Settings</td>
+<td class="code"><b>ms-settings:</b></td>
+</tr>
+<tr>
+<td class="">About</td>
+<td class="code">ms-settings:about</td>
+</tr>
+<tr>
+<td class="">Activation</td>
+<td class="code">ms-settings:activation</td>
+</tr>
+<tr>
+<td class="">Apps &amp; features</td>
+<td class="code">ms-settings:appsfeatures</td>
+</tr>
+<tr>
+<td class="">Apps for websites</td>
+<td class="code">ms-settings:appsforwebsites</td>
+</tr>
+<tr>
+<td class="">App volume and device preferences (1903)</td>
+<td class="code">ms-settings:apps-volume</td>
+</tr>
+<tr>
+<td class="">Software Center (<a href="https://configurationmanager.uservoice.com/forums/300492-ideas/suggestions/13617639-software-center-add-support-for-direct-link-to-ap">SCCM</a>)</td>
+<td class="code">softwarecenter:</td>
+</tr>
+<tr>
+<td class="">AutoPlay</td>
+<td class="code">ms-settings:autoplay</td>
+</tr>
+<tr>
+<td class="">Backup</td>
+<td class="code">ms-settings:backup</td>
+</tr>
+<tr>
+<td>Recovery - Reset/Advanced startup</td>
+<td class="code">ms-settings:recovery</td>
+</tr>
+<tr>
+<td>Battery Saver</td>
+<td class="code">ms-settings:batterysaver</td>
+</tr>
+<tr>
+<td>Battery Saver - settings</td>
+<td class="code">ms-settings:batterysaver-settings</td>
+</tr>
+<tr>
+<td>Battery Saver - usage</td>
+<td class="code">ms-settings:batterysaver-usagedetails</td>
+</tr>
+<tr>
+<td>Bluetooth Devices</td>
+<td class="code">ms-settings:bluetooth</td>
+</tr>
+<tr>
+<td class="">Shared experiences</td>
+<td class="code">ms-settings:crossdevice</td>
+</tr>
+<tr>
+<td class="">Default apps</td>
+<td class="code">ms-settings:defaultapps</td>
+</tr>
+<tr>
+<td class="">For developers</td>
+<td class="code">ms-settings:developers</td>
+</tr>
+<tr>
+<td class="">Display </td>
+<td class="code">ms-settings:display</td>
+</tr>
+<tr>
+<td class="">Display Screen rotation</td>
+<td class="code">ms-settings:screenrotation</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td class="code">ms-settings:storagesense</td>
+</tr>
+<tr>
+<td>Offline Maps</td>
+<td class="code">ms-settings:maps</td>
+</tr>
+<tr>
+<td>Connected Devices</td>
+<td class="code">ms-settings:connecteddevices</td>
+</tr>
+<tr>
+<td>Touchpad</td>
+<td class="code">ms-settings:devices-touchpad</td>
+</tr>
+<tr>
+<td>Edge web browser</td>
+<td class="code">microsoft-edge:<i>url</i></td>
+</tr>
+<tr>
+<td>Mouse &amp; Touchpad Devices</td>
+<td class="code">ms-settings:mousetouchpad</td>
+</tr>
+<tr>
+<td>Typing</td>
+<td class="code">ms-settings:typing</td>
+</tr>
+<tr>
+<td>Find My Device</td>
+<td class="code">ms-settings:findmydevice</td>
+</tr>
+<tr>
+<td>USB</td>
+<td class="code">ms-settings:usb</td>
+</tr>
+<tr>
+<td>Airplane mode</td>
+<td class="code">ms-settings:network-airplanemode</td>
+</tr>
+<tr>
+<td>Cellular Network</td>
+<td class="code">ms-settings:network-cellular</td>
+</tr>
+<tr>
+<td>DirectAccess</td>
+<td class="code">ms-settings:network-directaccess</td>
+</tr>
+<tr>
+<td>Dial-up Network</td>
+<td class="code">ms-settings:network-dialup</td>
+</tr>
+<tr>
+<td>Ethernet Network</td>
+<td class="code">ms-settings:network-ethernet</td>
+</tr>
+<tr>
+<td>Proxy (Network)</td>
+<td class="code">ms-settings:network-proxy</td>
+</tr>
+<tr>
+<td>Network Status</td>
+<td class="code">ms-settings:network-status</td>
+</tr>
+<tr>
+<td>VPN</td>
+<td class="code">ms-settings:network-vpn</td>
+</tr>
+<tr>
+<td>Wi-Fi</td>
+<td class="code">ms-settings:network-wifi</td>
+</tr>
+<tr>
+<td>Manage known Wi-Fi</td>
+<td class="code">ms-settings:network-wifisettings</td>
+</tr>
+<tr>
+<td>Sync your settings</td>
+<td class="code">ms-settings:sync</td>
+</tr>
+<tr>
+<td>Data Sense</td>
+<td class="code">ms-settings:datausage</td>
+</tr>
+<tr>
+<td>Mobile Hotspot</td>
+<td class="code">ms-settings:network-mobilehotspot</td>
+</tr>
+<tr>
+<td>Lock screen</td>
+<td class="code">ms-settings:lockscreen</td>
+</tr>
+<tr>
+<td>Power &amp; sleep</td>
+<td class="code">ms-settings:powersleep</td>
+</tr>
+<tr>
+<td>Multitasking</td>
+<td class="code">ms-settings:multitasking</td>
+</tr>
+<tr>
+<td>Optional features</td>
+<td class="code">ms-settings:optionalfeatures</td>
+</tr>
+<tr>
+<td>Personalization</td>
+<td class="code">ms-settings:personalization</td>
+</tr>
+<tr>
+<td>Backgrounds</td>
+<td class="code">ms-settings:personalization-background </td>
+</tr>
+<tr>
+<td>Colors</td>
+<td class="code">ms-settings:personalization-colors<br>
+ms-settings:colors</td>
+</tr>
+<tr>
+<td>Start Menu</td>
+<td class="code">ms-settings:personalization-start</td>
+</tr>
+<tr>
+<td>Taskbar</td>
+<td class="code">ms-settings:taskbar</td>
+</tr>
+<tr>
+<td>Themes</td>
+<td class="code">ms-settings:themes</td>
+</tr>
+<tr>
+<td>Printers</td>
+<td class="code">ms-settings:printers</td>
+</tr>
+<tr>
+<td>Proximity</td>
+<td class="code">ms-settings:proximity</td>
+</tr>
+<tr>
+<td>Email &amp; app accounts</td>
+<td class="code">ms-settings:emailandaccounts</td>
+</tr>
+<tr>
+<td>Family &amp; other users</td>
+<td class="code">ms-settings:otherusers</td>
+</tr>
+<tr>
+<td>Your workplace</td>
+<td class="code">ms-settings:workplace</td>
+</tr>
+<tr>
+<td>Date &amp; Time</td>
+<td class="code">ms-settings:dateandtime</td>
+</tr>
+<tr>
+<td>Region &amp; language</td>
+<td class="code">ms-settings:regionlanguage</td>
+</tr>
+<tr>
+<td>Sign-in options</td>
+<td class="code">ms-settings:signinoptions</td>
+</tr>
+<tr>
+<td>Speech</td>
+<td class="code">ms-settings:speech</td>
+</tr>
+<tr>
+<td>Privacy</td>
+<td class="code">ms-settings:privacy</td>
+</tr>
+<tr>
+<td>Account info (privacy)</td>
+<td class="code">ms-settings:privacy-accountinfo</td>
+</tr>
+<tr>
+<td>Background apps (privacy)</td>
+<td class="code">ms-settings:privacy-backgroundapps</td>
+</tr>
+<tr>
+<td>App diagnostics (privacy)</td>
+<td class="code">ms-settings:privacy-appdiagnostics</td>
+</tr>
+<tr>
+<td>Call history (privacy)</td>
+<td class="code">ms-settings:privacy-callhistory</td>
+</tr>
+<tr>
+<td>Calendar (privacy)</td>
+<td class="code">ms-settings:privacy-calendar</td>
+</tr>
+<tr>
+<td>Contacts (privacy)</td>
+<td class="code">ms-settings:privacy-contacts</td>
+</tr>
+<tr>
+<td>Email (privacy)</td>
+<td class="code">ms-settings:privacy-email</td>
+</tr>
+<tr>
+<td>Feedback &amp; diagnostics (privacy)</td>
+<td class="code">ms-settings:privacy-feedback</td>
+</tr>
+<tr>
+<td>Location (privacy)</td>
+<td class="code">ms-settings:privacy-location</td>
+</tr>
+<tr>
+<td>Messaging (privacy)</td>
+<td class="code">ms-settings:privacy-messaging</td>
+</tr>
+<tr>
+<td>Microphone (privacy)</td>
+<td class="code">ms-settings:privacy-microphone</td>
+</tr>
+<tr>
+<td>Motion (privacy)</td>
+<td class="code">ms-settings:privacy-motion</td>
+</tr>
+<tr>
+<td>Notifications and Actions</td>
+<td class="code">ms-settings:<a href="https://support.microsoft.com/en-us/help/4028678/windows-10-change-notification-settings">notifications</a></td>
+</tr>
+<tr>
+<td>Notifications (privacy)</td>
+<td class="code">ms-settings:privacy-notifications</td>
+</tr>
+<tr>
+<td>Other (privacy)</td>
+<td class="code">ms-settings:privacy-customdevices</td>
+</tr>
+<tr>
+<td>Radio (privacy)</td>
+<td class="code">ms-settings:privacy-radios</td>
+</tr>
+<tr>
+<td>Speech (privacy)</td>
+<td class="code">ms-settings:privacy-speechtyping</td>
+</tr>
+<tr>
+<td>Tasks (privacy)</td>
+<td class="code">ms-settings:privacy-tasks</td>
+</tr>
+<tr>
+<td>Webcam (privacy)</td>
+<td class="code">ms-settings:privacy-webcam</td>
+</tr>
+<tr>
+<td>Your info (Microsoft account)</td>
+<td class="code">ms-settings:yourinfo</td>
+</tr>
+<tr>
+<td>Closed Captioning</td>
+<td class="code">ms-settings:easeofaccess-closedcaptioning</td>
+</tr>
+<tr>
+<td>High Contrast</td>
+<td class="code">ms-settings:easeofaccess-highcontrast</td>
+</tr>
+<tr>
+<td>Keyboard</td>
+<td class="code">ms-settings:easeofaccess-keyboard</td>
+</tr>
+<tr>
+<td>Magnifier</td>
+<td class="code">ms-settings:easeofaccess-magnifier</td>
+</tr>
+<tr>
+<td>Mouse</td>
+<td class="code">ms-settings:easeofaccess-mouse</td>
+</tr>
+<tr>
+<td>Narrator</td>
+<td class="code">ms-settings:easeofaccess-narrator</td>
+</tr>
+<tr>
+<td>Other options</td>
+<td class="code">ms-settings:easeofaccess-otheroptions</td>
+</tr>
+<tr>
+<td>Projecting to this PC</td>
+<td class="code">ms-settings:project</td>
+</tr>
+<tr>
+<td>Tablet mode</td>
+<td class="code">ms-settings:tabletmode</td>
+</tr>
+<tr>
+<td>Windows Defender</td>
+<td class="code">ms-settings:windowsdefender</td>
+</tr>
+<tr>
+<td>Windows Insider Program (beta's)</td>
+<td class="code">ms-settings:windowsinsider</td>
+</tr>
+<tr>
+<td>Troubleshoot - Fix Windows Update</td>
+<td class="code">ms-settings:troubleshoot</td>
+</tr>
+<tr>
+<td>Windows Update</td>
+<td class="code">ms-settings:windowsupdate</td>
+</tr>
+<tr>
+<td>WinUpdate - Check for updates</td>
+<td class="code">ms-settings:windowsupdate-action</td>
+</tr>
+<tr>
+<td>WinUpdate - Update history</td>
+<td class="code">ms-settings:windowsupdate-history</td>
+</tr>
+<tr>
+<td>WinUpdate - Advanced options</td>
+<td class="code">ms-settings:windowsupdate-options</td>
+</tr>
+<tr>
+<td>WinUpdate - Restart options</td>
+<td class="code">ms-settings:windowsupdate-restartoptions</td>
+</tr>
+</tbody>
+</table>
+<p>To create a desktop shortcut to any Windows 10 settings page:<br>
+Right-click an empty section of the desktop and select <span class="code">New &gt; Shortcut</span> <br>
+In the empty text field, copy and paste the <span class="code">URI</span> from the list above.</p>
+<p>Versions: unless indicated otherwise Windows&nbsp;10 <a href="ver.html">Creators Update</a> or greater.</p>
+<p class="quote"><i>“The greater danger for most of us lies not in setting our aim too high and falling short; but in setting our aim too low, and achieving our mark” ~ Michelangelo</i></p>
+<p><b>Related</b></p>
+<p class="space"><a href="https://docs.microsoft.com/en-us/windows/uwp/launch-resume/launch-settings-app">How to launch the Windows Settings app</a>
+- Universal Windows Platform documentation.<br>
+<a href="syntax-keyboard.html">Keyboard shortcuts</a> For CMD, PowerShell and Windows. <br>
+<a href="syntax-mmc.html">MMCs</a> - shortcuts to popular Microsoft Management Consoles.<br>
+<a href="explorer.html">EXPLORER</a> - Open Windows Explorer.<br>
+<a href="run.html">Windows Start | Run commands</a>
+<br>
+<a href="shell.html">Shell: folder</a> - Shortcuts to key folders. <a href="syntax-folders.html"><br>
+ProfileFolders</a> - Location of User profile folders.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/syntax-settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:46 GMT -->
+</html>

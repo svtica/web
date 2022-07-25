@@ -1,0 +1,65 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-myinvocation.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>MyInvocation - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: MyInvocation</h1>
+<p> The $MyInvocation <a href="syntax-automatic-variables.html">automatic variable</a> that contains an object with information about the current command, such as a script, function, or script block. </p>
+<p>You can use the information in the object, such as the path and file name of the <b>script</b> ($MyInvocation.mycommand.path) or the name of a <b>function</b> ($myinvocation.mycommand.name) to identify the current command.</p>
+<p>The script below demonstrates the use of MyInvocation, n.b. this must be run as a script not interactively at the command line:</p>
+<pre>
+#[test.ps1]
+" Display the full pathname of this running script:"
+$myinvocation.mycommand.path
+# This will return something like C:\demo\test.ps1
+ 
+"`n Display the directory only (using a small function):"
+ 
+function <b>Get-ScriptDirectory</b>
+{
+  $Invocation = (Get-Variable MyInvocation -Scope 1).Value
+  Split-Path $Invocation.MyCommand.Path
+}
+
+$dir = Get-ScriptDirectory
+$dir
+# This will return something like C:\demo
+ 
+ 
+# Optional - more detailed information
+# "Display ALL the properties of $myinvocation"
+# $myinvocation
+ 
+# "`n Display the TYPE of this built-in array variable"
+# $myinvocation.GetType()</pre>
+<p>The <b>Get-ScriptDirectory</b> function can be added to any <a href="syntax-run.html">script</a> where</p>
+<p class="quote"><i>“Drive a nail home and clinch it so faithfully that you can wake up in the night and think of your work with satisfaction,- a work at which you would not be ashamed to invoke the Muse&rdquo; ~ Henry David Thoreau</i></p><p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="syntax-automatic-variables.html">Automatic variables</a> ($_, $Args etc)<br>
+<span class="code">$PSScriptRoot</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-myinvocation.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+</html>

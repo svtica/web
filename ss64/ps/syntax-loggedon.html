@@ -1,0 +1,94 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-loggedon.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:57 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>LoggedOn - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> How-to: Find the LoggedOn user.</h1>
+<p>Find the User(s) logged on to a computer:</p>
+<p class="code indent">Get-CimInstance -Class Win32_ComputerSystem | Select-object -ExpandProperty UserName</p>
+<p class="indent">We can further limit this to only users running an interactive/destop session (the Windows desktop is an Explorer.exe process):</p>
+<p class="code indent">Get-CImInstance -Class Win32_Process -Filter 'Name="explorer.exe"'</p>
+<p class="indent">To run this against a remote machine, add the <span class="code"> -computername <i>computer</i></span> option</p>
+<pre class="indent">$processinfo = @(Get-CImInstance -ComputerName '<b>computer64</b>' -Class Win32_Process)
+
+if ($processinfo) {
+  $processinfo |  ForEach-Object {Invoke-CimMethod -InputObject $_ -MethodName GetOwner | select -ExpandProperty user } | 
+  Sort-Object -Unique
+  }</pre>
+<p class="indent">This can be wrapped into a full <a href="syntax-get-loggedon.html">function Get-LoggedOn</a>, allowing piped input etc.</p>
+<p>Find Locked Out Accounts:</p>
+<p class="indent code"><a href="search-adaccount.html">search-adaccount</a> -u -l | ft name,lastlogondate -auto</p>
+<p>Find out WHERE a user is logged on.</p>
+<p class="indent"> The script below finds active sessions with a known server, this approach works well for accounts that have a roaming profile or home server. It first creates a remote session with the server, then runs <a href="../nt/net-session.html">NET SESSION</a> to get a list of active sessions, then using those IP addresses runs nslookup to resolve the machine name.</p>
+<pre># Get-LoggedOn.ps1
+#
+# Find out WHERE a user is logged on.
+# Requires the name of File Server and the name of the user you need to find
+#
+#   Example to find where user64 is logged in, run this (elevated):
+#   Get-LoggedOn "ProfileServer01" "user64"
+
+param($FILESERVER,$USERNAME)
+write-host
+write-host " **  Searching for active logons by $USERNAME  **"
+write-host
+
+# Connect to remote Server
+$S = NEW-PSSESSION -computername $FILESERVER
+
+# Run Net Session, get a list of everybody logged in there
+$RemoteSessions = (INVOKE-COMMAND -session $s -scriptblock { (NET SESSION) } ) | Select-string $USERNAME
+
+# Close session
+REMOVE-PSSESSION $S
+
+Foreach ( $session in $RemoteSessions ) {
+
+  $ComputerIP = $session.Line.substring(2,21).trim()
+  $User = $session.Line.substring(22,15).trim()
+
+# Use <a href="../nt/nslookup.html">nslookup</a> to identify the computer, filter for the line displaying “Name:”
+$Computername=(nslookup $ComputerIP | Where { $_ -like 'Name:*'})
+
+If ($Computername -eq $NULL) { $Computername="Unknown"}
+ # extract just the computer name from the full string
+Else { $Computername = $Computername.substring(9).trim().Split('.')[0]}
+
+"$User is logged into $Computername with IP address $ComputerIP"
+}
+write-host</pre>
+<p>Based on <a href="https://blogs.technet.microsoft.com/heyscriptingguy/2011/06/04/use-powershell-to-find-logon-sessions/">this script</a> by the Scripting Guys at Technet - a couple of bugs fixed and converted from a function into a script.<br>
+</p>
+<p class="quote"><i>&ldquo;Sometimes only one person is missing and the whole world seems depopulated&ldquo; ~ Alphonse de Lamartine</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="get-wmiobject.html">Get-WmiObject</a> - Get WMI class information.<br>
+<a href="https://social.technet.microsoft.com/wiki/contents/articles/4585.account-locked-out-troubleshooting-eventcombmt.aspx">EventCombMT</a> - Account Locked Out Troubleshooting.<br>
+<a href="syntax-lastlogon.html">LastLogon</a> - Find when an account last logged in.<br>
+<a href="syntax-expiry.html">Password expiry</a> - Reminder email for account passwords about to expire.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-loggedon.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:57 GMT -->
+</html>

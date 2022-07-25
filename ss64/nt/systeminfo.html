@@ -1,0 +1,67 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/systeminfo.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SYSTEMINFO - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SYSTEMINFO</h1> 
+<p>List system configuration.</p>
+<pre>Syntax
+      SYSTEMINFO [/S <i>system</i> [/U <i>username</i> [/P [<i>password</i>]]] ]
+                    [/FO <i>format</i>] [/NH]
+
+Key:
+    /S  system         Remote system to connect to.
+    /U  [domain\]user  User context under which to execute.
+    /P  [password]     Password for the given user (will prompt if omitted)
+    /FO format         Output format: TABLE, LIST or CSV
+    /NH                No "Column Header" in the Table/CSV output</pre>
+<p>The output includes OS configuration, security info, product ID, RAM, disk space, and network cards.<br>
+On a  server you may run out of CMD window buffer, to avoid this either increase the window buffer size or redirect the output to a file.</p>
+<p><b>Examples</b></p>
+<p> <span class="code">SYSTEMINFO <br>
+SYSTEMINFO |find "Total Physical Memory:"<br>
+SYSTEMINFO |find "me:  &nbsp;"<br>
+  SYSTEMINFO /S computer64 <br>
+SYSTEMINFO /S computer64 /FO CSV /NH >>pcaudit.csv</span></p>
+<p>In PowerShell we can convert the CSV ouptut into an object:<br>
+<span class="code">$objects = systeminfo.exe /FO CSV |   ConvertFrom-Csv <br>
+$objects.'Available Physical Memory'</span><br>
+This output will be localised, on English systems the property names will be in English etc, to normalize these for international use see <a href="https://community.idera.com/database-tools/powershell/powertips/b/tips/posts/get-computerinfo-vs-systeminfo-exe-part-1">here</a>.<br>
+<br>
+<i class="quote">&ldquo;plus ça change, plus c'est la même chose (The more things change, the more they are the same.)&rdquo; ~ Jean-Baptiste Alphonse Karr 1849.</i><br>
+<br>
+<b>Related:</b></p>
+<p>WINVER.exe - In client OS's this will open the GUI Version dialogue box (Help, About)<br>
+<span class="space"><a href="msinfo32.html">MSINFO32</a> - Windows  System Information.<br>
+<a href="ver.html">VER</a> - Display version information<br>
+<a href="wmic.html">WMIC</a> - WMI Commands.<br>
+<a href="psgetsid.html">PsGetSid</a> - Display the SID of a computer or a user.<br>
+Powershell equivalent: <a href="../ps/get-computerinfo.html">Get-ComputerInfo</a> - Get system and operating system properties.</span></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/systeminfo.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+</html>

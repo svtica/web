@@ -1,0 +1,59 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-tab-completion.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Powershell Tab Completion - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Tab Completion in PowerShell</h1> 
+<p>Command completion when working at the PowerShell prompt.<br>
+The [TAB] key can be used to automatically complete cmdlets, Filenames, Variable names and Parameters: </p>
+<p><b>Examples - </b></p>
+<p><b>Cmdlets</b>:<br>
+<br>
+<span class="code">PS C:\&gt; get-c </span>[tab] [tab] [tab]...</p>
+<p><b>Files:</b></p>
+<p><span class="code">PS C:\&gt; dir &quot;C:\WINDOWS\system32\ </span>[tab] [tab] [tab]...<br>
+<span class="code">PS C:\&gt; Get-Content -path C:\ </span>[tab] [tab] [tab]...<br>
+<br>
+Note this will not complete any folder names which have the 'hidden' 
+attribute set</p>
+<p><b>Variables:</b></p>
+<p><span class="code">PS C:\&gt; $t </span>[tab] =&gt; $true</p>
+<p><span class="code">PS C:\&gt; $m </span>[tab] [tab] [tab]...</p>
+<p><b>Parameters:</b></p>
+<p><span class="code">PS C:\&gt; gci -f </span>[tab] [tab] [tab]...<br>
+<br>
+<span class="code">PS C:\&gt; Get-Content -Cr </span>[tab]...</p>
+<p>Even more flexible and complex tab completions can be added by
+installing the <a href="https://github.com/jasonmarcher/PowerTab">PowerTab function</a>, this is particularly handy for
+browsing .NET namesspaces.</p>
+<p class="quote"><i>“Everything you need you already have. You are complete right now, you are a whole, total person, not an apprentice person on the way to someplace else” ~ Wayne Dyer</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="syntax-comments.html">Comments and Tab-Expansion</a><br>
+<a href="get-command.html">Get-Command</a>        -   Get basic information about cmdlets.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-tab-completion.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+</html>

@@ -1,0 +1,201 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-word.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:59 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Automate Microsoft Word - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: <span class="space">How to automate Microsoft Word in PowerShell using a COM object.</span></h1>
+<p>For the script below to work, the computer will need to have a copy of <span class="space">Microsoft</span> Word already installed.</p>
+<p>This example open a new document, types in some formatted text and saves the file, you can modify this to do more complex tasks.</p>
+<pre># Create a new instance/object of MS Word
+$MSWord = New-Object -ComObject Word.Application
+
+# Make MS Word visible
+$MSWord.Visible = $True
+
+# Add a new document
+$mydoc = $MSWord.Documents.Add()
+
+# Create a reference to the current document so we can begin adding text
+$myText = $MSWord.Selection
+
+# Add some text with new paragraphs in between.
+$myText.TypeParagraph()
+$myText.TypeText("This is on a new line!")
+$myText.TypeParagraph()
+$myText.TypeText("My username is $($Env:USERNAME) and the date is $(Get-Date)")
+$myText.TypeParagraph()
+
+# Start using bold
+$myText.Font.Bold = 1
+$myText.TypeText('Some Bold text.')
+
+# Turn off bold
+$myText.Font.Bold = 0
+$myText.TypeParagraph()
+
+# Start using Italic
+$myText.Font.Italic = 1
+$myText.TypeText('Some italic text.')
+
+# Save and quit
+$filename = 'C:\work\Demo99.docx'
+$saveFormat = [Microsoft.Office.Interop.Word.WdSaveFormat]::wdFormatDocumentDefault
+$mydoc.SaveAs([ref][system.object]$filename, [ref]$saveFormat)
+$mydoc.Close()
+$MSWord.Quit()
+
+# Clean up Com object
+$null =
+[System.Runtime.InteropServices.Marshal]::ReleaseComObject([System.__ComObject]$MSWord)
+Remove-Variable MSWord</pre>
+<h2> WdSaveFormat Enumeration</h2>
+<table border="1">
+<tr>
+<th scope="col">Name</th>
+<th scope="col">Value</th>
+<th scope="col">18Description</th>
+</tr>
+<tr>
+<td>wdFormatDocument</td>
+<td>0</td>
+<td>Microsoft Office Word format (.Doc).</td>
+</tr>
+<tr>
+<td>wdFormatDocument97</td>
+<td>0</td>
+<td>Microsoft Word 97 document format (.Doc).</td>
+</tr>
+<tr>
+<td>wdFormatDOSText</td>
+<td>4</td>
+<td>Microsoft DOS text format.</td>
+</tr>
+<tr>
+<td>wdFormatDOSTextLineBreaks</td>
+<td>5</td>
+<td>Microsoft DOS text with line breaks preserved.</td>
+</tr>
+<tr>
+<td>wdFormatEncodedText</td>
+<td>7</td>
+<td>Encoded text format.</td>
+</tr>
+<tr>
+<td>wdFormatFilteredHTML</td>
+<td>10</td>
+<td>Filtered HTML format.</td>
+</tr>
+<tr>
+<td>wdFormatHTML </td>
+<td>8</td>
+<td>Standard HTML format.</td>
+</tr>
+<tr>
+<td>wdFormatRTF</td>
+<td>6</td>
+<td>Rich text format (RTF).</td>
+</tr>
+<tr>
+<td>wdFormatTemplate</td>
+<td>1</td>
+<td>Word template format (.Dot).</td>
+</tr>
+<tr>
+<td>wdFormatText</td>
+<td>2</td>
+<td>Microsoft Windows text format.</td>
+</tr>
+<tr>
+<td>wdFormatTextLineBreaks</td>
+<td>3</td>
+<td>Windows text format with line breaks preserved.</td>
+</tr>
+<tr>
+<td>wdFormatUnicodeText</td>
+<td>7</td>
+<td>Unicode text format.</td>
+</tr>
+<tr>
+<td>wdFormatWebArchive</td>
+<td>9</td>
+<td>Web archive format.</td>
+</tr>
+<tr>
+<td>wdFormatXML</td>
+<td>11</td>
+<td>Extensible Markup Language (XML) format.</td>
+</tr>
+<tr>
+<td><b>wdFormatDocumentDefault</b></td>
+<td>16</td>
+<td>Word default document file format. <br>
+For Word 2007+, this is .Docx</td>
+</tr>
+<tr>
+<td>wdFormatPDF</td>
+<td>17</td>
+<td>PDF format.</td>
+</tr>
+<tr>
+<td>wdFormatTemplate97</td>
+<td>1</td>
+<td>Word 97 template format (.dot).</td>
+</tr>
+<tr>
+<td>wdFormatXMLDocument</td>
+<td>12</td>
+<td> XML document format (.docx).</td>
+</tr>
+<tr>
+<td>wdFormatXMLDocumentMacroEnabled</td>
+<td>13</td>
+<td>XML document format with macros enabled (.docm).</td>
+</tr>
+<tr>
+<td>wdFormatXMLTemplate</td>
+<td>14</td>
+<td>XML template format (.dotx).</td>
+</tr>
+<tr>
+<td>wdFormatXMLTemplateMacroEnabled</td>
+<td>15</td>
+<td>XML template format with macros enabled (.dotm).</td>
+</tr>
+<tr>
+<td>wdFormatXPS</td>
+<td>18</td>
+<td>XPS format.</td>
+</tr>
+</table>
+
+<p class="quote"><i>&ldquo;A word and a stone let go cannot be recalled&rdquo; ~ Spanish Proverb.</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="new-object.html">New-Object</a> - Create a new .Net object.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-word.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:59 GMT -->
+</html>

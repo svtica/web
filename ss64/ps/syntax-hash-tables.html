@@ -1,0 +1,182 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-hash-tables.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Powershell Hash Tables - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Use Hash Tables in PowerShell</h1>
+<p>Hash Tables (also known as Associative arrays or Dictionaries) are a type of <a href="syntax-arrays.html">array</a> that allows the storage of paired Keys and Values, rather like a simple database table.</p>
+<p>  Unlike normal arrays where you refer to each element via a numeric index, the keys of a hash table can be strings. The Key values do still need to be unique, if you try to add the same key twice PowerShell will return an error (&quot;item has already been added&quot;). </p>
+<p>The built-in properties of a hash table include <span class="code">.Keys&nbsp;</span><span class="code">.Values</span> and<span class="code"> .Count</span></p>
+<h1>Create a  Hash Table</h1>
+<blockquote>
+<p>Create an empty Hash Table, be aware that if a hash table with that name already exists this will re-initialise it, removing any stored values.</p>
+<p class="code">$<i>Hash_array_name</i> = @{}</p>
+<p>Create a Hash table and immediately populate it with some values:</p>
+<p class="code">$<i>array_name</i> = @{<i>key1 </i>= <i>item1</i>; <i>key2 </i>= <i>item2</i>;...} </p>
+<p>Note that unlike <a href="syntax-arrays.html">Arrays</a> which use normal <span class="code">()</span> parentheses, a Hash table must be created using curly brackets<span class="code"> { }</span><br>
+A useful mnemonic to remember this is to think of the <b>H</b> in Hash with it's horizontal bar <span class="code">}H{</span> and compare with the bracket<span class="code"> {H} </span></p>
+<p>Example<b>:</b></p>
+<pre>$usa_states=@{
+   CA = &quot;California&quot;;
+   NY = &quot;New York&quot;;
+  &quot;IL&quot; = &quot;Illinois&quot;;
+  &quot;NH&quot; = &quot;New Hampshire&quot;
+}</pre>
+<p> Notice that placing quotes around the key is optional (unless the key contains spaces).<br>
+The semicolons ; between each key/value pair are optional but only if each pair are placed on a separate line.<br>
+If you write the hash table definition on one line then the semicolon separators are required.</p>
+</blockquote>
+<h2>Add items to a Hash Table </h2>
+<blockquote>
+<p>This is done using the <span class="code">.Add()</span> method, this will <b>not</b> overwrite an existing entry.</p>
+<pre>$usa_states.Add("GA", "Goregia")
+</pre>
+<p> You can add new items to either an empty hash table or one thats already been pre-populated with some values.</p>
+<p> The key (in this case 'GA')  has to be unique.</p>
+</blockquote>
+<h2>Edit items in a Hash Table </h2>
+<blockquote>
+<p>This is done using the <span class="code">.Set_Item()</span> method:</p>
+<p class="code">$usa_states.Set_Item("GA", "Georgia")</p>
+<p> This is actually the default action so you can also do:<br>
+<span class="code">$usa_states."GA" = "Georgia"</span></p>
+<p>If the entry does not already exist it will be automatically added.</p>
+</blockquote>
+<h2>Combine Hash Tables</h2>
+<blockquote>
+<p>This is done by adding the hash variables with the<span class="code"> + </span>method, or appending with<span class="code"> +=</span></p>
+<pre>$world_states = $usa_states + $india_states
+</pre>
+</blockquote>
+<h2>Remove items from a Hash Table </h2>
+<blockquote>
+<p>This is done using the .Remove() method.</p>
+<pre>$usa_states.Remove("GA")</pre>
+</blockquote>
+<h2>Retrieve items from a Hash Table </h2>
+<blockquote>
+<p>To display all contents just use the variable name.<br>
+<span class="code">$usa_states</span></p>
+<p>Return just  New York  (the quotes are only needed here if the key contains spaces):<br>
+  <span class="code">$usa_states.'NY'</span></p>
+<p> Alternatively to return just  New York:<br>
+<span class="code">$usa_states['NY']</span></p>
+<p> To retrieve two or more key values, pass them as a comma separated array: <br>
+<span class="code">$usa_states['NY','IL']</span></p>
+<p>If you prefer, you can make the array definition explicit with <span class="code">@( )</span><br>
+<span class="code">$usa_states[@('NY','IL','NH')]</span></p>
+</blockquote>
+<h2>Loop through all the keys/values in a Hash Table</h2>
+<blockquote>
+<p> There are 3 main ways to do this:</p>
+<p>1) Loop through all keys with <a href="foreach-object.html">ForEach-Object</a>:</p>
+<pre>$usa_states.keys | ForEach-Object {
+    Write-Output "Key = $_"
+    Write-Output "Value = $($usa_states[$_])"
+    Write-Output '----------'
+}</pre>
+<p>An alternative way to display the output from the above is to format it with the <a href="syntax-f-operator.html">-f operator</a>:</p>
+<p class="code">$message = '{0} key has the value {1}' <b>-f</b> $_, $usa_states[$_] </p>
+<p> 2) Loop through all keys with <a href="foreach.html">ForEach</a>: </p>
+<pre>ForEach ($state in $usa_states.Keys) {
+    Write-Output "Key = $state"
+    Write-Output "Value = $($usa_states["$state"])"
+    Write-Output '----------'
+}</pre>
+<p>3) Unwrap the hash table object with <span class="code">GetEnumerator()</span> This passes each key/value pair through the pipeline:</p>
+<pre>$usa_states.GetEnumerator() | ForEach-Object{
+    Write-Output "Key = $($_.key)"
+    Write-Output "Value = $($_.value)"
+}</pre>
+</blockquote>
+<h2>GetEnumerator</h2>
+<blockquote>
+<p>A hash table is a single PowerShell object, to sort, filter or work with the pipeline you can unwrap this object into it&rsquo;s individual elements with the <span class="code">GetEnumerator()</span> method.</p>
+<pre>$<span class="code">usa_states</span>.GetEnumerator() | Sort-Object Name
+</pre>
+<p>When unwrapped with GetEnumerator, the hash table returns a collection of (DictionaryEntry) objects, so  they must be processed by cmdlets that can accept a collection, or alternatively pass the objects individually via ForEach.</p>
+<p><span class="code">$hashtable.GetEnumerator() | ForEach-Object { &hellip; }</span> <br>
+or<br>
+<span class="code">ForEach($item in $hashtable.GetEnumerator()) {Echo $item &hellip; }</span><br>
+<span class="code">ForEach($item in $hashtable.KEYS.GetEnumerator()) {Echo $item &hellip; }</span><br>
+</p>
+</blockquote>
+<h2>Searching for specific items</h2>
+<blockquote>
+<p>A simple test can be made with -eq</p>
+<p><span class="code">If ($usa_states.NY <b>-eq</b> 'New York') {Echo 'OK'}</span></p>
+<p>You can test if a key exists  with:</p>
+<p><span class="code">If ($usa_states.NY) {Echo 'OK'}</span></p>
+<p>However be careful, if NY is set to zero or <span class="code">$Null</span>, that test will fail and return $false as if the key didn't exist at all.</p>
+<p>There are also the .<span class="code">ContainsKey</span> or  .<span class="code">ContainsValue</span> methods, which allow partial matches:</p>
+<p><span class="code">$usa_states.ContainsKey('NY')<br>
+$usa_states.ContainsValue('New')</span></p>
+</blockquote>
+<h2>Using @ as a <a id="splat"></a>SPLAT operator</h2>
+<blockquote>
+<p>Splatting expands a hash table into a set of command line <a href="syntax-args.html">parameters</a>.</p>
+<p>First use @ to create a hashtable containing parameters to a cmdlet:<span class="code"><br>
+PS C:\&gt; $stuff = @{path = &quot;c:\demo&quot;; Recurse= $true}</span></p>
+<p>Then use @ to SPLAT the parameters:<span class="code"><br>
+  PS C:\&gt; dir @stuff</span></p>
+<p>That will in effect run:<span class="code"> 
+  dir -Path c:\demo -Recurse:$true</span><br>
+The paired <span class="code">keys</span> and <span class="code">values</span> become cmdlet <span class="code">parameters</span> and <span class="code">values</span>:</p>
+<p><span class="code">PS C:\&gt; $params = @{year = 1980; Month = 5; day = 31}<br>
+PS C:\&gt; get-date @params</span></p>
+<p>The @ character is also used to create <a href="syntax-esc.html">here strings</a>.</p>
+</blockquote>
+<h2>Store an Array inside a Hash table</h2>
+<blockquote>
+<p>An  <a href="syntax-arrays.html">array</a> can be stored as part of a hash table. <br>
+This is possible because hash tables use the semi-colon as key-value pair separators, while Arrays use a comma.</p>
+<p>First create some arrays:</p>
+<pre>$arrNY = @('Albany', 'Jamestown', ‘New York’, ‘Niagara Falls’)
+$arrCA = @('Alhambra', 'Berkeley', “Fresno”, “Los Angeles”)</pre>
+<p>Then copy the arrays into the hash table:<br>
+</p>
+<pre>$state_towns=@{
+  NY = $arrNY
+  CA = $arrCA
+}</pre>
+<p> You can then display the Hash table, one of the arrays or an array element:<br>
+</p>
+<pre>PS C:\> $state_towns
+PS C:\> $state_towns.NY
+PS C:\> $state_towns.NY[2]</pre>
+<p>This means that the comma-separated output of many cmdlets like Get-Process or Get-ChildItem can be stored directly in a hash table. <br>
+Some more examples from Roger Cormier [MSFT] <a href="https://blogs.msdn.microsoft.com/rcormier/2018/03/14/how-to-for-each-for-hash-tables-in-powershell/">here</a>.</p></blockquote>
+<p class="quote"><i>&ldquo;Nor shall you by your presence make afraid, The kingfisher, who looks down dreamily, At his own shadow gorgeously array'd&rdquo; - Sir Edmund William Gosse</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"> <a href="syntax-arrays.html">PowerShell Arrays</a> <br>
+<span class="code">get-help about_hash_tables</span><br>
+<a href="syntax-variables.html">Variables</a> - Create/read variables.<br>
+<a href="https://powershellexplained.com/2016-11-06-powershell-hashtable-everything-you-wanted-to-know-about/#copying-hashtables">Everything about hash tables</a> - PowerShell Explained.<br>
+<a href="https://blogs.technet.com/b/heyscriptingguy/archive/2011/10/16/dealing-with-powershell-hash-table-quirks.aspx">PowerShell Hash Table Quirks</a> - The Scripting Guys.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-hash-tables.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+</html>

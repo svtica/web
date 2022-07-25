@@ -1,0 +1,62 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/osx/dsenableroot.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:03:40 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>dsenableroot Man Page - macOS - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">macOS <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>dsenableroot</h1> 
+<p>Enable or disable the root account.</p>
+<pre>Syntax
+      dsenableroot [-d] [-u <i>username</i>] [-p <i>password</i>] [-r <i>rootPassword</i>]
+
+Key
+   -u   Username of a user that has administrative privileges on this computer.
+
+   -p   Password to use in conjunction with the specified username.
+        If this is not specified, you will be prompted for entry.
+
+   -r   Password to be used for the root account.
+        If this is not specified for enabling, you will be prompted for entry.</pre>
+<p>dsenableroot sets the password for the root account if enabling the root      user account.  Otherwise, if disable [-d] is chosen, the root account      passwords are removed and the root user is disabled.</p>
+<p><b>Examples</b></p>
+<p>Sets a password and enable the root account, your username will be used and you will be queried for both your<br>
+password and the new root password:<br>
+<span class="code">$ dsenableroot</span><br>
+<br>
+ Disable the root account, your username will be used and you will be queried for your               password.      <br>
+<span class="code">$ dsenableroot -d</span></p>
+<p>The supplied arguments will be used to enable the root account:<br>
+<span class="code">$ dsenableroot -u fred -p flintst003 -r rootpa55w0rd</span></p>
+<p>The supplied arguments will be used to disable the root account:<br>
+<span class="code">$ dsenableroot -d -u fred -p flintst003</span></p>
+<p class="quote"><i>&quot;Make mistakes, make mistakes, make mistakes. Just make sure they’re your mistakes” ~ Fiona Apple</i></p>
+<p><b>Related macOS commands:</b></p>
+<p class="space"><a href="id.html">groups</a> - Print group names a user is in.<br>
+<a href="passwd.html">passwd</a> - Modify a user password.</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/osx/dsenableroot.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:03:41 GMT -->
+</html>

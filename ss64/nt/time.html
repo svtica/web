@@ -1,0 +1,138 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/time.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>time - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>TIME</h1> 
+<p>Display or set the system time. </p>
+<pre>Syntax
+      TIME [<i>new_time</i>]<br>
+      TIME
+<br>      TIME /T
+
+key
+   <i>new_time</i> : The time as HH:MM
+
+   TIME with no parameters will display the current time and prompt 
+   for a new value. Pressing ENTER will keep the same time.
+
+  /T : Just display the time, formatted according to the current Regional settings.</pre>
+<h2> Time Formatting</h2>
+<blockquote>
+<p>  In Control Panel, Regional settings a Time Appearance can be set. This can be 
+  used to change the separator, and the number of characters used to display hours 
+  and minutes.<br>
+  <br>
+  To display the time including Seconds and Hundredths of a second:<br>
+  <br>
+  <span class="code">ECHO:| TIME</span><br>
+<br>
+The time Separator, Country Code and Time format can be read from the registry using <a href="reg.html">REG</a> as follows:</p>
+<pre>@Echo off
+FOR /F &quot;TOKENS=3&quot; %%D IN ('REG QUERY ^&quot;HKEY_CURRENT_USER\Control Panel\International^&quot; /v iCountry ^| find ^&quot;REG_SZ^&quot;') DO (
+        SET _country_code=%%D)
+Echo Country Code %_country_code%
+
+FOR /F &quot;TOKENS=3&quot; %%D IN ('REG QUERY ^&quot;HKEY_CURRENT_USER\Control Panel\International^&quot; /v sTime ^| find ^&quot;REG_SZ^&quot;') DO (
+        SET _time_sep=%%D)
+Echo Separator %_time_sep%
+
+FOR /F &quot;TOKENS=3&quot; %%D IN ('REG QUERY ^&quot;HKEY_CURRENT_USER\Control Panel\International^&quot; /v sTimeFormat ^| find ^&quot;REG_SZ^&quot;') DO (
+        SET _time_format=%%D)
+Echo Format %_time_format%</pre>
+</blockquote>
+<h2>Country Codes/Formats</h2>
+<blockquote>
+<p>The default time formats for different country codes are below.<br>
+Thses values are user changeable so it is not safe to assue the default will be correct for any particular user.
+</p>
+</blockquote>
+<!-- google_ad_section_start(weight=ignore) -->
+<pre><b>   Country/language   Date format  Time format</b><b>  Country</b>
+                                                <b>Code</b>
+   United States       MM/dd/yyyy   H:mm:ss.tt  001
+  
+   Czechoslovakia      dd.MM.yyyy  HH:mm:ss     042
+   France              dd.MM.yyyy  HH:mm:ss     033
+   Germany             dd.MM.yyyy  HH:mm:ss     049
+   Latin America       dd/MM/yyyy   H:mm:ss.tt  003
+   Intl. English       dd/MM/yyyy  HH:mm:ss.tt  061
+   Portugal            dd-MM-yyyy  HH:mm:ss     351
+   Finland               d.M.yyyy  HH.mm.ss     358
+   Switzerland         dd.MM.yy    HH mm.ss     041
+   Norway              dd.MM.yy    HH:mm:ss     047
+   Belgium             dd/MM/yy    HH:mm:ss     032
+   Brazil              dd/MM/yy    HH:mm:ss     055
+   Italy               dd/MM/yy    HH.mm.ss     039
+   United Kingdom      dd/MM/yy    HH:mm:ss     044
+   Denmark             dd-MM-yy    HH.mm.ss     045
+   Netherlands         dd-MM-yy    HH:mm:ss     031
+   Spain                d/MM/yy    HH:mm:ss     034
+   Hungary             yyyy.MM.dd  HH:mm:ss     036
+   Canadian-French     yyyy-MM-dd  HH:mm:ss     002
+   Poland              yyyy-MM-dd  HH:mm:ss     048
+   Sweden              yyyy-MM-dd  HH.mm.ss     046
+
+yyyy = 4 digit year
+  yy = 2 digit year
+  dd = 2 digit day
+   d = 1/2 digit day
+  HH = 2 digit Hour
+   H = 1/2 digit hour
+  mm = 2 digit minutes
+  ss = 2 digit seconds
+  tt = AM/PM indicator
+   t = a/p indicator</pre>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>If the time was successfully changed (or not given) <span class="code"><a href="errorlevel.html">%ERRORLEVEL%</a> = 0</span><br>
+If it fails, e.g. the user lacks the privilege <span class="code"><a href="errorlevel.html">%ERRORLEVEL%</a> = 1</span></p>
+</blockquote>
+<p>TIME is an <a href="syntax-internal.html">internal</a> command. If <a href="cmd.html">Command Extensions</a> are disabled <!-- google_ad_section_end -->TIME 
+  will not support the /T switch</p>
+<p><i class="quote">&ldquo;Time is like money, the less we have of it to spare, the further we make it go&rdquo; - Josh Billings </i><br>
+<br>
+<b>Related:</b></p>
+<p class="space"><span class="code">%TIME%</span> - variable containing current time HH:mm:ss.<br>
+
+<a href="date.html">DATE</a> - Display or change the date.<br>
+  <a href="now.html">NOW</a> - Display Message with Current Date and Time.<br>
+ <a href="w32tm.html">W32TM</a> - Time Service.<br>
+<a href="tzutil.html">TZUTIL</a> - Time Zone Utility.<br>
+  Timethis - Time how long it takes the system to run a command. (<a href="../links/windows.html#kits">Win 
+  2K ResKit</a>).<br>
+  Uptime - Time since last reboot. (<a href="../links/windows.html#kits">Win 2K 
+  ResKit</a>).<br>
+  <a href="syntax-gettime.html">GetTime.cmd</a> - Script to get current time.<br>
+  <a href="syntax-gmt.html">GMT.cmd</a> - Current time in GMT (World Time).<br>
+<a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings">Custom date and time format strings</a> - Microsoft.com<br>
+Powershell: <a href="../ps/get-date.html">Get-Date</a> - Get current date and time.<br>
+  Equivalent bash command (Linux): <a href="../bash/date.html">date</a> - Display or change the date &amp; time.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/time.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+</html>

@@ -1,0 +1,81 @@
+<!doctype html><html>
+
+<!-- Mirrored from ss64.com/hosts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:53 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<meta NAME="Description" CONTENT="The international standard date notation is YYYY-MM-DD, For example, the 31st day of January in the year 2012 is written as 2012-01-31">
+<link rel="STYLESHEET" href="main.css" type="text/css">
+<title>hosts file</title>
+
+<style>
+li {
+margin: 1.5ex 0 0 0;
+}
+</style></head>
+<body><!-- #BeginLibraryItem "/Library/head_home.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="index.html">SS64</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>hosts file</h1>
+<p>The  standard <span class="code">hosts</span> file on most operating systems can be used to block websites or redirect URL's to a different host (overriding DNS).</p>
+<p>There are a number of reasons for editing this file, you can make an addictive social media site hard to reach or  prevent some scammy clickbait web site from getting even a single accidental page view from your machine.</p>
+<p>Editing the hosts file is never going to provide much in the way of comprehensive anti-virus or anti-tracking protection, but if you just want to block a few websites from every web browser on your machine the hosts file provides a quick and easy way to do that.</p>
+<h2>Location of the hosts file</h2>
+<blockquote>
+<p>MacOS / Linux / Unix:</p>
+<p class="code">/etc/hosts</p>
+<p>Windows:</p>
+<p class="code">C:\windows\system32\drivers\etc\hosts</p>
+</blockquote>
+<h2>Editing the hosts file</h2>
+<blockquote>
+<p>The hosts file is protected against accidental or malicious changes. therefore editing it will require administrator or SUDO rights.</p>
+<p>From the command line <span class="code">sudo vi /etc/hosts</span> or launch a text editor 'As Admin', typically right click and Run as Administrator and then open the hosts file. In both cases you will be prompted for a password. On a Mac BBedit will automaticaly prompt to unlock the file.</p>
+<p>Before making any changes, copy a backup of the hosts file somewhere else.</p>
+<p>Notice that the hosts file does not have a file extension, (it is not hosts.txt) some text editors will only save a file without an extension if you surround the filename with quotes <span class="code">&quot;hosts&quot;</span></p>
+<p>The default hosts file may have some comments and a localhost loopback which should be left alone.<br>
+Additional lines can be added to the hosts file, one address per line:</p>
+<p>The syntax is</p>
+<p><span class="code">0.0.0.0 <i>web_url</i> #optional_comment</span></p>
+<p>Each of the 3 parts must be separated by at least one space.</p>
+<p> The first item is the IP address that we will 
+redirect to, typically  <span class="code">0.0.0.0</span> or <span class="code">127.0.0.1</span> either of which will block the content.<br>
+Blocked pages will 
+return: &quot;<i>can't establish a connection to the server</i>&quot;. Any host name can be redirected to to any IP address.</p>
+<p>The second item is the <i>web_url</i> to be redirected, and the third item is an optional comment.</p>
+</blockquote>
+<h2>Tips</h2>
+<blockquote>
+<p>In cases where a website works both with and without a<span class="code"> www.</span> prefix, then you will need to add a hosts rule for both urls.</p>
+<p><span class="code">127.0.0.1</span> is the loopback address (also known as localhost).<br>
+<span class="code">0.0.0.0</span> is a non-routable meta-address used to designate an invalid, unknown or non applicable target.</p>
+<p>Using the  <span class="code">0.0.0.0</span> prefix may give a very <a href="https://superuser.com/a/949522/391480">small</a> performance benefit compared to the traditional loopback address <span class="code">127.0.0.1</span><br>
+This is only likely to be noticable if you add thousands of lines to the hosts file.</p>
+<p>On Windows, a very large hosts file will cause high CPU usage from the DNS Client. The performance degradation from a large hosts file, or from disabling the DNS client altogether,  is likely to completely negate the small benefit of blocking some urls.</p>
+</blockquote>
+<p><b>Examples</b></p>
+<p class="code">0.0.0.0 dailymail.co.uk &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;# Hateful content<br>
+0.0.0.0 www.dailymail.co.uk &nbsp;# more hateful content<br>
+127.0.0.1 www.boredpanda.com # clickbait/stolen content</p>
+<p class="quote">&ldquo;Joel: You look familiar. Have we met? <br>
+&nbsp; Wilhelmina Slater: We're not even meeting now&rdquo;  ~ Ugly Betty, 2006 TV series</p>
+<p><b>Related:</b></p>
+<p class="space"><a href="nt/ipconfig.html">IPCONFIG  /flushdns</a> - Flush any cached DNS entries.<br>
+<a href="https://web.archive.org/web/20130305115143/https://support.microsoft.com/kb/813878">Q813878</a> - How to block specific network protocols and ports.<br>
+<a href="https://web.archive.org/web/20140403101053/https://support.microsoft.com/kb/313190">Q313190</a> - Use <a href="https://technet.microsoft.com/en-gb/library/cc179879.aspx?f=255&amp;MSPPError=-2147217396">IPSec</a> IP Filter Lists.</p><!-- #BeginLibraryItem "/Library/foot_root.lbi" --><p><script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="index.html">SS64.com</a><br>
+Some rights reserved</div>
+<!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/hosts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:53 GMT -->
+</html>

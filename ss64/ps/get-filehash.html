@@ -1,0 +1,91 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-filehash.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:59 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-FileHash - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Get-FileHash</h1> 
+<p>Compute the hash value for a file by using a specified hash algorithm.</p>
+<pre>Syntax
+      Get-FileHash [-Algorithm {SHA1 | SHA256 | SHA384 | SHA512 | MACTripleDES | MD5 | RIPEMD160}]
+         -InputStream <i>Stream</i> [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Get-FileHash [-Algorithm {SHA1 | SHA256 | SHA384 | SHA512 | MACTripleDES | MD5 | RIPEMD160}]
+         -LiteralPath <i>String</i>[] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Get-FileHash [-Path] <i>String</i>[] [-Algorithm {SHA1 | SHA256 | SHA384 | SHA512 | MACTripleDES | MD5 | RIPEMD160}]
+         [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -Algorithm <i>String</i>
+      The cryptographic hash function to use for computing the hash value of the contents of the specified file.
+      A cryptographic hash function includes the property that it is not possible to find two distinct inputs
+      that generate the same hash values. Hash functions are commonly used with digital signatures and for data
+      integrity. The acceptable values for this parameter are: SHA1, <u>SHA256</u>, SHA384, SHA512, MACTripleDES, MD5, RIPEMD160
+      If no value is specified, or if the parameter is omitted, the default value is SHA256.
+      For security reasons, MD5 and SHA1, which are no longer considered secure, should only be used for simple change
+      validation, and should not be used to generate hash values for files that require protection from attack or tampering.
+
+   -InputStream <i>Stream
+ </i>     The input stream.
+
+   -LiteralPath <i>String</i>[]
+      The path to a file. Unlike the -Path parameter, the value of -LiteralPath is used exactly as it is typed.
+      No characters are interpreted as wildcard characters. If the path includes escape characters, enclose the path in
+      single quotation marks. Single quotation marks instruct PowerShell not to interpret characters as escape sequences.
+
+   -Path String[]
+      The path to one or more files as an array. Wildcard characters are permitted.</pre>
+<p>Standard <a href="get-alias.html">Alias</a> for Get-FileHash:<span class="code"> n/a</span></p>
+<p>Get-FileHash  computes the hash value for a file by using a specified hash algorithm. A hash value is a unique value that corresponds to the content of the file. Rather than identifying the contents of a file by its      file name, extension, or other designation, a hash assigns a unique value to the <i>contents</i> of a file. </p>
+<p>File names and extensions can be changed without altering the content of the file, and without changing the hash value.      Similarly, the file's content can be changed without changing the name or extension. However, changing even a single character in the contents of a file changes the hash value of the file.          The purpose of hash values is to provide a cryptographically-secure way to verify that the contents of a file have not been changed. </p>
+<p>While some hash algorithms, including MD5 and SHA1, are no longer considered secure against      attack, the goal of a secure hash algorithm is to render it impossible to change the contents of a file-either by accident, or by malicious or unauthorized attempt-and maintain the same hash value. You can also use hash values      to determine if two different files have exactly the same content. If the hash values of two files are identical, the contents of the files are also identical.          By default, the Get-FileHash cmdlet uses the SHA256 algorithm, although any hash algorithm that is supported by the target operating system can be used.</p>
+<p><b>Examples</b></p>
+<p>Compute the SHA256 hash value for a PowerShell.exe file:</p>
+<p><span class="code">PS C:\&gt; Get-FileHash $pshome\powershell.exe | Format-List<br>
+</span><span class="code"> Algorithm : SHA256<br>
+Hash      : 6A785ADC0263238DAB3EB37F4C185C8FBA7FEB5D425D034CA9864F1BE1C1B473<br>
+Path      : C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe</span></p>
+<p>Compute the SHA512 hash value for an ISO file:</p>
+<p><span class="code">PS C:\&gt; Get-FileHash C:\demo\sample.iso -Algorithm SHA512 | Format-List<br>
+</span></p>
+<p>Compute the hash value of a stream:</p>
+<pre>$testfile = "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe"
+    
+## open $testfile as a stream
+$testfilestream = [System.IO.File]::Open(
+    $testfile,
+    [System.IO.FileMode]::Open,
+    [System.IO.FileAccess]::Read)
+    
+Get-FileHash -InputStream $testfilestream -Algorithm <span class="code">SHA512</span></pre>
+<p class="quote"><i>“Poets don't draw. They unravel their handwriting and then tie it up again, but differently” ~  </i><i>Jean Cocteau</i>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><a href="unblock-file.html">Unblock-File</a> - Unblock files downloaded from the Internet
+<!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-filehash.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:59 GMT -->
+</html>

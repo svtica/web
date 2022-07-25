@@ -1,0 +1,208 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/syntax-ansi.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:32 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Use ANSI colors in the terminal | Windows CMD - SS64.com</title>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Use ANSI colors in the terminal</h1> 
+<p>ANSI colors are available by default in Windows version 1909 or newer. See below for older versions.</p>
+<p>Specify the color codes in a batch file by <a href="echo.html">ECHO</a>ing the foreground and/or background color codes (from the following table) followed by the text to be formatted, followed by the ANSI default (<span class="code">Esc[0m</span>) to reset the terminal back to the default colors.<br>
+These codes are identical to those used in a Unix/Linux/VT 100 terminal though the colors may be slightly different shades.</p>
+<blockquote>
+
+<table><thead>
+<tr><th>Color</th><th>Foreground</th>
+<th>Background</th>
+<th><a href="color.html">COLOR</a> equivalent</th>
+</tr>	
+</thead>
+<tbody>
+<tr>
+<td>Black BLACK <span style="color: #0C0C0C">█</span></td>
+<td>Esc[30m</td>
+<td>Esc[40m</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Red DARK_RED <span style="color: #C50F1F">█</span></td>
+<td>Esc[31m</td>
+<td>Esc[41m</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Green DARK_GREEN <span style="color: #13A10E">█</span></td>
+<td>Esc[32m</td>
+<td>Esc[42m</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Yellow DARK_YELLOW <span style="color: #C19C00">█</span></td>
+<td>Esc[33m</td>
+<td>Esc[43m</td>
+<td>6</td>
+</tr>
+<tr>
+<td>Blue DARK_BLUE <span style="color: #0037DA">█</span></td>
+<td>Esc[34m</td>
+<td>Esc[44m</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Magenta DARK_MAGENTA <span style="color: #881798">█</span></td>
+<td>Esc[35m</td>
+<td>Esc[45m</td>
+<td>5</td>
+</tr>
+<tr>
+<td>Cyan DARK_CYAN <span style="color: #3A96DD">█</span></td>
+<td>Esc[36m</td>
+<td>Esc[46m</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Light gray DARK_WHITE <span style="color: #CCCCCC">█</span></td>
+<td>Esc[37m</td>
+<td>Esc[47m</td>
+<td>7</td>
+</tr>
+<tr>
+<td>Dark gray BRIGHT_BLACK <span style="color: #767676">█</span></td>
+<td>Esc[90m</td>
+<td>Esc[100m</td>
+<td>8</td>
+</tr>
+<tr>
+<td>Light red BRIGHT_RED <span style="color: #E74856">█</span></td>
+<td>Esc[91m</td>
+<td>Esc[101m</td>
+<td>C</td>
+</tr>
+<tr>
+<td>Light green BRIGHT_GREEN <span style="color: #16C60C">█</span></td>
+<td>Esc[92m</td>
+<td>Esc[102m</td>
+<td>A</td>
+</tr>
+<tr>
+<td>Light yellow BRIGHT_YELLOW <span style="color: #F9F1A5">█</span></td>
+<td>Esc[93m</td>
+<td>Esc[103m</td>
+<td>E</td>
+</tr>
+<tr>
+<td>Light blue BRIGHT_BLUE <span style="color: #3B78FF">█</span></td>
+<td>Esc[94m</td>
+<td>Esc[104m</td>
+<td>9</td>
+</tr>
+<tr>
+<td>Light magenta BRIGHT_MAGENTA <span style="color: #B4009E">█</span></td>
+<td>Esc[95m</td>
+<td>Esc[105m</td>
+<td>D</td>
+</tr>
+<tr>
+<td>Light cyan BRIGHT_CYAN <span style="color: #61D6D6">█</span></td>
+<td>Esc[96m</td>
+<td>Esc[106m</td>
+<td>B</td>
+</tr>
+<tr>
+<td>White WHITE <span style="color: #F2F2F2">█</span></td>
+<td>Esc[97m</td>
+<td>Esc[107m</td>
+<td>F</td>
+</tr>
+<tr><td>Bold</td><td>Esc[1m</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>Underline</td><td>Esc[4m</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>No underline</td><td>Esc[24m</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>Reverse text</td><td>Esc[7m</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr>
+<td>Positive text (not reversed)</td>
+<td>Esc[27m</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td class="code">Default</td><td class="code">Esc[0m</td>
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+</tr>
+</tbody></table>
+
+<p>The Esc character in the above table must be entered with the key combination<span class="code"> Ctrl+[</span><br>
+In some text editors this will appear as <span class="code">^[</span> or  <span class="code">Esc[</span></p>
+</blockquote>
+<p>Many basic text editors do not provide a method of entering an ANSI Esc character (n.b. do not  confuse this with the CMD <a href="syntax-esc.html">Escape</a> character) either enter Esc at the command line or use an editor like Notepad++ which allows copy and paste.</p>
+<p>The actual colors displayed are dependent on the Terminal color scheme which can be set using <a href="https://github.com/Microsoft/Terminal/tree/master/src/tools/ColorTool">ColorTool.exe</a> The new default color scheme is called campbell.ini.  This was first introduced in Windows 10 <b>clean-install</b> <a href="ver.html">version</a> build 16257 (1709).</p>
+<p>The color swatches on this page are based on the new <a href="color.html">COLOR</a> defaults.</p>
+<p>ANSI color codes do also support <a href="syntax-redirection.html">redirection</a> to a text file. You may then use <a href="type.html">TYPE</a> to display such an output file complete with colors. However if you want to easily access the raw text without any color codes e.g. for further manipulation/sorting then avoid applying any color codes until after that has been done.</p>
+<h2>Enabling ANSI colors in older versions of Windows</h2>
+<blockquote>
+<p>To use ANSI colours in the Windows terminal requires setting VirtualTerminalLevel.</p>
+<p>VirtualTerminalLevel = 1 is now set <a href="https://github.com/microsoft/terminal/pull/2824">by default</a> for the terminal and in <a href="https://github.com/microsoft/terminal/commit/1c412d42b3ac7fbaaf75324936211f4b4ed0e86f">ConPTY</a>.<br>
+In Windows <a href="ver.html">versions</a> 1511 through to 1903 this had to be enabled in the registry at:</p>
+<p class="code">[HKEY_CURRENT_USER\Console] <br>
+&quot;VirtualTerminalLevel&quot;=dword:00000001</p>
+<p>Alternatively it can be enabled by calling the SetConsoleMode API with the ENABLE_VIRTUAL_TERMINAL_PROCESSING flag.</p>
+</blockquote>
+<p><b>Examples</b></p>
+<p class="code">@Echo off<br>
+Echo ¤[91m This text will display in Red 
+¤[0m</p>
+<p>In the above <span class="code">¤</span> represents the Esc character.</p>
+<p>A batch file to display all the possible ANSI colors: <a href="echoansi.txt">EchoANSI.CMD</a></p>
+<p>Output:</p>
+<blockquote>
+<p><img src="ansicols.png" width="836" height="674" alt="ANSI colors"></p>
+</blockquote>
+<p><span class="quote"><i>&ldquo;In nature, light creates the color; in the picture, color creates light. <br>
+&nbsp;Every color shade emanates a very characteristic light — no substitute is possible&rdquo; ~ Hans Hofmann</i></span></p>
+<p><b>Related:</b></p>
+<p class="space"><a href="echo.html">ECHO</a> - Display a message on screen.<br>
+<a href="type.html">TYPE</a> - Display the contents of a text file.<br>
+In <a href="https://en.wikipedia.org/wiki/MS-DOS">MS-DOS</a> ANSI support could be installed by loading ansi.sys at startup.<br>
+<a href="https://devblogs.microsoft.com/commandline/windows-command-line-introducing-the-windows-pseudo-console-conpty/">ConPTY</a> - Blog post describing the Windows Pseudo Console.<br>
+<a href="https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences">Console Virtual Terminal Sequences</a> - Full list of VT 100 codes, positioning, colors, modes, RGB (for non Windows consoles)</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></blockquote>
+</blockquote>
+</body>
+
+<!-- Mirrored from ss64.com/nt/syntax-ansi.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:32 GMT -->
+</html>

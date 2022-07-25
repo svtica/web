@@ -1,0 +1,56 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/vb/envexpand.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:24 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>environment  - VBScript - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">VBScript <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>.ExpandEnvironmentStrings</h1> 
+<p>Expand a Windows environment variable.</p>
+<pre>Syntax 
+      <i>objShell</i>.ExpandEnvironmentStrings(<i>strString</i>)
+
+Key
+
+   <i>objShell</i>    A WScript.Shell object
+
+   <i>strString</i>   A PROCESS environment variable 
+                    (enclosed with "%" characters)
+</pre>
+<p>Example</p>
+<pre>Set objShell = WScript.CreateObject(&quot;WScript.Shell&quot;)
+MsgBox "Prompt is " & objShell.ExpandEnvironmentStrings("%PROMPT%")</pre>
+<p>Note: Variable names are not case-sensitive.</p>
+<p><i class="quote">&rdquo;I would rather train someone and lose them, than not train them and keep them&rdquo; ~ Zig Ziglar</i><br>
+<b><br>
+Related:</b></p>
+<p><span class="space">Environment, <a href="env.html">Read Environment variables</a><br>
+Equivalent Windows CMD command: <a href="../nt/set.html">SET</a> - Display, set, or remove environment 
+variables.<br>
+Equivalent PowerShell cmdlet:</span> <a href="../ps/get-item.html">Get-Item</a> <span class="code">env:<i>HOMEDRIVE</i></span> or <span class="code">$env:<i>HOMEDRIVE</i> </span></p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/vb/envexpand.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:24 GMT -->
+</html>

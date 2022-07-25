@@ -1,0 +1,94 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/vb/special.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:27 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Special folders - VBScript - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_vb.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">VBScript <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/vb/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>WshShell.SpecialFolders</h1> 
+<p>Obtain the full path to any of the special Windows folders (Desktop, Start Menu etc). </p>
+<pre>Syntax 
+      <i>strMyPath</i> = <i>objShell</i>.SpecialFolders("<i>strFolderName</i>")
+      or
+      <i>strMyPath</i> = <i>objShell</i>.SpecialFolders.Item("<i>strFolderName</i>")
+
+Arguments:
+
+   objShell   A WScript.Shell object 
+
+   strFolderName : One of the following special folders 
+                   (not all are available to all flavors of Windows)
+
+      AllUsersDesktop
+      AllUsersStartMenu
+      AllUsersPrograms
+      AllUsersStartup
+      Desktop
+      Favorites
+      Fonts
+      MyDocuments
+      NetHood
+      PrintHood
+      Programs
+      Recent
+      SendTo
+      StartMenu
+      Startup
+      Templates
+
+Returns:
+   strMyPath : The full path to the special folder
+               returns NULL if the folder is not available.</pre>
+<p>These special folders do not work in all language locales, a preferred method is to query the value from <a href="../nt/syntax-folders.html">User Shell folders</a> like <a href="../nt/shell-folders-vbs.txt">this example vbscript</a>.</p>
+<p><b>Examples</b></p>
+<p>Return the full path to the Windows Desktop:</p>
+<pre>'<span class="code">findDesktop.vbs
+</span>
+   Dim objShell
+   Dim strPath
+
+   Set objShell = Wscript.CreateObject("Wscript.Shell")
+   strPath = objShell.SpecialFolders("Desktop")
+   wscript.echo strPath</pre>
+<p>A CMD batch file in the same folder can then read the Desktop location with one line:</p>
+<p><span class="code">FOR /F &quot;delims=&quot; %%i in ('cscript %~dp0\findDesktop.vbs //nologo') DO Set _DeskTopDir=%%i</span><br>
+<br>
+</p>
+<p>List all special folders:</p>
+<pre>   For Each strFolder In WScript.CreateObject(&quot;Wscript.Shell&quot;).SpecialFolders
+      MsgBox strFolder
+   Next</pre>
+<p class="quote"><i>&ldquo;An artist who was once known as Prince <br>
+  On the stage he would wiggle and mince <br>
+  And then, for a giggle, He changed his name to a squiggle <br>
+And nobody's heard of him since&rdquo; ~ Tim Brooke-Taylor </i></p>
+<p><b>Related</b></p>
+<p><span class="space"><a href="../nt/shell.html">Shell: folder</a> - Shortcuts to key folders.<br>
+<a href="../nt/syntax-folders.html">User Shell Folders - Profile, Start Menu </a> - Location of user profile folders.<br>
+Equivalent in PowerShell: <a href="../ps/syntax-env.html">environment variables</a> or</span> <span class="code">(Get-WMIObject Win32_OperatingSystem).SystemDirectory</span></p><!-- #BeginLibraryItem "/Library/foot_vb.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- VB300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1683739502"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/vb/special.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:27 GMT -->
+</html>

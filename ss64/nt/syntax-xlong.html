@@ -1,0 +1,66 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/syntax-xlong.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:47 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>xlong filename 256 character limit - Windows CMD - SS64.com</title>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: List files that exceed the 256 character limit</h1>
+<p>It is possible to create <a href="syntax-filenames.html">very long filenames/pathnames</a> on NTFS that exceed the 260 character Windows API  limit. This typically happens when a folder which is part of a deep hierarchy gets renamed. Very long filenames will often create errors in  applications that attempt to open them (even Windows Explorer.)</p>
+<p>The maximum Windows API MAX_Path is <span class="code">260</span> characters, subtract <span class="code">3</span> characters for the drive and colon: and <span class="code">1</span> character for a terminating NULL and you have a maximum <span class="code">256</span> characters that can be used for the pathname. </p>
+<p>All .Net applications enforce the Windows API pathname limit including Windows Explorer and PowerShell. 
+<p>To access very long paths use <a href="robocopy.html">Robocopy</a>, <a href="subst.html">SUBST</a> or the<span class="code"> \\?\<i>UNCPATH</i>\ </span>syntax.
+
+<p> The script below will list any files that exceed this limit. </p>
+<pre>@Echo off
+Setlocal EnableDelayedExpansion
+:: Report all file / folder paths that exceed the 256 character limit
+If {%1}=={} Echo Syntax: XLong DriveLetter&goto :EOF
+Set wrk=%1
+Set wrk=%wrk:"=%
+
+For /F "Tokens=*" %%a in ('dir %wrk% /b /s /a') do (
+ set name=%%a
+ if not "!name:~255,1!"=="" echo Extra long name: "%%a"
+)
+Endlocal</pre>
+<p><b>Examples</b>
+<p>Check the whole of the D: drive<span class="code"><br>
+c:\&gt; xlong D:\</span>
+<p>Check the current directory on the C: drive<span class="code">:<br>
+c:\&gt; xlong C:</span>
+<p>Check the S:\workgroups\ folder:<span class="code"><br>
+c:\&gt; xlong S:\workgroups\
+</span></p>
+<p class="quote"><i>&ldquo;This report, by its very length, defends itself against the risk of being read&rdquo; ~ Winston Churchill</i></p>
+<p><b>Related</b>
+<p class="space"><a href="syntax-filenames.html">Long Filenames</a> - NTFS long filenames (&gt;260 chars)<br>
+<a href="syntax-which.html">Which.cmd</a> - Display full path to any command.<br>
+Bash equivalent: find . | awk '{print length($0) &quot; &quot; $0}' | sort -n | tail -n 15</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/syntax-xlong.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:47 GMT -->
+</html>

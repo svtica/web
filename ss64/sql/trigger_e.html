@@ -1,0 +1,65 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/sql/trigger_e.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:10:00 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ENABLE TRIGGER - SQL Server - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">SQL Server <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ENABLE TRIGGER</h1>
+<p>Enable a trigger.</p>
+<pre>Syntax
+      ENABLE TRIGGER { [<i>schema</i>.] <i>trigger</i> [,...<i>n</i> ] | ALL }
+         ON { <i>object_name</i> | DATABASE | ALL SERVER } [ ; ]
+
+Key:
+   object_name - The table or view on which the trigger was created to execute. 
+   DATABASE    - The DDL trigger applies to the current database.
+   ALL SERVER  - The DDL trigger applies to the current server.
+</pre>
+<p>Example</p>
+<pre>ENABLE TRIGGER MySchema.MyTrigger1 ON MySchema.MyTable;
+ENABLE TRIGGER MyTrigger2 ON DATABASE;<br>GO</pre>
+<p class="quote"><i># When they kick at your front door,
+  How you gonna come?<br>
+  With your hands on your head,
+  Or on the trigger of your gun #
+  - The Clash,
+  London Calling</i> (The Guns Of Brixton)</p>
+<p><b>Related:</b></p>
+<p>  <a href="trigger_dis.html">DISABLE TRIGGER</a><br>
+  <a href="trigger_a.html">ALTER TRIGGER</a>  <br>
+  sys.triggers  <br>
+sp_settriggerorder<br>
+<a href="table_c.html">CREATE TABLE</a> <br>
+
+  COLUMNS_UPDATED<br>
+  TRIGGER_NESTLEVEL<br>
+  EVENTDATA<br>
+Equivalent Oracle command: <a href="../ora/trigger_a.html">ALTER TRIGGER</a> ..<b>ENABLE</span> </b></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/sql/trigger_e.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:10:00 GMT -->
+</html>

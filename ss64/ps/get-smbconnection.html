@@ -1,0 +1,80 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-smbconnection.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Get-SmbConnection - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><span class="space">Get-SmbConnection</span></h1> 
+<p><span class="space"></span>Retrieve the connections established from the SMB client to any SMB servers.<br>
+Users can connect to an SMB share using credentials different than the associated logon      credentials so that there will be a connection listed per share per user logon per credential used.</p>
+<pre>Syntax
+      Get-SmbConnection [[-ServerName] <i>String</i>[]] [[-UserName] <i>String</i>[]] [-CimSession <i>CimSession</i>[]]
+         [-SmbInstance {Default | CSV}] [-ThrottleLimit <i>Int32</i>] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -CimSession [<i>CimSession</i>[]]
+       Run the cmdlet in a remote session or on a remote computer.
+       Enter a computer name or a session object, such as the output of a New-CimSession or Get-CimSession cmdlet.
+       The default is the current session on the local computer.
+
+   -ServerName
+       Specifies that the connections made to the server are enumerated.
+
+   -SmbInstance
+       Specifies the input to this cmdlet. You can use this parameter, or you can pipe the input to this cmdlet.
+
+   -ThrottleLimit [<i>Int32</i>]
+       The maximum number of concurrent operations that can be established to run the cmdlet.
+       If this parameter is omitted or a value of 0 is entered, then PowerShell will calculate an optimum throttle limit 
+       for the cmdlet based on the number of CIM cmdlets that are running on the computer. The throttle limit applies 
+       only to the current cmdlet, not to the session or to the computer.
+
+   -UserName
+       Specifies that the connections made by the user are enumerated.</pre>
+<p><b>Examples</b></p>
+<p>Get connections from an SMB client to SMB servers:</p>
+<pre>PS C:\&gt; Get-SmbConnection
+    ServerName   ShareName   UserName           Credential       Dialect   NumOpens 
+    ----------   ---------   --------           ----------       -------   -------- 
+    ServerFS1    work        SS64dom\pc64$      SS64dom\pc64$    3.0.2          1 
+    ServerFS1    VMS5        NT VIRTUAL MACHI.. SS64dom\pc89$    3.1.1          3 
+    ServerFS     NETLOGON    SS64dom\pc64$      SS64dom\pc64$    3.0.2          1 
+    ServerFS     VMS1        SS64dom\user64     SS64dom\user64   3.0.2          5 
+    ServerSO     print$      SS64dom\user64     SS64dom\user64   3.0.2          1 </pre>
+<p>Get connections from an SMB server:</p>
+<pre>PS C:\&gt; Get-SmbConnection -ServerName Server64 | Select-Object -Property *
+</pre>
+<p><i class="quote">&ldquo;Technology is not neutral. We're inside of what we make, and it's inside of us. We're living in a world of connections — and it matters which ones get made and unmade&rdquo; ~ Donna Haraway</i></p><p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="new-smbmapping.html">New-SmbMapping</a> -  Create a  mapping to an SMB share.<br>
+<a href="new-psdrive.html">New-PSDrive</a> - Create a mapped network drive (Windows 7).<br>
+<a href="get-ciminstance.html">Get-CimInstance -class Win32_Share</a> - List the available remote shares.<br>
+Get-SmbOpenFile           - Information about files that are open on behalf of SMB server clients.<br>
+<a href="remove-smbmapping.html">Remove-SmbMapping</a> - Remove an SMB Mapping.<br>
+Windows cmd command: <a href="../nt/net-view.html">NET VIEW</a><a href="../nt/sc.html"></a> - list remote shares.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-smbconnection.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+</html>

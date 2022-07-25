@@ -1,0 +1,82 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/replace.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:56 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Replace() - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Replace()</h1> 
+<p>Replace characters within a string.</p>
+<pre>Syntax
+      .<span class="code">Replace(<i>strOldChar</i>, <i>strNewChar</i>)</span>
+
+Key
+   <i>strOldChar  </i>The characters to find.
+
+<i>   strNewChar</i>  The characters to replace them with.</pre>
+<p><b>Examples</b></p>
+<p>Replace characters in a string:</p><p><span class="code">PS C:\> &quot;abcdef&quot; -replace &quot;dEf&quot;,&quot;xyz&quot;</span></p>
+<p>Replace characters in a variable:</p>
+<p><span class="code">PS C:\> $demo = &quot;abcdef&quot;</span><br>
+<span class="code">PS C:\> </span><span class="code"> $demo.replace(&quot;dEf&quot;,&quot;xyz&quot;</span>)<br>
+<span class="code">abcxyz</span></p>
+<p>Multiple replacements can be chained together in one command:</p>
+<p><span class="code">PS C:\&gt;  &quot;abcdef&quot; -replace &quot;dEf&quot;,&quot;xyz&quot;</span> <span class="code">-replace &quot;cx&quot;,&quot;-&quot;<br>
+ab-yz</span></p>
+<p>Search and Replace characters in a file:</p>
+<p><span class="code">PS C:\> $oldfile = &quot;C:\demo\sourcetext.txt&quot; <br>
+</span><span class="code">PS C:\> $newfile = &quot;C:\demo\newfile.txt&quot; </span></p>
+<p><span class="code">PS C:\> $text = (<a href="get-content.html">Get-Content</a> -Path $oldfile -ReadCount 0) -join &quot;`n&quot;<br>
+PS C:\> $text -replace 'dEf', 'xyz' | Set-Content -Path $newfile </span><br>
+</p>
+Search and Replace using a <a href="syntax-hash-tables.html">hash table</a>:
+<pre><span class="code"> $text = 'Any old text string'
+ 
+ $hash = @{}
+ $hash.'old' = 'new'
+ $hash.A = 'B'
+ $hash.' ' = '_'</span></pre>
+<pre> Foreach ($key in $<span class="code">hash</span>.Keys) {
+    $text = $text.Replace($key, $<span class="code">hash</span>.$key)
+ }
+ $text</pre>
+<p> #This technique can also be used to <a href="https://web.archive.org/web/20151206092516/http://powershell.com/cs/blogs/tips/archive/2015/12/02/replacing-special-characters.aspx">replace common unicode characters</a>.</p>
+<p>Rename file extensions from .log to .txt</p>
+<p><span class="code">PS C:\> dir *.log  | rename-item $_ -newname { $_.Name -replace '\.log','.txt' }</span></p>
+<p>Using  single <a href="syntax-esc.html#quotes">quotes</a> around the search strings will ensure that all punctuation is ignored by PowerShell.</p>
+<p>An alternative method to read an entire file as a single long text string is  the .Net <span class="code">::<a href="https://docs.microsoft.com/en-us/dotnet/api/system.io.file.readalltext?view=netframework-4.7.2#System_IO_File_ReadAllText_System_String_">ReadAllText</a></span> method:<br>
+<span class="code">$allTheText = [System.Io.File]::ReadAllText($filePath)</span></p>
+<p>More complex replacements can be done by combining <a href="syntax-regex.html">-match or -replace with a regular expression.</a></p>
+<p class="quote">“In order to be irreplaceable one must always be different” ~ Coco Chanel</p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="insert.html">Insert</a> - Insert(<i>IntStartIndex, String_value</i>).<br>
+<a href="syntax-regex.html">Regular Expressions</a> - Search and/or Replace.<br>
+<a href="syntax-methods.html">PowerShell Methods</a><br>
+<a href="set-content.html">Set-Content</a> -   Write a string into a text file.<br>
+<a href="syntax-set-eol.html">set-eol</a> - Change the line endings (CR/LF) of a text file.<br>
+<a href="https://github.com/3komma14/Guard/blob/master/Replace-FileString.ps1">Replace-FileString.ps1</a> - Find and Replace across multiple files (Bill Stewart).</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/replace.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:56 GMT -->
+</html>

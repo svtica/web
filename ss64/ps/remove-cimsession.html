@@ -1,0 +1,103 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/remove-cimsession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:47 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Remove-CimSession - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Remove-CIMSession</h1> 
+<p>Remove one or more CIM session objects from the local wps_1 session.</p>
+<pre>Syntax
+      Remove-CimSession [-CimSession] <i>CimSession</i>[] [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Remove-CimSession [-ComputerName] <i>String</i>[]  [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Remove-CimSession [-Id] <i>UInt32</i>[]  [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Remove-CimSession -InstanceId <i>Guid</i>[]  [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Remove-CimSession -Name <i>String</i>[]  [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -CimSession <i>CimSession</i>[]
+       Runs the command using the specified CIM session. Enter a variable that contains the CIM session, or a command 
+       that creates or gets the CIM session, such as the New-CimSession or Get-CimSession cmdlets. For more 
+       information, see about_CimSessions.
+
+   -ComputerName <i>String</i>[]
+       The computer on which you want to run the CIM operation. You can specify a fully qualified domain name 
+       (FQDN), or a NetBIOS name.
+
+       If you specify this parameter, the cmdlet creates a temporary session to the specified computer using the 
+       WsMan protocol.If you do not specify this parameter, the cmdlet performs the operation on the local computer
+       using Component Object Model (COM).
+
+       If multiple operations are being performed on the same computer, using a CIM session gives better performance.
+
+   -Id <i>UInt32</i>[]
+       The identifier (ID) ID of the CIM session to remove.
+       For one or more IDs, use commas to separate the IDs, or use the <a href="syntax-operators.html">range operator</a> (..) to specify a range of IDs.
+
+       An ID is an integer that uniquely identifies the CIM session in the current wps_2 session.
+       It is easier to remember and type than InstanceId, but it is unique only within the current wps_2 session.
+        
+   -InstanceId <i>Guid</i>[]
+       The instance ID of the CIM session to remove.
+        
+       InstanceID is a GUID that uniquely identifies a CIM session.
+       The InstanceID is unique, even when you have multiple sessions running in wps_2.
+        
+       The InstanceID is stored in the InstanceID property of the object that represents a CIM session.
+        
+   -Name <i>String</i>[]
+       The friendly name of the CIM session to remove. You can use wildcard characters with this parameter.
+
+   -Confirm
+       Prompt for confirmation before executing the command.
+
+   -WhatIf
+       Describe what would happen if you executed the command without actually executing it.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Remove-CIMSession:<span class="code"> <b>rcms</b></span></p>
+<p><b>Examples</b></p>
+<p>Remove all the CIM sessions:</p>
+<p><span class="code">PS C:\&gt; Get-CimSession | Remove-CimSession</span></p>
+<p>Remove a specific CIM session:</p>
+<p><span class="code">PS C:\&gt; Remove-CimSession -Id 64</span><br>
+<br>
+Show a list of CIM sessions to remove by using the -WhatIf parameter:</p>
+<p class="code">PS C:\&gt; Remove-CimSession -Name a* -WhatIf</p>
+<p>Get all the CIM sessions that have  names that begin with the characters serv:</p>
+<p class="code">PS C:\&gt; Get-CimSession -ComputerName Serv*</p>
+<p>Get a      specific CIM session<span class="code">:<br>
+PS C:\&gt; Get-CimSession -ID 2<br>
+</span></p>
+<p><i class="quote">“There is no abstract art. You must always start with something. Afterward you can remove all traces of reality” ~ Pablo Picasso</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="get-ciminstance.html">Get-CimInstance</a> -  Get a managed resource (storage, network, software etc.)<br>
+<a href="new-cimsession.html">New-CimSession</a> -  Create a CIM session<br>
+<a href="new-cimsessionoption.html">New-CimSessionOption</a> - Specify advanced options for  New-CimSession.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/remove-cimsession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:48 GMT -->
+</html>

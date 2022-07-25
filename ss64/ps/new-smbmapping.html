@@ -1,0 +1,170 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/new-smbmapping.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>New-SmbMapping - PowerShell - SS64.com</title>
+</head><body>
+<!-- #BeginLibraryItem "/Library/head_ps.lbi" -->
+<div id="tnav">
+<ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);">
+<path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path>
+</svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);">
+<path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path>
+</svg></a></li>
+<li>
+<div id="search">
+<form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/">
+</form>
+</div>
+</li>
+</ul>
+</div>
+<!-- #EndLibraryItem -->
+<h1>New-SmbMapping</h1> 
+<p>Create a  mapping to an SMB share. Requires PowerShell 5.0+ and Windows 10<br>
+</p>
+<pre>Syntax
+      New-SmbMapping [[-LocalPath] <i>String</i>] [[-RemotePath] <i>String</i>] [-CimSession <i>CimSession</i>[]]
+         [-HomeFolder] [-Password <i>String</i>] [-Persistent <i>Boolean</i>] [-SaveCredentials] [-ThrottleLimit <i>Int32</i>]
+            [-UserName <i>String</i>] [-whatIf] [-confirm] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -CimSession [<i>CimSession</i>[]]
+       Run the cmdlet in a remote session or on a remote computer.
+       Enter a computer name or a session object, such as the output of a New-CimSession or Get-CimSession cmdlet.
+       The default is the current session on the local computer.
+        
+   -HomeFolder
+       Indicates that the connection is made to the home folder of the user.
+        
+   -LocalPath [<i>String</i>]
+       A local path to which the remote path is mapped.
+       This is not limited to drive letters,any valid string may be used.
+        
+   -Password [<i>String</i>]
+       A password to be used to connect to the SMB share.
+        
+   -Persistent [<i>Boolean</i>]
+       Make this connection persistent.
+        
+   -RemotePath [<i>String</i>]
+       The remote path that will be accessed from this computer.
+        
+   -SaveCredentials
+       Save the credentials provided to use when another mapping to the same SMB server is created.
+        
+   -ThrottleLimit [<i>Int32</i>]
+       The maximum number of concurrent operations that can be established to run the cmdlet.
+       If this parameter is omitted or a value of 0 is entered, then PowerShell will calculate an optimum throttle limit 
+       for the cmdlet based on the number of CIM cmdlets that are running on the computer. The throttle limit applies 
+       only to the current cmdlet, not to the session or to the computer.
+        
+   -UserName [<i>String</i>]
+       The user name to use to connect to the SMB share.
+
+   -whatIf
+       Describe what would happen if you executed the command without
+       actually executing the command.
+
+   -confirm
+       Prompt for confirmation before executing the command.</pre>
+<p>Early versions of this cmdlet were buggy but in PowerShell 5.1+ it is considered more robust than New-PSdrive.</p>
+<p>In <a href="https://support.microsoft.com/sl-si/help/4471218/mapped-network-drive-may-fail-to-reconnect-in-windows-10-version-1809">Q4471218</a> <i>Mapped network drives are displayed as Unavailable when you run the <a href="../nt/net-use.html">NET USE</a></i> command.<br>
+Microsoft's recommendation is to remap them with 
+<span class="code">New-SmbMapping</span></p>
+<p>This cmdlet should be run at a non-<a href="syntax-elevate.html">elevated</a> session - the same privilege as Windows Explorer.</p>
+<p>When a drive mapping is created with <span class="code">New-SmbMapping</span> the new drive will <b>not</b> be visible to any currently running processes (including Windows Explorer) until that process is restarted (or the machine is rebooted)<br>
+The one exception to this is the PowerShell console, all PowerShell sessions on the machine will immediately get the new drive mappings.</p>
+<p>This does mean that <span class="code">New-SmbMapping</span> is not a particularly good choice for use in a user's Logon script, a <a href="../vb/syntax-mapdrive.html">VBScript drive mapping</a> will make the drives visible immediately and also runs around 200 times faster. This faster performance is not because VBScript has some  better SMB coding but simply because  the entire VBScript scripting engine is a fraction of the size compared to PowerShell and so loads faster.</p>
+<p>If you have to run PowerShell for some other purpose, such as installing some software, then mapping a drive with PowerShell will make complete sense as in that case you will be loading the PowerShell engine anyway. In many instances having the drives invisible to other non PowerShell processes may be desirable, you can map the drive, perform the operations and then disconnect with <a href="remove-smbmapping.html">Remove-SmbMapping</a>.</p>
+<p>If a drive map already exists (e.g. H: ) created with NET USE / VBScript / <span class="code">New-SmbMapping</span> / <span class="code">New-PSDrive </span>that must be removed before a new mapping created with <span class="code">New-SmbMapping</span> will succeed.</p>
+<h2>SMB versions</h2>
+<blockquote>
+<table border="1">
+<tr>
+<th>Version</th>
+<th>Available in Windows version:</th>
+<th>Support</th>
+</tr>
+<tr>
+<td><a href="https://techcommunity.microsoft.com/t5/storage-at-microsoft/stop-using-smb1/ba-p/425858">SMB 1</a></td>
+<td>Windows 2000 and WIndows XP</td>
+<td>Samba 1.x <br>
+Windows 10 (1909) removes support for SMB 1.0</td>
+</tr>
+<tr>
+<td>SMB 2</td>
+<td>Windows Server 2008 and Windows Vista SP1 </td>
+<td>Samba 3.6</td>
+</tr>
+<tr>
+<td>SMB 2.1</td>
+<td>Windows Server 2008 R2 and Windows 7 </td>
+<td>Samba 4.0.0</td>
+</tr>
+<tr>
+<td>SMB 3.0</td>
+<td>Windows Server 2012 / 2012 R2<br>
+Windows 8<br></td>
+<td>Samba 4.2</td>
+</tr>
+<tr>
+<td>SMB 3.02 </td>
+<td>Windows 8.1 / Windows 2012 R2</td>
+<td>partial <a href="https://wiki.samba.org/index.php/SMB3_kernel_status#SMB_3.0">see wiki</a></td>
+</tr>
+<tr>
+<td>SMB 3.11</td>
+<td>Windows 10 / Windows 2016</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+</blockquote>
+<p><b>Examples</b></p>
+<p>Create an SMB mapping:</p>
+<pre>PS C:\&gt; New-SmbMapping -LocalPath 'X:' -RemotePath '\\Server64\Germany' -persistent $True
+
+  Status            Local Path         Remote Path 
+  ------            ----------         ----------- 
+  OK                X:                 \\Server64\Germany</pre>
+<p>Create an SMB mapping with a <a href="try.html">try/catch</a> to report any error:<br>
+</p>
+<pre>try {
+     New-SmbMapping -LocalPath 'X:' -RemotePath '\\Server64\Germany' -Persistent $True
+    } catch {
+     Write-Host "There was an error mapping X: to \\Server64\Germany"
+}</pre>
+<p><i class="quote">&ldquo;Eventually everything connects - people, ideas, objects... the quality of the connections is the key to quality per se&rdquo; ~ Charles Eames attr.</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="new-psdrive.html">New-PSDrive</a> - Create a mapped network drive (Windows 7).<br>
+<a href="get-smbmapping.html">Get-SmbMapping</a> -  Get Mapped SMB drives.<br>
+Get-SmbConnection - Retrieve the connections established from the SMB client to any SMB servers.<br>
+<a href="remove-smbmapping.html">Remove-SmbMapping</a> - Remove an SMB Mapping.<br>
+VBScript <a href="syntax-mapdrive.html">MapDrive</a> - Map a Drive letter to a network file share.<br>
+Windows cmd command: <a href="../nt/net-use.html">NET USE</a><a href="../nt/sc.html"></a> - Map drive.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/new-smbmapping.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+</html>

@@ -1,0 +1,92 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-backup-check.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:57 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Check Backup files - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> How-to: Check Backup files</h1> 
+<p>The script below can be used to check multiple locations for files that have changed in the last 24 hours. </p>
+<p>If used to check backup files, be aware that this is not checking that the backup completed successfully, just that it generated an output file. Use it to check that your backup software isn&rsquo;t reporting successful backups when in fact they may have failed or the backup file could have been deleted in error.</p>
+<pre># check-backups.ps1
+
+$now=Get-Date -format "<a href="syntax-dateformats.html">yyyy-MM-dd HH:mm</a>"
+Echo "_______________________"
+Echo " "
+Echo "Backups completed -- $now"
+Echo "_______________________"
+Echo ""
+
+   # Edit the names and paths below:
+$hash = @{
+"System 1      " = "\\svr-system-01\e$\backups\";
+"System 2      " = "\\svr-system-02\d$\backups\";
+"DataWarehouse " = "\\svr-dw-02\e$\backups\";
+"HR database   " = "\\svr-ora-01\e$\backups\";
+"Stock control " = "\\svr-ora-02\f$\backups\";
+"EPR           " = "\\svr-sybase-12\e$\backups\";
+}
+
+$results = @{}
+$grandTotal = 0
+
+$hash.keys | sort | foreach {
+   # Add up the size of all backup files &lt; 24 hours old   
+   $total = get-childitem $hash.item($_) -recurse | where{$_.LastWriteTime -gt ((get-date).adddays(-1))} | measure-object -property length -sum
+
+   # Store the results (in another hash table)
+   $results.add($_,[math]::Round($total.sum/1mb))
+
+   # Add to the grand total
+   $grandTotal = $grandTotal + $total.sum
+}
+
+# display results
+# $results.keys | Sort |foreach {"$_ " + $results[$_]} | ft @{label="Backup";expression='name';alignment='left';width=15},@{label="MB";expression='value';alignment='right';width=7}
+
+$results | Sort | ft @{label="Backup";expression='name';alignment='left';width=15},@{label="MB";expression='value';alignment='right';width=7}
+
+# build email body
+$mailBody = "Backups completed: $now`r`n`r`n"
+
+$results.keys | sort | foreach {
+   # Left pad with spaces and keep the rightmost 7 digits (up to 9999 GB)
+   $size = "       " + $results[$_]
+   $size = $size.substring($size.length - 7, 7)
+   $mailBody = $mailBody + "$_ " + $size + " MB `r`n"
+}
+
+$mailBody = $mailBody + "`r`nTotal: " + [math]::Round($grandTotal/1gb) + " GB `r`n"
+
+# email the results
+send-mailmessage fred@example.com,IT_ops@example.com "Backup report" -body $mailBody -from fred@example.com -SmtpServer svr-mail01</pre>
+<p class="quote"><i>&ldquo;The difference between false memories and true ones is the same as for jewels: it is always the false ones that look the most real, the most brilliant&rdquo; ~ Salvador Dalí</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="syntax-hash-tables.html">Hash tables</a><br>
+<a href="../sql/syntax-backup-check.html">SQL Server backup check</a> - check  database backups within the last 24 hours.<br>
+<a href="syntax-diskspace.html">Get-DiskSpace</a> - List the free disk space for multiple computers.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-backup-check.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:57 GMT -->
+</html>

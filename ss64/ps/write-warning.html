@@ -1,0 +1,87 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/write-warning.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:10 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Write-Warning - PowerShell - SS64.com</title>
+<style>
+.reverse {color: #F4F621; background-color:black;}
+</style>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Write-Warning</h1> 
+<p><span class="space">Write a warning string (3) in</span> <span class="reverse">reverse video</span> to <span class="space"> the display</span></p>
+<pre>Syntax
+      Write-Warning [-message] <i>string</i> [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -message <i>string</i>
+       The warning message to send to the host.
+       {may be piped}</pre>
+<p>The <a href="common.html"><span class="code">-WarningAction</span></a> common parameter may be used to supress the appearance of warnings. <br>
+When <span class="code">-WarningAction</span> is not specified, the default is determined by  the preference variable.</p>
+<p>The user's <span class="code"><a href="syntax-preference.html">$WarningPreference</a></span> variable determines whether the message you provide to      Write-Warning is displayed at the expected point in a script's operation. The default value of this      variable is <span class="code">Continue</span>, so by default, warning messages are shown.</p>
+<h2>Warning Sound/Beep</h2>
+<blockquote>
+<p>You can also play an Alert Sound/Beep  with <span class="code">[console]::Beep</span> (via <a href="https://community.idera.com/database-tools/powershell/powertips/b/tips/posts/playing-sounds">Idera</a>)</p>
+<p class="code">$frequency = 800 <br>
+$durationMS = 2000 <br>
+[console]::Beep($frequency, $durationMS)</p>
+</blockquote>
+<p><b>Examples</b></p>
+<p>Write a warning message:</p>
+<p class="code"> PS C:\&gt; Write-Warning &quot;The quick brown fox.&quot;<br>
+The quick brown fox.</p>
+<p> Pipe a string to Write-Warning:</p>
+<p class="code">PS C:\&gt; $myString = &quot;This is a test warning.&quot;<br>
+PS C:\&gt; $myString | Write-Warning<br>
+This is a test warning.</p>
+<p>Set the $WarningPreference variable so that Write-Warning will stop execution:</p>
+<pre class="code">PS C:\&gt; $warningpreference = "Stop"
+PS C:\&gt; Write-Warning "This is a test warning."
+WARNING: This is a test message. 
+Write-Warning : Command execution stopped because the shell variable "WarningPreference" is set to Stop. 
+At line:1 char:14
+     + Write-Warning <<<<  "This is a test message."
+</pre>
+<p> Show the effect of the <span class="code">-WarningAction</span> common parameter on Write-Warning:<span class="code"><br>
+</span></p>
+<pre class="code">
+PS C:\&gt; Write-Warning "This is a test warning." -WarningAction Inquire
+WARNING: This is a test warning. 
+Confirm
+Continue with this operation? 
+ [Y] Yes  [A] Yes to All  [H] Halt Command  [S] Suspend  [?] Help (default is "Y"):</pre>
+<p class="quote"><i>&ldquo;History is a vast early warning system&rdquo; ~ Norman Cousins</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="write-debug.html">Write-Debug</a> - Write a debug message to the host display.<br>
+<a href="write-error.html">Write-Error</a> - Write an object to the error pipeline.<br>
+<a href="write-host.html">Write-Host</a> - Display objects through the host user interface.<br>
+<a href="write-error.html">Write-Information</a> - Write to the information data stream (6).<br>
+<a href="write-output.html">Write-Output</a> - Write an object to the pipeline.<br> 
+<a href="write-progress.html">Write-Progress</a> -  Display a progress bar.<br>
+<a href="write-verbose.html">Write-Verbose</a> - Write a string to the host&rsquo;s verbose display.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/write-warning.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:10 GMT -->
+</html>

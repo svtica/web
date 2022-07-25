@@ -1,0 +1,236 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/mysql/variables.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:42 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>MySQL Variables</title>
+<meta name="Description" content="MySQL Variables">
+<link rel="alternate" type="application/rss+xml" title="RSS" href="../rss.xml">
+<style>
+#sql {color: #0099ff;}
+</style>
+</head>
+<body>
+<div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="../databases.html">Databases <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div>
+<h1><span id="sql">MySql</span> variables</h1>
+<pre>Syntax
+
+      --variable-name=<i>value</i>
+</pre>
+<blockquote>
+<table>
+<tr>
+<th>andbooleanoptions{FALSE|TRUE}</th>
+<th>Value(afterreadingoptions)</th>
+</tr>
+<tr>
+<td class="code">auto-rehash</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td class="code">character-sets-dir</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">column-type-info</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">comments</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">compress</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">debug-check</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">debug-info</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">database</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">default-character-set</td>
+<td>latin1</td>
+</tr>
+<tr>
+<td class="code">delimiter</td>
+<td>;</td>
+</tr>
+<tr>
+<td class="code">vertical</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">force</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">named-commands</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">ignore-spaces</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">local-infile</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">no-beep</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">host</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">html</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">xml</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">line-numbers</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td class="code">unbuffered</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">column-names</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td class="code">sigint-ignore</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">port</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="code">prompt</td>
+<td>mysql&gt;</td>
+</tr>
+<tr>
+<td class="code">quick</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">raw</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">reconnect</td>
+<td>TRUE</td>
+</tr>
+<tr>
+<td class="code">shared-memory-base-name</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">socket</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">ssl</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">ssl-ca</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">ssl-capath</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">ssl-cert</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">ssl-cipher</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">ssl-key</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">ssl-verify-server-cert</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">table</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">user</td>
+<td>(Nodefaultvalue)</td>
+</tr>
+<tr>
+<td class="code">safe-updates</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">i-am-a-dummy</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">connect_timeout</td>
+<td>0</td>
+</tr>
+<tr>
+<td class="code">max_allowed_packet</td>
+<td>16777216</td>
+</tr>
+<tr>
+<td class="code">net_buffer_length</td>
+<td>16384</td>
+</tr>
+<tr>
+<td class="code">select_limit</td>
+<td>1000</td>
+</tr>
+<tr>
+<td class="code">max_join_size</td>
+<td>1000000</td>
+</tr>
+<tr>
+<td class="code">secure-auth</td>
+<td>FALSE</td>
+</tr>
+<tr>
+<td class="code">show-warnings</td>
+<td>FALSE</td>
+</tr>
+</table></blockquote>
+<p><b>Related:</b></p>
+<p><a href="index-2.html">MySQL command line</a></p><!-- #BeginLibraryItem "/Library/foot_menu.lbi" --><hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/mysql/variables.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:42 GMT -->
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/syntax-fonts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:53 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="Globally replace the Font on all Access forms. The best choice of font for MS Access will depend on the availability of ClearType.">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Replace Form Font - Access - SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Globally replace the Font on all Access  forms.
+</h1>
+<p>Problematic fonts in MS Access.</p>
+<blockquote>
+<p>In Windows 7,  the  bitmap fonts <i>MS Sans Serif</i>, <i>MS Serif</i> and <i>Courier</i> will not  resize to match the  per-user <a href="../nt/syntax-dpi.html">DPI setting</a>, This is because the size of bitmap fonts is set (and fixed) during setup, which can cause <a href="https://blogs.msdn.microsoft.com/developingfordynamicsgp/2009/11/24/windows-7-bitmap-fonts-and-microsoft-dynamics-gp/">unexpected</a> results.<br>
+In Windows 10 the <i>MS Sans Serif</i> font is no longer supplied,  if you have existing databases that use the font they will have an automatic fallback but you may prefer to change the font to a known value.</p>
+<p>In Access 2010 ClearType is defaulted to ON even if disabled in the OS (<a href="https://superuser.com/questions/405066/what-are-all-the-places-where-cleartype-can-be-disabled"><span class="code">RespectSystemFontSmooth</span></a>)<br>
+In Access 2013 and 2016
+ClearType is disabled due to incompatibility with tablets (which can be rotated) <br>
+ This means that fonts from the ClearType font collection (<i>Calibri</i>, <i>Cambria</i> etc) will not look as good in Office 2013 or 2016.</p>
+</blockquote>
+<p> Replace fonts in bulk:</p>
+<blockquote>
+<p>To replace the  font used in an existing database, the code below can be used to globally replace it with a suitable True Type font such as <i>Microsoft Sans Serif</i>, <i>Arial</i> or <i>Verdana</i>.</p>
+</blockquote>
+<pre>Public Sub UpdateFonts()
+On Error Resume Next
+
+' Warning: this will globally change the selected font across all forms in the database.
+' It is strongly recommended that you backup the database before running.
+
+Dim dbs As Object
+Dim obj As AccessObject
+Dim frm As Form
+Dim ctl As Control
+
+Set dbs = Application.CurrentProject
+' Loop through the AllForms collection.
+For Each obj In dbs.AllForms
+    DoCmd.OpenForm obj.name, acDesign
+    Set frm = Forms(obj.name)
+
+    ' Loop through the controls on each form
+    For Each ctl In frm.Controls
+
+        ' Change the Font of text boxes etc
+        If ctl.ControlType = acTextBox Or ctl.ControlType = acComboBox Or ctl.ControlType = acListBox Or ctl.ControlType = acLabel Then
+            If ctl.FontName = &quot;<b>MS Sans Serif</b>&quot; Then
+                ctl.FontName = &quot;<b>Microsoft Sans Serif</b>&quot;
+            End If
+        End If
+    Next
+    
+    Set ctl = Nothing
+
+    ' Save the form
+    DoCmd.Close acForm, obj.name, acSaveYes
+
+Next obj
+End Sub</pre>
+<p class="quote"><i>&quot;Type design is one of the most visible and widespread forms of graphic expression in daily life. It is still not noticed by all readers of newspapers, magazines or books. Nevertheless letter forms reflect the style of a period, and its cultural background. We are surrounded by them everywhere&quot; ~ Hermann Zapf</i></p>
+<p><b>Related</b></p>
+<p><a href="https://support.microsoft.com/kb/2396756">Q2396756</a> - Applications using Bitmap Font &amp; DPI<br>
+<a href="../nt/syntax-dpi.html">DPI display settings </a></p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/syntax-fonts.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:53 GMT -->
+</html>

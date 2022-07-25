@@ -1,0 +1,206 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/syntax-permissions.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:50 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Permissions and Privileges for files and folders - Windows CMD - SS64.com</title>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Set Permissions and Privileges for files and folders</h1>
+<p>Permissions can be set on Files and Folders with <a href="cacls.html">CACLS</a> 
+  or <a href="xcacls.html">XCACLS</a>.<br>
+<br>
+There are 4 <a href="syntax-groups.html">types of group</a>: Local Machine, 
+   Local Domain, 
+    Global Domain, 
+Universal</p>
+<h2>Create Local Users and Local Groups</h2>
+<blockquote>
+<p>Control Panel - admin tools - computer management - local users 
+  and groups <br>
+( not available on a Domain Controller )</p>
+<pre>or from the command line...
+<a href="net-useradmin.html">NET localgroup</a> </pre>
+</blockquote>
+<h2>Create Global Domain groups and Local Domain groups </h2>
+<blockquote>
+<p>Control Panel - admin tools - Active directory users and computers 
+- Users </p>
+<pre>or from the command line...
+<a href="net-useradmin.html">NET localgroup</a> /domain
+<a href="net-useradmin.html">NET group</a> /domain</pre>
+</blockquote>
+<h2>Permissions that can be assigned</h2>
+<blockquote>
+<p>Permissions can be assigned to individual users or to groups. If a user has no rights to the files in a folder, then the security tab in the GUI 
+  will not appear (if you have no rights to even list the file names then you 
+  have no rights to list the security attributes either.) <br>
+<br>
+<i>Ownership</i> of a file will override all access permissions - administrators can 
+  take ownership of any file. <a href="subinacl.html">SUBINACL</a> can change 
+ownership from the command line.</p>
+<p> Newly created files will be <i>owned</i> by the account used to create them (unless 
+the account is an administrator).</p>
+</blockquote>
+<h2>Summary attributes:</h2>
+<blockquote>
+<table border="1">
+<tbody>
+<tr>
+<th>Friendly name</th>
+<th>Access mask</th>
+<th>Inheritance</th>
+</tr>
+<tr>
+<td><b>Full control</b><br>
+= Administer + Read/Write/Edit/Execute/Delete</td>
+<td>FILE_ALL_ACCESS</td>
+<td><span class="code">(OI)(CI)</span><br>
+OBJECT_INHERIT_ACE + CONTAINER_INHERIT_ACE</td>
+</tr>
+<tr>
+<td><b>Modify</b><br>
+= Read/Write/Edit/Execute/Delete</td>
+<td>FILE_GENERIC_READ | FILE_GENERIC_WRITE |     FILE_GENERIC_EXECUTE | DELETE</td>
+<td><span class="code">(OI)(CI)</span><br>
+OBJECT_INHERIT_ACE + CONTAINER_INHERIT_ACE</td>
+</tr>
+<tr>
+<td><b>Read</b> and <b>Execute</b></td>
+<td>FILE_GENERIC_READ | FILE_GENERIC_EXECUTE</td>
+<td><span class="code">(OI)(CI)</span><br>
+OBJECT_INHERIT_ACE + CONTAINER_INHERIT_ACE</td>
+</tr>
+<tr>
+<td><b>List</b> folder contents</td>
+<td>FILE_GENERIC_READ | FILE_GENERIC_EXECUTE</td>
+<td><span class="code">(CI)</span><br>
+CONTAINER_INHERIT_ACE</td>
+</tr>
+<tr>
+<td><b>Read</b></td>
+<td>FILE_GENERIC_READ</td>
+<td><span class="code">(OI)(CI)</span><br>
+OBJECT_INHERIT_ACE + CONTAINER_INHERIT_ACE</td>
+</tr>
+<tr>
+<td><b>Write</b></td>
+<td>FILE_GENERIC_WRITE &amp; READ_CONTROL</td>
+<td><span class="code">(OI)(CI)</span><br>
+OBJECT_INHERIT_ACE + CONTAINER_INHERIT_ACE</td>
+</tr>
+</tbody>
+</table></blockquote>
+<h2>Advanced view:</h2>
+<blockquote>
+<table border="1">
+<tbody>
+<tr>
+<th>Friendly name</th>
+<th>Access mask</th>
+</tr>
+<tr>
+<td>Traverse Folder / Execute File</td>
+<td>FILE_TRAVERSE &amp; FILE_EXECUTE</td>
+</tr>
+<tr>
+<td>List Folder / Read Data</td>
+<td>FILE_LIST_DIRECTORY &amp; FILE_READ_DATA</td>
+</tr>
+<tr>
+<td>Read Attributes</td>
+<td>FILE_READ_ATTRIBUTES</td>
+</tr>
+<tr>
+<td>Read Extended Attriibutes</td>
+<td>FILE_READ_EA</td>
+</tr>
+<tr>
+<td>Create Files / Write Data</td>
+<td>FILE_ADD_FILE &amp; FILE_WRITE_DATA</td>
+</tr>
+<tr>
+<td>Create Folders / Append Data</td>
+<td>FILE_ADD_SUBDIRECTORY &amp; FILE_APPEND_DATA</td>
+</tr>
+<tr>
+<td>Write Attributes</td>
+<td>FILE_WRITE_ATTRIBUTES</td>
+</tr>
+<tr>
+<td>Write Extended Attributes</td>
+<td>FILE_WRITE_EA</td>
+</tr>
+<tr>
+<td>Delete Subfolders and Files *</td>
+<td>FILE_DELETE_CHILD</td>
+</tr>
+<tr>
+<td>Delete *</td>
+<td>FILE_DELETE</td>
+</tr>
+<tr>
+<td>Read Permissions</td>
+<td>READ_CONTROL</td>
+</tr>
+<tr>
+<td>Change Permissions</td>
+<td>WRITE_DAC</td>
+</tr>
+<tr>
+<td>Take Ownership</td>
+<td>WRITE_OWNER</td>
+</tr>
+</tbody>
+</table>
+<p>*  “Delete Subfolders and Files” vs “Delete” <br>
+You can delete a file or subdirectory if you have either <span class="code">DELETE</span> permission on the item or  <span class="code">DELETE_CHILD</span> permission on its parent. </p>
+<p>To set up a directory where everybody can create files and can delete files that they have created, while still retaining the ability of an administrator/manager to delete any file:<br>
+Grant the <span class="code">DELETE_CHILD</span> permission on the directory to the administrator/manager and also grant <span class="code">DELETE</span> to <span class="code">CREATOR_OWNER</span> as an inheritable attribute. <br>
+Each user who creates a new file will automatically become the creator/owner of that file and so will inherit the right to <span class="code">DELETE</span> it.</p>
+</blockquote>
+<h2> 
+Best Practice</h2>
+<blockquote>
+<p>A recommended  arrangement is to assign file and print permissions with one set of groups (Resources), and assign user membership with a separate set of groups (Teams), then assign rights 
+  by making each team group a member of the relevant resource group(s).</p>
+<p>  Advantages<br>
+  - No duplication of file ACLs no matter how many teams are granted access to the folder - this reduces the size of the File Allocation Table - less fragmentation of the FAT will improve file server performance.<br>
+- Avoid  problems where an ACL change fails because some files are open/in use, with this arrangement, most administrative changes can be made by adding and removing Users from Team groups  rather than editing ACL's on disk.<br>
+  - You can view/audit all permissions in Active Directory without having to search through 
+millions of file ACLs - this makes auditing easier.</p>
+</blockquote>
+<p class="quote"><i>&ldquo;Of manners gentle, of affections mild; In wit a man, simplicity a child&rdquo; - Alexander Pope</i></p>
+<p><b>See also</b></p>
+<p class="space"><a href="syntax-groups.html">Groups</a> - Full description of AD Local Domain groups, Global and Universal groups.<br>
+<a href="syntax-security_groups.html">Built-in Groups</a> - Built-In Users and Security Groups.<br>
+<a href="https://docs.microsoft.com/en-us/windows/win32/fileio/file-security-and-access-rights">File Security and Access Rights</a> - docs.microsoft.com<br>
+<a href="https://web.archive.org/web/20120327173217/https://support.microsoft.com/kb/271876">Q271876</a> - Large Numbers of ACEs in ACLs Impair Directory Service Performance (slow logon times) <br>
+<a href="https://support.microsoft.com/en-us/help/909264/">Q909264</a> - Naming conventions in Active Directory for computers, domains, sites, and OUs.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/syntax-permissions.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:50 GMT -->
+</html>

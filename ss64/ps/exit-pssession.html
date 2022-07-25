@@ -1,0 +1,65 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/exit-pssession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:59 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Exit-PSSession - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Exit-PSSession</h1> 
+<p>End an interactive PowerShell session (with a local or remote computer).</p>
+<pre>Syntax
+      Exit-PSSession [<i><a href="common.html">CommonParameters</a></i>] <i>ErrorLevel</i>
+
+Key</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Exit-PSSession:<span class="code"> exsn</span> and <span class="code">exit</span></p>
+<p>This cmdlet should not be confused with the exit statement in other languages which can exit a <a href="syntax-functions.html">function</a> and <a href="return.html">return</a> to the caller. Exit-PSSession will always terminate the current script, or at an  interactive PowerShell prompt, will exit the entire PowerShell session. <br>
+To  stop script execution use <a href="break.html"><span class="code">break</span></a>.</p>
+<h2>Exit Codes</h2>
+<blockquote>
+<p>In PowerShell<span class="code"> $? </span>contains <span class="code">True</span> if last operation succeeded and <span class="code">False</span> otherwise.</p>
+<p>The exit code of the last Win32 executable execution is stored in the automatic variable <span class="code">$LASTEXITCODE</span></p>
+<p>To read exit codes (other than 0 or 1) launch the PowerShell script and return the <span class="code">$LASTEXITCODE</span> in a single line like this:</p>
+<p><span class="code"><a href="powershell.html">powershell.exe</a> -noprofile C:\scripts\script.ps1; exit $LASTEXITCODE</span></p>
+</blockquote>
+<p><b>Examples</b></p>
+<p>Start and then stop an interactive session with the Server64 remote computer: </p>
+<pre>PS C:&gt; Enter-PSSession -computername Server64<br>Server01\PS&gt; Exit-PSSession</pre>
+<p>Start and stop an interactive session with  Server64, the status of the PSSession shows that the session is still available when the interactive session ends.:</p>
+<pre>PS C:&gt; $sess = new-pssession -computername Server64<br>C:\PS&gt; Enter-PSSession -session $sess<br>Server01\PS&gt; Exit-PSSession<br>C:\PS&gt; $sess<br>    <br>    Id Name            ComputerName    State    ConfigurationName<br>    -- ----            ------------    -----    -----------------<br>    1  Session1        Server64        Opened   Microsoft.PowerShell</pre>
+<p>Note that if <span class="code">Enter-PSSession -ComputerName</span> is used (instead of new-psSession), then Enter-PSSession would have automatically created a temporary session that would close as soon as the interactive session ends.</p>
+<p>Start PowerShell.exe and run a cmdlet and exit returning an ErrorLevel back to the calling shell (in this case CMD.exe)</p>
+<p><span class="code">C:\&gt; powershell.exe -noprofile -command get-process; Exit-PSSession 64 </span><br>
+<span class="code">C:\&gt; Echo %ERRORLEVEL%<br>
+64 
+</span></p>
+<p class="quote"><i>“Every exit is an entrance somewhere else” ~ Tom Stoppard</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><span class="space"><a href="enter-pssession.html">Enter-PSSession</a> - Start an interactive session with a remote computer.<br>
+<a href="disconnect-pssession.html">Disconnect-PSSession</a> - Disconnect from a session.<br>
+<a href="remove-pssession.html">Remove-PSSession</a> -     Close PowerShell sessions (non-interactive).</span><br>
+</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/exit-pssession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:59 GMT -->
+</html>

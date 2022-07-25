@@ -1,0 +1,184 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/common.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:59 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Common Parameters - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Common Parameters</h1>
+<p>The common parameters are a set of cmdlet parameters that you can use with <i>any</i> cmdlet. They're implemented by PowerShell, not by the cmdlet developer, and so they are automatically available to any cmdlet.</p>
+<p>The 11 common parameters  with their aliases  in parentheses:</p>
+<blockquote>
+<p> -Debug (-db)<br>
+-ErrorAction (-ea) <br>
+-ErrorVariable (-ev)<br>
+-InformationAction (-infa)<br>
+-InformationVariable (-iv)     <br>
+-OutBuffer (-ob)     <br>
+-OutVariable (-ov) <br>
+ -PipelineVariable (-pv)     <br>
+-Verbose (-vb)     <br>
+-WarningAction (-wa)     <br>
+-WarningVariable (-wv)</p>
+</blockquote>
+<p> Full details below with default values underlined.</p>
+<pre>
+   -Debug         Provide programming-level information about the operation [boolean]
+                  $true (-Debug:$true). Has the same effect as -Debug.
+                  By default, debugging messages aren't displayed because the value of the <a href="syntax-preference.html">$DebugPreference</a>
+                  variable is <u>SilentlyContinue</u>.
+                  In interactive mode, the Debug parameter overrides the value of the $DebugPreference variable
+                  for the current command, setting the value of $DebugPreference to Inquire.
+                  In non-interactive mode, the Debug parameter overrides the value of the $DebugPreference variable
+                  for the current command, setting the value of $DebugPreference to Continue.
+
+                  -Debug:$true has the same effect as -Debug.
+                  Use -Debug:$false to suppress the display of debugging messages when $DebugPreference isn't
+                  SilentlyContinue, which is the default.
+
+   -ErrorAction   Control command behavior when an error occurs [enum]
+                  Valid values: <u>Continue</u> , Stop, Suspend, SilentlyContinue, Ignore, Inquire. [Enum]
+                  e.g. -EA SilentlyContinue  will supress errors from being printed to stderr.
+
+                  The -SilentlyContinue option will cause any <b>Throw</b> statement to be completely ignored.
+                  This can be mitigated by using <a href="try.html">Try/Catch</a> or by adding a <a href="trap.html">trap {}</a> statement to trap the error.
+                  [ Set a default with the optional <a href="syntax-preference.html">Preference Variable</a> <b>$ErrorActionPreference</b> = Continue ]
+
+   -ErrorVariable Name of variable (in addition to $error) in which 
+                  to place objects to which an error has occurred [string]
+
+   -InformationAction
+                  Override the value of the $InformationPreference <a href="syntax-preference.html">preference variable</a>.
+                  Valid values: <u>SilentlyContinue</u>, Stop, Continue, Inquire, Ignore, Suspend 
+                  [ Set a default with the optional <a href="syntax-preference.html">Preference Variable</a> <b>$InformationPreference</b> = SilentlyContinue ]
+
+   -InformationVariable [+]<i>variable_name</i>    
+                  Store into a variable a string that you specify with Write-Information. 
+                  PowerShell 5.0+
+
+   -OutBuffer     The number of objects to buffer before calling the next 
+                  cmdlet in the pipeline.[Int32]
+                          
+   -OutVariable   Name of variable in which to place output objects [string]
+                  (equivalent to piping the command Set-Variable -passthru true)
+
+   -PipelineVariable
+                  Stores the value of the current pipeline element as a variable, for
+                  any named command as it flows through the pipeline.
+                  Valid values are strings, the same as for any variable names.
+
+   -Verbose       Provide detailed information about the operation [boolean]
+                    $true (-Verbose:$true) has the same effect as -Verbose.
+                    $false (-Verbose:$false)
+                  [ Set a default with the optional <a href="syntax-preference.html">Preference Variable</a> <b>$VerbosePreference</b> = $True ]
+
+   -WarningAction Determines how the cmdlet responds to a warning from the command.
+                  This parameter works only when the command generates a warning message.
+                  For example when a command contains the <a href="write-warning.html">Write-Warning</a> cmdlet.
+
+                  -WarningAction:<b>Continue</b>
+                  Display the warning messages and continues executing the command. Continue is the default.
+
+                  -WarningAction:<b>SilentlyContinue</b>
+                  Suppress the warning message and continue executing the command.
+
+                  -WarningAction:<b>Inquire</b>
+                  Display the warning message and prompts you for confirmation before continuing execution.
+                  This value is rarely used.
+
+                  -WarningAction:<b>Stop</b>
+                  Display the warning message and stop executing the command.
+                     <span class="code"><u>Continue</u>, SilentlyContinue, Inquire, Stop</span>
+                  [ Set a default with the optional Preference Variable <b>$WarningPreference</b> = Continue ]
+
+   -WarningVariable
+                  Stores warnings about the command in the specified variable. (<b>wv</b>)
+                  All generated warnings are saved in the variable even if the
+                  warnings are not displayed to the user.
+                  To append the warnings to the variable content, instead of replacing
+                  any warnings that might already be stored there, type a plus sign (+)
+                  before the variable name.  -WarningVariable +myvar
+
+   -Write-Information
+                  values are shown depending on the value of the -InformationAction
+                  common parameter; if you do not add the -InformationAction common parameter,
+                  Write-Information strings are shown depending on the value of the $InformationPreference</pre>
+<blockquote>
+<p>An Error Variable can be useful for logging errors as part of a pipeline process i.e. when only a few out of many items may fail:</p>
+<p class="code">some-pscmdlet | foreach <b>{</b><br>
+&nbsp;&nbsp;another-pscmdlet -options blah <b>-ErrorVariable</b> ErrFlag<br>
+&nbsp;&nbsp;if ($ErrFlag) {  Echo &quot;$_.name failed&quot; }<br>
+<b>}</b></p>
+</blockquote>
+<h2>Risk Mitigation Parameters</h2>
+<blockquote>
+<p>In addition to the common parameters, many cmdlets offer risk mitigation parameters. Cmdlets that involve risk to the system or to user data usually offer these two parameters:</p>
+<blockquote>
+<p>      -Confirm (-cf)<br>
+-WhatIf (-wi)</p>
+</blockquote>
+</blockquote>
+<pre>
+   -Confirm       Prompt the user for permission before performing any action that
+                  modifies the system.[boolean] (<b>cf</b>)
+                  -Confirm:$false or -Confirm:$true<br>                  [ Set a default with the optional <a href="syntax-preference.html">Preference Variable</a> <b>$ConfirmPreference</b> = $true ]
+
+   -WhatIf        Explain what will happen if the command is executed, without actually
+                  executing the command.[boolean] (<b>wi</b>)
+                  -whatif:$false or -whatif:$true
+                  [ Set a default with the optional <a href="syntax-preference.html">Preference Variable</a> <b>$WhatIfPreference</b> = 0 ]</pre>
+<blockquote>
+<p>The <span class="code">-confirm</span> parameter allows dropping into the runtime command line while running a PowerShell  scriptCmdlet:<br>
+The confirmation prompt is<span class="code"> [Y] Yes [A] All [N] No [L] No to all [S] Suspend</span><br>
+choosing S will drop you at the command prompt where you can echo variables, make changes etc before typing EXIT to resume running the scriptCmdlet.</p>
+</blockquote>
+<h2>Default values</h2>
+<blockquote>
+<p>Other than where stated above, none of the common parameters have a defined default value, so they will evaluate as FALSE.</p>
+<p>You can set a default value, for the duration of a script or a session using a <a href="syntax-preference.html">Preference Variable</a> (or <span class="code">$PSDefaultParameterValues</span>), for example you could set the value of the <span class="code">WhatIf</span> preference to TRUE and this will affect every subsequent cmdlet called:</p>
+<p class="code">PS C:\demo\&gt; $WhatIfPreference=$true<br>
+PS C:\demo\&gt; new-item 'Testing'<br>
+What if: Performing the operation &quot;create File&quot; on target &quot;Destination: C:\demo\Testing&quot;
+<br>
+</p>
+<p>The <span class="code">$PSDefaultParameterValues</span> preference variable lets you specify custom default values for any cmdlet or advanced function, see <span class="code">Help about_Parameters_Default_Values</span> for more.</p>
+<p>Any Preference Variable  values that you set will be specific to the current PowerShell session. To make variables effective in all PowerShell sessions, add them to your <a href="syntax-profile.html">PowerShell profile</a>.</p>
+</blockquote>
+<p>Some common parameters may have no effect in some cmdlets, this does not raise an error.</p>
+<p><b>Examples</b></p>
+<p><span class="code">PS C:\&gt; Del $somefile -ErrorVariable somevariable</span><br>
+<br>
+Notice that the error variable is not prefixed with a $ here, using <span class="code">$somevariable</span> will not work. </p>
+<p>If  the ErrorVariable  name is prefixed with a <span class="code">+</span> then PowerShell will ADD the errors to that variable:</p>
+<p class="code">PS C:\&gt; Del $somefile -ErrorVariable +somevariable<br>
+PS C:\&gt; $somevariable.count</p>
+<p class="quote"><i>&ldquo;Friendship is born at that moment when one person says to another, What! You, too? I thought I was the only one&rdquo; ~ C. S. Lewis</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="syntax-preference.html">Preference variables</a> - Verbosity, Confirmations, ErrorAction, $Debug<br>
+<a href="syntax-args.html">Parameters</a> - Command Line Parameters  <span class="code">param()</span> and <span class="code">$args[]</span><br>
+<a href="get-help.html">get-help</a>  - Open the help file,  list  parameters for a cmdlet.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/common.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:59 GMT -->
+</html>

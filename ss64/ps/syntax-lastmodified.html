@@ -1,0 +1,92 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-lastmodified.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Reset Folder Last Modified Date/Time - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> How-to: Reset FOLDER Last Modified Date/Time to match the files.</h1> 
+<p>In  NTFS (New Technology File System) many things will update the <b>Last Modified</b> date of a folder to <u>Today/Now</u>:</p>
+<ul>
+<li>Editing a file.</li>
+<li>Copying or moving a new file into the folder.</li>
+<li>Copying the entire folder to a new disk.</li>
+<li> Deleting or Moving a file from the folder.</li>
+<li>Adding or Removing a sub-folder.</li>
+</ul>
+<p>Being aware of such changes to the file system is valuable,  but  when the files have just been restored from a backup or moved to a new disk, the folders (but not the files) will all adopt  dates reflecting the date of that server change. <br>
+It is often far more useful to  reset each folder's date to reflect the date/time of the most recent file it contains.</p>
+<p>The <a href="syntax-functions.html">function</a> below does just that, given a path to a folder it sets the folder <b>Last Modified</b> date to match the age of the newest file, it also recurses through any sub folders and sets those folder dates in the same way.</p>
+<p>Because this has to compare the  <b>Last Modified</b> date of every file, it can take some time to process a very large folder hierarchy.</p>
+<p>When running this you may need to close any Windows Explorer sessions, as they will read and <i>lock </i>the <b>Last Modified</b>  property.</p>
+<pre>
+Function Set-LastWrite {
+    Param (
+        [string] $path
+    )
+
+    # Variable to hold the newest file date/time
+    $default = (Get-Date "01/01/1980 12:30 am")
+    $newest = $default
+
+    # Find the newest item in the folder (-force to include hidden files)
+    Get-ChildItem -Path $path <b>-Exclude &quot;thumbs.db&quot;</b> -Recurse -force | ForEach-Object {
+        if ($_.PSIsContainer) {
+            # Recurse into subfolder
+            Set-LastWrite $_.fullname
+ 
+            # Read the sub folder again in case its LastWriteTime has changed
+            $sub = Get-Item -force -Path $_.fullname
+            if ($sub.LastWriteTime -gt $newest) {
+                $newest = $sub.LastWriteTime
+            }
+        }
+        elseif ($_.LastWriteTime -gt $newest) {
+            $newest = $_.LastWriteTime
+        }
+    }
+
+    # Set the folder last modified date to match the age of the newest item
+    if ($newest -gt $default) {
+        $(Get-Item $path).lastwritetime = $newest
+    }
+    &quot;Done: $path&quot;
+}</pre>
+<p>The file Thumbs.db is an image cache for viewing thumbnails in Windows Explorer, so it has been excluded.</p>
+<p>If you run this code against a large number of files that pre-date the year 2000, you may on occasion run into  year 2000 bugs. It was not uncommon for some 90's era software to write files dates like <span class="code">06/12/97</span><br>
+Those 2 digit years may in some circumstances get translated into <span class="code">06/12/2097</span> and that will propagate up to the folder calculations.</p>
+<p>To display a 4 digit year in <i>Windows  Explorer </i>open Control Panel &gt; Regional Settings &gt; Date format &gt; Short date &gt; <span class="code">YYYY</span><br>
+The <span class="code">Touch</span> script linked below can be used to fix any incorrect dates.</p>
+<p><b>Example:</b></p>
+<p><span class="code"> PS C:\&gt; Set-LastWrite "C:\demo"</span></p>
+<p class="quote"><i>&ldquo;Neither a wise man nor a brave man lies down on the tracks of history to wait for the train of the future to run over him&rdquo; ~ Dwight D. Eisenhower</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="syntax-stampme.html">StampMe</a> - Rename a file with the current Date/Time.<br>
+<a href="syntax-touch.html">Touch</a> - Change the date/time of a file/folder.<br>
+<a href="../nt/robocopy.html">ROBOCOPY</a> - Robust File and Folder Copy (CMD Shell).<br>
+<a href="../nt/syntax-filenames.html">Long Filenames</a> - NTFS long filenames (&gt;260 chars).</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-lastmodified.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:54 GMT -->
+</html>

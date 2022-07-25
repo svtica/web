@@ -1,0 +1,82 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/timeout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Timeout - delay in seconds - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>TIMEOUT.exe</h1>
+<p> Delay execution for a few seconds or minutes, for use within a batch file.</p>
+<pre>Syntax
+      TIMEOUT <i>delay</i> [/nobreak] 
+
+Key
+   <i>delay</i>  Delay in seconds (between -1 and 100000) to wait before continuing. 
+          The value -1 causes the computer to wait indefinitely for a keystroke 
+          (like the PAUSE command)
+
+   /nobreak
+          Ignore user key strokes.</pre>
+<p>Timeout will pause command execution for a number of seconds, 
+after which it continues without requiring a user keystroke. If the user does 
+press a key at any point, execution will resume immediately.
+<p>A timeout of 1 second will wait until the &quot;next second&quot; so in practice may  be as short as 1/10th of a second.
+<p>A more accurate delay can be produced by the <a href="ping.html">PING</a> command with a loopback address (<span class="code">127.0.0.1</span>), there is a delay of 1 second between each consecutive ping, so 3 pings will produce a delay of 2 seconds, 11 pings will produce a delay of 10 seconds and so on. 
+<p>In tests PING consumes less processor  time than Sleep.exe or Timeout.exe, this allows other processes to run in the background. The PING command can only be interrupted  with Ctrl-C. Source: <a href="https://groups.google.com/forum/#!msg/alt.msdos.batch.nt/nSRpfQE-lko/WEWG9aCfSoAJ">Clay Calvert</a> (usenet 2001.)
+<p><b>Examples</b>
+<pre>
+@Echo off
+Echo Start Microsoft Word, wait for 10 seconds and then start Excel.
+<a href="start.html">START</a> &quot;&quot; &quot;C:Program Files (x86)\Microsoft Office\Office16\WINWORD.EXE&quot;
+TIMEOUT /T 10
+<a href="start.html">START</a> &quot;&quot; &quot;C:Program Files (x86)\Microsoft Office\Office16\EXCEL.EXE&quot;
+</pre>
+<p> Set a delay for 40 seconds:<br>
+<span class="code">PING -n 41 127.0.0.1>nul<br>
+Echo Now we are ready</span>
+<pre><span class="body">Wait for <b>up to</b> 600 seconds for a file to appear on a remote server</span>:
+Set _seconds=0
+:waitloop
+  :: Wait for 10 seconds
+  Set /a &quot;_seconds=_seconds+10&quot;>nul
+  <span class="code">PING -n 11 127.0.0.1>nul</span>
+  :: If 600 seconds have elapsed exit the loop
+  if %counter%==600 goto nextstep
+  if not exist \\Server64\updates\monday.csv goto waitloop
+:nextstep 
+copy \\Server64\updates\monday.csv D:\imports\</pre>
+<p class="quote">&ldquo;It is awful work this love and prevents all a mans projects of good or glory&rdquo; ~ Lord Byron </p>
+<b>Related:</b> </pre>
+<p class="space"><span class="code"><a href="choice.html">CHOICE</a> /T <i>Timeout</i></span> - Accept keyboard input to a batch file.<br>
+<a href="pause.html">PAUSE</a> - Suspend processing of a batch file and display a message.<br>
+<a href="sleep.html">SLEEP</a> - Delay execution for a few seconds/minutes (for use within a batch file).<br>
+<a href="waitfor.html">WAITFOR</a> - Wait for or send a signal.<br>
+
+Powershell: <a href="../ps/start-sleep.html">Start-Sleep</a> - Suspend shell, script, or runspace activity (sleep).
+<!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/timeout.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+</html>

@@ -1,0 +1,161 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/register-cimindicationevent.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:45 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Register-CimIndicationEvent - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Register-CimIndicationEvent (PowerShell 3.0+ )</h1> 
+<p>Subscribe to indications using a filter expression or a query expression. Equivalent to the old WMI cmdlet <a href="register-wmievent.html">Register-WmiEvent</a> , the CIM version uses WSMAN (WinRM) to connect to remote machines and is therefore an order of magnitude faster.</p>
+<pre>Syntax
+      Register-CimIndicationEvent [<b>-ClassName</b>] <i>String</i>
+         [[-SourceIdentifier] <i>String</i>] [[-Action] <i>ScriptBlock</i>] 
+            [<b>-ComputerName</b> <i>String</i>] [-Forward] [-MessageData <i>PSObject</i>] 
+               [-Namespace <i>String</i>] [-OperationTimeoutSec <i>UInt32</i>]  [-SupportEvent] [<i><a href="common.html">CommonParameters</a></i>]
+
+      Register-CimIndicationEvent [<b>-ClassName</b>] <i>String</i>
+         [[-SourceIdentifier] <i>String</i>] [[-Action] <i>ScriptBlock</i>] 
+            <b>-CimSession</b> <i>CimSession</i> [-Forward] [-MessageData <i>PSObject</i>] 
+               [-Namespace <i>String</i>] [-OperationTimeoutSec <i>UInt32</i>]  [-SupportEvent] [<i><a href="common.html">CommonParameters</a></i>]
+
+      Register-CimIndicationEvent [<b>-Query</b>] <i>String</i> [-QueryDialect <i>String</i>]
+         [[-SourceIdentifier] <i>String</i>] [[-Action] <i>ScriptBlock</i>] 
+            [<b>-ComputerName</b> <i>String</i>] [-Forward] [-MessageData <i>PSObject</i>]
+               [-Namespace <i>String</i>] [-OperationTimeoutSec <i>UInt32</i>]  [-SupportEvent] [<i><a href="common.html">CommonParameters</a></i>]
+       
+      Register-CimIndicationEvent [<b>-Query</b>] <i>String</i> [-QueryDialect <i>String</i>]
+         [[-SourceIdentifier] <i>String</i>] [[-Action] <i>ScriptBlock</i>]
+            <b>-CimSession</b> <i>CimSession</i> [-Forward]  [-MessageData <i>PSObject</i>] 
+               [-Namespace <i>String</i>] [-OperationTimeoutSec <i>UInt32</i>]  [-SupportEvent] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -Action <i>ScriptBlock</i>
+       Specify the commands that handle the events.
+
+       The commands specified by this parameter run when an event is raised, instead of sending the event to the 
+       event queue. Enclose the commands in braces ( { } ) to create a script block.
+
+       The script block specified with Action can include the $Event, $EventSubscriber, $Sender, $SourceEventArgs, 
+       and $SourceArgs <a href="syntax-automatic-variables.html">automatic variables</a>, which provide information about the event to the Action script block.
+
+   -CimSession <i>CimSession</i>
+       Run the command using the specified CIM session. Enter a variable that contains the CIM session, or a command 
+       that creates or gets the CIM session, such as the New-CimSession or Get-CimSession cmdlets. For more 
+       information, see about_CimSessions.
+
+   -ClassName <i>String</i>
+       The indication class to which you are subscribing. 
+       You can use tab completion to browse the list of classes, because wps_2 gets a list of classes from the 
+       local WMI server to provide a list of class names.
+
+   -ComputerName <i>String</i>
+       The name of the computer on which you want to run the CIM operation.
+       Specify a fully qualified domain name (FQDN), a NetBIOS name, or an IP address.
+
+       If you specify this parameter, the cmdlet creates a temporary session to the specified computer using WsMan.
+
+       If you do not specify this parameter, the cmdlet performs operation on the local system using (COM).
+
+       If multiple operations are being performed on the same computer, connecting using a CIM session gives better 
+        performance.
+
+   -Forward
+       Indicates that events for the subscription are forwarded to the session on the local computer.
+
+       Use this parameter when you are registering for events on a remote computer or in a remote session.
+
+   -MessageData <i>PSObject</i>
+       Specify any additional data to be associated with this event subscription.
+
+       The value of this parameter appears in the MessageData property of all the events associated with this subscription.
+
+   -Namespace <i>String</i>
+       Specify the namespace for the CIM operation.
+       
+       The default namespace is root/cimv2. 
+       You can use tab completion to browse the list of namespaces, because wps_2 gets a list of namespaces 
+       from the local WMI server to provide the list of namespaces.
+
+   -OperationTimeoutSec <i>UInt32</i>
+       Specify the amount of time that the cmdlet waits for a response from the computer.
+
+       By default, the value of this parameter is 0, which means that the cmdlet uses the default timeout value for the server.
+
+       If the -OperationTimeoutSec parameter is set to a value less than the robust connection retry timeout of 3 
+       minutes, network failures that last more than the value of the OperationTimeoutSec parameter are not 
+       recoverable, because the operation on the server times out before the client can reconnect.
+
+   -Query <i>String</i>
+       Specify a query to run on the CIM server.
+
+       You can specify the query dialect using the QueryDialect parameter.
+
+       If the value specified contains double quotes (“), single quotes (‘), or a backslash (\), you must escape 
+       those characters by prefixing them with the backslash (\) character. If the value specified uses the WQL LIKE 
+       operator, then you must escape the following characters by enclosing them in square brackets ([]): percent 
+       (%), underscore (_), or opening square bracket ([).
+
+   -QueryDialect <i>String</i>
+       Specify the query language used for the Query parameter. psdx_paramvaluesWQL or CQL.
+
+       The default value is WQL.
+
+   -SourceIdentifier <i>String</i>
+       Specifies a name for the subscription. The name that you specify must be unique in the current session.
+
+       The default value is a GUID that wps_1 assigns.
+
+       The value of this parameter appears in the value of the SourceIdentifier property of the subscriber object and 
+       of all event objects associated with this subscription.
+
+   -SupportEvent
+       Indicates that the event subscription is hidden.
+
+       Use this parameter when the current subscription is part of a more complex event registration mechanism and it 
+       should not be discovered independently.</pre>
+<p>Standard <a href="get-alias.html">Alias</a> for Register-CimIndicationEvent:<span class="code"> <b>none</b></span></p>
+<p><b>Examples</b></p>
+<p>Use a query to subscribe to an event generated whenever there is a change in the instance of a class named Win32_LocalTime:</p>
+<pre><span class="code">PS C:\&gt; </span>$query = &quot;SELECT * FROM CIM_InstModification WHERE TargetInstance ISA 'Win32_LocalTime'&quot;<br>PS C:\&gt; Register-CimIndicationEvent -Query $query -SourceIdentifier &quot;Timer&quot;</pre>
+<p>Use an action in response to an event, <span class="code">$action</span> holds a script block for Action, using <span class="code">$action</span>, Register-CimIndicationEvent  is then used to subscribe to the event generated by the class named Win32_ProcessStartTrace:</p>
+<p><span class="code">PS C:\&gt; $event = Get-Event</span></p>
+<p><span class="code">PS C:\&gt; $action = {$name = $event.SourceEventArgs.NewEvent.ProcessName; $id = 
+    $event.SourceEventArgs.NewEvent.ProcessId; Write-Host –Object "New Process Started : Name = $name; ID = $id"}</span></p>
+<p><span class="code">PS C:\&gt; Register-CimIndicationEvent -ClassName 'Win32_ProcessStartTrace' -SourceIdentifier "ProcessStarted" -Action 
+    $action</span></p>
+<p>Register the events on a remote computer, events received from the CIM server are stored in the event queue in the current wps_2 session and then runs a local Get-Event to retrieve the events:<br>
+<span class="code">PS C:\&gt; Register-CimIndicationEvent -ClassName 'Win32_ProcessStartTrace' -SourceIdentifier "ProcessStarted" -ComputerName Server64</span></p>
+<p><span class="code">PS C:\&gt; Get-Event -SourceIdentifier &quot;ProcessStarted&quot;</span></p>
+<i class="quote">“There are no other Everglades in the world.<br>
+&nbsp;They are, they have always been, one of the unique regions of the earth; remote, never wholly known. <br>
+&nbsp;Nothing anywhere else is like them” ~ Marjory Stoneman Douglas</i>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><span class="space"><a href="get-event.html">Get-Event</a> - Get events in the PowerShell event queue.<br>
+<a href="remove-event.html">Remove-Event</a> - Delete events from the event queue.<br>
+<a href="unregister-event.html">Unregister-Event</a> - Cancel an event subscription.<br>
+<a href="get-ciminstance.html">Get-CimInstance</a> -  Get a managed resource (storage, network, software etc).</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/register-cimindicationevent.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:45 GMT -->
+</html>

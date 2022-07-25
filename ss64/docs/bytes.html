@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+
+<!-- Mirrored from ss64.com/docs/bytes.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:29 GMT -->
+
+<head>
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>International Units: Bits, Gb, Gib</title>
+<meta charset="UTF-8">
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_docs.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">About <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>International Units : MB/GB or MiB/GiB</h1>
+<p>Standard IEC prefixes and descriptions for binary multiples were introduced in 1998/99 but are still widely misused.</p>
+<h2>Decimal numbers</h2>
+<blockquote>
+<p>Prefixes MB, GB, TB, PB, ...<br>
+Descriptive terms (mega, giga, tera, peta, exa - bytes).  </p>
+</blockquote>
+<h2>Binary numbers (Power of 2)</h2>
+<blockquote>
+<p>Prefixes MiB, GiB,TiB, PiB, EiB, ZiB,YiB<br>
+Descriptive terms  (mebi, gibi, tebi, pebi, exbi - bytes). </p>
+</blockquote>
+<table width="70%" border="1">
+  <tr>
+    <td width="41%"><b>Decimal<br>
+    </b>Disk drives,  DVD capacity</td>
+    <td width="50%"><b>Power of 2 (binary)<br>
+    </b>    RAM, CD capacity</td>
+  </tr>
+  <tr>
+    <td>KB 1000 bytes</td>
+    <td><a href="https://en.wikipedia.org/wiki/Kibibyte">KiB</a> = 2^10 =1,024 bytes</td>
+  </tr>
+  <tr>
+    <td>MB 1000^2 = 1000,000 bytes</td>
+    <td><a href="https://en.wikipedia.org/wiki/Mebibyte">MiB</a> = 2^20 = 1024^2 =1,048,576 bytes</td>
+  </tr>
+  <tr>
+    <td>GB 1000^3 =1000,000,000 bytes</td>
+    <td><a href="https://en.wikipedia.org/wiki/Gibibyte">GiB</a> = 2^30 = 1024^3 =1,073,741,824 bytes</td>
+  </tr>
+  <tr>
+    <td>TB: 1000^4 =1000,000,000,000</td>
+    <td><a href="https://en.wikipedia.org/wiki/Tebibyte">TiB</a> = 2^40 = 1024^4 =1,099,511,627,776 bytes</td>
+  </tr>
+  <tr>
+    <td>PB: 1000^5 =1000,000,000,000,000</td>
+    <td><a href="https://en.wikipedia.org/wiki/Pebibyte">PiB</a> = 2^50 = 1024^5</td>
+  </tr>
+  <tr>
+    <td>EB: 1000^6 =1000,000,000,000,000,000</td>
+    <td><a href="https://en.wikipedia.org/wiki/Exbibyte">EiB</a> = 2^60 = 1024^6</td>
+  </tr>
+  <tr>
+    <td>ZB: 1000^7</td>
+    <td><a href="https://en.wikipedia.org/wiki/Zebibyte">ZiB</a> = 2^70 = 1024^7</td>
+  </tr>
+  <tr>
+    <td>YB: 1000^8</td>
+    <td><a href="https://en.wikipedia.org/wiki/Yobibyte">YiB</a> = 2^80 = 1024^8</td>
+  </tr>
+</table>
+<p>Any of the above can be entered directly into a spreadsheet e.g.   <span class="code">=1024^3</span> will give 1 GiB</p>
+<p>In PowerShell you can enter units with the decimal shortcut notation <span class="code">1MB</span>, <span class="code">1GB</span>, <span class="code">1TB</span>, <span class="code">1PB</span> etc, however this will incorrectly expand to a <i>Power of 2</i> value: 1024, 1048576 etc.</p>
+<p>Hard drive manufacturers market disk drives in  decimal (base 10) capacity GB.<br>
+</p>
+<ul>
+<li> Apple OS's display disk size in GB so they match the manufacturers claimed size (minus a small formatting overhead).</li>
+<li> Windows OS's display disk size in GiB, but (incorrectly) label it as GB. A drive sold as  1 TB will display a capacity of 930 GiB.</li>
+<li> Linux distros 
+display disk size in GiB, and label it as GiB but this is still at odds with disk drive specifications in GB.</li>
+</ul>
+<p><b>Network speeds</b>
+<p>A 100 megabit network has a capacity of <span class="code">100,000,000</span> bits per second. <br>
+ Data Transfer packets are  normally 64 KB = 65,536 Bytes or <span class="code">524,288</span> bits (bits = Bytes x 8 ) <br>
+<br>
+</span>So in this example the network would transfer around <span class="code">200</span> packets per second.
+</pre>
+<p class="quote"><i> “Failure of the NASA <a href="https://en.wikipedia.org/wiki/Mars_Climate_Orbiter#Communications_loss">Mars Climate Orbiter</a> occurred because the flight system software was written using metric units, while the ground crew were entering course correction and thruster data using Imperial measures” </i></p>
+<p><b>Related</b></p>
+<p><span class="space"><a href="bytes-2.html">Bytes.xls</a> - Convert between KB/GB/KiB/GiB/PiB/Zib etc or use the web page version:<br>
+</span><a href="../convert.html">Convert bytes / KB/ MB / KiB / MiB / GB / GiB</a><br>
+The bash utility <a href="../bash/units.html">units</a> can convert e.g. <span class="code">units -t '500GB' 'GiB'</span></p><!-- #BeginLibraryItem "/Library/foot_docs.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/docs/bytes.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:29 GMT -->
+</html>

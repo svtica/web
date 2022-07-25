@@ -1,0 +1,156 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/switch.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Switch - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Switch</h1> 
+<p>Check multiple conditions, an alternative to using multiple <span class="code">if</span> statements.</p>
+<pre>Brief Syntax
+
+      Switch ($<i>item</i>)
+      {
+       <i>value</i> { <i>expression</i> }
+       <i>value</i> { <i>expression</i> }
+      }
+
+Full Syntax
+
+      Switch [ -regex | -wildcard | -exact ] [-casesensitive] ( <b><i>pipeline</i></b> )
+      { 
+        "<i>string</i>" | <i>number</i> | <i>variable</i> | { <i>expression</i> } { <i>statementlist</i> }
+        [ default { <i>statementlist</i> } ]
+      }
+
+      Switch [ -regex | -wildcard | -exact ] [-casesensitive] <b>-file <i>filename</i></b>
+      { 
+        "<i>string</i>" | <i>number</i> | <i>variable </i>| { <i>expression</i> } { <i>statementlist</i> }
+        [ default { <i>statementlist</i> } ]
+      }
+Key
+
+   <b>-r</b>egex       Treat the match clause, if a string, as a <a href="syntax-regex.html">Regex</a>.
+
+   default      This provides an optional 'catch-all' for any data items that are not explicitly
+                handled in the list of switch statements.
+                Append 'default {<i>statementlist</i>}' as the last choice.
+                The 'default' will only be used if no match is found for the other conditions.
+
+   <b>-w</b>ildcard    Treat the match clause, if a string, as a wildcard string
+                Wildcard characters:
+                    ?   = Any single unspecified character.
+                    *   = Zero or more unspecified chars.
+                  [a-b] = Any character in the range a-b
+                  [ab]  = The specified characters.
+                The wildcard match is case in-sensitive 
+
+   <b>-e</b>xact       Match strings exactly (disable wildcards)
+
+ <b>-c</b>asesensitive Modify the match clause, if a string, to be case sensitive
+
+   <b>-f</b>ile        Take input from a file (or representative)</pre>
+<p>
+  The switch options can be given in abbreviated format using the first letter, so <span class="code">-e</span> is equivalent to <span class="code">-exact</span></p>
+<p>The keyword <span class="code">break</span> indicates that no more processing will occur and the switch statement will exit. </p>
+<p> The keyword <span class="code">continue</span> indicates that no processing will continue against the current token and the next token in the conditional will be evaluated. If no tokens are available, the switch statement will exit.</p>
+<p>If <b><i>pipeline</i></b> results in an array, each element of the array will be evaluated in ascending offset order (starting at 0). At least one element must be present that meets at least one condition or an error will result.</p>
+<p><b>Examples</b></p>
+<p>To compare two values, a string, a number or anything else we can use a simple <a href="if.html">IF</a> statement:</p>
+<p class="code">$fruit = "orange"</p>
+<p class="code">If ($fruit -eq "orange") {'We found an orange'}</p>
+<p>For this example we are just echoing a line of text, but the <i>expression</i> could be anything, copying a file, starting a service whatever you can think of.</p>
+<p>To test more than one item, we can extend this with one or more <span class="code">Elseif()</span> statements:</p>
+<p><span class="code">If ($fruit -eq "orange") {'We found an orange'}</span><br>
+<span class="code">ElseIf ($fruit -eq "apple") {'We found an apple'}</span><br>
+<span class="code">ElseIf ($fruit -eq "pear") {'We found a pear'}</span></p>
+<p>So far so good, but for more than a couple of tests IF and ElseIf become quite verbose, we had to repeat the variable name <span class="code">$fruit</span> on every line. The <span class="code">switch</span> statement does  exactly the same thing with much less typing:</p>
+<pre>$<span class="code">fruit</span> = "orange"
+
+switch ($<span class="code">fruit</span>)<b> {</b>
+   "apple"  {"<span class="code">We found an apple</span>"; break}
+   "pear"   {"<span class="code">We found a pear</span>"; break}
+   "orange" {"<span class="code">We found an orange</span>"; break}
+   "peach"  {"<span class="code">We found a peach</span>"; break}
+   "banana" {"<span class="code">We found a banana</span>"; break}
+   default {"Something else happened"; break}
+<b>}</b></pre>
+<p>To store the output of <span class="code">switch</span> in a variable, this can be assigned right at the start using the pipeline, rather than in every script block.</p>
+<pre>$<span class="code">fruit</span> = "orange"
+
+$result = switch ($<span class="code">fruit</span>)<b> {</b>
+   "apple"  {"<span class="code">We found an apple</span>"; break}
+   "pear"   {"<span class="code">We found a pear</span>"; break}
+   "orange" {"<span class="code">We found an orange</span>"; break}
+   "peach"  {"<span class="code">We found a peach</span>"; break}
+   "banana" {"<span class="code">We found a banana</span>"; break}
+   default {"Something else happened"; break}
+<b>}</b>
+
+$result</pre>
+<p>The <span class="code"><a href="break.html">break</a></span> at the end of each condition tells  <span class="code">switch</span> to stop looking further, if you omit this, the switch statement will continue testing all the other options and can potentially match more than one clause and perform more than one action.</p>
+<p>When writing a <span class="code">switch</span> clause without a <span class="code">break</span>, it can be useful to add a  <span class="code"># FALLTHROUGH</span> comment to make it clear that subsequent tests will still be performed.</p>
+<pre>$drink = 'Gin and Tonic'
+
+$result = switch -wildcard ($drink) <b>{</b>
+   &quot;Gin*&quot;  {&quot;Contains Gin&quot;<b></b>}      # FALLTHROUGH
+   &quot;Whisky*&quot; {&quot;Contains Whisky&quot;} # FALLTHROUGH
+   &quot;*tonic&quot; {&quot;Contains Tonic&quot;<b></b>}   # FALLTHROUGH
+<b>}</b>
+<br>$result
+</pre>
+<h2> Arrays.</h2>
+<p>Passing an <a href="syntax-arrays.html">array</a> to a <span class="code">switch</span> statement will process each element in the collection. So to repeat the last example just change the first line to an array of different drinks:<br>
+</p>
+<pre>
+$drink = 'Gin and Tonic', 'Vodka and Tonic'
+</pre>
+<p> The <span class="code">$result</span> returned will then be an array of all the results - if you need to identify which result is which, consider including  <span class="code">$_</span> or <span class="code">$psitem</span> in the value you return. e.g. <span class="code">&quot;$_ Contains Gin&quot;</span></p>
+<h2> Files.</h2>
+<p>The <span class="code">switch</span> statement can  process a file with the <span class="code">-File</span> parameter. This works the same as passing an array of values, each line in the text file will be passed to switch.</p>
+<p>In this example we read a text file that contains nothing but a list of error numbers, and translate them into a text message:</p>
+<pre>$errlog = 'C:\logs\errorlog.txt'
+switch -File $errlog
+    {
+        10  { "Error ten found"; break }
+        50  { "Error fifty found"; break }
+        100 { &quot;Error one hundred&quot;; break}
+    }</pre>
+<p> Notice that because these switch clauses use <span class="code">break</span>, as soon as any one number is matched, no further processing is done. The break does not just complete the current item and skip to the next, it breaks all processing and exits the switch statement.</p>
+<p class="quote"><i>&quot;History teaches us that men and nations behave
+wisely once they have exhausted all other
+alternatives&quot; ~ Abba Eban </i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p>  <span class="space"><a href="break.html">Break statement </a><br>
+<a href="continue.html">Continue statement</a><br>
+
+<a href="foreach-object.html">ForEach-Object</a> - (foreach) Loop for each object in the pipeline.<br>
+<a href="foreach.html">ForEach</a> - Loop through values in the pipeline.<br> 
+<a href="for.html">For</a> - Loop through items that match a condition.<br>
+<a href="if.html">IF</a> - Conditionally perform a command.<br>
+<a href="while.html">While</a> - Loop while a condition is True.</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/switch.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+</html>

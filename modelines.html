@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<body class="normal-header">
+<div id="content">   
+<script type="text/javascript">
+
+function getModes() {
+    var indentWidth = $("input[name='indentWidth']:checked").val();
+    var indentWidthCustom = $("input[id='iwCustom']").val();
+    var tabWidth = $("input[name='tabWidth']:checked").val();
+    var tabWidthCustom = $("input[id='twCustom']").val();
+    var doExpand = $("input[name='doExpand']:checked").val();
+
+    var commentType = $("input[name='commentType']:checked").val();
+
+    var topEntry = document.getElementById("topEntry");
+    var botEntry = document.getElementById("botEntry");
+
+    var topMode = "";
+    var topModeLast = "";
+    var botMode = "";
+    var botModePfx = "";
+    var botModeLast = "";
+    var eolComment = true;
+
+    var emacsModes = new Array();
+    var vimModes = new Array();
+    var jEditModes = new Array();
+
+    switch(commentType) {
+        case "c":
+            topMode += "/*";
+            topModeLast = " */"
+            botMode += "/*\n";
+            botModePfx = " *";
+            botModeLast = " */\n";
+            eolComment = false;
+            break;
+        case "c++":
+            topMode += "//";
+            botModePfx = "//";
+            break;
+        case "script":
+            topMode += "#";
+            botModePfx = "#";
+            break;
+        case "xml":
+            topMode += "<!--";
+            botMode += "<!--";
+            botModePfx = " ";
+            botModeLast = "-->";
+            eolComment = false;
+            break;
+        case "sql":
+            topMode = "--";
+            botModePfx = "--";
+            break;
+        case "vb":
+            topMode = "'";
+            botModePfx = "'";
+            break;
+        case "basic":
+            topMode = "REM";
+            botModePfx ="REM";
+            break;
+    }
+
+    if (eolComment) {
+        botMode += botModePfx + "\n";
+        botModeLast = botModePfx + "\n";
+    }
+
+    topMode += " ";
+
+    botMode += botModePfx +
+        " Editor modelines  -  https://www.wireshark.org/tools/modelines.html\n" +
+        botModePfx + "\n";
+
+    switch(indentWidth) {
+      case "2":
+      case "4":
+      case "8":
+        emacsModes.push("c-basic-offset: " + indentWidth);
+        vimModes.push("shiftwidth=" + indentWidth);
+        jEditModes.push("indentSize=" + indentWidth);
+        break;
+      case "-2":
+        if (indentWidthCustom.length > 0) {
+          emacsModes.push("c-basic-offset: " + indentWidthCustom);
+          vimModes.push("shiftwidth=" + indentWidthCustom);
+          jEditModes.push("indentSize=" + indentWidthCustom);
+        }
+        break;
+    }
+
+    switch(tabWidth) {
+      case "2":
+      case "4":
+      case "8":
+        emacsModes.push("tab-width: " + tabWidth);
+        vimModes.push("tabstop=" + tabWidth);
+        jEditModes.push("tabSize=" + tabWidth);
+        break;
+      case "-2":
+        if (tabWidthCustom.length > 0) {
+          emacsModes.push("tab-width: " + tabWidthCustom);
+          vimModes.push("tabstop=" + tabWidthCustom);
+          jEditModes.push("tabSize=" + tabWidthCustom);
+        }
+        break;
+    }
+
+    switch(doExpand.toLowerCase()) {
+      case "yes":
+        emacsModes.push("indent-tabs-mode: nil");
+        vimModes.push("expandtab");
+        jEditModes.push("noTabs=true");
+        break;
+      case "no":
+        emacsModes.push("indent-tabs-mode: t");
+        vimModes.push("noexpandtab");
+        jEditModes.push("noTabs=false");
+        break;
+    }
+
+    if (emacsModes.length > 0) {
+      topMode += emacsModes.join("; ") + "\n";
+      emacsModes.push("");
+      emacsModes.unshift("");
+      botMode += botModePfx + " Local variables:" +
+        emacsModes.join("\n" + botModePfx + " ") + "End:\n" + botModePfx + "\n";
+    }
+
+    if (vimModes.length > 0) {
+      vimMode = botModePfx + " vi: set " + vimModes.join(" ") + ":\n";
+      topMode += vimMode;
+      botMode += vimMode;
+    }
+
+    if (jEditModes.length > 0) {
+      jEditMode = botModePfx + " :" + jEditModes.join(":") + ":\n";
+      topMode += jEditMode;
+      botMode += jEditMode;
+    }
+
+    topEntry.innerHTML = topMode + topModeLast;
+    botEntry.innerHTML = botMode + botModeLast;
+}
+
+function setModes(indentWidth, tabWidth, doExpand, commentType) {
+
+  switch(indentWidth) {
+    case 2:
+    case 4:
+    case 8:
+      $("#iw" + indentWidth.toString()).attr("checked", "checked");
+      break;
+    default:
+      $("#iwDontCare").attr("checked", "checked");
+      break;
+  }
+
+  switch(tabWidth) {
+    case 2:
+    case 4:
+    case 8:
+      $("#tw" + tabWidth.toString()).attr("checked", "checked");
+      break;
+    default:
+      $("#twDontCare").attr("checked", "checked");
+      break;
+  }
+
+  switch (doExpand) {
+    case "Yes":
+    case "No":
+      $("#de" + doExpand).attr("checked", "checked");
+      break;
+    default:
+      $("#deDontCare").attr("checked", "checked");
+      break;
+  }
+
+  switch (commentType) {
+    case "C":
+    case "CPP":
+    case "Script":
+    case "Sql":
+    case "VB":
+    case "XML":
+      $("#ct" + commentType).attr("checked", "checked");
+      break;
+  }
+
+  getModes();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  getModes();
+  $("#codingstyles tr").mouseover(function() {
+    $(this).addClass("hilite");
+  }).mouseout(function() {
+    $(this).removeClass("hilite");
+  });
+});
+
+//-->
+</script>
+<section id="FAQbackground" class="section swatch-white">
+<div class="container">
+<div class="row">
+  <div class="col-md-8">
+    <div class="ws-well">
+      <h3>Editor Modeline Generator</h3>
+
+<p>
+  Some editors are nice enough to let you configure indentation and tab behavior
+  <em>inside the file you're editing</em>. This feature has many
+  different names, such as "modelines," "buffer-local properties", or "file
+  variables". We use the term "modline" here.
+</p>
+
+<p>
+  The form below lets you create modeline blurbs that you can copy and paste
+  into the file you're editing. Simply select the settings you would like to
+  apply, then copy and paste. You can also create modelines from a set of
+  existing coding styles below.
+</p>
+
+<p>
+  You might also want to check out <a href="http://editorconfig.org/">EditorConfig</a>,
+  which sets coding styles on a per-directory and per-project basis instead of per-file.
+</p>
+
+<form method="POST">
+
+<h4>How wide should each indentation level be?</h4>
+
+<ul class="list-unstyled">
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="indentWidth" id="iwDontCare" value="-1" onChange="getModes();" />
+      I don't care
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="indentWidth" id="iw2" value="2" onChange="getModes();" />
+      2
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="indentWidth" id="iw4" value="4" onChange="getModes();" checked/>
+      4
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="indentWidth" id="iw8" value="8" onChange="getModes();" />
+      8
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="indentWidth" id="iwFreak" value="-2" onChange="getModes();" />
+      I am a freak with special needs:
+    </label>
+    <input type="text" name="customIndentWidth" id="iwCustom" size="4" onChange="getModes();" onkeyup="getModes();">
+  </li>
+</ul>
+
+<h4>A <a href="http://en.wikipedia.org/wiki/Tab_key">horizontal tab</a>
+character (U+0009) should advance the cursor to the next multiple of...</h4>
+
+<ul class="list-unstyled">
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="tabWidth" id="twDontCare" value="-1" onChange="getModes();" />
+      I don't care
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="tabWidth" id="tw2" value="2" onChange="getModes();" />
+      2
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="tabWidth" id="tw4" value="4" onChange="getModes();" />
+      4
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="tabWidth" id="tw8" value="8" onChange="getModes();" checked />
+      8
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="tabWidth" id="twFreak" value="-2" onChange="getModes();" />
+      I am a freak with special needs:
+    </label>
+    <input type="text" name="customTabWidth" id="twCustom" size="4" onChange="getModes();" onkeyup="getModes();">
+  </li>
+</ul>
+
+
+<h4>Should tab characters be replaced with an equivalent number of spaces?</h4>
+
+<ul class="list-unstyled">
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="doExpand" id="deDontCare" value="dontcare" onChange="getModes();" />
+      I don't care
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="doExpand" id="deYes" value="yes" onChange="getModes();" checked />
+      Yes
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="doExpand" id="deNo" value="no" onChange="getModes();" />
+      No
+    </label>
+  </li>
+
+</ul>
+
+<h4>What comment characters do you require?</h4>
+
+<ul class="list-unstyled">
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctC" value="c" onChange="getModes();" checked />
+      /* */ (C-style)
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctCPP" value="c++" onChange="getModes();" />
+      // (C++-style)
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctScript" value="script" onChange="getModes();" />
+      # (Most scripting languages)
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctXml" value="xml" onChange="getModes();" />
+      &lt;!-- --&gt; (XML)
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctSql" value="sql" onChange="getModes();" />
+      -- (SQL)
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctVB" value="vb" onChange="getModes();" />
+      ' (Microsoft Visual Basic)
+    </label>
+  </li>
+
+  <li>
+    <label class="radio-inline">
+      <input type="radio" name="commentType" id="ctBasic" value="basic" onChange="getModes();" />
+      REM (Surely you jest?)
+    </label>
+  </li>
+</ul>
+
+<h2>Top Modeline</h4>
+Place this at the beginning of your file:<br>
+<textarea rows="4" cols="72" id="topEntry"></textarea>
+
+<h2>Bottom Modeline</h4>
+Place this at the end of your file:<br>
+<textarea rows="12" cols="72" id="botEntry"></textarea>
+
+</form>
+
+<h1>Official Coding Standards</h1>
+
+<table id="codingstyles" class="shaded">
+  <caption align="bottom">Coding Standards (click to set)</caption>
+  <thead>
+    <tr>
+        <th>Coding Standard</th>
+        <th>Indentation Width</th>
+        <th>Tab Width</th>
+        <th>Tab Key Makes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr onClick="setModes(4, -1, 'Yes', 'Script');">
+      <td><a href="http://www.python.org/dev/peps/pep-0008/">Python</a></td>
+      <td>4</td>
+      <td>?</td>
+      <td>Spaces</td>
+    </tr>
+    <tr onClick="setModes(8, 8, 'No', 'C');">
+      <td><a href="http://lxr.linux.no/source/Documentation/CodingStyle">Linux</a></td>
+      <td>8</td>
+      <td>8</td>
+      <td>Tabs</td>
+    </tr>
+    <tr onClick="setModes(4, 8, '?', 'C');">
+      <td><a href="http://java.sun.com/docs/codeconv/html/CodeConventions.doc3.html#262">Java</a></td>
+      <td>4</td>
+      <td>8</td>
+      <td>?</td>
+    </tr>
+    <tr onClick="setModes(4, 4, 'No', 'CPP');">
+      <td>Microsoft Visual C++</td>
+      <td>4</td>
+      <td>4</td>
+      <td>Tabs</td>
+    </tr>
+    <tr onClick="setModes(4, 4, 'Yes', 'C');">
+      <td>Microsoft Visual C#</td>
+      <td>4</td>
+      <td>4</td>
+      <td>Spaces</td>
+    </tr>
+    <tr onClick="setModes(4, 4, 'Yes', 'VB');">
+      <td>Microsoft Visual Basic</td>
+      <td>4</td>
+      <td>4</td>
+      <td>Spaces</td>
+    </tr>
+    <tr onClick="setModes(4, 4, 'No', 'CPP');">
+      <td><a href="https://connect.microsoft.com/VisualStudio/feedback/ViewFeedback.aspx?FeedbackID=517188">Microsoft Visual Studio 2010</a></td>
+      <td>4</td>
+      <td>4</td>
+      <td>Tabs</td>
+    </tr>
+    <tr onClick="setModes(4, -1, '?', 'Script');">
+      <td><a href="http://www.perl.com/doc/manual/html/pod/perlstyle.html">Perl</a></td>
+      <td>4</td>
+      <td>?</td>
+      <td>?</td>
+    </tr>
+    <tr onClick="setModes(4, -1, 'Yes', 'C');">
+      <td><a href="http://framework.zend.com/manual/en/coding-standard.php-file-formatting.html">PHP (Zend)</a></td>
+      <td>4</td>
+      <td>?</td>
+      <td>Spaces</td>
+    </tr>
+    <tr onClick="setModes(2, -1, 'Yes', 'Script');">
+      <td><a href="http://www.caliban.org/ruby/rubyguide.shtml#indentation">Ruby</a></td>
+      <td>2</td>
+      <td>?</td>
+      <td>Spaces</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h1>Editor Modeline Documentation</h1>
+
+<ul class="item-list">
+  <li><a href="http://www.gnu.org/software/emacs/manual/html_node/emacs/File-Variables.html#File-Variables">Emacs</a></li>
+  <li><a href="http://www.jedit.org/users-guide/buffer-local.html">jEdit</a></li>
+  <li><a href="http://community.activestate.com/forum/komode-modeline-support-komodo">Komodo</a></li>
+  <li><a href="http://vimdoc.sourceforge.net/htmldoc/usr_21.html#21.6">vim</a></li>
+</ul>
+
+
+  </div>
+  </div>
+
+</div>
+</div>
+</section>
+  </div>
+<script src="./js/packages.min.js"></script>
+</body>
+
+</html>

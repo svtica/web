@@ -1,0 +1,109 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/color.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:24 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Color - Foreground and Background colours - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>COLOR</h1>  
+<p>Sets the default console foreground and background colours. 
+<pre>Syntax
+      COLOR [<i>background</i>][<i>foreground</i>]
+</pre>
+<p> Colour attributes are specified by 2 of the following hex digits. There should be no space between the two color numbers.</p>
+<p>Each digit can be 
+  any of the following values: </p>
+<blockquote>
+<p>  0 = Black <br>
+  8 = Gray <br>
+  <br>
+  1 = Blue <br>
+  9 = Light Blue <br>
+  <br>
+  2 = Green <br>
+  A = Light Green <br>
+  <br>
+  3 = Aqua <br>
+  B = Light Aqua <br>
+  <br>
+  4 = Red <br>
+  C = Light Red <br>
+  <br>
+  5 = Purple <br>
+  D = Light Purple <br>
+  <br>
+  6 = Yellow <br>
+  E = Light Yellow <br>
+  <br>
+  7 = White <br>
+  F = Bright White</p>
+</blockquote>
+<p>  If no argument is given, COLOR restores the colour to what it was when CMD.EXE 
+  started. <br>
+  <br>
+  Colour values are assigned in the following order:<br>
+  <br>
+  The DefaultColor registry value. <br>
+  The <a href="cmd.html">CMD</a> /T command line switch<br>
+  The current colour settings when cmd was launched<br>
+  <br>
+  The COLOR command sets ERRORLEVEL to 1 if an attempt is made to execute the 
+  COLOR command with a foreground and background colour that are the same.</p>
+<p>The default terminal color is <span class="code">COLOR 07</span>, white on black</p>
+<p>The COLOR command will change the color of <b>all</b> the text in the window. To change the color of individual words/characters/paragraphs <a href="syntax-ansi.html">ANSI color escapes</a> can be used. These are available in Windows <a href="ver.html">versions</a> greater than 1511.</p>
+<p>In Windows 10 <b>clean-install</b> versions greater than build 16257 the <a href="https://devblogs.microsoft.com/commandline/updating-the-windows-console-colors/">default colour scheme has been changed</a> to modernize the look of the Windows Console suitable for modern   high-contrast LCD displays.<br>
+  <br>
+Samples of the new colors can be found on the <a href="syntax-ansi.html">ANSI color</a> page, you can also display them with <span class="code"><a href="https://github.com/Microsoft/Terminal/tree/master/src/tools/ColorTool">ColorTool.exe</a> -c</span></p>
+<h2>Errorlevels</h2>
+<blockquote>If the color was successfully changed <a href="errorlevel.html">%ERRORLEVEL%</a> = 0<br>
+Background and foreground colors are the same (will fail) = 1<br>
+e.g. <span class="code">COLOR 00</span> 
+</blockquote>
+<h1>Windows 10 color schemes</h1>
+<blockquote>
+<p>In Windows 10 (new build &gt;= 16257) the default color values have been changed to improve legibility of darker colors on modern screens.</p>
+<p><a href="https://github.com/Microsoft/Terminal/tree/master/src/tools/ColorTool">ColorTool.exe</a> can be used to select a color scheme.</p>
+<p>In PowerShell you will probably need to <a href="https://github.com/Microsoft/console/issues/23">tinker with the new Colortool values</a>: <i>So up until very recently the console only supported 16 colours at a time. When the PowerShell team decided they wanted a very specific dark blue as the background colour, rather than altering the colour value for dark or light blue, they instead changed dark magenta to blue and used that as the background colour.</i></p>
+</blockquote>
+<p>COLOR is an <a href="syntax-internal.html">internal</a> command.<br>
+If <a href="cmd.html">Command Extensions</a> are disabled, the COLOR command will not function.</p>
+<p><i class="quote">&ldquo;How much more black could this be?" and the answer is "None...none more black&rdquo; ~ Spinal Tap</i><br>
+<br>
+<b>Related:</b><br>
+<br>
+<span class="space"><a href="cmd.html">CMD</a> - Start a new CMD shell.<br>
+<a href="exit.html">EXIT</a> - Set a specific errorlevel.<br>
+PowerShell: <a href="../ps/write-host.html">Write-Host</a> - Write  output to the screen (colour can be set for individual strings).<br>
+<a href="https://emw3.com/colour.html">Colour codes</a> - HTML/CSS.<br>
+<a href="https://blogs.msdn.microsoft.com/aaron_margosis/2007/02/22/setting-color-for-all-cmd-shells-based-on-adminelevation-status/">Aaron Margosis</a> - Change prompt colors for all Admin level prompts.<br>
+<a href="https://paletton.com/">Paletton</a> - Design colour themes.<br>
+Equivalent bash command (Linux): <a href="../bash/dircolors.html">dircolors</a> - Colour setup for 'ls'</span></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --><p><br>
+  <br>
+</p>
+</body>
+
+<!-- Mirrored from ss64.com/nt/color.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:24 GMT -->
+</html>

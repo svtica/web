@@ -1,0 +1,79 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-stampme.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:58 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>StampMe.ps1 - rename a file with todays date and time - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> How-to: Rename a file with the date [StampMe.ps1]</h1> 
+<p>Rename a  file or a folder by appending the current date and time to the existing file or folder name:</p>
+<pre>#StampMe.ps1
+param( [string] $fileName)
+
+# Check the file exists
+if (-not(Test-Path $fileName)) {break}
+
+# Display the original name
+"Original filename: $fileName"
+
+$fileObj = get-item $fileName
+
+# Get the date
+$DateStamp = get-date -uformat "%Y-%m-%d@%H-%M-%S"
+
+$extOnly = $fileObj.extension
+
+if ($extOnly.length -eq 0) {
+   $nameOnly = $fileObj.Name
+   rename-item "$fileObj" "$nameOnly-$DateStamp"
+   }
+else {
+   $nameOnly = $fileObj.Name.Replace( $fileObj.Extension,'')
+   rename-item "$fileName" "$nameOnly-$DateStamp$extOnly"
+   }
+
+# Display the new name
+"New filename: $nameOnly-$DateStamp$extOnly"</pre>
+<p> For instructions of how to download and run this script see: <a href="syntax-run.html">Run a PowerShell script</a>.</p>
+<p>For a one line version of this see the <a href="rename-item.html">Rename-Item</a> page.</p>
+<p><b>Examples</b></p>
+<p>Assuming stampme.ps1 is saved in the current directory:</p>
+<pre>PS C:\&gt;./stampme.ps1 &quot;F:\work\some file.txt&quot;
+
+  &gt; F:\work\some file-2009-11-30@09-30-00.txt
+</pre>
+<p>Rename  a collection of .txt files:</p>
+<p class="code">foreach ($file in get-ChildItem *.txt) { ./stampme.ps1 $file.name }</p>
+<p class="quote"><i>&ldquo;Two roads diverged in a wood, and I, I took the one less traveled by, And that has made all the difference&rdquo; ~ Robert Frost</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="rename-item.html">Rename-Item</a> - Change the name of an existing item.<br>
+<a href="syntax-touch.html">Touch</a> - Change the date/time of a file/folder.<br>
+<a href="syntax-lastmodified.html">Set-LastWrite</a> - Reset Folder 'Last Modified' to the most recent file in the folder (PowerShell function).<br>
+<a href="syntax-set-eol.html">set-eol</a> - Change the line endings of a text file.<br>
+<a href="../dates.html">Standard date and time notation</a> - YYYY-MM-DD<br>
+<a href="../nt/syntax-stampme.html">StampMe.cmd</a> - Rename a file (CMD script).</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-stampme.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:58 GMT -->
+</html>

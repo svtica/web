@@ -1,0 +1,125 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-consolesize.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:53 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Set-ConsoleSize - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Set the size of the console window [Set-ConsoleSize.ps1]</h1>
+<p>The size of the PowerShell console window can be manipulated using the <span class="code">$host</span> variable. </p>
+<p>The height, width and buffer size can all be set independently, however the buffer size must at all times be at least as large as the console window. When making the window larger, modify the buffer first, when making the window smaller, modify the buffer last. <br>
+The script below does this for you.</p>
+<p>This only affects the <i>current</i> console, i.e. it will not affect the default size/layout for subsequent new PowerShell sessions.</p>
+<p>There is a minor bug in Windows 10 post-<a href="../nt/ver.html">1809</a> update, that causes the window to scroll down after any console resizing, you may want to hold off on using this script until that issue is fixed.</p>
+<pre><#
+.Synopsis
+Set the size of the current console window
+
+.Description
+Set-ConsoleSize sets or resets the size of the current console window. By default, it
+sets the window to a height of 40 lines, with a 2000 line buffer, and sets the 
+the width and width buffer to 120 characters. 
+
+.Example
+Restore the console window to 40h x 120w:
+Set-ConsoleSize
+
+.Example
+Change the current console to a height = 30 lines and a width = 180 chars:
+Set-ConsoleSize -Height 30 -Width 180
+
+.Parameter Height
+The number of lines to which to set the current console. Default = 40 lines. 
+
+.Parameter Width
+The number of characters to which to set the current console. Default = 120 chars.
+
+.Inputs
+[int]
+[int]
+
+.Notes
+    Author: ss64.com/ps/syntax-consolesize.html
+ Last edit: 2019-08-29
+#>
+[CmdletBinding()]
+Param(
+     [Parameter(Mandatory=$False,Position=0)]
+     [int]$Height = 40,
+     [Parameter(Mandatory=$False,Position=1)]
+     [int]$Width = 120
+     )
+$console = $host.ui.rawui
+$ConBuffer  = $console.BufferSize
+$ConSize = $console.WindowSize
+
+$currWidth = $ConSize.Width
+$currHeight = $ConSize.Height
+
+# if height is too large, set to max allowed size
+if ($Height -gt $host.UI.RawUI.MaxPhysicalWindowSize.Height) {
+    $Height = $host.UI.RawUI.MaxPhysicalWindowSize.Height
+}
+
+# if width is too large, set to max allowed size
+if ($Width -gt $host.UI.RawUI.MaxPhysicalWindowSize.Width) {
+    $Width = $host.UI.RawUI.MaxPhysicalWindowSize.Width
+}
+
+# If the Buffer is wider than the new console setting, first reduce the width
+If ($ConBuffer.Width -gt $Width ) {
+   $currWidth = $Width
+}
+# If the Buffer is higher than the new console setting, first reduce the height
+If ($ConBuffer.Height -gt $Height ) {
+    $currHeight = $Height
+}
+# initial resizing if needed
+$host.UI.RawUI<b>.WindowSize</b> = New-Object System.Management.Automation.Host.size($currWidth,$currHeight)
+
+# Set the Buffer
+$host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.size($Width,2000)
+
+# Now set the WindowSize
+$host.UI.RawUI<b>.WindowSize</b> = New-Object System.Management.Automation.Host.size($Width,$Height)
+
+# Display result
+# "Height: " + $host.ui.rawui.WindowSize.Height
+# "Width:  " + $host.ui.rawui.WindowSize.width
+</pre>
+<p><b>Example</b></p>
+<p><span class="code">C:\PS> Set-ConsoleSize -Height 30 -Width 180</span></p>
+<p>Calling from another script saved in the same directory:</p>
+<p><span class="code">#Requires -Version 3.0 <br>
+&amp;&quot;$PSScriptRoot\set-consolesize.ps1&quot; -height 25 -width 90</span><br>
+</p>
+<p class="quote"><i>&ldquo;To take the measure of oneself by reference to one&rsquo;s colleagues leads to envy or complacency rather than constructive self-examination&rdquo; ~ Benno C. Schmidt, Jr.</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><a href="clear-host.html">Clear-Host</a> -  Clear the screen.<br>
+Equivalent CMD command: <a href="../nt/mode.html">MODE</a> - Configure a system device.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></p>
+</body>
+
+<!-- Mirrored from ss64.com/ps/syntax-consolesize.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:53 GMT -->
+</html>

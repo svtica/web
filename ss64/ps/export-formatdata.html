@@ -1,0 +1,78 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/export-formatdata.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:59 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Export-FormatData - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Export-FormatData</h1> 
+<p>Save formatting data from the current session to a  file.</p>
+<pre>Syntax
+      Export-FormatData [-Force] [-IncludeScriptBlock] [-InputObject <i>ExtendedTypeDefinition</i>[]]
+         [-NoClobber] [-Path <i>string</i>] [<i><a href="common.html">CommonParameters</a></i>] 
+
+Key:
+   -Force
+       Overwrite an existing output file, even if the file has the read-only attribute.
+
+   -IncludeScriptBlock
+       Include script blocks in the format data exported.
+       Because script blocks contain code and can be used maliciously, they are not exported by default.
+
+   -InputObject <i>ExtendedTypeDefinition</i>[]
+       The format data objects to be exported.
+       Enter a variable that contains the objects or a command that gets the objects,
+       such as a Get-FormatData command.
+       Objects can also be piped from Get-FormatData to Export-FormatData.
+
+   -NoClobber
+       Prevent the cmdlet from overwriting existing files.
+       By default, Export-FormatData overwrites files without warning unless
+       the file has the read-only attribute.
+
+       To overwrite read-only files, use -Force.
+
+   -Path <i>string</i>
+       A location for the output file.
+       Enter a path (optional) and filename with a <span class="code">format</span>.ps1xml file extension.
+       The default path is the current directory.
+
+       Export-FormatData will overwrite any existing file without warning unless
+       the file has the read-only attribute.
+
+       To overwrite read-only files, use -Force.
+       To prevent files from being overwritten, use -NoClobber.</pre>
+<p><b>Examples</b></p>
+<p>Export all of the format data in the session to the SS64.format.ps1xml file:</p>
+<p class="code">PS C:> get-formatdata -typename * | export-formatdata -path SS64.format.ps1xml -IncludeScriptBlock</p>
+<p>Export the format data for the HelpInfoShort type to the Help.format.ps1xml file:</p>
+<p class="code">PS C:> $fdat = get-formatdata -typename helpinfoshort<br>
+PS C:> export-formatdata -inputObject $fdat -path E:\help.format.ps1xml -IncludeScriptBlock</p>
+<p class="quote"><i>“Successful people are successful because they form the habits of doing those things that failures don't like to do” ~ Albert Gray</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><a href="get-formatdata.html">Get-FormatData</a> - Get the formatting data in the current session.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/export-formatdata.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:59 GMT -->
+</html>

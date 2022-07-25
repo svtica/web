@@ -1,0 +1,89 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/scriptrunner.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ScriptRunner - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ScriptRunner.exe</h1> 
+<p>Run one or more scripts. Supplied with Windows 10 (1607+)</p>
+<pre>Syntax
+      ScriptRunner
+         -appvscript <i>scriptFileName</i> [<i>Arguments</i>]
+            <b>[</b>-appvscriptRunnerParameters [-wait] [-timeout=<i>TimeInSeconds</i>] [-rollbackOnError]<b>]</b>
+         -appvscript <i>scriptFileName</i> [<i>Arguments</i>]
+            <b>[</b>-appvscriptRunnerParameters [-wait] [-timeout=<i>TimeInSeconds</i>] [-rollbackOnError]<b>]</b>
+         ...
+
+Key
+   -appvscript  The script to be executed: PowerShell (.ps1), VBScript (.vbs), executable(.exe), Batch (.bat).
+                Multiple scripts may be run by including multiple -appvscript options.
+                ScriptRunner will run any script whose file type is associated with an application installed
+                on the computer. If the associated application is missing, or the script’s file type isn't
+                <a href="assoc.html">assoc</a>iated with any of the computer's applications, the script won't run.
+
+   <i>Arguments</i>    Any arguments for the script being run.
+
+   -appvscriptRunnerParameters
+      -wait            Wait for this script to complete before continuing.
+      -timeout         Timeout after <i>TimeInSeconds</i> seconds and continue.
+      -rollbackOnError Rollback if the script exits with a non zero exit code.
+                       If -rollbackOnError is set, then by implication -wait will also be True.</pre>
+<p>Default values for -appvscriptrunnerparameters: No wait, No timeout, No rollback on error </p>
+<p>Every parameter must be separated by a space character.</p>
+<p>The <i>rollback on error</i> is limited in its effect, if the script creates a <i>new</i> output file, then rollback will delete the file, but if the script updates or replaces an existing file then rollback will not revert those changes. <br>
+If a Scriptrunner command contains more than one -appvscript clause, then <i>rollback on error</i> may fail to work for either script.</p>
+<p>You can use ScriptRunner in DeploymentConfig.xml, UserConfig.xml and AppxManifest.xml files (all trigger events).</p>
+<p><b>Examples</b></p>
+<p>Demonstrate the timeout by running a <a href="pause.html">pause</a> command:</p>
+<p><span class="code">ScriptRunner.exe -appvscript cmd &quot;/c&quot; &quot;pause&quot; -appvscriptrunnerparameters -wait -timeout=20</span><br>
+<br>
+<span class="body">Run two scripts passing parameters to each (this is all one line):</span><br>
+<br>
+<span class="code">ScriptRunner.exe -appvscript demoA.cmd arg1 arg2 -appvscriptrunnerparameters -wait -timeout=30 -rollbackonerror -appvscript demoB.ps1 arg3 arg4 -appvscriptrunnerparameters -wait -timeout=30 -rollbackonerror</span><br>
+</p>
+<pre>
+<span class="body">In XML</span>:
+&lt;MachineScripts&gt;
+ &lt;AddPackage&gt;
+   &lt;Path&gt;ScriptRunner.exe&gt;/Path&gt;
+   &lt;Argument&gt;
+   -appvscript script1.exe arg1 arg2 –appvscriptrunnerparameters –wait –timeout=10
+   -appvscript script2.vbs arg1 arg2
+   -appvscript script3.cmd arg1 arg2 –appvscriptrunnerparameters –wait –timeout=30 –rollbackonerror
+   &lt;/Arguments&gt;
+   &lt;Wait timeout="40" RollbackOnError="true"/&gt;
+ &lt;/AddPackage&gt;
+&lt;/MachineScripts&gt;></pre>
+<p class="quote"><i>&quot;He can run. But he can't hide&quot; ~ Joe Louis, 1946</i></p>
+<p><b>Related:</b></p>
+<p><span class="space"><a href="start.html">START</a> - Start a program, command or batch file</span>.<br>
+<a href="syntax-run.html">Run a script</a> - How to create and run a batch file.<br>
+Powershell: <a href="../ps/syntax-run.html">Run a script</a> How to run a .ps1 script by calling <a href="../ps/powershell.html">PowerShell.exe</a><br>
+Equivalent bash command (Linux): <a href="../bash/syntax-script.html">Run a bash shell script</a></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/scriptrunner.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+</html>

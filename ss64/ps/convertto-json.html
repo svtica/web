@@ -1,0 +1,76 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/convertto-json.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:56 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ConvertTo-Json - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ConvertTo-Json</h1> 
+<p>Convert an object to a JSON-formatted string.</p>
+<pre>Syntax
+      ConvertTo-Json [-InputObject] <i>Object</i>
+         [-Compress] [-Depth <i>Int32</i>] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -InputObject <i>Object</i>
+       The objects to convert to JSON format. Enter a variable that contains the objects, or type a command 
+       or expression that gets the objects. You can also pipe an object to ConvertTo-Json.
+
+       The InputObject parameter is required, but its value can be null ($Null) or an empty string.
+       When the input object is $Null, ConvertTo-Json does not generate any output.
+       When the input object is an empty string, ConvertTo-Json returns an empty string.
+
+   -Compress
+       Omit white space and indented formatting in the output string.
+        
+   -Depth <i>Int32</i>
+       How many levels of contained objects are included in the JSON representation.
+       The default value is 2.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for ConvertTo-Json: <i>none</i>, but if you want to add a short alias like <span class="code">ctjn</span>, set it with <a href="set-alias.html">set-alias</a></p>
+<p>This cmdlet was introduced in Windows PowerShell 3.0.</p>
+<p><b>Examples</b></p>
+<p>Convert a GregorianCalendar Calendar object to a JSON string:</p>
+<pre>PS C:\&gt; (Get-UICulture).Calendar | ConvertTo-Json
+    {
+        "MinSupportedDateTime":  "\/Date(-62135568000000)\/", 
+        "MaxSupportedDateTime":  "\/Date(253402300799999)\/", 
+        "AlgorithmType":  1, 
+        "CalendarType":  1, 
+        "Eras":  [
+                     1
+                 ], 
+        "TwoDigitYearMax":  2029, 
+        "IsReadOnly":  false
+    }</pre>
+<p>Show the effect of using the -Compress parameter of ConvertTo-Json. The compression affects only the      appearance of the string, not its validity:</p>
+<p><span class="code">PS C:\&gt; @{Account=&quot;User64&quot;;Domain=&quot;ss64dom&quot;;Admin=&quot;True&quot;} | ConvertTo-Json -Compress     {&quot;Admin&quot;:&quot;True&quot;,&quot;Account&quot;:&quot;User64&quot;,&quot;Domain&quot;:&quot;ss64dom&quot;}</span></p>
+<p>Convert a date object to a JSON string and then into a JSON object:</p>
+<p class="code">PS C:\&gt; Get-Date | Select-Object -Property * | ConvertTo-Json<br>
+PS C:\&gt; Get-Date | Select-Object -Property * | ConvertTo-Json | ConvertFrom-Json</p>
+<p><i class="quote">“you may live to see man-made horrors beyond your comprehension” ~  Nikola Tesla, 1898</i></p><p><b>Related PowerShell Cmdlets:</b></p>
+<p><span class="space"><a href="convertfrom-json.html">ConvertFrom-Json</a> - Convert a JSON-formatted string to a custom object.</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/convertto-json.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:56 GMT -->
+</html>

@@ -1,0 +1,108 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-appxpackage.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:36 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-AppXPackage- PowerShell - SS64.com</title>
+</head><body>
+<!-- #BeginLibraryItem "/Library/head_ps.lbi" -->
+<div id="tnav">
+<ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);">
+<path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path>
+</svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);">
+<path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path>
+</svg></a></li>
+<li>
+<div id="search">
+<form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/">
+</form>
+</div>
+</li>
+</ul>
+</div>
+<!-- #EndLibraryItem -->
+<h1>Get-AppXPackage</h1> 
+<p>Gets a list of the app packages that are installed in a user profile.</p>
+<pre>Syntax
+      Get-AppxPackage [[-Name] <i>String</i>]
+        <b>[</b>[-Publisher] <i>String</i><b>]</b> [-AllUsers] [-PackageTypeFilter {None | Main | Framework | Resource | Bundle | Xap}]
+           [-User <i>String</i>] [-Volume <i>AppxVolume</i>] [<a href="common.html"><i>CommonParameters</i></a>]
+
+Key
+   -AllUsers
+        Indicates that this cmdlet lists app packages for all user accounts on the computer. 
+        This parameter requires <a href="syntax-elevate.html">administrator</a> permissions.
+        
+    -Name [<i>String</i>]
+        Return results for the specified package only. Wildcards are permitted.
+        
+    -PackageTypeFilter [<i>PackageTypes</i>]
+        One or more comma-separated types of packages that the cmdlet gets from the package repository. 
+        Valid values are: 
+        
+        -- Bundle
+        -- Framework
+        -- Main
+        -- Resource
+        -- None
+        
+        By default, this cmdlet returns only packages of types Main and Framework.
+        
+    -Publisher [<i>String</i>]
+        Specifies the publisher of a particular package. If you specify this parameter, the cmdlet returns results 
+        only for this publisher. Wildcards are permitted.
+        
+    -User [<i>String</i>]
+        Specifies a user. If you specify this parameter, the cmdlet returns a list of app packages that are installed 
+        for only the user that this cmdlet specifies. To get the list of packages for a user profile other than the 
+        profile for the current user, you must run this command by using administrator permissions. The user name can 
+        be in one of these formats: 
+        
+        -- domain\user_name
+        -- user_name@fqn.domain.tld
+        -- user_name
+        -- SID-string
+
+    -Volume [<i>AppxVolume</i>]
+        Specifies an AppxVolume object. If you specify this parameter, this cmdlet returns only packages that are 
+        relative to volume that this parameter specifies.</pre>
+<p>Get-AppxPackage  gets a list of the app packages that are installed in a user profile. </p>
+<p>An app package      has an <span class="code">.appx</span> file name extension. To get the list of packages for a user profile other than the profile for the      current user, you must run this command by using <a href="syntax-elevate.html">administrator</a> permissions.</p>
+<p>This cmdlet was introduced in Windows PowerShell 5.0.</p>
+<p><b>Examples</b></p>
+<p>Get a list of all the currently installed packages:</p>
+<p><span class="code">PS C:\&gt; Get-AppxPackage &gt; Apps.txt</span></p>
+<p>Re-install the Microsoft Edge Browser (It sometimes goes missing from the Start Menu/Windows Apps:</p>
+<p><span class="code">PS C:\&gt; Get-AppXPackage -AllUsers -Name Microsoft.MicrosoftEdge | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register &quot;$($_.InstallLocation)\AppXManifest.xml&quot; -Verbose}</span></p>
+<p>Get and then remove some of the default/bloatware packages supplied with Windows 10:</p>
+<p><span class="code">Get-AppxPackage *XboxGamingOverlay* | Remove-AppxPackage<br>
+Get-AppxPackage *YourPhone* | Remove-AppxPackage<br>
+Get-AppxPackage *WindowsMaps* | Remove-AppxPackage<br>
+Get-AppxPackage *WindowsCamera* | Remove-AppxPackage</span></p>
+<p class="quote"><i>&ldquo;No law can give power to private persons; every law transfers power from private persons to government&rdquo; ~ Isabel Paterson</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><span class="space"><a href="remove-appxpackage.html">Remove-AppxPackage</a> - Remove an app package from a user account.</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-appxpackage.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:36 GMT -->
+</html>

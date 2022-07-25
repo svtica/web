@@ -1,0 +1,61 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/sql/rollback.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:57 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>ROLLBACK - SQL Server - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">SQL Server <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ROLLBACK</h1>
+<p>Undo a transaction, completely or to a savepoint.</p>
+<pre>Syntax
+      ROLLBACK TRAN[SACTION  [<i>option</i>] [;]
+
+      ROLLBACK [WORK] [;]
+
+Options
+       <i>transaction
+      </i> @<i>tranaction_variable
+       </i><i>savepoint </i>
+       @<i>savepoint_variable
+</i>
+Key
+   Transaction     Name assigned to the transaction on BEGIN TRANSACTION. 
+   @Transaction    User-defined variable containing a valid transaction name.
+   savepoint       Savepoint name from a SAVE TRANSACTION statement.
+   @savepoint_var  User-defined variable containing a valid savepoint name. 
+   WORK            SQL 92 Compatibility</pre>
+<p>   A transaction cannot be rolled back after  COMMIT TRANSACTION  is executed.</p>
+<p>Example</p>
+<pre>ROLLBACK;</pre>
+<p class="quote"><i>&quot;All that is gold does not glitter, Not all those who wander are lost;&quot;
+~ J. R. R. Tolkien</i></p>
+<p><b>Related commands:</b></p>
+<p> <a href="commit.html">COMMIT</a><br>
+Equivalent Oracle command:  <a href="../ora/rollback.html">ROLLBACK</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/sql/rollback.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:57 GMT -->
+</html>

@@ -1,0 +1,56 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/vol.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:58 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Vol - volume label - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>VOL </h1> 
+<p>Display the volume label of a disk.</p>
+<pre>Syntax
+      VOL [<i>drive</i>:[<i>drive</i>:]]</pre>
+<p>If the drive exists, VOL will display it's disk <a href="label.html">label</a> and serial number and will return an <a href="errorlevel.html">%ERRORLEVEL%</a> of 0.</p>
+<p>If the drive does not exist or is not ready (CD/DVD drive with no disk  loaded), VOL will return an %ERRORLEVEL% of 1.</p>
+<p>If several drives are given, VOL will iterate through and check each of them. If any drive is invalid  it will change the errorlevel  but will still display information about the others.</p>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>If the Volume label was successfully displayed <span class="code"><a href="errorlevel.html">%ERRORLEVEL%</a> = 0</span><br>
+If Drive not found or bad parameters given <span class="code"><a href="errorlevel.html">%ERRORLEVEL%</a> = 1</span></p>
+</blockquote>
+<p>VOL is an <a href="syntax-internal.html">internal</a> command.</p>
+<p><b>Example</b></p>
+<p class="code">vol c: h:</p>
+<p><i class="quote">&ldquo;I've found the Nobel label very handy because who'd want to hear anything from Betty Williams, ordinary housewife?&rdquo; ~ <a href="https://en.wikipedia.org/wiki/Betty_Williams_(nobel_laureate)">Betty Williams</a> Nobel Prize 1976 </i><br>
+<br>
+<b>Related:</b><br>
+<br>
+<span class="space"><a href="label.html">LABEL</a> - Edit the volume label of a disk.<br>
+<a href="bcdedit.html">BCDEDIT</a> - Manage Boot Configuration Data.<br>
+powershell: <a href="../ps/get-wmiobject.html">Get-WmiObject</a> Win32_LogicalDisk $label.<br>
+  Equivalent bash command (Linux): <a href="../bash/hostname.html">hostname</a> - Print or set system name.</span></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/vol.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:58 GMT -->
+</html>

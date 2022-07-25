@@ -1,0 +1,47 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/cancelevent.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:12 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="Cancel the event that caused Microsoft Access to run the procedure containing this method. ">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CancelEvent - Access - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DoCmd.CancelEvent</h1>
+<p>Cancel the event that caused Microsoft Access to run the procedure containing this method.  </p>
+<pre>Syntax
+      DoCmd.CancelEvent</pre>
+<p>In forms,  the CancelEvent action is often used in a validation macro with the <span class="code">BeforeUpdate</span> event property. When a user enters data in a control or record, Access runs the macro before saving the data to the database. If the data fails the validation conditions in the macro, the CancelEvent action cancels the save.</p>
+<p>All events that can be canceled in Visual Basic have a Cancel argument. You can use this argument instead of the CancelEvent method to cancel the event. The KeyPress event and MouseDown event (for right-clicking only) can be canceled only in macros, not event procedures, so you must use the CancelEvent action in a macro to cancel these events.</p>
+<p>For events that can't be canceled, the default behavior occurs before the procedure runs.</p>
+<p><b>Example</b></p>
+<p>Double-clicking a word that the insertion point is on in a text box, Access normally selects the word. You can cancel this default behavior in the procedure for the DblClick event and perform some other action, such as opening a form. </p>
+<p class="quote"><i>&ldquo;A bad beginning makes a bad ending&rdquo; ~ Euripides</i></p>
+<p><b>Related:</b></p>
+<p><a href="doevents.html">DoEvents</a> - Allow the operating system to process other events.<br>
+<a href="onclick.html">OnClick, OnOpen</a> - Events.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/cancelevent.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:12 GMT -->
+</html>

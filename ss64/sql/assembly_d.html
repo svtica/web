@@ -1,0 +1,56 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/sql/assembly_d.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:47 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Drop Assembly - SQL Server - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">SQL Server <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> DROP  ASSEMBLY</h1>
+<p>Remove an assembly and all its associated files from the current database. </p>
+<pre>Syntax
+      DROP ASSEMBLY <i>assembly</i> [,...n ]
+         [WITH NO DEPENDENTS ] [ ; ]
+
+Key
+   WITH NO DEPENDENTS  Drop only <i>assembly_name</i> and none of the dependent/referenced assemblies.
+                       default is to drop all dependent assemblies. </pre>
+<p>DROP ASSEMBLY returns an error if the assembly is referenced by another assembly  in the database or if it is used by a CLR function, procedure, trigger, user-defined type or aggregate in the current database.</p>
+<p>DROP ASSEMBLY does not interfere with any code referencing the assembly that is currently running. <br>
+After DROP ASSEMBLY executes, any new attempts to invoke the assembly code will fail.</p>
+<p><b>Example</b></p>
+<pre class="code" id="ctl00_LibFrame_MainContent_ctl10other" space="preserve">DROP ASSEMBLY MyCode</pre>
+<p class="quote"><i>&quot;One of the healthiest ways to gamble is with a spade and a package of garden seeds&quot; ~ Dan Bennett</i></p>
+<p><b>Related commands:</b><br>
+  <br>
+  <a href="assembly_c.html">CREATE ASSEMBLY</a><br>
+  <a href="assembly_a.html">ALTER ASSEMBLY</a><br>
+  <br>
+  <b>Equivalent Oracle command</b>:</p>
+<p><a href="../bash/export.html">  </a><a href="../ora/package_d.html">DROP PACKAGE</a></p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/sql/assembly_d.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:47 GMT -->
+</html>

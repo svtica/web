@@ -1,0 +1,61 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/resume-bitlocker.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:41 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Resume-BitLocker - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Resume-BitLocker</h1> 
+<p><span class="space">Resume Bitlocker encryption for the specified volume.</span></p>
+<pre>Syntax
+      Resume-BitLocker [-MountPoint] <i>String</i>[]
+         [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -MountPoint <i>String</i>[]
+       An array of drive letters or BitLocker volume objects. This cmdlet suspends protection for the 
+       volumes specified. To obtain a BitLocker volume object, use Get-BitLockerVolume.
+
+   -Confirm
+       Prompt for confirmation before running the cmdlet.
+
+   -WhatIf
+       Show what would happen if the cmdlet runs. The cmdlet is not run.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Resume-BitLocker: <i>none</i>, but if you want to add a short alias like <span class="code">rmbl</span>, set it with <a href="set-alias.html">set-alias</a></p>
+<p>Resume-BitLocker  restores encryption on a volume that uses BitLocker Drive Encryption. You can use       <a href="suspend-bitlocker.html">Suspend-BitLocker</a> to allow users to access encrypted data temporarily.</p>
+<p> You can specify a volume by drive letter, or you can specify a BitLocker volume object. <br>
+If you specify a BitLocker      volume that is not suspended, this cmdlet has no effect on that volume.</p>
+<p>An overview of   <a href="https://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-device-encryption-overview-windows-10">BitLocker Drive Encryption.</a></p>
+<p>This cmdlet was introduced in Windows PowerShell 5.0.</p>
+<p><b>Examples</b></p>
+<p>Resume protection for a volume:</p>
+<pre>PS C:\&gt; Resume-BitLocker -MountPoint &quot;C:&quot;</pre>
+<p><i class="quote">“The psychic task which a person can and must set for himself is not to feel secure, but to be able to tolerate insecurity” ~  Erich Fromm</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="enable-bitLockerautounlock-2.html">Enable-BitLockerAutoUnlock</a> - Enable automatic unlocking for a BitLocker volume.<br>
+<a href="suspend-bitlocker.html">Suspend-BitLocker</a> - Suspend Bitlocker encryption for the specified volume.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/resume-bitlocker.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:41 GMT -->
+</html>

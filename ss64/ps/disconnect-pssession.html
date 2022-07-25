@@ -1,0 +1,154 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/disconnect-pssession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:07 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Disconnect-PSSession - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Disconnect-PSSession</h1> 
+<p>Disconnect from a session (an interactive session with a remote computer).</p>
+<pre>Syntax
+      Disconnect-PSSession [<b>-Id</b>] <i>Int32</i>[] [-IdleTimeoutSec <i>Int32</i>] [-Confirm]
+         [-OutputBufferingMode {None | Drop | Block}] [-ThrottleLimit <i>Int32</i>] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Disconnect-PSSession <b>-InstanceId</b> <i>Guid</i>[] [-IdleTimeoutSec <i>Int32</i>] [-Confirm] 
+         [-OutputBufferingMode {None | Drop | Block}] [-ThrottleLimit <i>Int32</i>] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Disconnect-PSSession <b>-Name</b> <i>String</i>[] [-IdleTimeoutSec <i>Int32</i>] [-Confirm]
+         [-OutputBufferingMode {None | Drop | Block}] [-ThrottleLimit <i>Int32</i>] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Disconnect-PSSession [-Session] <i><b>PSSession</b></i>[] [-IdleTimeoutSec <i>Int32</i>] [-Confirm]
+         [-OutputBufferingMode {None | Drop | Block}] [-ThrottleLimit <i>Int32</i>] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -Id <i>int</i>
+       An array of IDs of sessions that this cmdlet disconnects. Type one or more IDs, separated by commas,
+       or use the range operator (..) to specify a range of IDs
+       To get the ID of a session, use <a href="get-pssession.html">Get-PSSession</a>, the instance ID is stored in the ID property.
+
+   -IdleTimeoutSec
+       Change the idle time-out value of the disconnected PSSession.
+       Enter a value in seconds. The minimum value is 60 (1 minute).
+       The idle time-out determines how long the disconnected PSSession is maintained on the remote computer.
+       When the time-out expires, the PSSession is deleted.
+
+       Disconnected PSSession objects are considered to be idle from the moment that they are disconnected,
+       even if commands are running in the disconnected session.
+       The default value for the idle time-out of a session is set by the value of the IdleTimeoutMs property
+       of the session configuration. The default value is 7200000 milliseconds (2 hours).
+
+       The value of this parameter takes precedence over the value of the IdleTimeout property of the
+       $PSSessionOption <a href="syntax-preference.html">preference variable</a> and the default idle time-out value in the session configuration.
+       However, this value cannot exceed the value of the MaxIdleTimeoutMs property of the session configuration.
+       The default value of MaxIdleTimeoutMs is 12 hours (43200000 milliseconds).
+
+   -InstanceId <i>Guid</i>
+       An array of session GUIDs that this cmdlet will disconnect.
+       The instance ID is a GUID that uniquely identifies a session on a local or remote computer.
+       The instance ID is unique, even across multiple sessions on multiple computers.
+       To get the instance ID of a session, use <a href="get-pssession.html">Get-PSSession</a>, the instance ID is stored in the InstanceID property.
+
+   -Name <i>string</i>
+       The friendly name of an existing session to disconnect. Wildcard characters are permitted.
+       To get the friendly name of a session, use <a href="get-pssession.html">Get-PSSession</a>.
+
+   -OutputBufferingMode <OutputBufferingMode>
+       Specifies how command output is managed in the disconnected session when the output buffer is full.
+       The default value is Block.
+        
+       If the command in the disconnected session is returning output and the output buffer fills, the value of this 
+       parameter effectively determines whether the command continues to run while the session is disconnected.
+       A value of Block suspends the command until the session is reconnected. A value of Drop allows the command to 
+       complete, although data might be lost. When using the Drop value, redirect the command output to a file on disk.
+        
+        The acceptable values for this parameter are:
+        
+        - Block. When the output buffer is full, execution is suspended until the buffer is clear.
+        
+        - Drop. When the output buffer is full, execution continues. As new output is saved, the oldest output is 
+        discarded.
+        
+        - None. No output buffering mode is specified. The value of the OutputBufferingMode property of the session 
+        configuration is used for the disconnected session.
+
+   -Session <i>PSSession</i>
+       An array of sessions. Enter PSSession objects, such as those that the New-PSSession cmdlet returns. 
+       You can also pipe a PSSession object to Disconnect-PSSession.
+       Get-PSSession can get all PSSession objects that end at a remote computer. These include PSSession objects
+       that are disconnected and PSSession objects that are connected to other sessions on other computers.
+
+       Disconnect-PSSession will only disconnect PSSessions that are connected to the current session.
+       If you pipe other PSSession objects to Disconnect-PSSession , the Disconnect-PSSession command will fail.
+
+   -ThrottleLimit <Int32>
+       Set the throttle limit for the Disconnect-PSSession command.
+        
+       The throttle limit is the maximum number of concurrent connections that can be established to run this 
+       command. If you omit this parameter or enter a value of 0, the default value, 32, is used.
+        
+       The throttle limit applies only to the current command, not to the session or to the computer.
+        
+   -WhatIf [<SwitchParameter>]
+       Shows what would happen if the cmdlet runs. The cmdlet is not run.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Disconnect-PSSession:<span class="code"> dnsn</span></p>
+<p>This Disconnect-PSSession cmdlet was introduced in Windows PowerShell 3.0</p>
+<p>Disconnect-PSSession disconnects a  PowerShell session ( PSSession ), such as one started by using the <a href="new-pssession.html"><span class="code">New-PSSession</span></a> cmdlet, from the current session. As a result, the PSSession is in a disconnected state.<br>
+You can then connect to the disconnected PSSession from the current session or from another session on the local computer or a different computer.</p>
+<p> Disconnect-PSSession disconnects only open PSSessions that are connected to the current session. Disconnect-PSSession cannot disconnect broken or closed PSSession objects, or interactive PSSession objects started by Enter-PSSession, and it cannot disconnect PSSession objects that are connected to other sessions.</p>
+<p>The idle time-out property of a session is critical to disconnected sessions, because it determines how long a      disconnected session is maintained before it is deleted.</p>
+<p>To reconnect to a disconnected PSSession, use <a href="connect-pssession.html"> Connect-PSSession</a> or Receive-PSSession.<br>
+<br>
+When a PSSession is disconnected, the commands in the PSSession continue to run until they finish, unless the PSSession times out or the commands in the PSSession are blocked by a full output buffer. To change the idle time-out, use the IdleTimeoutSec parameter. To change the output buffering mode, use the OutputBufferingMode parameter. You can also use the InDisconnectedSession parameter of the Invoke-Command cmdlet to run a command in a disconnected session.<br>
+<br>
+To end the interactive session and disconnect from the remote computer, use  <a href="exit-pssession.html">Exit-PSSession</a>, or type &quot;exit&quot;.</p>
+<p><b>Examples</b></p>
+<p>Disconnect a session: </p>
+<pre>PS C:&gt; Disconnect-PSSession -Name ss64Session</pre>
+<p>Disconnect a PSSession that is running on the Server64 computer in the current session:</p>
+<pre>PS C:&gt; Get-PSSession -ComputerName Server64 -Name DemoSession | Disconnect-PSSession -OutputBufferingMode Drop -IdleTimeoutSec 86400</pre>
+<blockquote>
+<p>Setting the OutputBufferingMode parameter to set the output mode to <span class="code">Drop</span> makes sure that the script that is running in the session can continue to run even if the session output buffer is full.<br>
+Because the script writes its output to a report on a file share, other output can be lost without consequence.</p>
+<p>The <span class="code">IdleTimeoutSec</span> parameter extends the idle time-out of the session to 24 hours. Thisallows time  to reconnect to the session to verify that the script ran and troubleshoot if needed.</p>
+</blockquote>
+<p>Disconnect multiple sessions in an enterprise scenario:</p>
+<pre>PS C:&gt; $s = New-PSSession -ComputerName Srv1, Srv2, Srv30 -Name ITTask
+PS C:&gt; Invoke-Command $s -FilePath \\Server64\Scripts\Get-PatchStatus.ps1
+PS C:&gt; Get-PSSession -Name ITTask -ComputerName Srv1 | Disconnect-PSSession
+PS C:&gt; Get-PSSession -ComputerName Srv1, Srv2, Srv30 -Name ITTask</pre>
+<blockquote>
+<p>This series of commands shows how Disconnect-PSSession might be used in an enterprise scenario. In this case, a new technician starts a script in a session on a remote computer and runs into a problem. The technician disconnects from the session so that a more experienced manager can connect to the session and resolve the problem.</p>
+</blockquote>
+<p class="quote"><i>“And he could go on in life, existing from day to day, without connection and without hope. For he did not know what to do with himself” - D.H. Lawrence, Lady Chatterley's Lover.</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="connect-pssession.html">Connect-PSSession</a> -     Reconnect to a disconnected session.<br>
+<a href="enter-pssession.html">Enter-PSSession</a> - Start an interactive session with a remote computer.<br>
+<a href="exit-pssession.html">Exit-PSSession</a> - End an interactive session with a remote computer.<br>
+<a href="new-pssession.html">New-PSSession</a> -     Create a persistent connection to a local or remote computer.<br>
+<a href="remove-pssession.html">Remove-PSSession</a> -     Close PowerShell sessions (non-interactive).<br>
+<a href="get-pssessionconfiguration.html">Get-PSSessionConfiguration</a> - Get the registered PS session configuration including the maximum permitted **IdleTimeout**.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/disconnect-pssession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:07 GMT -->
+</html>

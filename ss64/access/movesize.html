@@ -1,0 +1,62 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/movesize.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:36 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="Move or Resize a Window.">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>MoveSize - Access - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>DoCmd.MoveSize</h1>
+<p> Move or Resize a Window.</p>
+<pre>Syntax
+      DoCmd.MoveSize(<i>Right, Down, Width, Height</i>)
+
+Key
+<i>   Right</i>  The new horizontal position of the window&rsquo;s upper-left corner,
+          measured from the left edge of its containing window.<i>
+
+   Down</i>   The new vertical position of the window&rsquo;s upper-left corner,
+          measured from the top edge of its containing window.<i>
+
+   Width</i>  The window&rsquo;s new width.<i>
+
+   Height</i> The window&rsquo;s new height.</pre>
+<p>The units for the arguments are <a href="https://en.wikipedia.org/wiki/Twip">twips</a> (twentieth of a point).</p>
+<p>You must include at least one argument for the MoveSize method. If you leave an argument blank, the current setting for the window is used.</p>
+<p><b>Examples</b></p>
+<p>'Change the height of the current form to approximately 2 cm<br>
+<span class="code">DoCmd.MoveSize , , , 2500<br>
+<br>
+</span>'Change the width of the current form to approximately 16 cm<span class="code"><br>
+DoCmd.MoveSize , , 10000</span></p>
+<p class="quote">&ldquo;I have little interest in streamlining government or in making it more efficient, for I mean to reduce its size&rdquo; ~&nbsp;Barry Goldwater</p>
+<p><b>Related:</b></p>
+<p><a href="minimise.html">Minimize</a> - Minimise a window<br>
+<a href="restore.html">Restore</a> - Restore a maximized or minimized window.<br>
+<span class="code">Me.Detail.Height = 2500</span> - Change the height of a forms detail section </p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/movesize.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:36 GMT -->
+</html>

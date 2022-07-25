@@ -1,0 +1,125 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/assoc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:19 GMT -->
+
+<head><meta charset="UTF-8">
+
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Assoc - File extension and Type - Windows CMD - SS64.com</title></head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>ASSOC</h1>  
+<p>Display or change the association between a file extension and a fileType</p>
+<pre>Syntax
+
+   Read file associations:
+   ASSOC
+   ASSOC .<i>ext</i>
+
+   Set a file association:
+   ASSOC .<i>ext</i> = [<i>fileType</i>]
+
+   Remove <i>a</i> file association:
+   ASSOC .ext =
+
+Key
+    .<i>ext</i>      : The file extension
+    fileType  : The type of file </pre>
+<p>A file extension is the last few characters in a FileName after the period. <br>
+So a file called JANUARY.HTML has the file extension .HTML<br>
+<br>
+The File extension is used by Windows  to determine the type of information stored in the file and therefore which application(s) will be able to display 
+the information in the file. File extensions are not case sensitive and are not limited to 3 characters.<br><br>
+More than one file extension can be associated with the same File Type.<br>
+e.g. both the extension .JPG and the extension .JPEG can be associated with the File Type &quot;jpegfile&quot;<br>
+<br>
+At any one time a given file extension can only be associated with one File Type.</p>
+<p>So the path is: File Extension &gt;&gt;  File Type &gt;&gt; executable 
+program<br>
+e.g. <span class="code">.TXT</span> &gt; 
+txtfile &gt;&gt; \system32\NOTEPAD.EXE</p>
+<p> If you change the extension .JPG so it is associated with the File Type &quot;txtfile&quot; then it's normal association with &quot;jpegfile&quot; will 
+disappear. Removing the association to &quot;txtfile&quot; does not restore the association to &quot;jpegfile&quot;<br>
+<br>
+ The command ASSOC followed by just a file extension will display the current File Type for that extension. <br>
+</p>
+<p>An association can be set for files with no file extension using<span class="code"> .=</span></p>
+<p>e.g. associate all no-extension files with notepad:<br>
+<span class="code"> ASSOC .=txtfile</span><br>
+</p>
+<h2>Tamper protection</h2>
+<blockquote>
+<p>Per user file associations are stored in the registry under <span class="code">HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts</span><br>
+Starting with Windows 8, Microsoft introduced “tamper protection” into the   registry   to prevent any unauthorized changes to file associations (changes not made via the Windows API). </p>
+<p>In most cases use of the ASSOC command will result in, the first time opening a file with that extension will prompt the user:<br>
+<i>How do you want to open this file?</i> / Keep using this app or <i>An app default was reset</i></p>
+<p>One way to work with these new restrictions is to create the desired file associations manually, and then <a href="https://answers.microsoft.com/en-us/windows/forum/windows_10-files/windows-file-association-explained-for-desktop/cfa62c00-82e0-4d05-b302-3444ab930bb7">export</a> that file via a <a href="dism.html">DISM</a> command:<br>
+<span class="code">Dism /Online /Export-DefaultAppAssociations:C:\demo\AppAssoc.xml</span></p>
+<p>The exported file can then be specified in group policy, and applied to client machines where it will supersede any choice the user may have manually set.</p>
+</blockquote>
+<h2>GUI</h2>
+<blockquote>
+<p>File Types can be displayed in Windows Settings under:<br>
+Apps &gt; Default apps &gt; <i>Choose default apps by file type</i><br>
+<br>
+The Settings pane will only display
+installed applications (FileTypes) and/or an option to install apps from the Windows store. There is no option to manually add a non-Windows store application using the GUI, but you can do this with <span class="code"><a href="ftype.html">FTYPE</a></span> on the command line.</p>
+</blockquote>
+<h2>Errorlevels</h2>
+<p> <span class="indent">When <a href="cmd.html">CMD Command Extensions</a> are enabled (the default)</span></p>
+<p class="indent">If the file  Association was successfully changed <a href="errorlevel.html">%ERRORLEVEL%</a> = unchanged, typically this will be 0 but if a previous command set an errorlevel, that will be preserved (this is a bug).<br>
+If the File Association could not be changed <a href="errorlevel.html">%ERRORLEVEL%</a> = 1</p>
+<p>ASSOC is an <a href="syntax-internal.html">internal</a> command.<br>
+If <a href="cmd.html">Command Extensions</a> are disabled, the ASSOC command will not function.</p>
+<p><b>Examples:</b><br>
+<br>
+View the current file association for .csv files:<br>
+<br>
+<span class="code">C:\demo\ASSOC .csv</span><br>
+<span class="code">.csv=Excel.csv<br>
+<br>
+</span>Opening .csv files directly in Excel may be harmful, better to select  <i>Data &gt; From text file</i> and run the import wizard.<br>
+So instead we can associate .csv files with <span class="code">txtfile</span> (the default text editor, typically notepad):<br>
+<br>
+<span class="code">C:\demo\ASSOC .csv</span><span class="code">=txtfile</span></p>
+<p>List all the current file associationa and back them up to a text file:</p>
+<p><span class="code">ASSOC &gt;backup.txt</span><br>
+<br>
+ Delete a file association: <br>
+<br>
+<span class="code">ASSOC .html=</span></p>
+<p>Repair .REG and .EXE file associations:</p>
+<p class="code">ASSOC .EXE=exefile<br>
+ASSOC .REG=regfile</p>
+<p>Digging through CLASSES_ROOT entries often reveals more than one shell for the same application, for example <span class="code">[open]</span> and <span class="code">[play]</span> these can have subtle differences, changing the default action for a file extension can even invoke a different executable.</p>
+<p><i class="quote">&ldquo;Of all forms of caution, caution in love is perhaps the most fatal to true happiness&rdquo; - Bertrand Russell </i> <br>
+<br>
+<b>Related:</b><br>
+<br>
+<span class="space"><a href="ftype.html">FTYPE</a> - Edit file types (used in file extension associations).<br>
+ Batch file to list the <a href="fassoc.txt">application associated</a> with a file extension.<br>
+<a href="associate.html">ASSOCIATE</a> - One step file association (Resource Kit).<br>
+<a href="https://support.microsoft.com/en-us/help/162059/">Q162059</a> - Associate Internet Explorer with MS Office files.</span></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/assoc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:20 GMT -->
+</html>

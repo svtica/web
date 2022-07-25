@@ -1,0 +1,149 @@
+<!doctype html><html>
+
+<!-- Mirrored from ss64.com/ffmpeg.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:33 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="main.css" type="text/css">
+<title>FFMPEG</title>
+</head>
+<body><!-- #BeginLibraryItem "/Library/head_home.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="index.html">SS64</a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>FFMPEG</h1>
+<p>A  cross-platform solution to record, convert and stream audio and video. Download from <a href="https://ffmpeg.org/">ffmpeg.org</a></p>
+<pre>Syntax
+      ffmpeg [<i>global_options</i>] {[<i>infile</i>_<i>options</i>] <b>-i <i>infile</i></b>}... {[<i>outfile_options</i>] <i><b>outfile</b></i>}...
+
+Global options:
+   -y                Overwrite output files
+   -n                Never overwrite output files
+   -stats            Print progress report during encoding
+   -formats          Show available formats
+   -codecs           Show available codecs
+
+infile_options:
+   -c <i>codec</i>          Codec name
+   -codec <i>codec</i>      Codec name
+   <span class="code">-c:a <i>codec</i></span>        Audio codec
+   <span class="code">-c:v <i>codec</i>        Video codec</span>
+
+Video options:
+   -vframes <i>number</i>  set the number of video frames to output
+   -r rate          set frame rate (Hz value, fraction or abbreviation)
+   -s size          set frame size (WxH or abbreviation)
+   -aspect <i>aspect</i>   set aspect ratio (4:3, 16:9 or 1.3333, 1.7777)
+   -vn              disable video
+<span class="code">   -c:v <i>codec</i></span>       force video codec ('copy' to copy stream)
+   -timecode <i>hh:mm:ss</i>[:;.]ff  set initial TimeCode value.
+   -b:v             video bitrate
+
+Audio options:
+   -an              disable audio
+<span class="code">   -c:a <i>codec</i></span>       force audio codec ('copy' to copy stream)
+   -b:a <i>bitrate</i>     audio bitrate
+   -vol <i>volume</i>      change audio volume (256=normal)
+   -af <i>filter_graph</i>  set audio filters</pre>
+<p>Most media files consist of a container file with one or more streams of content. For example an <span class="code">.mp3</span> audio file may contain channels for the left and right channels or a <span class="code">.mpg</span> video file may contain a video stream plus left and right channels, but it might also include 5+1 audio channels plus a channel for subtitles. </p>
+<p>Do not mix input and output files – first specify all input files, then all output files. Also do not mix options which belong to different files. <br>
+All options apply ONLY to the next input or output file and are reset between files.</p>
+<p>Most of the time ffmpeg will automatically select the correct settings from the requested file extension without any complex configuration.</p>
+<p>You can specify the codecs you want to use, <span class="code">ffmpeg -codecs</span> will print all the codecs that your version of FFmpeg can handle, typically including at least the following:</p>
+<pre>==Video==
+binkvideo        Bink video
+h264             H.264 / AVC / MPEG-4 AVC/ MPEG-4 part 10 (decoders: h264 h264_vda ) (encoders: libx264 libx264rgb )
+mpeg4            MPEG-4 part 2 (encoders: mpeg4 libxvid )
+vp9              Google VP9
+webp             WebP
+wmv3             Windows Media Video 9
+rawvideo         raw video
+
+==Audio==
+aac              AAC (Advanced Audio Coding) (encoders: aac libvo_aacenc )
+alac             ALAC (Apple Lossless Audio Codec)
+flac             FLAC (Free Lossless Audio Codec)
+mp3              MP3 (MPEG audio layer 3)
+vorbis           Vorbis (decoders: vorbis, <a href="https://trac.ffmpeg.org/wiki/TheoraVorbisEncodingGuide">libvorbis</a> ) (encoders: vorbis, <a href="https://trac.ffmpeg.org/wiki/TheoraVorbisEncodingGuide">libvorbis</a> )
+wmalossless      Windows Media Audio Lossless
+wmapro           Windows Media Audio 9 Professional
+
+==Images==
+bmp              BMP (Windows bitmap)
+dvvideo          DV (Digital Video)
+gif              GIF
+png              PNG image
+vc1image         Windows Media Video 9 Image v2
+wmv3image        Windows Media Video 9 Image
+
+==Text==
+bintext          Binary text
+dvb_subtitle     DVB subtitles
+dvb_teletext     DVB teletext
+dvd_subtitle     DVD subtitles</pre>
+<p> The codec to be used can be specified with the <span class="code">-c <i>codec</i></span> option</p>
+<p>To specify  the <b>audio</b> codec <span class="code">-codec:a <i>codec</i></span> <br>
+or abbreviate to <span class="code">-acodec <i>codec</i></span> or just <span class="code">-c:a <i>codec</i></span></p>
+<p>To specify  the <b>video</b> codec <span class="code">-codec:v <i>codec</i></span> <br>
+or abbreviate to <span class="code">-vcodec <i>codec</i></span> or just <span class="code">-c:v <i>codec</i></span></p>
+<p>To copy a stream without re-encoding it, just specify the codec as '<span class="code">copy</span>' </p>
+<p>If 'copy' is applied to both the audio and video (<span class="code">-c:av</span>) then ffmpeg will convert from one container format to another without any re-encoding: <span class="code">ffmpeg -i input.webm <b>-c:av copy</b> output.mkv</span></p>
+<p>The name ffmpeg is short for 'Fast Forward MPEG' files although the utility now does far more than that.</p>
+<p><b>Examples</b></p>
+<p>Convert file formats:</p>
+<p class="code">$ ffmpeg -i input.mp4 output.avi</p>
+<p class="code">$ ffmpeg -i input.mp3 output.ogg</p>
+<p>Specify the codecs for both video (-c:v) and audio (-c:a)<br>
+</p>
+<pre>ffmpeg -i input.mp4 <b>-c:v</b> vp9 <b>-c:a</b> mp3 output.mkv
+</pre>
+<p>Encode the audio as mp3 and <span class="code">copy</span> the video stream unchanged:</p>
+<pre>ffmpeg -i input.mp4 <b>-c:v copy</b> <b>-c:a</b> mp3 output.mkv
+</pre>
+<p>Copy from .webm (a container format) to .mkv (another container format) without any additional stream encoding. 'av' is the default so this could also be specified with just -c copy:</p>
+<p class="code"> ffmpeg -i input.webm <b>-c:av copy</b> output.mkv</p>
+<p>Copy only the first 60 seconds of a video:</p>
+<p class="code">ffmpeg -i input.mp4 -t 60 <b>-c copy</b> output.mp4</p>
+<p>Convert a .webm file to .mp3 specifying a high bitrate (-b) audio for best quality sound.</p>
+<p class="code">ffmpeg -i ~/input.webm  -b:a 192k ~/output.mp3</p>
+<p>Convert a .webm file to .mp4 specifying a high bitrate (-b) audio for best quality sound.</p>
+<p class="code">ffmpeg -i ~/input.webm -c:v libx264 -c:a aac -strict experimental -b:a 192k output.mp4</p>
+<p>Batch convert a folder of .mp4 files to .mp3 (Windows CMD, see <a href="https://stackoverflow.com/questions/5784661/how-do-you-convert-an-entire-directory-with-ffmpeg">stackoverflow</a> for bash and PowerShell versions.)</p>
+<p class="code">for %i in (*.mp4) do ffmpeg -i &quot;%i&quot; &quot;%~ni.mp3&quot;</p>
+<p>Merge together 2 or more files of the same type/dimensions/codec, create a file with the filenames (one file per line) prefixing each line with 'file' to indicate that they are file inputs:<br>
+<br>
+input.txt<br>
+<span class="code">file 'ex1.aiff'<br>
+file 'ex2.aiff'<br>
+</span>Then run: <span class="code">ffmpeg -f concat -i input.txt -c copy output.aiff</span></p>
+<p>Alternatively, on one line:<br>
+<span class="code">ffmpeg -i &quot;concat:vid1.mp4|vid2.mp4&quot; -c copy output.mp4</span></p>
+<p>Trim a video without re-encoding it, start/end times are in <span class="code">hh:mm:ss.msec</span> format:<br>
+<br>
+<span class="code">ffmpeg -ss "00:00:55.30" -i "input.mp4" -c copy -map 0 -to "00:03:32.00" "output.mp4"</span></p>
+<p>Change the Sample Aspect Ratio (SAR) of a video from 720p to 540 (4:3) This re-encodes the file:</p>
+<p class="code">ffmpeg -i "input.mp4" -vf scale=720:540 -c:v [<i>Video_Codec</i>] "output.mp4"</p>
+<p>Change the Display Aspect Ratio (DAR) of a video from 720p to 540 (4:3) [<a href="https://superuser.com/questions/907933/correct-aspect-ratio-without-re-encoding-video-file">x</a>] this sets a metadata flag at the container level:</p>
+<p class="code">ffmpeg -i "input.mp4" -aspect 720:540 -c copy "output.mp4"</p>
+<p class="quote"><i>“</i><i>Television and the media are everywhere and they are taking over so powerfully. They don't shut up for a second. So you are unable to think. It is very difficult to think independently when you are surrounded by all that noise. What I most aspire to is to be alone. Not lonely, but alone. To stop all this noise. That is what I do when I go to Umbria. There is no television there, no telephone”  ~ Terry Gilliam</i></p>
+<p><b>Related</b></p>
+<p class="space"><a href="https://ffmpeg.org/ffmpeg.html">ffmpeg</a> - Full documentation.<br>
+<a href="osx/youtube-dl.html">youtube-dl</a> - Download Video.<br>
+A simple <a href="ps/syntax-video.html">PowerShell GUI</a> front end for ffmpeg (compression only).</p><!-- #BeginLibraryItem "/Library/foot_root.lbi" --><p><script async src="../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="index.html">SS64.com</a><br>
+Some rights reserved</div>
+<!-- #EndLibraryItem --><p><br>
+</p>
+</body>
+
+<!-- Mirrored from ss64.com/ffmpeg.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:33 GMT -->
+</html>

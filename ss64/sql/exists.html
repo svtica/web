@@ -1,0 +1,57 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/sql/exists.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:53 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Exists - SQL Server - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_sql.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">SQL Server <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/sql/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Exists</h1>
+<p>Use a subquery to test for the existence of rows.</p>
+<pre>Syntax
+      EXISTS <i>subquery</i>
+
+      NOT EXISTS <i>subquery</i>
+
+Key<i>
+   </i><i>subquery</i>  A restricted <a href="select.html">SELECT</a> statement.
+             (The COMPUTE clause and the INTO keyword are not allowed.)</pre>
+
+<p>Examples</p>
+<pre>IF EXISTS (select *<br>          from sales<br>          where customer_id = 123)<br>  Print 'Record exits'<br>ELSE<br>  Print 'Record doesn''t exist'
+
+
+SELECT sal.sales_id<br>FROM Sales AS sal<br>WHERE NOT EXISTS<br>(SELECT * <br>    FROM Discounts AS disc<br>    WHERE sal.sales_id = disc.sales_id 
+    );</pre>
+<p class="quote"><i>&ldquo;If you can dream - and not make dreams your master;<br>
+If you can think - and not make thoughts your aim...&rdquo; ~ Rudyard Kipling 1899 </i></p>
+<p><b>Related:</b></p>
+<p> <a href="if.html">IF</a> <br>
+Equivalent Oracle  command: 
+Select into a cursor then: <span class="code">IF SQL%FOUND THEN</span>...</p><!-- #BeginLibraryItem "/Library/foot_sql.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- ss64-sql -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6953563613"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/sql/exists.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:53 GMT -->
+</html>

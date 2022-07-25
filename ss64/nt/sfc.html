@@ -1,0 +1,72 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/sfc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>SFC - System File Checker - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>SFC.exe</h1>
+<p>System File Checker </p>
+<pre>Syntax
+      Sfc [/Scannow] [/Scanonce] [/Scanboot] [/Revert] [/Purgecache] [/Cachesize=<i>x</i>]
+Key
+   /Scannow   Scan all protected system files immediately and replace
+              incorrect versions with correct Microsoft versions. 
+              May require access to the Windows installation source files.
+
+   /Scanonce  Scan all protected system files one time when you restart your computer.
+              May require access to the Windows installation source
+              files when you restart the computer.
+              The SfcScan DWORD value is set to 2 in the following registry key
+              HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+
+   /Scanboot  Scan all protected system files every time you start your computer.
+              May require access to the Windows installation source files every 
+              time you start the computer.
+              The SfcScan DWORD value is set to 1 in the following registry key 
+              HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+
+   /Revert    Return scan to the default setting
+              (do not scan protected files when you start the computer).
+              The default cache size is not reset when you run this command.
+
+  /Purgecache Purge the file cache and scan all protected system files immediately.
+              May require access to the Windows installation source files.
+
+ /Cachesize=<i>x</i> Set the file cache size to <i>x</i> megabytes (MB).
+              The default size of the cache is 50 MB. 
+              This command requires you to restart the computer, and then run
+              the /purgecache command to adjust the size of the on-disk cache.
+              This command sets the SfcQuota DWORD value to x in the following registry key:
+              HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon</pre>
+<p> SFC must be run from an <a href="syntax-elevate.html">elevated</a> command prompt.</p>
+<p class="quote"><i>&ldquo;Oh, yes, I've learned from my mistakes and I'm sure I could repeat them exactly&rdquo; ~  Sir Arthur Streeb-Greebling (aka Peter Cook)</i></p>
+<p><b>Related:</b></p>
+<p class="space"><a href="slmgr.html">SLMGR</a> - Software Licensing Management.<br>
+<a href="msinfo32.html">MSINFO32</a> - Windows  System Information.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/sfc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:55 GMT -->
+</html>

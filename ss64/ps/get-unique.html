@@ -1,0 +1,67 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-unique.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:09 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-Unique - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Get-Unique</h1> 
+<p>Return the unique items from a <b>sorted</b> list.</p>
+<pre>Syntax
+      Get-Unique [-inputObject <i>psobject</i>] [-asString] [<i><a href="common.html">CommonParameters</a></i>]
+    
+      Get-Unique [-inputObject <i>psobject</i>] [-onType] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -inputObject 
+       A command/expression/variable that returns the object(s)
+      (will treat as a single collection)
+        
+   -asString 
+       Treat the data as a string, not an object.
+       Use this parameter to find the unique values of object properties
+       e.g. file names.
+       For a collection of objects of the same type, Get-Unique will
+       returns just one (the first). 
+        
+   -onType 
+       Return only one object of each type.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Get-Unique:<span class="code"> <b>gu</b></span></p>
+<p><b>Examples</b></p>
+<p>Sort an array of integers, and display the unique values:</p>
+<p><span class="code">PS C:\&gt; 2,4,6,8,2,64,4,2,99,3 | sort-object | Get-Unique</span><br>
+<br>List every folder on the C: drive that contains one or more .xls files:</p>
+<p class="code">PS C:\&gt; gci C:\ -include *.xls -recurse |foreach {$_.directoryName} | get-unique</p>
+<p>Get the names of processes running on the computer with duplicates eliminated:</p>
+<p class="code">PS C:\&gt; get-process | sort-object | select processname | get-unique -asstring</p>
+<p>Find the number of unique words in a text file:</p>
+<p class="code">PS C:\&gt; $a = $(foreach ($line in get-content C:\docs\File1.txt) {$line.tolower().split(&quot; &quot;)}) | sort | get-unique<br>
+PS C:\&gt; $a.count</p>
+<p class="quote"><i>"An Englishman, even if he is alone, forms an orderly queue of one" ~ George Mikes</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><a href="get-random.html">Get-Random</a> - Get a random number.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-unique.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:09 GMT -->
+</html>

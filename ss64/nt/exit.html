@@ -1,0 +1,101 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/exit.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:34 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Exit - Terminate a script - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>EXIT</h1> 
+<p>Close the current batch script,  exit the current subroutine or close the CMD.EXE session, optionally setting an errorlevel.</p>
+<pre>Syntax
+      EXIT [/B] [<i>exitCode</i>]
+
+Key
+    /B        When used in a batch script, this option will exit 
+              only the script (or subroutine) but not CMD.EXE
+              If executed on the command-line it will close CMD.exe
+
+   <i>exitCode</i>   Sets the %ERRORLEVEL% to a numeric number.
+              If quitting CMD.EXE, sets the process exit code no.</pre>
+<p>To close an interactive command prompt, the <a href="syntax-keyboard.html">keyboard shortcut</a> ALT + F4 is an alternative to typing EXIT.</p>
+<h2>Errorlevel</h2>
+<blockquote>
+<p><span class="code">EXIT /b</span> has the option to set a specific errorlevel, <span class="code">EXIT /b 0</span> for sucess, <span class="code">EXIT /b 1</span> (or greater) for an error.<br>
+The exit code can be an integer of up to 10 digits in length (positive or negative).</p>
+<p><span class="code">EXIT</span> without an ExitCode acts the same as <a href="goto.html" class="code">goto:eof</a> and will not alter the <a href="errorlevel.html">ERRORLEVEL</a></p>
+<p>n.b. You should never attempt to directly write to the <span class="code">%ERRORLEVEL%</span> variable, (<span class="code">SET ERRORLEVEL <i>n</i></span> ) instead use <span class="code">EXIT /b</span><i class="code"> n </i> as a safe way to set the internal <span class="code">ERRORLEVEL</span> pseudo variable to <span class="code"><i>n</i></span>.</p>
+</blockquote>
+<h2>Ctrl-C</h2>
+<blockquote>
+<p>An errorlevel of -1073741510 will be interpreted by CMD.exe as a Ctrl-C Key sequence to cancel the current operation, not the entire script which EXIT will do.</p>
+<p>To use this in a batch file, launch a new CMD session and immediately exit it, passing this errorlevel. The script will then act as though Ctrl-C had been pressed. <a href="https://www.dostips.com/forum/viewtopic.php?t=5859">Source and examples</a> on DosTips.com.</p>
+<p class="code">::Ctrl-C<br>
+cmd /c exit -1073741510</p>
+</blockquote>
+<p>When EXIT /b used with <a href="for_l.html">FOR /L</a>, the execution of the commands in the loop is stopped, but the loop itself continues until the end count is reached. This will cause slow performance if the loop is (pointlessly) counting up to a large number. <br>
+In the case of an infinite loop, this <span class="code">EXIT /b</span> behaviour will cause the script to hang until manually terminated with Ctrl + C</p>
+<p>Exiting nested <a href="for.html">FOR</a> loops,  <span class="code">EXIT /b</span> can be used to exit a FOR loop that is nested within another FOR loop.<br>
+This will only work if the inner FOR loop is contained in a separate <a href="call.html">subroutine</a>, so that <span class="code">EXIT /b</span> (or <a href="goto.html" class="code">goto:eof</a>) will terminate the subroutine.</p>
+<p><b>Examples</b></p>
+<p> Exit if a required file is missing:<span class="code"><br>
+<br>
+@Echo Off<br>
+If not exist MyimportantFile.txt <b>Exit /b</b><br>
+Echo If we get this far the file was  found
+</span></p>
+<p>Set the <a href="errorlevel.html">errorlevel</a> to 5:<br>
+<br>
+<span class="code">@Echo Off<br>
+Call :setError<br>
+Echo %errorlevel%<br>
+Goto :eof</span></p>
+<p class="code">:setError<br>
+Exit /B 5</p>
+<p>Use EXIT /b to exit a nested FOR loop (so skipping the values X,Y and Z), but still continue back to the main outer loop:</p>
+<pre>@Echo Off
+Setlocal 
+For %%A in (alpha beta gamma) DO (
+   Echo Outer loop %%A
+   Call :inner 
+)
+Goto :eof
+
+:inner
+For %%B in (U V W X Y Z) DO (
+   if %%B==X ( <b>exit /b 2</b> )
+   Echo    Inner loop    Outer=%%A Inner=%%B
+)</pre>
+<p>EXIT is an <a href="syntax-internal.html">internal</a> command.<br>
+If <a href="cmd.html">Command Extensions</a> are disabled, the EXIT command will still work but may output a spurious '<i>cannot find the batch label</i>' error.</p>
+<p class="quote"><i>&ldquo;Making music is not about a place you go. It’s about a place you get out of. I’m underwater most of the time, and music is like a tube to the surface that I can breathe through. It’s my air hole up to the world. If I didn’t have the music I’d be under water, dead&rdquo; ~ Fiona Apple </i></p>
+<p><span class="body"> </span> <b>Related:</b></p>
+<p class="space"><span class="body"><a href="verify.html">VERIFY</a> - Provides an alternative method of raising an error</span>level without exiting.<br>
+<a href="tskill.html">TSKILL</a> - End a running process.<br>
+Powershell: <a href="../ps/exit-pssession.html">Exit</a> - Exit Powershell or <a href="../ps/break.html">break</a> - Exit a program loop.<br>
+Equivalent bash command (Linux):<a href="../bash/export.html">   </a><a href="../bash/break.html">break</a> - Exit from a loop.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/exit.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:34 GMT -->
+</html>

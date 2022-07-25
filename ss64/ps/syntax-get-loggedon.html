@@ -1,0 +1,84 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-get-loggedon.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:51 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-Loggedon - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> How-to: Get a list of Logged on users [Get-Loggedon]</h1> 
+<p>The script below can be used to list all the users currently logged into a remote machine using <s>WMI</s>/CIM. It includes background processes/services but excludes standard processes running under NETWORK SERVICE, LOCAL SERVICE and SYSTEM. This does make the assumption that the user is running at least one process, theoretically someone could be log in and kill all processes including the Desktop/Explorer but that's a pretty rare edge case.</p>
+<p>For instructions of how to download and run this script see: <a href="syntax-run.html">Run a PowerShell script</a>.<br>
+Background information on <a href="syntax-loggedon.html">monitoring logon sessions</a>. </p>
+<pre>
+function Get-LoggedOn {
+#Requires -Version 3.0
+[CmdletBinding()]
+Param (
+    [Parameter(Mandatory=$true,
+               Position=0,
+               ValueFromPipeline=$true,
+               ValueFromPipelineByPropertyName=$true)]
+    [String[]]$ComputerName
+)
+
+Begin {
+    Write-Host "`n Gathering data, please wait..."
+    $i = 0
+}
+
+Process {
+    $ComputerName | Foreach-object {
+        $Computer = $_
+        try {
+            $processinfo = @(<a href="get-ciminstance.html">Get-CimInstance</a> -class <b>win32_process</b> -ComputerName $Computer -ErrorAction "Stop")
+            # To exclude service accounts add  -filter &quot;Name='Explorer.exe'&quot;  to the line above.
+
+            if ($processinfo) {
+                $processinfo | Foreach-Object {<a href="invoke-cimmethod.html">Invoke-CimMethod</a> -InputObject $_ -MethodName GetOwner | select -ExpandProperty user} |
+                Where-Object {$_ -ne "NETWORK SERVICE" -and $_ -ne "LOCAL SERVICE" -and $_ -ne "SYSTEM"} |
+                Sort-Object -Unique |
+                ForEach-Object { New-Object psobject -Property @{Computer=$Computer;LoggedOn=$_} } |
+                Select-Object Computer,LoggedOn
+            }
+        }
+        catch {
+                "Cannot find any processes running on $computer" | Out-Host
+        }
+    }
+
+}
+
+End {
+}
+
+}</pre>
+<p><b>Examples</b></p>
+<p class="code">Get-LoggedOn computer64</p>
+<p><i></i><span class="quote"><i>&ldquo;Your present circumstances don't determine where you can go; they merely determine where you start&rdquo; ~ Nido Qubein</i></span></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><a href="get-ciminstance.html">Get-CimInstance</a> -  Get a managed resource (storage, network, software etc).</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-get-loggedon.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:51 GMT -->
+</html>

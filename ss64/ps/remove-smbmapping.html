@@ -1,0 +1,88 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/remove-smbmapping.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Remove-SmbMapping - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Remove-SmbMapping</h1> 
+<p><span class="space">Remove the drives mapped </span>to an SMB share. Requires PowerShell 5.0+ and Windows 10.</p>
+<pre>Syntax
+      Remove-SmbMapping [[-LocalPath] <i>String</i>[]] [[-RemotePath] <i>String</i>[]] 
+         [-CimSession <i>CimSession</i>[]] [-Force]
+            [-PassThru] [-ThrottleLimit <i>Int32</i>] [-UpdateProfile]
+               [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -CimSession [<i>CimSession</i>[]]
+       Run the cmdlet in a remote session or on a remote computer.
+       Enter a computer name or a session object, such as the output of a New-CimSession or Get-CimSession cmdlet.
+       The default is the current session on the local computer.
+        
+   -Force
+       Force the command to run without asking for user confirmation.
+        
+   -LocalPath [<i>String</i>[]]
+       An array of the local paths associated with the SMB mappings to remove.
+        
+   -PassThru
+       Return an object representing the item with which you are working.
+       By default, this cmdlet does not generate any output.
+        
+   -RemotePath [<i>String</i>[]]
+       An array of the remote paths of the SMB shares associated with the mappings that this cmdlet removes.
+        
+   -ThrottleLimit [<i>Int32</i>]
+       The maximum number of concurrent operations that can be established to run the cmdlet.
+       If this parameter is omitted or a value of 0 is entered, then PowerShell will calculate an optimum throttle limit 
+       for the cmdlet based on the number of CIM cmdlets that are running on the computer. The throttle limit applies 
+       only to the current cmdlet, not to the session or to the computer.
+        
+   -UpdateProfile
+       Remove the mapping persistently.
+       If the drive mapping is currently persistent, it will no longer be re-established when the computer restarts.
+        
+   -Confirm
+       Prompt for confirmation before running the cmdlet.
+        
+   -WhatIf
+       Show what would happen if the cmdlet was run. The cmdlet is not run.</pre>
+<p>If you remove a drive mapping for the current directory, the command will succeed but the directory will no longer be valid, so subsequent commands like <span class="code">get-childitem</span> may fail.</p><p><b>Examples</b></p>
+<p>Remove all SMB mappings:</p>
+<pre>PS C:\&gt; Remove-SmbMapping</pre>
+<p>Remove the SMB mapping for X:</p>
+<pre>PS C:\&gt; Remove-SmbMapping X: -force
+</pre>
+<p><i class="quote">&ldquo;Joel: You look familiar. Have we met?<br>
+&nbsp;Wilhelmina Slater: We're not even meeting now&rdquo; ~ Ugly Betty, 2006 TV series</i></p><p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="new-smbmapping.html">New-SmbMapping</a> -  Create a  mapping to an SMB share.<br>
+<a href="get-smbmapping.html">Get-SmbMapping</a> -  Get Mapped SMB drives.<br>
+ Get-SmbConnection - Retrieve the connections established from the SMB client to the SMB servers.<br>
+<a href="https://web.archive.org/web/20170531211528/https://blogs.msmvps.com/russel/2016/09/04/mapping-drives-revisited/">Script to remove drive mappings</a> - Both PSDrives and SMB drive mappings Charlie Russel (msmvps.com)<br>
+Windows cmd command: <a href="../nt/net-use.html">NET USE</a><a href="../nt/sc.html"></a> - Map drive.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/remove-smbmapping.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:08 GMT -->
+</html>

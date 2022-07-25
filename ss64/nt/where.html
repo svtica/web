@@ -1,0 +1,84 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/where.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:59 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Where - locate files - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>WHERE.exe</h1> 
+<p> Locate and display files in a directory tree. <br>
+  <br>
+  The WHERE command is roughly equivalent to the UNIX 'which' command. By default, the search is done in the <a href="cd.html">current directory</a> 
+and in the <a href="path.html">PATH</a>.
+<pre>Syntax
+      WHERE [/r <i>Dir</i>] [/q] [/f] [/t] <i>Pattern</i> ...
+
+      WHERE [/q] [/f] [/t] [$<i>ENV</i>:<i>Pattern</i>
+
+      In PowerShell:
+      C:\Windows\System32\WHERE.exe ..<i>options as above</i>
+
+key
+   /r      A recursive search, starting with the specified <i>Dir</i> directory.
+
+   /q      Don&rsquo;t display the files but return either an exit code of 0 for success
+           or 1 for failure.
+
+   /f      Display the output file name in quotation marks.
+
+   /t      Display the size, time stamp, and date stamp of the file.
+
+  <i>pattern</i>  The Drive\Directory\file, or set of files to be found.
+           you can use wildcard characters ( ? * ) and UNC paths.
+
+   <i>ENV</i>     Path to search where <i>ENV</i> is an existing environment variable containing one or more paths.</pre>
+<p>By default, WHERE searches the current directory and the paths specified in the <a href="path.html">PATH</a> environment variable.</p>
+<p>The WHERE command is particularly useful to reveal multiple versions of the same comand/script on the system PATH such as a Resource Kit utility - Robocopy or ForFiles.</p>
+<p>To run the WHERE command from PowerShell it is necessary to give the full path <span class="code">C:\Windows\System32\WHERE.exe</span> otherwise the Where-Object cmdlet will take precedence.</p>
+<p>Optional search paths (in <i>pattern</i>) should not be used in conjunction with <span class="code">/r Dir</span>.</p>
+<p><b>Examples</b></p>
+<p>Find all copies of robocopy.exe in the current system path:</p>
+<p><span class="code">C:\Windows\System32\WHERE  robocopy.exe</span><br>
+<br>
+Find all files named 'Zappa' on the remote computer 'Server64' searching 
+the subdirectories of Share1:<br>
+<br>
+<span class="code">WHERE /r \\Server64\Share1 Zappa.* </span></p>
+<p><i class="quote">&ldquo;Who never walks, save where he sees men's tracks, makes no discoveries&rdquo; ~ Josiah Gilbert Holland </i><br>
+<br>
+<b>Related:</b></p>
+<p><span class="space"><a href="syntax-which.html">Which.cmd</a> - Show full path to executable.<br>
+<a href="https://devblogs.microsoft.com/oldnewthing/20050120-00/?p=102308">OldNewthing</a> - 90 byte 'whereis' batch file:<br> 
+@for %%e in (%PATHEXT%) do @for %%i in (%1%%e) do @if NOT &quot;%%~$PATH:i&quot;==&quot;&quot; echo %%~$PATH:i<br>
+<a href="http://www.flounder.com/whereis.htm">whereis utility</a> - Flounder.com.<br>
+<a href="https://www.robvanderwoude.com/unixports.php#WHICH">Which </a> - several scripts from Rob Vanderwoude.<br>
+<a href="cd.html">CD</a> - Change Directory.<br>
+<a href="type.html">TYPE</a> - Display the contents of a text file.<br>
+Equivalent bash command (Linux): <a href="../bash/which.html">which</a> - Show full path of commands.<br>
+Equivalent PowerShell cmdlet: (<a href="../ps/get-command.html">get-command</a> $file).Definition</span></p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/where.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:59 GMT -->
+</html>

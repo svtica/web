@@ -1,0 +1,96 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/syntax-autoexec.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:47 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Autoexec and AutoRun| Windows CMD</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ntsyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Autoexec commands</h1>
+<p>To run a command as soon as the <b>command prompt</b> is opened:</p>
+<blockquote>
+<p> HKLM\Software\Microsoft\Command Processor\AutoRun<br>
+HKCU\Software\Microsoft\Command Processor\AutoRun</p>
+<p>These startup options are rarely used, if you set one of the AutoRun keys to launch CMD.exe that will recursively launch new CMD sessions until the machine runs out of memory.</p>
+</blockquote>
+<p> To run a command <b>as soon as a user logs in</b>:</p>
+<blockquote>
+<p> The STARTUP folder (Start Menu)<br>
+<span class="code">HKLM</span>\Software\Microsoft\Windows\CurrentVersion\Run<br>
+<span class="code">HKCU</span>\Software\Microsoft\Windows\CurrentVersion\Run<br>
+<span class="code">HKCU</span>\Software\Microsoft\Windows NT\CurrentVersion\Windows\Run</p>
+</blockquote>
+<p>To run a command <b>as soon as the machine powers up</b>, (like AUTOEXEC.BAT 
+in MS-DOS), use the Windows Task Scheduler - choosing the  option: 
+</p>
+<blockquote>
+<p>Run a task:<br>
+When my computer starts (before a user logs on)</p>
+</blockquote>
+<h1>Autoexec.bat file</h1>
+<blockquote>
+<p>The autoexec.bat file was an MS-DOS feature. Under Windows there is a still a degree of backwards compatibility - if the file  (C:\autoexec.bat) exists, any SET statements within it will be parsed at boot time. <br>
+Variables set in this way are not available to gui programs - they will be visible from the CMD prompt but don&rsquo;t appear in the control panel. All other commands  in autoexec.bat will be ignored.
+This behaviour is to allow old DOS applications to install correctly.
+</p>
+</blockquote>
+<h2>Scripts running at Windows startup </h2>
+<blockquote>
+<p>To see exactly what is running (or running slowly) at windows startup/login, set the following registry key: 
+</p>
+<p class="code">[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\policies\system] <br>
+&quot;verbosestatus&quot;=dword:00000001</p>
+</blockquote>
+<h2>AutoRun</h2>
+<blockquote>
+<p>Autorun events are (mostly) restricted to drives of type DRIVE_CDROM. The default behaviour is to invoke AutoPlay. The <span class="code">NoAutoRun</span> registry  entry can be used to disable the AutoPlay and/or AutoRun feature on individual drives. This can be set in the registry under  HKCU and/or   HKLM. (If both are set then HKLM will take priority.) </p>
+<p>The <span class="code">NoDriveTypeAutoRun</span>  registry entry disables or enables the AutoRun feature on all drives of the <i>type</i> specified. It can be set in the registry under  HKCU and/or   HKLM. (If both are set then HKLM will take priority.) </p>
+<p>Values: <br>
+<span class="code">0xFF</span>=Disable AutoRun on all types of drive<br>
+<span class="code">0x91</span>=Disable AutoRun on network drives,<br>
+<span class="code">0x95</span>=Disable AutoRun on removable + network drives.</p>
+<p>The <span class="code">NoDriveAutoRun</span> registry  entry disables or enables the AutoRun feature on individual <i>drives</i>. It can be set in the registry under  HKCU and/or   HKLM. (If both are set then HKLM will take priority.)
+</p>
+<p>In all cases the registry keys are set  under:<br>
+<span class="code">\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer</span>
+</p>
+<p>The registry key <span class="code">HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\MountPoints2</span>  contains cached information about every removable device seen so far. This cache can bypass  the registry settings above which can leave a machine vulnerable. See <a href="https://support.microsoft.com/en-gb/help/967715/">Q967715</a> for patches that address this issue. Alternatively the iniFileMapping method described below will  disable AutoRun completely.
+</p>
+<p>To effectively disable AutoRun in all versions of Microsoft Windows, import the following registry value (source: US-Cert <a href="https://www.us-cert.gov/ncas/alerts/TA09-020A">Alert TA09-020A</a>)  this applies to any autorun.inf in any location and on any drive:
+</p>
+<p class="code"> REGEDIT4<br>
+  [HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\IniFileMapping\Autorun.inf]<br>
+@="@SYS:DoesNotExist"</p>
+</blockquote>
+<p><i class="quote">&ldquo;The real danger is not that machines will begin to think like men, but that men will begin to think like machines&rdquo; ~ Sydney J. Harris</i>
+<p><b>Related:</b>
+<p class="space"><a href="sc.html">SC</a> - Service Control.<br>
+<a href="set.html">SET</a> - Display, set, or remove Windows  environment 
+variables.<br>
+<a href="https://support.microsoft.com/en-gb/help/967715/">Q967715</a> - How to disable the Autorun functionality in Windows.<br>
+<a href="https://support.microsoft.com/en-us/help/137890/">Q137890</a> - SRVANY -  create an NT Service from any executable. Not supported on current OS's use a <a href="../ps/scheduler.html">Scheduled Task</a> instead.</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/syntax-autoexec.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:47 GMT -->
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/cdate.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:14 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="cdate() is a function that converts an expression into a date value.">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CDate function - Access - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CDate</h1>
+<p> Function that converts an expression into  a date value.</p>
+<pre>Syntax
+      CDate (<i>expression</i>)</pre>
+<p>The expression must be a valid date. The Date data type accepts either the date or the time, or both. Possible values range from January 1, 100 to December 31, 9999.</p>
+<p>CDate() has identical syntax to <a href="cvdate.html">CVDate()</a>, CVDate() returns a Variant with the subtype of Date, CDate() returns an actual Date type.</p>
+<p>CDate cannot handle Null values, use Nz() to convert Nulls to a valid date.</p>
+<p><b>Example</b></p>
+<p class="code">Dim dtmRetirement as Date </p>
+<p class="code">dtmRetirement = CDate(&quot;Aug 6, 2083&quot;)<br>
+dtmRetirement = CDate(Nz(Me!txtDate, #01/01/1980#))</p>
+<p class="quote"><i>&ldquo;The hours of folly are measured by the clock, but of wisdom no clock can measure&rdquo; ~ William Blake</i></p>
+<p><b>Related:</b></p>
+<p><a href="cbool.html">CBool</a> - Convert to boolean <a href="chr.html"><br>
+</a><a href="cint.html">CInt</a> - Convert to Integer (number) <br>
+
+<a href="nz.html">Nz</a> - Detect a NULL value or Zero Length string.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/cdate.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:14 GMT -->
+</html>

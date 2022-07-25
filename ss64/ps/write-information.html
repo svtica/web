@@ -1,0 +1,70 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/write-information.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:01 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Write-Information - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Write-Information</h1> 
+<p>Write  to the information stream data.</p>
+<pre>Syntax
+      Write-Information [-MessageData] <i>Object</i> [[-Tags] <i>String</i>[]] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -MessageData <i>Object</i>
+       An informational message to display to users as they run a script or command.
+       For best results, enclose the message in quotes: "Test complete."
+        
+   -Tags <i>String</i>[]
+       A simple string that can be used to sort and filter messages that have been added to the information 
+       stream with Write-Information. This parameter works similarly to the -Tags parameter in New-ModuleManifest.</pre>
+<p>Windows PowerShell 5.0 introduces a new, structured information stream (number 6 in Windows PowerShell streams)      that you can use to transmit structured data between a script and its callers (or hosting environment).      </p>
+<p>Write-Information lets you add an informational message to the stream, and specify how Windows PowerShell handles      information stream data for a command.          </p>
+<p>The $InformationPreference <a href="syntax-preference.html">preference variable</a> value determines whether the message you provide to      Write-Information is displayed at the expected point in a script's operation. Because the default value of this      variable is SilentlyContinue, by default, informational messages are not shown. </p>
+<p>If you don't want to change the      value of $InformationPreference, you can override its value by adding the <span class="code">-InformationAction</span> common parameter to      your command.</p>
+<p>Starting in  PowerShell 5.0, <a href="write-host.html">Write-Host</a> is a wrapper for Write-Information . You can now use Write-Host to      emit output to the information stream, but the $InformationPreference preference variable and InformationAction      common parameter do not affect Write-Host messages. Information streams also work for PowerShell.Streams , jobs,      scheduled jobs, and workflows. </p>
+<p>Write-Information is also a supported workflow activity.</p>
+<p><b>Examples</b></p>
+<p>By default Write-Information output is not displayed because the $InformationPreference      variable is  set to its default, SilentlyContinue:</p>
+<p><span class="code">PS C:\&gt; Write-Information -MessageData &quot;This will not display&quot;<br>
+</span></p>
+<p>Setting -<span class="code">InformationAction</span> will over-ride the default:</p>
+<p class="code">PS C:\&gt; Write-Information -MessageData &quot;This will  display&quot; -InformationAction Continue </p>
+<p>Adding <span class="code">-tags</span> means that if you later search the information stream for messages tagged 'ss64', the message specified      here would be among the results:</p>
+<p class="code">PS C:\&gt; Write-Information -MessageData &quot;Insert floppy disc&quot; -Tags &quot;ss64&quot; -InformationAction Continue</p>
+<p class="quote"><i>&quot;You own everything that happened to you. Tell your stories. <br> 
+&nbsp;If people wanted you to write warmly about them, they should have behaved better&quot; ~ Anne Lamott</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p> <span class="space"><a href="tee-object.html">Tee-Object</a> - Send input objects to two places.<br>
+  <a href="write-debug.html">Write-Debug</a> - Write a debug message to the host display.<br>
+<a href="write-error.html">Write-Error</a> - Write an object to the error pipeline.<br>
+<a href="write-host.html">Write-Host</a> - Display objects through the host user interface.</span><br>
+<span class="space"><a href="write-output.html">Write-Output</a> -  Write an object to the pipeline.</span><br>
+<a href="write-progress.html">Write-Progress</a> -  Display a progress bar.<br>
+<a href="write-verbose.html">Write-Verbose</a> - Write a string to the host&rsquo;s verbose display.<br>
+<a href="write-warning.html">Write-Warning</a> - Write a warning message.</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/write-information.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:09:01 GMT -->
+</html>

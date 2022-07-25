@@ -1,0 +1,69 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/syntax-diruse.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:51 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DirUse Directory size - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_pssyntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1> How-to: DIRUSE, a PowerShell script to list directory sizes</h1> 
+<p>The old DirUse Resource kit utility can still be run in PowerShell to display disk usage for multiple subdirectories, but all it will do is display text it won't provide any PowerShell objects we can manipulate.</p>
+<p>The script below is all pure PowerShell and is kept as simple as possible to make it understandable - you may want to build on this and turn it into an <a href="syntax-function-advanced.html">advanced</a> function. </p>
+<pre>
+$folder = '<b>\\server64\Users</b>'
+
+$DirUseArray = @()
+ 
+# Get a list of first level sub-folders
+$firstLevel = Get-ChildItem $folder -directory
+ 
+$firstLevel | foreach {
+   Echo "Reading $_"
+   # Read the size of this folder and all its sub folders.
+   $size = (Get-ChildItem $folder\$_\* -recurse) | measure-object -property length -sum | Select-Object -expand sum
+ 
+   # Convert from Bytes to <a href="../convert.html">GiB</a> and round to 2 decimal places
+   $size =  [math]::Round($(0 + $size /1GB),2)
+   Echo $size
+ 
+   # Add to an array
+   $DirUseArray += New-Object PsObject -property @{
+      'Folder' = $_
+      'Size (GB)' = $size
+   }
+}
+$DirUseArray | Export-Csv -path <b>C:\batch\DirUse.csv</b> -NoTypeInformation</pre>
+<p>The main core of this script is the line <span class="code">(Get-ChildItem $folder\* -recurse) | measure-object -property length -sum </span>which enumerates all the files in a folder and then passes them to Measure-Object to get the total size.</p>
+<p><b>Examples</b></p>
+<p>Run the script:<br>
+<span class="code"> PS C:\&gt; ./diruse.ps1</span></p>
+<p class="quote"><i>&ldquo;The size and age of the Cosmos are beyond ordinary human understanding. Lost somewhere between immensity and eternity is our tiny planetary home. In a cosmic perspective, most human concerns seem insignificant, even petty. And yet our species is young and curious and brave and shows much promise.&rdquo; ~ Carl Sagan</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="get-childitem.html">Get-ChildItem</a> - Get child items (contents of a folder or registry key).<br>
+<a href="measure-object.html">Measure-Object</a> - Measure the properties of an object.<br>
+Equivalent Windows CMD command: <a href="../nt/diruse.html">DIRUSE</a> - Display disk usage. <br>
+Equivalent Linux bash command: <a href="../bash/du.html">du</a> - Disk Usage</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/syntax-diruse.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:51 GMT -->
+</html>

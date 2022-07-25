@@ -1,0 +1,54 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/cls.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:24 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>CLS Clear the screen - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>CLS</h1> 
+<p>Clear the screen.</p>
+<pre>Syntax
+      CLS</pre>
+<p>If CLS is redirected to file, console or executed through FOR /F it will print a line feed character (<a href="../ascii.html">ASCII</a> 10).</p>
+<h2>Errorlevels</h2>
+<blockquote>
+<p>If the screen is successfully cleared <span class="code"><a href="errorlevel.html">%ERRORLEVEL%</a> = <i>unchanged</i></span>, typically this will be 0 but if a previous command set an errorlevel, that will be preserved (this is a bug).</p>
+<p> If a bad switch is given = <span class="code"><a href="errorlevel.html">%ERRORLEVEL%</a> = 1</span></p>
+</blockquote>
+<p><b>Example</b></p>
+<p><span class="code"> Echo Hello<br>
+</span><span class="code">CLS<br>
+Echo You didnt see that
+</span></p>
+<p>CLS is an <a href="syntax-internal.html">internal</a> command.</p>
+<p class="quote"><i>&ldquo;Let me be clear: America wants a strong, peaceful, and prosperous Russia&rdquo; ~ Barack Obama</i></p>
+<p><span class="body"> </span> <b>Related:</b></p>
+<p><span class="space"><a href="echo.html">ECHO</a> - Display message on screen.<br>
+Powershell: <a href="../ps/clear-host.html">Clear-Host</a> - Clear the screen.</span><br>
+</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/cls.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:24 GMT -->
+</html>

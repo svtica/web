@@ -1,0 +1,62 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-pssessionconfiguration.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:07 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-PSSessionConfiguration - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Get-PSSessionConfiguration</h1> 
+<p>Get the session configurations that have been registered on the local computer.<br> 
+This is an advanced cmdlet for system administrators to manage custom session configurations for their users.</p>
+<pre>Syntax
+      Get-PSSessionConfiguration [[-Name] <i>string</i>[]] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -Name
+       Get only the session configurations with the specified name or pattern.
+       Enter one or more session configuration names.
+       Wildcards are permitted.</pre>
+<p><b>Examples</b></p>
+<p>Get the session configurations on the computer: </p>
+<pre>PS C:&gt; get-pssessionconfiguration</pre>
+<p>Get only the session configurations with names that begin with &quot;Microsoft&quot;:</p>
+<pre>PS C:&gt; get-pssessionconfiguration -name Microsoft*</pre>
+<p>Get the resource URI of a session configuration:</p>
+<pre>PS C:&gt; (get-PSSessionConfiguration -name CustomShell).resourceURI</pre>
+<p> Display all the session configuration including the maximum permitted **IdleTimeout** value for Server64:<br>
+</p>
+<pre>PS C:&gt; Invoke-Command -ComputerName Server64 {Get-PSSessionConfiguration Microsoft.PowerShell} | Format-List -Property *</pre>
+<p>For more examples, see: get-help Get-PSSessionConfiguration -detailed</p>
+<p class="quote"><i>"All of Western logic is based upon the law of
+contradiction -- if two things contradict, then
+at least one of them is false. But Islamic logic
+is dualistic; two things can contradict each
+other and both are true" ~ Bill Warner</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p>   <span class="space"><a href="enable-pssessionconfiguration.html">Enable-PSSessionConfiguration</a> - Enable PS session configuration.<br>
+<a href="register-pssessionconfiguration.html">Register-PSSessionConfiguration</a> - Create and register a new PS session configuration.</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-pssessionconfiguration.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:06:07 GMT -->
+</html>

@@ -1,0 +1,164 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/bash/passwd.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:03:08 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>passwd Man Page - Linux - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_bash.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Linux <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/bash/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>passwd</h1> 
+<p>Modify a user password.</p>
+<pre>SYNTAX
+      passwd [<i>Options</i>...] [<i>LOGIN</i>]
+
+OPTIONS
+   -a, --all
+      This option can be used only with -S and causes show status for all users.
+
+   -d, --delete
+      Delete a user's password (make it empty). This is a quick way to disable
+      a password for an account. It will set the named account passwordless.
+
+   -e, --expire
+      Immediately expire an account's password. This in effect can force a
+      user to change their password at the user's next login.
+
+   -h, --help
+      Display help message and exit.
+
+   -i, --inactive <i>INACTIVE</i>
+      This option is used to disable an account after the password has been
+      expired for a number of days. After a user account has had an expired
+      password for <i>INACTIVE</i> days, the user may no longer sign on to the account.
+
+   -k, --keep-tokens
+      Indicate password change should be performed only for expired authentication
+      tokens (passwords). The user wishes to keep their non-expired tokens as before.
+
+   -l, --lock
+      Lock the password of the named account. This option disables a  password by
+      changing it to a value which matches no possible encrypted value
+      (it adds a ´!´ at the beginning of the password).
+
+      Note that this does not disable the account. The user may still be able to
+      login using another authentication token (e.g. an SSH key).
+      To disable the account, administrators should use usermod --expiredate 1
+      (this set the account's expire date to Jan 2, 1970).
+
+      Users with a locked password are not allowed to change their password.
+
+   -n, --mindays <i>MIN_DAYS</i>
+      Set the minimum number of days between password changes to <i>MIN_DAYS</i>.
+      A value of zero for this field indicates that the user may change their
+      password at any time.
+
+   -q, --quiet
+      Quiet mode.
+
+   -r, --repository <i>REPOSITORY</i>
+      change password in <i>REPOSITORY</i> repository
+
+   -R, --root <i>CHROOT_DIR</i>
+      Apply changes in the <i>CHROOT_DIR</i> directory and use the configuration files
+      from the <i>CHROOT_DIR</i> directory.
+
+   -S, --status
+      Display account status information. The status information consists of
+      7 fields. The first field is the user's login name.
+      The second field indicates if the user account has a locked password (L),
+      has no password (NP), or has a usable password (P).
+      The third field gives the date of the last password change. The next four
+      fields are the minimum age, maximum age, warning period, and inactivity period
+      for the password. These ages are expressed in days.
+
+   -u, --unlock
+      Unlock the password of the named account. This option re-enables a password
+      by changing the password back to its previous value (to the value before using -l).
+
+   -w, --warndays <i>WARN_DAYS</i>
+      Set the number of days of warning before a password change is required.
+      The <i>WARN_DAYS</i> option is the number of days prior to the  password expiring
+      that a user will be warned that their password is about to expire.
+
+   -x, --maxdays <i>MAX_DAYS</i>
+      Set the maximum number of days a password remains valid. After MAX_DAYS, the 
+      password is required to be changed.
+
+      Passing the number -1 as <i>MAX_DAYS</i> will remove checking a password's validity.</pre>
+<p>If no options are specified - passwd will change the password 
+  of the currently logged in user.</p>
+<p> can be set to
+enforce a limited lifetime for each password:<i><br>
+</i> parameters: PASS_MAX_DAYS, PASS_MIN_DAYS, PASS_WARN_AGE</p>
+<h2>Password Changes        </h2>
+<blockquote>
+<p>The passwd command changes passwords for user accounts. A normal user may only change the password for their own account, while the superuser may change the password for any account. passwd also changes the account or associated password validity period. </p>
+<p>The user is first prompted for their old password, if one is present. This password is then encrypted and compared against the stored password. The user has only one chance to enter the correct password. The superuser is permitted to bypass this step so that forgotten passwords may be changed.</p>
+<p>After the password has been entered, password aging information is checked to see if the user is permitted to change the password at this time. If not, passwd refuses to change the password and exits.</p>
+<p>The user is then prompted twice for a replacement password. The second entry is compared against the first and both are required to match in order for the password to be changed</p>
+<p>Then, the password is tested for complexity. As a general guideline, passwords should consist of 6 to 8 characters including one or more characters from each of the following sets: · lower case alphabetics · digits 0 thru 9· punctuation marks Care must be taken not to include the system default erase or kill characters. passwd will reject any password which is not suitably complex. </p>
+</blockquote>
+<h2>Hints for user passwords</h2>
+<blockquote>
+<p>The security of a password depends upon the strength of the encryption algorithm and the size of the key space. The legacy UNIX System encryption method is based on the NBS DES algorithm. More recent methods are now recommended (see ENCRYPT_METHOD). The size of the key space depends upon the randomness of the password which is selected.</p>
+<p>Compromises in password security normally result from careless password selection or handling. For this reason, you should not select a password which appears in a dictionary or which must be written down. The password should also not be a proper name, your license number, birth date, or street address. Any of these may be used as guesses to violate system security.</p>
+</blockquote>
+<h2>Files</h2>
+<blockquote>
+<p>  <span class="code">/etc/login.defs</span> - Password aging (for new accounts)<br>
+<span class="code">/etc/passwd</span> User account information. <br>
+<span class="code">/etc/shadow</span> Secure user account information. <br>
+<span class="code">/etc/pam.d/passwd</span> PAM configuration for passwd.</p>
+</blockquote>
+<h2>Exit Values</h2>
+<blockquote>
+<p> The passwd command exits with the following values:</p>
+<p> 0 &nbsp;Success.<br>
+1 &nbsp;Permission denied.<br>
+2 &nbsp;Invalid combination of options.<br>
+3 &nbsp;Unexpected failure, nothing done.<br>
+4 &nbsp;Unexpected failure, passwd file missing.<br>
+5 &nbsp;Passwd file busy, try again.<br>
+6 &nbsp;Invalid argument to option.</p>
+</blockquote>
+<p><i class="quote">"Chico : you can't come in unless you give the password... <br>
+Well, what is the password?... I got it! Haddock! ~ Groucho Marx</i></p>
+<p><b>Related linux commands:</b></p>
+<p class="space"><a href="https://en.wikipedia.org/wiki/Password_strength">Advice on how to choose a strong password</a> - Wikipedia<br>
+<a href="chgrp.html">chgrp</a> - Change group ownership.<br>
+chage - 
+Set password age.<br>
+<a href="passwd.html">chpasswd</a> - Update passwords in batch mode. <br>
+<a href="chmod.html">chmod</a> - Change access permissions.<br>
+<a href="chown.html">chown</a> - Change file owner and group.<br>
+passwd(5) - Password file.<br>
+<a href="usermod.html">usermod</a> - Modify user account.<br>
+<a href="who.html">who</a> - Print who is currently logged in.<br>
+<i>/etc/default/useradd</i><br>
+<i>/etc/login.defs</i><br>
+<a href="../pass/index.html">Password generator</a><br>
+Equivalent Windows command: <a href="../ps/set-adaccountpassword.html">Set-adAccountPassword</a> - Modify the password of an AD account.<span class="code"></span></p><!-- #BeginLibraryItem "/Library/foot_bash.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- bash300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4615356305"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/bash/passwd.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:03:08 GMT -->
+</html>

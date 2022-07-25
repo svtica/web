@@ -1,0 +1,106 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/nt/query-session.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:52 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Query Session / Qwinsta - Windows CMD - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_nt.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">CMD <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/nt/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Query Session / Qwinsta</h1> 
+<p> Display information about user sessions on a  Terminal server or a Remote Desktop Session Host (RD Session Host) server.</p>
+<pre>Syntax
+      QUERY SESSION [/server:<i>ServerName</i>]
+         [/mode] [/flow] [/connect] [/counter]
+
+      QUERY SESSION <i>UserName</i> [/server:<i>ServerName</i>]
+         [/mode] [/flow] [/connect] [/counter]
+
+      QUERY SESSION [<i>SessionName</i> | <i>SessionID</i>] [/server:<i>ServerName</i>]
+         [/mode] [/flow] [/connect] [/counter]
+
+Key
+   <i>UserName</i>    The logon username of the user whose sessions you want to query.
+
+   <i>SessionName</i> The name of the session that you want to query.
+
+   <i>SessionID</i>   The ID of the session that you want to query.
+
+   /server:<i>ServerName</i>
+               The Remote Desktop Session Host server to query.
+               The default is the current server.
+
+   /mode       Display current line settings.
+
+   /flow       Display current flow-control settings.
+
+   /connect    Display current connect settings.
+
+   /counter    Display current counter information, including the
+               total number of sessions created, disconnected, and reconnected.
+
+   /?          Display help.</pre>
+<p> <span class="code">Qwinsta</span> is a synonym for <span class="code">QUERY SESSION</span>. </p>
+<p>A user can always query the session to which the user is currently logged on. To query other sessions, the user must have <i>Query Information</i> special access permission.</p>
+<p>If you do not specify a session by using <i>SessionName</i>, <i>UserName</i>, or <i>SessionID</i>,  information about all active sessions in the system will be displayed.</p>
+<p>When QUERY SESSION returns information, a greater than (<span class="code">&gt;</span>) symbol is displayed before the current session. <br>
+Sample output:</p>
+<pre>C:\&gt;query session
+  SESSIONNAME USERNAME       ID STATE  TYPE    DEVICE
+ &gt;console     Administrator1 0  active wdcon
+  rdp-tcp#1   User1          <b>1  active</b> wdtshare
+  rdp-tcp                    2  listen wdtshare
+                             4  idle
+                             5  idle</pre>
+<blockquote>
+<p><span class="code">SESSIONNAME</span> The name assigned to the session.<br>
+<span class="code">USERNAME</span> The user name of the user connected to the session.<br>
+<span class="code">ID</span> The session  ID <br>
+<span class="code">STATE</span> provides information about the current state of the session. <br>
+<span class="code">TYPE</span> indicates the session type. <br>
+<span class="code">DEVICE</span>, which is not present for the console or network-connected sessions, is the device name assigned to the session.</p>
+</blockquote>
+<p>Either the SessionName or the ID can be used by the <a href="reset-session.html">Reset Session</a> and <a href="logoff.html">LOGOFF</a> commands respectfully to disconnect or logoff that session from the server. </p>
+<p>The comment following session information is from the session profile. Any sessions in which the initial state is configured as DISABLED do not show up in the query session list until they are enabled.</p>
+<p>The <span class="code">User Access</span> permission type grants the following special permissions: <span class="code">Query Information</span>, <span class="code">Logon</span>, and <span class="code">Connect</span>. These special permissions allow a user to: Log on to a session on the terminal server. Query information about a session. Send messages to other user sessions. Connect to another session.</p>
+<p>Permissions are  set under:</p>
+<p class="code">Terminal Services Configuration | Connections | Properties | Permissions | Advanced | Permissions</p>
+<p><b>Examples</b></p>
+<p>Display information about all active sessions on server64:</p>
+<p class="code">C:\&gt; query session /server:Server64</p>
+<p>Display information about active session MODEM02: </p>
+<p class="code">C:\&gt; query session MODEM02</p>
+<p class="quote"><i>&ldquo;Once men are caught up in an event, they cease to be afraid. Only the unknown frightens men&rdquo; - Antoine de Saint-Exupery</i></p>
+<p>  <b>Related:</b></p>
+<p class="space"><span class="code"><a href="../ps/get-ciminstance.html">Get-CimInstance</a> Win32_LoggedOnUser</span> - Similar to Query Session, but includes stale data (disconnected sessions).<br>
+<a href="query-process.html">Query Process</a> - Display processes (TS/Remote Desktop).<br>
+<a href="query-termserver.html">Query TermServer</a> - List all servers (TS/Remote Desktop).<br>
+<a href="query-user.html">Query User</a> - Display user sessions (TS/Remote Desktop).<br>
+<a href="reset-session.html">Reset Session</a> - Delete a Remote Desktop Session.<br>
+<a href="logoff.html">LOGOFF</a> - Log a user off.<br>
+<a href="change.html">CHANGE</a> - Change Terminal Server Session properties.<br>
+<a href="mstsc.html">MSTSC</a> - Terminal Server Connection (Remote Desktop Protocol).</p><!-- #BeginLibraryItem "/Library/foot_nt.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- windows300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="7649547908"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/nt/query-session.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:04:52 GMT -->
+</html>

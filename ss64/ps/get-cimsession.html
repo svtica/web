@@ -1,0 +1,86 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/get-cimsession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:46 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Get-CimSession - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Get-CIMSession</h1> 
+<p>Get the CIM session objects created in the current wps_1 session.</p>
+<pre>Syntax
+      Get-CimSession [[-ComputerName] <i>String</i>[]] [<i><a href="common.html">CommonParameters</a></i>]
+
+      Get-CimSession [-Id] <i>UInt32</i>[] [<i><a href="common.html">CommonParameters</a></i>]
+
+      Get-CimSession -InstanceId <i>Guid</i>[] [<i><a href="common.html">CommonParameters</a></i>]
+
+      Get-CimSession -Name <i>String</i>[] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -ComputerName <i>String</i>[]
+       The name of the computer from which to get CIM sessions. <a href="syntax-wildcards.html">Wildcards</a> are permitted.
+
+   -Id <i>UInt32</i>[]
+       The identifier (ID) of the CIM session to get.
+       For one or more IDs, use commas to separate the IDs, or use the <a href="syntax-operators.html">range operator</a> (..) to specify a range of IDs.
+
+       An ID is an integer that uniquely identifies the CIM session in the current wps_2 session.
+       It is easier to remember and type than InstanceId, but it is unique only within the current wps_2 session.
+        
+    -InstanceId <i>Guid</i>[]
+       The instance IDs of the CIM session to get.
+        
+       InstanceID is a GUID that uniquely identifies a CIM session.
+       The InstanceID is unique, even when you have multiple sessions running in wps_2.
+        
+       The InstanceID is stored in the InstanceID property of the object that represents a CIM session.
+        
+    -Name <i>String</i>[]
+       Get one or more CIM sessions which contain the specified friendly names. Wildcard characters are permitted.</pre>
+<p>Standard <a href="get-alias.html">Aliases</a> for Get-CIMSession:<span class="code"> <b>gcms</b></span></p>
+<p>If used without any parameters, the cmdlet gets all of the CIM sessions created in the current wps_2 session. You can use the parameters of Get-CimSession to get the sessions that are for particular computers, or you can identify sessions by their names, IDs, or instance IDs. see about_CimSessions.</p>
+<p><b>Examples</b></p>
+<p>Create a CIM session to multiple computers:</p>
+<p><span class="code">PS C:\&gt; New-CimSession -ComputerName Server64,Server65</span></p>
+<p>Then get the CIM sessions by using      Get-CimSession:</p>
+<p><span class="code">PS C:\&gt; Get-CimSession</span><br>
+<br>
+Get a list of CIM sessions and then format the list in a table:</p>
+<p class="code">PS C:\&gt; Get-CimSession | Format-Table -Property ComputerName,InstanceID</p>
+<p>Get all the CIM sessions that have  names that begin with the characters serv:</p>
+<p class="code">PS C:\&gt; Get-CimSession -ComputerName Serv*</p>
+<p>Get a      specific CIM session<span class="code">:<br>
+PS C:\&gt; Get-CimSession -ID 2<br>
+</span></p>
+<p><i class="quote">“I tell you, when I die I’m not going to have a funeral, I’m going to have a jam session. And, knowing me, I’ll probably get busted at my own funeral. I shall have them playing everything I did musically – everything I enjoyed doing most. The music will be played loud and it will be our music.” ~ Jimi Hendrix</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p><span class="space"><a href="get-ciminstance.html">Get-CimInstance</a> -  Get a managed resource (storage, network, software etc.)<br>
+<a href="invoke-cimmethod.html">Invoke-CimMethod</a> -  Invoke a method of a CIM class or CIM instance.<br>
+<a href="new-cimsession.html">New-CimSession</a> -  Create a CIM session.<br>
+<a href="new-cimsessionoption.html">New-CimSessionOption</a> - Specify advanced options for  New-CimSession.<br>
+<a href="remove-cimsession.html">Remove-CimSession</a> -  Remove one or more CIM session objects.</span></p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/get-cimsession.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:47 GMT -->
+</html>

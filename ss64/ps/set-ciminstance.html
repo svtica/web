@@ -1,0 +1,172 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/ps/set-ciminstance.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:46 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>Set-CIMInstance - PowerShell - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_ps.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">PowerShell <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/ps/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>Set-CIMInstance (PowerShell 3.0+ )</h1> 
+<p>Modify a CIM instance on a CIM server by calling the ModifyInstance method of the CIM class. Equivalent to the old WMI cmdlet <a href="set-wmiinstance.html">Set-WmiInstance</a> , the CIM version uses WSMAN (WinRM) to connect to remote machines and is therefore an order of magnitude faster.</p>
+<pre>Syntax
+      Set-CimInstance <b>-Query <i>String</i></b>
+         <b>[ </b>-ComputerName <i>String[]</i> <b>|</b> -CimSession <i>CimSession[]</i> <b>]</b>
+            -Property <i>IDictionary</i>
+               [-Namespace <i>String</i>] [-QueryDialect <i>String</i>] [-PassThru] 
+                  [-OperationTimeoutSec <i>UInt32</i>] [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+
+      Set-CimInstance [<b>-InputObject</b>] <i><b>CimInstance</b></i>
+         <b>[</b> -ComputerName <i>String[]</i> <b>|</b> -CimSession <i>CimSession[]</i> <b>]</b>
+            [-Property <i>IDictionary</i>] [-ResourceUri <i>Uri</i>] [-PassThru]
+               [-OperationTimeoutSec <i>UInt32</i>] [-Confirm] [-WhatIf] [<i><a href="common.html">CommonParameters</a></i>]
+
+Key
+   -CimSession <i>CimSession</i>[]
+       Run the cmdlets on a remote computer. Enter a variable that contains the CIM session or a command 
+       that creates or gets the CIM session, such as the New-CimSession or Get-CimSession cmdlets. For more 
+       information, see about_CimSessions.
+
+   -ComputerName <i>String</i>[]
+       The computer on which you want to run the CIM operation. You can specify a fully qualified domain name 
+       (FQDN), or a NetBIOS name.
+
+       If you specify this parameter, the cmdlet creates a temporary session to the specified computer using the 
+       WsMan protocol.If you do not specify this parameter, the cmdlet performs the operation on the local computer
+       using Component Object Model (COM).
+
+       If multiple operations are being performed on the same computer, using a CIM session gives better performance.
+
+   -InputObject <i>CimInstance</i>
+       Specifies a CIM instance object to use as input.
+
+       -- If neither the -ComputerName parameter nor the -CimSession parameter is specified, then this cmdlet uses the CIM
+          session or computer name from the input object.
+
+       -- If the either the -ComputerName parameter or the -CimSession parameter is specified, then this cmdlet uses
+          either the -CimSession parameter value or -ComputerName parameter value.  Note: This is not very common.
+
+   -Namespace <i>String</i>
+       Specifies the namespace of CIM class.
+
+       The default namespace is root/cimv2. 
+       NOTE: You can use tab completion to browse the list of namespaces, because wps_2 gets a list of namespaces 
+       from the local WMI server to provide the list of namespaces.
+
+   -OperationTimeoutSec <i>UInt32</i>
+       Specifies the amount of time that the cmdlet waits for a response from the computer.
+
+       By default, the value of this parameter is 0, which means that the cmdlet uses the default timeout value for 
+       the server.
+
+       If the OperationTimeoutSec parameter is set to a value less than the robust connection retry timeout of 3 
+       minutes, network failures that last more than the value of the OperationTimeoutSec parameter are not 
+       recoverable, because the operation on the server times out before the client can reconnect.
+
+   -PassThru
+       Passthru the pipeline.
+
+   -Property <i>IDictionary</i>[]
+       Specifies the properties of the CIM instance as a hash table (using name-value pairs). Only the properties
+       specified using this parameter are changed. Other properties of the CIM instance are not changed.
+
+   -Query <i>String</i>
+       Specifies a query to run on the CIM server to retrieve CIM instances on which to run the cmdlet.
+       You can specify the query dialect using the -QueryDialect parameter.
+
+       --If neither the -ComputerName parameter nor the -CimSession parameter is specified, then this cmdlet works on
+         local Windows Management Instrumentation (WMI) using a Component Object Model (COM) session.
+
+       --If either the -ComputerName parameter or the -CimSession parameter is specified, then this cmdlet works against
+         the CIM server specified by either the -ComputerName parameter or the -CimSession parameter.
+
+       If the value specified contains double quotes (“), single quotes (‘), or a backslash (\), you must escape 
+       those characters by prefixing them with the backslash (\) character. If the value specified uses the WQL LIKE 
+       operator, then you must escape the following characters by enclosing them in square brackets ([]): percent 
+       (%), underscore (_), or opening square bracket ([).
+
+       You cannot use a metadata query to retrieve a list of classes or an event query. To retrieve a list of 
+       classes, use the Get-CimClass cmdlet. To retrieve an event query, use the Register-CimIndicationEvent cmdlet.
+
+       You can specify the query dialect using the -QueryDialect parameter.
+
+   -QueryDialect <i>String</i>
+       Specifies the query language used for the Query parameter.
+
+       psdx_paramvalues WQL or CQL.
+
+       The default value is WQL.
+
+   -ResourceUri <i>Uri</i>
+       Specifies the resource uniform resource identifier (URI) of the resource class or instance. The URI is used to 
+       identify a specific type of resource, such as disks or processes, on a computer.
+
+       A URI consists of a prefix and a path to a resource. For example: 
+
+       http://schemas.microsoft.com/wbem/wsman/1/wmi/root/cimv2/Win32_LogicalDisk
+       http://intel.com/wbem/wscim/1/amt-schema/1/AMT_GeneralSettings
+       
+       By default, if you do not specify this parameter, the DMTF standard resource URI 
+       http://schemas.dmtf.org/wbem/wscim/1/cim-schema/2/ is used and the class name is appended to it.
+       
+       ResourceURI can only be used with CIM sessions created using the WSMan protocol, or when specifying the 
+       ComputerName parameter, which creates a CIM session using WSMan. If you specify this parameter without 
+       specifying the ComputerName parameter, or if you specify a CIM session created using DCOM protocol, you will 
+       get an error, because the DCOM protocol does not support the ResourceURI parameter.
+
+       If both the -ResourceUri parameter and the -Filter parameter are specified, the -Filter parameter is ignored.
+
+   -Confirm
+       Prompt for confirmation before executing the command.
+
+   -WhatIf
+       Describe what would happen if you executed the command without actually executing it.</pre>
+<p>The Common Information Model (CIM) is the DMTF standard [<a href="https://www.dmtf.org/dsp/DSP0004">DSP0004</a>] for describing the structure and behavior of managed resources such as storage, network, or software components.</p>
+<p>Standard <a href="get-alias.html">Alias</a> for Set-CIMInstance:<span class="code"> <b>scim</b></span></p>
+<p>The results of <span class="code">Get-CimInstance</span> can be piped into <span class="code">Set-CimInstance</span></p>
+<p><b>Examples</b></p>
+<p>Read the value of the OS Environment Variable (a &lt;System&gt; variable) :</p>
+<pre>PS C:\&gt; Get-CimInstance -Query 'Select * from Win32_Environment where name = &quot;OS&quot;'
+ Name   VariableValue
+ ----   -------------
+ OS     Windows_NT </pre>
+<p>Change the value of the OS Environment Variable (requires elevation):</p>
+<p><span class="code">PS C:\&gt; </span><span class="code">Get-CimInstance -Query 'Select * from Win32_Environment where name = &quot;OS&quot;' | Set-CimInstance      -Property @{VariableValue=&quot;Windows_95&quot;}</span></p>
+<p>The same change can be made, passing a variable ($x) using -InputObject:</p>
+<p><span class="code">PS&gt; $x = Get-CimInstance -Query 'Select * from Win32_Environment where Name=&quot;OS&quot;'</span><br>
+<span class="code">PS&gt; Set-CimInstance -InputObject $x -Property @{VariableValue=&quot;Windows_95&quot;} -PassThru</span></p>
+<p>Because the -Passthru parameter is used, the above set of      commands returns a modified CIM instance object.</p>
+<p>A third option is to modify the object before passing it to Set-CimInstance:</p>
+<p class="code">PS C:\&gt; $x = Get-CimInstance -Query 'Select * from Win32_Environment where name=&quot;OS&quot;'<br>
+PS C:\&gt; $x.VariableValue = &quot;Windows_95&quot;<br>
+PS C:\&gt; Set-CimInstance -CimInstance $x -PassThru</p>
+<p>Because the -Passthru parameter is used, the above set of      commands returns a modified CIM instance object.</p>
+<p> <i class="quote">“If you feel safe in the area you’re working in, you’re not working in the right area. Always go a little further into the water than you feel you’re capable of being in. Go a little bit out of your depth. And when you don’t feel that your feet are quite touching the bottom, you’re just about in the right place to do something exciting.” ~ David Bowie</i></p>
+<p><b>Related PowerShell Cmdlets:</b></p>
+<p class="space"><a href="get-ciminstance.html">Get-CimInstance</a> -  Get a managed resource (storage, network, software etc).<br>
+<a href="invoke-cimmethod.html">Invoke-CimMethod</a> -  Invoke a method of a CIM class or CIM instance.<br>
+<a href="new-ciminstance.html">New-CimInstance</a> - Create a new instance of a class.<br>
+<a href="remove-ciminstance.html">Remove-CimInstance</a> -  Remove a CIM instance from a computer.</p><!-- #BeginLibraryItem "/Library/foot_ps.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- PowerShell300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="6253539900"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/ps/set-ciminstance.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:05:46 GMT -->
+</html>

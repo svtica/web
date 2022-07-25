@@ -1,0 +1,61 @@
+<!doctype html><html lang="en">
+
+<!-- Mirrored from ss64.com/osx/security-find-id.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:44 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>security - Find identity - macOS - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_osx.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">macOS <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/osx/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1><a href="security.html">security</a> Find Identity </h1> 
+<pre>   find-identity [-h] [-p <i>policy</i>] [-s <i>string</i>] [-v] [<i>keychain</i>...]
+            Find an identity (certificate + private key) satisfying a given policy. If no policy arguments
+            are provided, the X.509 basic policy is assumed. If no keychain arguments are provided, the
+            default search list is used.
+
+            Options:
+            -p <i>policy</i>       Specify policy to evaluate (multiple -p options are allowed). Supported policies:
+                            basic, ssl-client, ssl-server, smime, eap, ipsec, ichat, codesigning, sysdefault,
+                            default, sys-kerberos-kdc
+            -s <i>string</i>       Specify optional policy-specific string (e.g. a DNS hostname for SSL, or RFC822
+                            email address for S/MIME)
+            -v              Show valid identities only (default is to show all identities)
+
+            Examples
+
+            security> find-identity -v -p ssl-client
+                     Display valid identities that can be used for SSL client authentication
+
+            security> find-identity -p ssl-server -s www.domain.com
+                     Display identities for a SSL server running on the host 'www.domain.com'
+
+            security> find-identity -p smime -s user@domain.com
+                     Display identities that can be used to sign a message from 'user@domain.com'
+</pre>
+<p class="quote"><i>“Security is mostly a superstition. It does not exist in nature, nor do the children of men as a whole experience it. Avoiding danger is no safer in the long run than outright exposure. Life is either a daring adventure, or nothing” ~ Helen Keller</i></p>
+<p><b>Related macOS commands:</b></p>
+<p><a href="security.html">security</a> - Administer Keychains, keys, certificates and the Security framework.</p><!-- #BeginLibraryItem "/Library/foot_osx.lbi" --><p>
+<script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- OSX300 -->
+<ins class="adsbygoogle"
+     style="display:inline-block;width:300px;height:250px"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="1823340303"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/osx/security-find-id.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:08:44 GMT -->
+</html>

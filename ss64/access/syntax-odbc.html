@@ -1,0 +1,72 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/syntax-odbc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:52 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="To upsize an access database to SQL Server (or Oracle, Postgres etc) there are several steps to perform...">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<link rel="STYLESHEET" href="../tables.css" type="text/css">
+<title>Create an ODBC connection to SQL Server - Access - SS64.com</title></head>
+<body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: Create an ODBC connection to SQL Server</h1>
+<p>To create an ODBC connection to an external database hosted on SQL Server,PostGres etc</p>
+<p>Settings &gt; Setup ODBC data sources</p>
+<p>From here you have 3 choices</p>
+<ul>
+<li>User DSN: Create a connection for the current user only.</li>
+<li>System DSN: Create a connection for any user of the current computer.</li>
+<li>File DSN: Create a connection available to any user who can access the <span class="code">.DSN</span> file.</li>
+</ul>
+<p><img src="odbc.png" width="666" height="168" alt="ODBC control panel"></p>
+<p>In early versions of MS Access the <span class="code">.DSN</span> file had to be named the same as the database and placed in the same directory. This is no longer required but does make it simple to keep track of which <span class="code">.DSN</span> file applies to each database file.</p>
+<h2>32 bit vs 64 bit Access databases</h2>
+<blockquote>
+<p>The  majority of Office 2010 and 2016 installations are  32 bit, a 64 bit copy of MS Access cannot open a 32 bit .MDE or .ACCDE file, but you can recompile 32-bit .mde, .ade, and .accde files to make them 64-bit compatible.</p>
+<p>As of the release of Office 2019, Microsoft  now <a href="https://support.office.com/en-gb/article/choose-between-the-64-bit-or-32-bit-version-of-office-2dee7807-8f95-4d0c-b5fe-6c6f49b8d261">recommend installing the 64-bit version</a> of Office unless you have a specific need which still requires the 32-bit version.</p>
+</blockquote>
+<h2>Port Number</h2>
+<blockquote>
+<p>Some SQL servers are installed with more than one instance on the same machine, in those cases Access will require the port no.</p>
+<p>The port number can be found by running the following SQL on the server:</p>
+<p class="code">USE master <br>
+GO <br>
+xp_readerrorlog 0, 1, 
+NServer is listening on <br>
+GO   </p>
+<p>Then define the  DSN string in the File DSN as <span class="code"><i>Server64</i>,<i>NNNNN</i></span> where <span class="code">Server64</span> is the Server name and <i class="code">NNNNN</i> is the Port number.</p>
+</blockquote>
+<p><b>Examples:</b></p>
+<p>X:\databases\contacts.accde<br>
+X:\databases\contacts.DSN</p>
+<p>\\server64\dbshare\contacts.accde<br>
+\\server64\dbshare\contacts.DSN</p>
+<p>The DSN file is a simple text file which can be edited with any text editor.</p>
+<p class="quote"><i>&ldquo;A hidden connection is stronger than an obvious one&rdquo; ~ Heraclitus of Ephesus</i></p><p><b>Related Links:</b></p>
+<p><a href="syntax-upsize.html">Upsize</a> an Access database to SQL Server.<br>
+<a href="https://deep.data.blog/2012/09/08/how-to-assign-a-static-port-to-a-sql-server-named-instance-and-avoid-a-common-pitfall/">Assign a static port</a> to a SQL Server named instance.<br>
+<a href="https://www.connectionstrings.com/">connectionstrings.com</a> - connection strings for various hosts.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/syntax-odbc.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:52 GMT -->
+</html>

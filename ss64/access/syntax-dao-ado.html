@@ -1,0 +1,135 @@
+<!DOCTYPE HTML><html lang="en">
+
+<!-- Mirrored from ss64.com/access/syntax-dao-ado.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:53 GMT -->
+
+<head><meta charset="UTF-8">
+<meta name="Description" content="To upsize an access database to SQL Server (or Oracle, Postgres etc) there are several steps to perform...">
+<meta name="viewport" content="width=768, initial-scale=1">
+<link rel="STYLESHEET" href="../main.css" type="text/css">
+<title>DAO and ADO - Access - SS64.com</title>
+</head><body><!-- #BeginLibraryItem "/Library/head_access_syntax.lbi" --><div id="tnav"><ul>
+<li class="tbtn"><a href="../index.html">SS64</a></li>
+<li class="tbtn"><a href="index.html">Access <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li class="tbtn"><a href="syntax.html">How-to <svg viewBox="0 0 13 20.1" width="13" height="13" style="transform: rotate(0deg);"><path d="M0 2.9l7.2 7.2-7.1 7.1L3 20.1l7.1-7.1 2.9-2.9L2.9 0 0 2.9"></path></svg></a></li>
+<li><div id="search"><form action="https://www.google.com/search" method="get">
+<input type="text" name="q" id="q" size="27" maxlength="255">
+<input class="submit" value="Search" id="btn" type="submit">
+<input type="hidden" name="sitesearch" value="ss64.com/access/"></form></div></li>
+</ul></div><!-- #EndLibraryItem --><h1>How-to: DAO and ADO</h1>
+<p>TLDR: For most purposes you should stick with the default DAO. </p>
+<h2> Data Access Objects (DAO) </h2>
+<blockquote>
+<p>In all recent versions of Access, the default data access library is named <i>Microsoft Office 1x.0 Database Engine Object Library</i> <br>
+This provides Data Access Objects (DAO)</p>
+<p>DAO is the native data access method for the Jet (Microsoft Access) data tables and also works for SQL Server.</p>
+<p>ActiveX Data Objects (ADO) a part of <a href="https://en.wikipedia.org/wiki/Microsoft_Data_Access_Components">MDAC</a>  was originally intended as a replacement for  DAO, but it never fully met this goal and so in 2007 Microsoft reversed its roadmap and made DAO the preferred and recommended data access library for Access.</p>
+</blockquote>
+<h2>ActiveX Data Objects (ADO)</h2>
+<blockquote>
+<p>ADO &quot;Active X Data Objects&quot; is an industry friendly connection to almost all types of database. If your application needs to access multiple data sources such as Word documents, email messages or non conventional ISAM or ODBC databases then ADO may be a good choice.</p>
+<p>ADO does have many useful features which you can read about <a href="https://www.utteraccess.com/wiki/Choosing_between_DAO_and_ADO">here</a>, but these come at a cost of reduced performance. DAO is almost always faster. </p>
+<p>Many older/existing databases may still be using ADO and so it is still fully supported. It is also possible to mix both DAO and ADO libraries in same application. To use ADO you will need to manually add a <i>reference</i> to enable it, you may also need to install MDAC if not already installed. </p>
+</blockquote>
+<h2>What are Object References? </h2>
+<blockquote>
+<p>References allow you to select another application's objects making them available in your code by setting a reference to that application's object library. The references that are set must match the application programs installed on the machine, if there is a mismatch then the code will fail to compile or run.</p>
+<p>Object references allow a lot of additional functionality to be quickly added to an Access database but that somes at a cost of needing to have those extra applications installed (often the same version of the application) on all the machines where the database is used.</p>
+</blockquote>
+<h2>Where are they set?</h2>
+<blockquote>
+<p>Open the VBA editor with Alt + F11 then choose Tools, References.<br>
+Only 4 are libraries required – if you create a new blank database, these will be set automatically.</p>
+<ul>
+<li>Visual Basic for Applications VBA (4.2)<br>
+FullPath:     C:\PROGRA~2\COMMON~1\MICROS~1\VBA\VBA7.1\VBE7.DLL<br>
+<br>
+</li>
+<li>Microsoft Access 16 Object library Access (9.0)<br>
+FullPath:     C:\Program Files (x86)\Microsoft Office\Office16\MSACC.OLB<br>
+<br>
+</li>
+<li>OLE Automation stdole (2.0) <br>
+FullPath:     C:\Windows\SysWOW64\stdole2.tlb<br>
+<br>
+</li>
+<li>Microsoft Access 16 Access Database engine Object Library DAO (12.0) <br>
+FullPath:     C:\Program Files (x86)\Common Files\Microsoft Shared\OFFICE16\ACEDAO.DLL</li>
+</ul>
+<p>To add ADO, select <i>Microsoft ActiveX Data Objects x.x Library</i> from the list</p>
+<p>The priority of References does make a difference, the four above should be the at the top of the list - highest priority.</p>
+</blockquote>
+<h2>Enumerating References</h2>
+<blockquote>
+<p>Documenting a list of references used is important particularly if anything non-standard has been enabled. Invalid, 'broken' references will prevent your VBA code from running.</p>
+<p>Print a list of current references to the VBA editor immediate window:<br>
+</p>
+<pre>
+Dim ref As Reference
+
+' Enumerate through References collection.
+
+For Each ref In References
+    ' Check IsBroken property.
+    If ref.IsBroken = False Then
+       Debug.Print "Name (version): " & ref.Name & " (" & ref.Major & "." & ref.Minor & ")"
+       Debug.Print "FullPath:", ref.FullPath
+       Debug.Print ""
+    Else
+       Debug.Print "GUIDs of broken references:"
+       Debug.Print ref.Guid
+    End If
+Next ref</pre>
+</blockquote>
+<p><b>Example</b></p>
+<p>Make 100 copies of the current record with DAO.</p>
+<p> When attached to an access form, this will add 100 new rows with values equal to the matching items on the current form. This simple example could also be written as an <a href="update.html">UPDATE</a> query. A query will always run faster than a loop in code.<br>
+</p>
+<pre>
+Dim db As DAO.Database
+Dim rs As DAO.Recordset
+Dim CreateNew As Integer
+ 
+Set db = CurrentDb
+Set rs = db.OpenRecordset("T_Assets", dbOpenDynaset, dbSeeChanges)
+   
+For CreateNew = 1 To 100 Step 1
+    rs.AddNew
+    rs("A_Asset_Type_ID") = Me!txtAsset_Type
+    rs("A_description") = Me!txtDescription
+    rs("A_Supplier_ID") = Me!txtSupplier_ID
+    rs("A_Received_Date") = Me!txtReceived_Date
+    rs("A_Model_No") = Me!txtModel_No
+    rs("A_Order_No") = Me!txtOrder_No
+    rs("A_Status_ID") = Me!cmbStatus_ID
+    rs("A_Cost") = Me!txtCost
+    rs.Update
+Next
+ 
+'clean up
+rs.Close
+db.Close
+
+Set rs = Nothing
+Set db = Nothing</pre>
+<p class="quote"><i>&ldquo;The only meaningful definition of a “generalist” is a specialist who can relate his own small area to the universe of knowledge&rdquo; ~ Peter Drucker</i></p>
+<p><b>Related Links:</b></p>
+<p><a href="syntax-odbc.html">Create an ODBC connection</a> to SQL Server.<br>
+<a href="https://www.connectionstrings.com/">connectionstrings.com</a> - connection strings for various hosts.<br>
+<a href="https://www.microsoft.com/en-gb/download/details.aspx?id=5793">Microsoft Data Access Components</a> (MDAC) 2.8 SP1 - provides ADO, download from 2005.</p><!-- #BeginLibraryItem "/Library/foot_access.lbi" --><p><script async src="../../pagead2.googlesyndication.com/pagead/js/f.txt"></script>
+<!-- access -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-6140977852749469"
+     data-ad-slot="4313908313"
+     data-ad-format="auto"></ins>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+</p>
+<hr>
+<div id=bl>&nbsp;</div>
+<div id=br>Copyright &copy; 1999-2020 <a href="../index.html">SS64.com</a><br>
+Some rights reserved</div><!-- #EndLibraryItem --></body>
+
+<!-- Mirrored from ss64.com/access/syntax-dao-ado.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 29 Aug 2020 00:11:53 GMT -->
+</html>
