@@ -13,8 +13,8 @@
   --universal-margin: 0.5rem;
   --universal-padding: 0.5rem;
   --universal-border-radius: 0.125rem;
-  --a-link-color: #2e86c1;
-  --a-visited-color: MidnightBlue;
+  --a-link-color: DodgerBlue;
+  --a-visited-color: DarkSeaGreen;
 }
 
 html {
@@ -725,7 +725,7 @@ a:hover, a:focus {
   --input-fore-color: var(--fore-color);
   --input-border-color: var(--border-color);
   --input-focus-color: #0288d1;
-  --input-invalid-color: orange;
+  --input-invalid-color: GoldenRod;
   --button-back-color: var(--back-color);
   --button-hover-back-color: var(secondary-fore-color);
   --button-fore-color: var(--fore-color);
@@ -1024,20 +1024,20 @@ button.large, [type="button"].large, [type="submit"].large, [type="reset"].large
 /* Navigation module CSS variable definitions */
 :root {
   --header-back-color: var(--back-color);
-  --header-hover-back-color: gray;
+  --header-hover-back-color: var(--border-color);
   --header-fore-color: var(--fore-color);
   --header-border-color: var(--border-color);
   --nav-back-color: var(--back-color);
   --nav-hover-back-color: var(--back-color);
   --nav-fore-color: var(--fore-color);
   --nav-border-color: var(--border-color);
-  --nav-link-color: #0277bd;
+  --nav-link-color: DodgerBlue;
   --footer-fore-color: var(--fore-color);
   --footer-back-color: var(--back-color);
   --footer-border-color: var(--border-color);
-  --footer-link-color: #0277bd;
+  --footer-link-color: DodgerBlue;
   --drawer-back-color: var(--back-color);
-  --drawer-hover-back-color: orange;
+  --drawer-hover-back-color: GoldenRod;
   --drawer-border-color: var(--border-color);
   --drawer-close-color: var(--fore-color);
 }
@@ -1073,9 +1073,9 @@ header button, header [type="button"], header .button, header [role="button"] {
   line-height: calc(3.1875rem - var(--universal-padding) * 1.5);
   text-align: center;
   color: var(--header-fore-color);
-  border: 0;
-  border-radius: 0;
-  margin: 0;
+  border: 0 ;
+  border-radius: 0 ;
+  margin: 0 ;
   text-transform: uppercase;
 }
 
@@ -1086,7 +1086,7 @@ header button:hover, header button:focus, header [type="button"]:hover, header [
 nav {
   background: var(--nav-back-color);
   color: var(--nav-fore-color);
-  border: 0.0625rem solid var(--nav-border-color);
+  border: 0 rem solid var(--nav-border-color);
   border-radius: var(--universal-border-radius);
   margin: var(--universal-margin);
 }
@@ -1096,7 +1096,7 @@ nav * {
 }
 
 nav a, nav a:visited {
-  display: block;
+  display: inline;
   color: var(--nav-link-color);
   border-radius: var(--universal-border-radius);
   transition: background 0.3s;
@@ -1617,7 +1617,7 @@ mark.inline-block {
 :root {
   --modal-overlay-color: transparent;
   --modal-close-color: transparent;
-  --modal-close-hover-color: orange;
+  --modal-close-hover-color: GoldenRod;
 }
 
 [type="checkbox"].modal {
@@ -1688,11 +1688,11 @@ mark.inline-block {
 :root {
   --collapse-label-back-color: var(--back-color);
   --collapse-label-fore-color: var(--fore-color);
-  --collapse-label-hover-back-color: orange;
+  --collapse-label-hover-back-color: GoldenRod;
   --collapse-selected-label-back-color: var(--back-color);
   --collapse-border-color: var(--border-color);
   --collapse-content-back-color: var(--back-color);
-  --collapse-selected-label-border-color: #0277bd;
+  --collapse-selected-label-border-color: DodgerBlue;
 }
 
 .collapse {
@@ -1893,7 +1893,7 @@ progress.primary {
 }
 
 progress.secondary {
-  --progress-fore-color: orange;
+  --progress-fore-color: GoldenRod;
 }
 
 progress.tertiary {
@@ -1905,7 +1905,7 @@ progress.tertiary {
 }
 
 .spinner.secondary {
-  --spinner-fore-color: orange;
+  --spinner-fore-color: GoldenRod;
 }
 
 .spinner.tertiary {
