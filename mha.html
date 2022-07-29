@@ -30,22 +30,14 @@
         –––––––––––––––––––––––––––––––––––––––––––––––––– -->
         <link rel="icon" type="image/png" href="images/favicon.png">
       <!-- Scripts
-      –––––––––––––––––––––––––––––––––––––––––––––––––– 
-    <script src="js/jquery.min.js" type="text/javascript"></script>
-    <script defer="defer" src="js/mha-core.js"></script>
-    <script defer="defer" src="js/mha-main.js"></script>
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script defer="defer" src="js/mha-runtime.js"></script>
-    <script defer="defer" src="js/mha-antispam.js"></script>
-    <script defer="defer" src="js/mha-date.js"></script>
-    <script defer="defer" src="js/mha-headers.js"></script>-->
-    <script defer="defer" src="js/runtime.js"></script>
-    <script defer="defer" src="js/428.js"></script>
-    <script defer="defer" src="js/441.js"></script>
-    <script defer="defer" src="js/934.js"></script>
-    <script defer="defer" src="js/303.js"></script>
-    <script defer="defer" src="js/529.js"></script>
-    <script defer="defer" src="js/StandAlone.js"></script>
-
+    <script defer="defer" src="js/mha-428.js"></script>
+    <script defer="defer" src="js/mha-441.js"></script>
+    <script defer="defer" src="js/mha-934.js"></script>
+    <script defer="defer" src="js/mha-303.js"></script>
+    <script defer="defer" src="js/mha-529.js"></script>
+    <script defer="defer" src="js/mha-standalone.js"></script>
 
 </head>
 
@@ -69,16 +61,16 @@
       –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
 <div id="SectionHeader"><div id="floater"></div>
-<h1 id="title">Message Header Analyzer</h1></div>
+<h1 id="title">Analyseur d'entête de courriels</h1></div>
 <div id="SectionContent">
-<textarea id="inputHeaders" autofocus="autofocus" placeholder="Paste headers here." required="required" rows="15"></textarea>
+<textarea id="inputHeaders" autofocus="autofocus" placeholder="Copier l'entête ici" required="required" rows="15"></textarea>
 <button class="ms-Button ms-Button--primary" id="analyzeButton">
-<span class="ms-Button-label">Analyze headers</span>
+<span class="ms-Button-label">Analyser</span>
 </button> <button class="ms-Button hiddenElement" id="clearButton">
-<span class="ms-Button-label">Clear</span></button>
+<span class="ms-Button-label">Effacer</span></button>
 <button class="ms-Button hiddenElement" id="copyButton">
 <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--Copy"></i></span>
-<span class="ms-Button-label">Copy</span></button>
+<span class="ms-Button-label">Copier</span></button>
 <hr id="lineBreak"/>
 <div id="response" class="hiddenElement">
 <div class="responsePane">
