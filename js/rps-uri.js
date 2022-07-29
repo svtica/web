@@ -1,18 +1,5 @@
-/*!
- * URI.js - Mutating URLs
- *
- * Version: 1.10.2
- *
- * Author: Rodney Rehm
- * Web: http://medialize.github.com/URI.js/
- *
- * Licensed under
- *   MIT License http://www.opensource.org/licenses/mit-license
- *   GPL v3 http://opensource.org/licenses/GPL-3.0
- *
- */
 (function (root, factory) {
-    // https://github.com/umdjs/umd/blob/master/returnExports.js
+
     if (typeof exports === 'object') {
         // Node
         module.exports = factory(require('./punycode'), require('./IPv6'), require('./SecondLevelDomains'));
