@@ -59,9 +59,11 @@
         <h4>Mon adresse IP</h4>
 
 <div id="mydiv"></div>
-
+    </br>
 <script>var getIP = function(json) {  document.getElementById("mydiv").innerHTML = json.ip;}</script>
+</br>
 <script type="application/javascript" src="https://api.ipify.org/?format=jsonp&callback=getIP"></script>
+</br>
 
 <h4>Calculateur de sous-réseau</h4>
 
@@ -758,7 +760,7 @@ plages d'adresses:</p>
 <form>
 
 <label for="cidrAddress">Réseaux</label>
-<textarea id="supernetsNetworks">
+<textarea id="supernetsNetworks" rows="6" cols="40">
 192.168.1.0/24
 192.168.2.0/24
 192.168.3.0/24
