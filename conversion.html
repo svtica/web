@@ -255,11 +255,8 @@ De même, un mégaoctet n'est pas de 1000 ^ 2 soit 1, 000, 000 octets, mais au l
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <h3>Outil pour convertir la casse</h3>
   <div class='form_case'>
-    <ol>
-      <li>
-        <strong><label style='float:left;display:block;'>Outil pour changer rapidement le texte en majuscules, minuscules, phrase, etc.</label></strong>
-        <textarea id='_scr_text' name='_scr_text' placeholder='Inscrivez votre texte ici' required autofocus></textarea><br/></li>
-      <li>
+        <strong><label style='display:block;'>Outil pour changer rapidement le texte en majuscules, minuscules, phrase, etc.</label></strong><br/>
+        <textarea id='_scr_text' name='_scr_text' placeholder='Inscrivez votre texte ici' required autofocus rows="5" cols="40"></textarea><br/><br/>
         <button onclick='_SENTENCE_CASE();'>Phrase</button>
         <button onclick='_WORD_CASE();'>Majuscule</button>
         <button onclick='_LOWER_CASE();'>Minuscule</button>
@@ -267,9 +264,8 @@ De même, un mégaoctet n'est pas de 1000 ^ 2 soit 1, 000, 000 octets, mais au l
         <button onclick='_INVERT_CASE();'>Inversion</button>
         <button onclick='_ALTERNATING_CASE();'>Alterner</button>
         <button onclick='_CLEAR_INPUT();'>Effacer</button>
-        <button onclick='_COPY_CLIP();'>Copier</button></li>
-    </ol>
-  </div>
+        <button onclick='_COPY_CLIP();'>Copier</button> 
+        <br/><br/></div>
   <script type='text/javascript' src='js/convertcase.js'></script>
   </div>
   </div>
