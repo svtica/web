@@ -227,6 +227,202 @@
 </div>
 </div>
 </div>
+
+<div class="container">
+    <div class="row">
+        <div class="eleven columns">
+        <h1>Générer plusieurs mots de passes</h1>
+
+
+<table width="100%" cellpadding="0" cellspacing="0">
+
+<tr>
+<td valign="top">
+   <div id="error" class="error" style="display:none"></div>
+    <tr>
+        <td width="40%"><span class="field_text">Quantité:</span></td>
+        <td><input name="ctl00$MainContent$txtNumOfPasswords" type="text" value="10" id="ctl00_MainContent_txtNumOfPasswords" class="input-custom medium" onkeyup="generate()" /></td>
+    </tr>         
+    <tr>
+        <td width="40%"><span class="field_text">Longueur:</span></td>
+        <td><input name="ctl00$MainContent$txtPasswordLength" type="text" value="16" id="ctl00_MainContent_txtPasswordLength" class="input-custom medium" onkeyup="generate()" /></td>
+    </tr>     
+    <tr>
+        <td><span class="field_text">Minuscules:</span></td>
+        <td><span onchange="generate()"><input id="ctl00_MainContent_chkIncludeLowerChar" type="checkbox" name="ctl00$MainContent$chkIncludeLowerChar" checked="checked" /><label for="ctl00_MainContent_chkIncludeLowerChar"> (e.g. abcdef)</label></span></td>
+    </tr>
+    <tr>
+        <td><span class="field_text">Majuscules:</span></td>
+        <td><span onchange="generate()"><input id="ctl00_MainContent_chkIncludeUpperChar" type="checkbox" name="ctl00$MainContent$chkIncludeUpperChar" checked="checked" /><label for="ctl00_MainContent_chkIncludeUpperChar"> (e.g. ABCDEF)</label></span></td>
+    </tr>  
+    <tr>
+        <td><span class="field_text">Chiffres:</span></td>
+        <td><span onchange="generate()"><input id="ctl00_MainContent_chkIncludeNumbers" type="checkbox" name="ctl00$MainContent$chkIncludeNumbers" checked="checked" /><label for="ctl00_MainContent_chkIncludeNumbers"> (e.g. 123456)</label></span></td>
+    </tr>       
+    <tr>
+        <td><span class="field_text">Symboles:</span></td>
+        <td><span onchange="generate()"><input id="ctl00_MainContent_chkIncludeSymbols" type="checkbox" name="ctl00$MainContent$chkIncludeSymbols" checked="checked" /><label for="ctl00_MainContent_chkIncludeSymbols"> (e.g. *@#+%)</label></span></td>
+    </tr>
+    <tr>
+        <td><span class="field_text">Exclure similaires:</span></td>
+        <td><span onchange="generate()"><input id="ctl00_MainContent_chkExcludeSimilar" type="checkbox" name="ctl00$MainContent$chkExcludeSimilar" /><label for="ctl00_MainContent_chkExcludeSimilar"> (e.g. o,0,i,l,1)</label></span></td>
+    </tr>
+    <tr>
+        <td><span class="field_text">Exclure ambigus:</span></td>
+        <td><span onchange="generate()"><input id="ctl00_MainContent_chkExcludeAmbiguous" type="checkbox" name="ctl00$MainContent$chkExcludeAmbiguous" /><label for="ctl00_MainContent_chkExcludeAmbiguous"> (e.g. ~,;:.{}<>[]()/\'`)</label></span></td>
+    </tr>
+        <tr>
+            <td></td>
+            <td><a onclick="generate()" class="button button-main">Générer</a></td>
+      </tr> 
+   </table>
+          <table class="table table-bordered" style="table-layout:fixed">
+        <tr>
+            <td width="20%"><span class="field_text">Mots de passes générés:</span></td> 
+            <td style="word-wrap: break-word"><textarea name="ctl00$MainContent$txtPassword" readonly="readonly" id="ctl00_MainContent_txtPassword" class="input-custom" onClick="this.setSelectionRange(0, this.value.length)" style="height:300px;width:275px;"></textarea>
+            <a onclick="copyUrl()" class="button button-green short">Copier</a></td>
+        </tr>       
+    </table>
+	
+<br>
+<br>
+<script type="text/javascript">
+var upperChars = ["A","B","C","D","E","F","G","H","J","K","M","N","P","Q","R","S","T","U","V","W","X","Y","Z"];
+var lowerChars = ["a","b","c","d","e","f","g","h","j","k","m","n","p","q","r","s","t","u","v","w","x","y","z"];
+var numbers = ["2","3","4","5","6","7","8","9"];
+var symbols = ["!","#","$","%","&","*","+","-","?","@"];
+var similars_lower = ["i","l","o"];
+var similars_upper = ["I","L","O"];
+var similars_numbers = ["1","0"];
+var similars_symbols = ["|"];
+var ambiguous = ["\"","'","(",")",",",".",":",";","<","=",">","[","\\","]","^","_","`","{","}","~"];
+
+function generate(){
+    var numberOfPasswords = parseFloat(document.getElementById('ctl00_MainContent_txtNumOfPasswords').value);
+    var password = "";
+    
+    if(numberOfPasswords > 10000)
+    {
+        document.getElementById("error").style.display = "block";
+        document.getElementById("error").innerHTML= "Le maximum est de 10 000";
+    } else 
+    {
+        for(var i=0; i< numberOfPasswords; i++)
+        {
+            if(i != 0)
+            {
+                password = password+ "\n" + generatePassword();
+            } else {
+                password = generatePassword();
+            }
+        }
+        document.getElementById('ctl00_MainContent_txtPassword').value = password;
+    }
+}
+function generatePassword(){
+    var passwordLength = parseFloat(document.getElementById('ctl00_MainContent_txtPasswordLength').value);
+    
+    var password="";
+    var isPasswordSet;
+	if(!isNaN(passwordLength))
+    { 
+        if(passwordLength < 4 || passwordLength > 2048)
+        {
+            document.getElementById("error").style.display = "block";
+            document.getElementById('ctl00_MainContent_txtPassword').value = "";
+        } else {
+            document.getElementById("error").style.display = "none";
+            password = getPassword(passwordLength);
+            document.getElementById('ctl00_MainContent_txtPassword').value = password;
+        }
+    }
+    return password;
+}
+
+function getPassword(passwordLength, array)
+{
+var passwordLength = parseFloat(document.getElementById('ctl00_MainContent_txtPasswordLength').value);
+    var chkIncludeLowerChar = document.getElementById('ctl00_MainContent_chkIncludeLowerChar').checked;
+    var chkIncludeUpperChar = document.getElementById('ctl00_MainContent_chkIncludeUpperChar').checked;
+    var chkIncludeNumbers = document.getElementById('ctl00_MainContent_chkIncludeNumbers').checked;
+    var chkIncludeSymbols = document.getElementById('ctl00_MainContent_chkIncludeSymbols').checked;
+    var chkExcludeSimilar = document.getElementById('ctl00_MainContent_chkExcludeSimilar').checked;
+    var chkExcludeAmbiguous = document.getElementById('ctl00_MainContent_chkExcludeAmbiguous').checked;
+    
+    var password="";
+    var array = [];
+    var count = 0;
+    if(chkIncludeLowerChar){
+        array = array.concat(lowerChars);
+    }
+    if(chkIncludeUpperChar){
+        array = array.concat(upperChars);
+    }
+    if(chkIncludeNumbers){
+        array = array.concat(numbers);
+    }
+    if(chkIncludeSymbols){
+       array = array.concat(symbols);
+    }
+    if(!chkExcludeSimilar){
+        if(chkIncludeLowerChar)
+        {
+            array = array.concat(similars_lower);
+        }
+        if(chkIncludeUpperChar)
+        {
+            array = array.concat(similars_upper);
+        }
+        if(chkIncludeNumbers)
+        {
+            array = array.concat(similars_numbers);
+        }
+        if(chkIncludeSymbols)
+        {
+            array = array.concat(similars_symbols);
+        }   
+    }
+    if(!chkExcludeAmbiguous && chkIncludeSymbols){
+        array = array.concat(ambiguous);
+    }
+    var randomIndex;
+    if(array.length > 1)
+    {
+       for (var i = 0; i < passwordLength; i++) {
+           randomIndex = Math.floor(Math.random() * array.length);
+           password = password + array[randomIndex];
+       }
+    }
+    return password;
+}
+
+function contains(string, array)
+{
+    length = array.length;
+    while(length--) {
+       if (string.indexOf(array[length])!=-1) {
+           return true;
+       }
+    }
+    return false;
+}
+
+function copyUrl(){         
+   var copyText = document.getElementById('ctl00_MainContent_txtPassword');
+   copyText.select();
+   copyText.setSelectionRange(0, 99999);
+   document.execCommand("copy");
+}
+generate();
+</script>    
+
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+
 <div class="container">
     <div class="row">
         <div class="eleven columns">
