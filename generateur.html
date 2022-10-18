@@ -436,12 +436,12 @@ generate();
                 <table>
                     <tr>
                         <td style="width: 270px;">Votre domaine:</td>
-                        <td><input type="text" name="domain" id="domain" class="frmI frmT" title="The domain for which you want to add the SPF record.<br />i.e. <b>example.com</b>" onkeyup="getSPF();" /></td>
+                        <td><input type="text" name="domain" id="domain" class="frmI frmT" title="The domain for which you want to add the SPF record. i.e. example.com" onkeyup="getSPF();" /></td>
                     </tr>
                     <tr>
                         <td>Permettre aux serveurs de l'entrée MX d'envoyer des courriels pour ce domaine:</td>
                         <td>
-                            <select name="mx_allow" id="mx_allow" class="frmI frmS" title="Do these MX servers send emails for this domain?Current handlers:<br><b>mx1.domain.com<br>mx2.domain.com</b>" onchange="getSPF();" >
+                            <select name="mx_allow" id="mx_allow" class="frmI frmS" title="Do these MX servers send emails for this domain?Current handlers: mx1.domain.com mx2.domain.com" onchange="getSPF();" >
                                 <option value="0">Non</option>
                                 <option value="1">Oui (recommandé)</option>
                             </select>
@@ -450,7 +450,7 @@ generate();
                     <tr>
                         <td>Permettre l'adresse IP du domaine d'envoyer des courriels pour ce domaine:</td>
                         <td>
-                            <select name="ip_allow" id="ip_allow" class="frmI frmS" title="Do the domain main IP send emails for this domain?<br>Main IP: <b>10.0.0.1<b>" onchange="getSPF();">
+                            <select name="ip_allow" id="ip_allow" class="frmI frmS" title="Do the domain main IP send emails for this domain? Main IP: 10.0.0.1" onchange="getSPF();">
                                 <option value="0">Non</option>
                                 <option value="1">Oui (recommandé)</option>
                             </select>
@@ -467,15 +467,15 @@ generate();
                     </tr>
                     <tr>
                         <td>Adresses IP au format CIDR qui livrent ou relaient le courrier pour ce domaine:</td>
-                        <td><input type="text" name="ip_additional" id="ip_additional" class="frmI frmT" title="Add the server IP addresses that may send mail with subnet mask space separated. Use /32 for a single IP.<br />i.e. <b>10.0.0.1/32 192.168.0.1/28</b>" onkeyup="getSPF();" /></td>
+                        <td><input type="text" name="ip_additional" id="ip_additional" class="frmI frmT" title="Add the server IP addresses that may send mail with subnet mask space separated. Use /32 for a single IP. i.e. 10.0.0.1/32 192.168.0.1/28" onkeyup="getSPF();" /></td>
                     </tr>
                     <tr>
                         <td>Ajoutez tout autre nom d'hôte de serveur qui peut distribuer ou relayer du courrier pour ce domaine:</td>
-                        <td><input type="text" name="host_additional" id="host_additional" class="frmI frmT" title="Add the servers that are allowed to send mails for this domain space separated.<br />i.e. <b>ns1.example.com ns2.example.com</b>" onkeyup="getSPF();" /></td>
+                        <td><input type="text" name="host_additional" id="host_additional" class="frmI frmT" title="Add the servers that are allowed to send mails for this domain space separated. i.e. ns1.example.com ns2.example.com" onkeyup="getSPF();" /></td>
                     </tr>
                     <tr>
                         <td>Tous les domaines qui peuvent livrer ou relayer du courrier pour ce domaine:</td>
-                        <td><input type="text" name="domain_additional" id="domain_additional" class="frmI frmT" title="Add other domains that can send emails for this domain, such a third party service space separated.<br />i.e. <b>3rdparty.com 1stparty.com</b>" onkeyup="getSPF();" /></td>
+                        <td><input type="text" name="domain_additional" id="domain_additional" class="frmI frmT" title="Add other domains that can send emails for this domain, such a third party service space separated. i.e. 3rdparty.com 1stparty.com" onkeyup="getSPF();" /></td>
                     </tr>
                     <tr>
                         <td>Dans quelle mesure les serveurs doivent-ils traiter les e-mails?:</td>

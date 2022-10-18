@@ -1,9 +1,4 @@
-$(document).ready(function(){
-    
-    $(function(){
-    $(".frmI").tipTip({activation: "focus",defaultPosition: "right",delay: 0, fadeIn: 600, maxWidth: "240px"});
-    });
-});
+$(document).ready;
 
 function getSPF()
 {
