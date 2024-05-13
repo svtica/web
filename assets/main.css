@@ -15270,6 +15270,10 @@ select.arg {
     min-width: 100px;
 }
 
+select.arg.form-control:not([size]):not([multiple]), select.custom-file-control:not([size]):not([multiple]) {
+    height: 100% !important;
+}
+
 textarea.arg {
     min-height: 74px;
     resize: vertical;
@@ -15281,7 +15285,7 @@ div.toggle-string {
 
 input.toggle-string {
     border-top-right-radius: 0 !important;
-    height: 42px !important;
+    height: 100%;
 }
 
 .operation [class^='bmd-label'],
@@ -16808,6 +16812,11 @@ input.toggle-string {
     color: var(--input-highlight-colour);
 }
 
+.bmd-form-group.is-filled:focus-within .checkbox.option-item label {
+    color: #1976d2;
+    color: var(--input-highlight-colour);
+}
+
 .bmd-form-group.option-item label+.form-control{
     background-image:
         linear-gradient(to top, #1976d2 2px, rgba(0, 0, 0, 0) 2px),
@@ -16968,6 +16977,17 @@ div#output {
 
 /* Operations */
 
+del {
+    background-color: #ffb6b6aa;
+    background-color: var(--hl3);
+}
+
+ins {
+    text-decoration: underline; /* shouldn't be needed, but Chromium doesn't copy to clipboard without it */
+    background-color: #8de768aa;
+    background-color: var(--hl5);
+}
+
 /**
  * JSON styles
  *
@@ -17022,7 +17042,8 @@ ul.json-dict, ol.json-array {
 }
 
 .json-summary {
-    display: contents;
+    display: inline;
+    list-style: none;
 }
 
 /* Display object and array brackets when closed */
