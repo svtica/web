@@ -142,69 +142,6 @@
         <p id="usableHosts">Nombre d'hôtes utilisables:</p>
     </div>
 
-    <br>
-    <br>
-
-<h4> Qu'est-ce que le supernet? </h4>
-
-
-<p> Les réseaux ou sous-réseaux combinés en un seul réseau avec un masque CIDR commun sont appelés <strong> supernets </strong> ou <strong> supernetworks </strong>.
-  Le préfixe de routage commun de supernet est agrégé à partir des préfixes de réseaux ou de sous-réseaux donnés et il doit être plus petit ou identique à plus petit préfixe de réseau de composants. Ce concept de création d'un supernet
-est appelé agrégation de supernetting ou de routage. L'agrégation de routes réduit le nombre d'itinéraires annoncés sur d'énormes réseaux en résumant les itinéraires.</p>
-
-
-<p>Le supernetting a été introduit pour résoudre le problème de la croissance rapide tables de routage et en raison de l'épuisement du pool d'adresses IP version 4.
-Les principaux avantages de l'agrégation de routes (sur-réseau) sont moins de mémoire et besoins en puissance CPU pour le stockage et le traitement des routes.
-Plus informations sur les supernets peuvent être trouvés dans RFC 1338 - Supernetting: an Address Assignment and Aggregation Strategy.</p>
-
-
-<h5>Exemple</h5>
-
-<p>Considérez les réseaux suivants:</p>
-
-<pre>
-192.168.1.0/24
-192.168.2.0/24
-192.168.3.0/24
-192.168.4.0/24
-</pre>
-
-Pour déterminer le supernet des réseaux de composants, procédez comme suit:
-<ol>
-<li>
-Convertissez toutes les adresses IP des réseaux et alignez-les dans une liste:
-
-<pre>
-11000000101010000000000100000000
-11000000101010000000001000000000
-11000000101010000000001100000000
-11000000101010000000010000000000
-</pre>
-</li>
-
-<li>
-    Recherchez le modèle de bits commun à partir de la gauche qui est commun à toutes les adresses IP binaires IP.
-Dans ce cas c'est:
-<pre>110000001010100000000</pre>
-</li>
-
-<li> Comptez le nombre de bits du modèle commun - il sera utilisé comme préfixe réseau. </li>
-<li> Terminez la même chaîne de bits par des zéros, de sorte qu'il y ait 32 bits.
-Convertissez le résultat au format décimal pointé et ajoutez le préfixe de routage.
-Le supernet de résultat de ces réseaux est 192.168.0.0/21
-</li>
-</ol>
-
-
-<h4>Utilisation</h4>
-
-<ul>
-     <li> Saisissez un ou plusieurs ID réseau chacun sur une ligne distincte au format de notation CIDR, par exemple, 10.5.200.0/16.
-         Les réseaux sans préfixe de routage spécifié seront traités comme des hôtes "/ 32". </li>
-     <li> Appuyez sur agrégat pour résumer le supernet des réseaux d'entrée. </li>
-     <li> Les réseaux invalides seront exclus du calcul et "*" y sera ajouté. </li>
-</ul>
-
 </div>
 </div>
 </div>
