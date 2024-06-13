@@ -55,14 +55,35 @@
 <div class="row">
     <div class="eleven columns">
         <h1>Outils réseau</h1>
-        <h4>Mon adresse IP</h4>
+        <h4>Mon adresse IP selon IPify</h4>
 
-<div id="mydiv"></div>
-    <br>
-<script>var getIP = function(json) {  document.getElementById("mydiv").innerHTML = json.ip;}</script>
+<div id="myIP1"></div>
 <br>
+<script>var getIP = function(json) {  document.getElementById("myIP1").innerHTML = json.ip;}</script>
 <script type="application/javascript" src="https://api.ipify.org/?format=jsonp&callback=getIP"></script>
+
+
+<h4>Mon adresse IP selon IPInfo</h4>
+<div id="myIP2"></div>
 <br>
+<script>
+  $.ajax({
+    url: "https://ipinfo.io/?token=07d5fec629882a",
+    dataType: "jsonp",
+    success: function(res){
+      document.getElementById("myIP2").innerHTML = "Adresse IP: " + res.ip + "<br>" +
+        "Ville: " + res.city + "<br>" +
+        "Région: " + res.region + "<br>" +
+        "Pays: " + res.country + "<br>" +
+        "Emplacement: " + res.loc + "<br>" +
+        "Organisation: " + res.org + "<br>" +
+        "Code postal: " + res.postal + "<br>" +
+        "Fuseau horaire: " + res.timezone;
+    }
+  });
+</script>
+
+
 
 <h4>Calculateur de sous-réseau</h4>
 
