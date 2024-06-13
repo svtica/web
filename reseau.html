@@ -83,7 +83,41 @@
   });
 </script>
 
-
+<h4>Mon adresse IP selon IP-API</h4>
+<div id="myIP3"></div>
+<br>
+<script>
+  $.ajax({
+    url: "http://ip-api.com/json/?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query&lang=fr",
+    dataType: "jsonp",
+    success: function(res2){
+      document.getElementById("myIP3").innerHTML = "Adresse IP: " + res2.query + "<br>" +
+      "Ville: " + res2.city + "<br>" +
+      "Région: " + res2.region + "<br>" +
+      "Pays: " + res2.country + "<br>" +
+      "Organisation: " + res2.org + "<br>" +
+      "Fuseau horaire: " + res2.timezone + "<br>" +
+      "Statut: " + res2.status + "<br>" +
+      "Continent: " + res2.continent + "<br>" +
+      "Code continent: " + res2.continentCode + "<br>" +
+      "Code pays: " + res2.countryCode + "<br>" +
+      "Nom région: " + res2.regionName + "<br>" +
+      "District: " + res2.district + "<br>" +
+      "Code postal: " + res2.zip + "<br>" +
+      "Latitude: " + res2.lat + "<br>" +
+      "Longitude: " + res2.lon + "<br>" +
+      "Décalage horaire: " + res2.offset + "<br>" +
+      "Devise: " + res2.currency + "<br>" +
+      "Fournisseur d'accès: " + res2.isp + "<br>" +
+      "AS: " + res2.as + "<br>" +
+      "Nom AS: " + res2.asname + "<br>" +
+      "Reverse DNS: " + res2.reverse + "<br>" +
+      "Mobile: " + res2.mobile + "<br>" +
+      "Proxy: " + res2.proxy + "<br>" +
+      "Hébergement: " + res2.hosting;
+    }
+  });
+</script>
 
 <h4>Calculateur de sous-réseau</h4>
 
