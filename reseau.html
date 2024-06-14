@@ -55,66 +55,39 @@
     <div class="row">
       <div class="eleven columns">
         <h1>Outils réseau</h1>
-        <h4>Mon adresse IP selon IPify</h4>
 
-        <div id="myIP1"></div>
-        <br>
-        <script>var getIP = function (json) { document.getElementById("myIP1").innerHTML = json.ip; }</script>
-        <script type="application/javascript" src="https://api.ipify.org/?format=jsonp&callback=getIP"></script>
-
-
-        <h4>Mon adresse IP selon IPInfo</h4>
-        <div id="myIP2"></div>
-        <br>
-        <script>
-          $.ajax({
-            url: "https://ipinfo.io/?token=07d5fec629882a",
-            dataType: "jsonp",
-            success: function (res) {
-              document.getElementById("myIP2").innerHTML = "Adresse IP: " + res.ip + "<br>" +
-                "Ville: " + res.city + "<br>" +
-                "Région: " + res.region + "<br>" +
-                "Pays: " + res.country + "<br>" +
-                "Emplacement: " + res.loc + "<br>" +
-                "Organisation: " + res.org + "<br>" +
-                "Code postal: " + res.postal + "<br>" +
-                "Fuseau horaire: " + res.timezone;
-            }
-          });
-        </script>
-
-        <h4>Mon adresse IP selon IP-API</h4>
-        <div id="myIP3"></div>
+        <h4>Mon adresse IP</h4>
+        <div id="myIP"></div>
         <br>
         <script>
           $.ajax({
             url: "http://ip-api.com/json/?fields=status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,offset,currency,isp,org,as,asname,reverse,mobile,proxy,hosting,query&lang=fr",
             dataType: "jsonp",
-            success: function (res2) {
-              document.getElementById("myIP3").innerHTML = "Adresse IP: " + res2.query + "<br>" +
-                "Ville: " + res2.city + "<br>" +
-                "Région: " + res2.region + "<br>" +
-                "Pays: " + res2.country + "<br>" +
-                "Organisation: " + res2.org + "<br>" +
-                "Fuseau horaire: " + res2.timezone + "<br>" +
-                "Statut: " + res2.status + "<br>" +
-                "Continent: " + res2.continent + "<br>" +
-                "Code continent: " + res2.continentCode + "<br>" +
-                "Code pays: " + res2.countryCode + "<br>" +
-                "Nom région: " + res2.regionName + "<br>" +
-                "District: " + res2.district + "<br>" +
-                "Code postal: " + res2.zip + "<br>" +
-                "Latitude: " + res2.lat + "<br>" +
-                "Longitude: " + res2.lon + "<br>" +
-                "Décalage horaire: " + res2.offset + "<br>" +
-                "Devise: " + res2.currency + "<br>" +
-                "Fournisseur d'accès: " + res2.isp + "<br>" +
-                "AS: " + res2.as + "<br>" +
-                "Nom AS: " + res2.asname + "<br>" +
-                "Reverse DNS: " + res2.reverse + "<br>" +
-                "Mobile: " + res2.mobile + "<br>" +
-                "Proxy: " + res2.proxy + "<br>" +
-                "Hébergement: " + res2.hosting;
+            success: function (res) {
+              document.getElementById("myIP").innerHTML = "Adresse IP: " + res.query + "<br>" +
+                "Ville: " + res.city + "<br>" +
+                "Région: " + res.region + "<br>" +
+                "Pays: " + res.country + "<br>" +
+                "Organisation: " + res.org + "<br>" +
+                "Fuseau horaire: " + res.timezone + "<br>" +
+                "Statut: " + res.status + "<br>" +
+                "Continent: " + res.continent + "<br>" +
+                "Code continent: " + res.continentCode + "<br>" +
+                "Code pays: " + res.countryCode + "<br>" +
+                "Nom région: " + res.regionName + "<br>" +
+                "District: " + res.district + "<br>" +
+                "Code postal: " + res.zip + "<br>" +
+                "Latitude: " + res.lat + "<br>" +
+                "Longitude: " + res.lon + "<br>" +
+                "Décalage horaire: " + (res.offset / 3600) + " h" + "<br>" +
+                "Devise: " + res.currency + "<br>" +
+                "Fournisseur d'accès: " + res.isp + "<br>" +
+                "AS: " + res.as + "<br>" +
+                "Nom AS: " + res.asname + "<br>" +
+                "Reverse DNS: " + res.reverse + "<br>" +
+                "Mobile: " + res.mobile + "<br>" +
+                "Proxy: " + res.proxy + "<br>" +
+                "Hébergement: " + res.hosting;
             }
           });
         </script>
@@ -182,31 +155,22 @@
 
   <script>
     function calculateResults(event) {
-      event.preventDefault(); // Prevent form submission
+      event.preventDefault(); // Previent le rechargement de la page
 
-      // Get the input values
+      // Variables
       var ipAddress = document.getElementById("ipAddress").value;
       var cidr = document.getElementById("cidr").value;
-
-      // Calculate the subnet mask
       var subnetMask = calculateSubnetMask(cidr);
-
-      // Calculate the broadcast address
       var broadcastAddress = calculateBroadcastAddress(ipAddress, cidr);
-
-      // Calculate the network address
       var networkAddress = calculateNetworkAddress(ipAddress, cidr);
-
-      // Calculate the number of usable hosts
       var usableHosts = calculateUsableHosts(cidr);
 
-      // Function to calculate the subnet mask
+      // Fonction de calcul du masque de sous-réseau
       function calculateSubnetMask(cidr) {
-        // Calculate the number of network bits
+        
         var networkBits = parseInt(cidr);
-
-        // Create the subnet mask by applying the network bits
         var subnetMask = "";
+
         for (var i = 0; i < 4; i++) {
           if (networkBits >= 8) {
             subnetMask += "255";
@@ -228,7 +192,7 @@
         return subnetMask;
       }
 
-      // Function to calculate the broadcast address
+      // Fonction de calcul de l'adresse de diffusion
       function calculateBroadcastAddress(ipAddress, cidr) {
         var n_ipParts = ipAddress.split('.').map(Number);
         var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
@@ -246,7 +210,7 @@
         return broadcastAddress;
       }
 
-      // Function to calculate the network address
+      // Fonction de calcul de l'adresse réseau
       function calculateNetworkAddress(ipAddress, cidr) {
         var n_ipParts = ipAddress.split('.').map(Number);
         var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
@@ -260,24 +224,24 @@
         return networkAddress;
       }
 
-      // Function to calculate the number of usable hosts
+      // Fonction de calcul du nombre d'hôtes utilisables
       function calculateUsableHosts(cidr) {
         // Calculate the number of host bits
         var hostBits = 32 - parseInt(cidr);
 
-        // Calculate the number of usable hosts
+        // Calcul du nombre d'hôtes utilisables
         usableHosts = Math.pow(2, hostBits) - 2;
 
         return usableHosts;
       }
 
-      // Update the result elements
+      // Mise à jour des résultats
       document.getElementById("networkAddress").textContent = "Adresse réseau: " + networkAddress;
       document.getElementById("broadcastAddress").textContent = "Adresse de diffusion: " + broadcastAddress;
       document.getElementById("subnetMask").textContent = "Masque de sous-réseau: " + subnetMask;
       document.getElementById("usableHosts").textContent = "Nombre d'hôtes utilisables: " + usableHosts;
 
-      // Show the network details section
+      // Afficher les résultats
       document.getElementById("networkDetails").style.display = "block";
     }
   </script>
