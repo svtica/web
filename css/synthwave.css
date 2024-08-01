@@ -201,6 +201,10 @@ img {
     border: 2px solid var(--border-color);
     box-shadow: 0 0 10px var(--border-color);
 }
+.center
+.aligncenter {
+    text-align: center;
+}
 
 /* Custom classes */
 .neon-text {
