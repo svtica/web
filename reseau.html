@@ -61,27 +61,22 @@
 
       <script type="text/javascript">
         $.ajax({
-          url: 'https://ipapi.co/json/',
-          dataType: 'jsonp',
+          url: 'https://api.ip-api.com/json',
+          dataType: 'json',
           success: function (res) {
-            document.getElementById("myIP").innerHTML = "Adresse IP: " + res.ip + "<br>" +
+            document.getElementById("myIP").innerHTML = "Adresse IP: " + res.query + "<br>" +
               "Ville: " + res.city + "<br>" +
-              "Région: " + res.region + "<br>" +
-              "Pays: " + res.country_name + "<br>" +
+              "Région: " + res.regionName + "<br>" +
+              "Pays: " + res.country + "<br>" +
               "Organisation: " + res.org + "<br>" +
               "Fuseau horaire: " + res.timezone + "<br>" +
-              "Continent: " + res.continent_code + "<br>" +
-              "Code pays: " + res.country_code + "<br>" +
-              "Code région: " + res.region_code + "<br>" +
-              "Code postal: " + res.postal + "<br>" +
-              "Latitude: " + res.latitude + "<br>" +
-              "Longitude: " + res.longitude + "<br>" +
-              "Décalage horaire: " + res.utc_offset + "<br>" +
-              "Devise: " + res.currency + "<br>" +
-              "Nom devise: " + res.currency_name + "<br>" +
-              "Langues: " + res.languages + "<br>" +
-              "ASN: " + res.asn + "<br>" +
-              "Organisation: " + res.org;
+              "Code pays: " + res.countryCode + "<br>" +
+              "Code région: " + res.region + "<br>" +
+              "Code postal: " + res.zip + "<br>" +
+              "Latitude: " + res.lat + "<br>" +
+              "Longitude: " + res.lon + "<br>" +
+              "ASN: " + res.as + "<br>" +
+              "FAI: " + res.isp;
           }
         });
       </script>
