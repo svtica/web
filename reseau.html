@@ -60,9 +60,10 @@
       <h4>Mon adresse IP</h4>
 
       <script type="text/javascript">
-        fetch('https://ipapi.co/json')
-          .then(response => response.json())
-          .then(res => {
+        $.ajax({
+          url: 'https://ipapi.co/json/',
+          dataType: 'jsonp',
+          success: function (res) {
             document.getElementById("myIP").innerHTML = "Adresse IP: " + res.ip + "<br>" +
               "Ville: " + res.city + "<br>" +
               "Région: " + res.region + "<br>" +
@@ -81,10 +82,8 @@
               "Langues: " + res.languages + "<br>" +
               "ASN: " + res.asn + "<br>" +
               "Organisation: " + res.org;
-          })
-          .catch(error => {
-            document.getElementById("myIP").innerHTML = "Erreur: " + error;
-          });
+          }
+        });
       </script>
       <br>
 
