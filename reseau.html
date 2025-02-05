@@ -58,13 +58,30 @@
         <h1>Outils réseau</h1>
 
         <h4>Mon adresse IP</h4>
-        <iframe id="ipFrame" src="ip-lookup.html" style="display:none"></iframe>
-        <div id="myIP"></div>
-        
+
         <script>
-        window.addEventListener('message', function(event) {
-          if (event.origin === window.location.origin) {
-            document.getElementById("myIP").innerHTML = event.data;
+        $.ajax({
+          url: "https://ipapi.co/json",
+          dataType: "json", 
+          success: function(res) {
+            document.getElementById("myIP").innerHTML = "Adresse IP: " + res.ip + "<br>" +
+              "Ville: " + res.city + "<br>" +
+              "Région: " + res.region + "<br>" +
+              "Pays: " + res.country_name + "<br>" +
+              "Organisation: " + res.org + "<br>" +
+              "Fuseau horaire: " + res.timezone + "<br>" +
+              "Continent: " + res.continent_code + "<br>" +
+              "Code pays: " + res.country_code + "<br>" +
+              "Code région: " + res.region_code + "<br>" +
+              "Code postal: " + res.postal + "<br>" +
+              "Latitude: " + res.latitude + "<br>" +
+              "Longitude: " + res.longitude + "<br>" +
+              "Décalage horaire: " + res.utc_offset + "<br>" +
+              "Devise: " + res.currency + "<br>" + 
+              "Nom devise: " + res.currency_name + "<br>" +
+              "Langues: " + res.languages + "<br>" +
+              "ASN: " + res.asn + "<br>" +
+              "Organisation: " + res.org;
           }
         });
         </script>
