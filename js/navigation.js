@@ -21,8 +21,7 @@ class NavigationManager {
             { name: 'Générateur WPA-PSK', url: 'wpa-psk-generator.html', icon: '🔐' },
             { name: 'Calculateur Hachage', url: 'calculateur-hachage.html', icon: '🔒' },
             { name: 'Recherche SS64', url: 'recherche-ss64.html', icon: '🔍' },
-            { name: 'Commandes Réseau', url: 'generateur-commandes-reseau.html', icon: '🌐' },
-            { name: 'Date/Heure Avancé', url: 'calculateur-date-heure.html', icon: '📅' }
+            { name: 'Commandes Réseau', url: 'generateur-commandes-reseau.html', icon: '🌐' }
         ];
         
         this.currentPage = this.getCurrentPage();

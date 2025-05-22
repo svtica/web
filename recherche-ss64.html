@@ -1,19 +1,4 @@
-    <!-- Scripts -->
-    <script src="js/unified-theme-manager.js"></script>
-    <script src="js/navigation.js"></script>
-    
-    <!-- Initialisation -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // S'assurer que le thème sombre est appliqué par défaut
-            if (!localStorage.getItem('unified-theme')) {
-                localStorage.setItem('unified-theme', 'dark');
-                document.documentElement.setAttribute('data-theme', 'dark');
-            }
-        });
-    </script>    
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="images/favicon.png"><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -29,237 +14,235 @@
     
     <!-- CSS Unifié -->
     <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
+        /* Styles spécifiques à la page de recherche */
+        .search-container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            padding: 30px;
+            padding: var(--spacing-lg);
         }
         
         .header {
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 20px;
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 3px solid var(--button-color);
+            padding-bottom: var(--spacing-lg);
         }
         
-        h1 {
-            color: #333;
+        .header h1 {
+            color: var(--heading-color);
             margin: 0;
             font-size: 2.5em;
             font-weight: 700;
         }
         
         .subtitle {
-            color: #666;
-            margin-top: 10px;
+            color: var(--text-color);
+            margin-top: var(--spacing-sm);
             font-size: 1.2em;
+            opacity: 0.8;
         }
         
         .search-section {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 30px;
-            border-radius: 12px;
-            border-left: 6px solid #667eea;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+            background: var(--highlight-color);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius);
+            border-left: 6px solid var(--button-color);
+            margin-bottom: var(--spacing-xl);
+            box-shadow: 0 4px 16px var(--shadow-color);
         }
         
         .search-input-group {
             display: flex;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-lg);
             flex-wrap: wrap;
         }
         
         .search-input {
             flex: 1;
             min-width: 300px;
-            padding: 15px 20px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: var(--spacing-md) var(--spacing-lg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
             font-size: 16px;
-            transition: all 0.3s;
-            background: white;
+            transition: all var(--transition-normal);
+            background: var(--bg-color);
+            color: var(--text-color);
         }
         
         .search-input:focus {
-            border-color: #667eea;
+            border-color: var(--button-color);
             outline: none;
-            box-shadow: 0 0 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 12px var(--button-hover-color);
             transform: translateY(-2px);
         }
         
         .search-btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: var(--button-color);
+            color: var(--button-text-color);
             border: none;
-            padding: 15px 30px;
-            border-radius: 8px;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: all var(--transition-normal);
             min-width: 140px;
         }
         
         .search-btn:hover {
+            background: var(--button-hover-color);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 6px 20px var(--shadow-color);
         }
         
         .os-tabs {
             display: flex;
-            gap: 12px;
-            margin-bottom: 25px;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
             flex-wrap: wrap;
             justify-content: center;
         }
         
         .os-tab {
-            background: white;
-            border: 2px solid #e9ecef;
-            padding: 12px 24px;
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
+            padding: var(--spacing-sm) var(--spacing-lg);
             border-radius: 25px;
             cursor: pointer;
             font-size: 14px;
             font-weight: bold;
-            transition: all 0.3s;
+            transition: all var(--transition-normal);
             text-align: center;
             min-width: 120px;
+            color: var(--text-color);
         }
         
         .os-tab.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
+            background: var(--button-color);
+            color: var(--button-text-color);
+            border-color: var(--button-color);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px var(--shadow-color);
         }
         
         .os-tab:hover:not(.active) {
-            background: #f1f3f5;
-            border-color: #667eea;
+            background: var(--highlight-color);
+            border-color: var(--button-color);
             transform: translateY(-1px);
         }
         
         .quick-access {
-            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-            border: 2px solid #90caf9;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 30px;
+            background: var(--highlight-color);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
         }
         
         .quick-access h3 {
-            margin: 0 0 20px 0;
-            color: #1565c0;
+            margin: 0 0 var(--spacing-lg) 0;
+            color: var(--heading-color);
             font-size: 1.3em;
         }
         
         .quick-commands {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            gap: 12px;
+            gap: var(--spacing-sm);
         }
         
         .quick-command {
-            background: white;
-            border: 2px solid #e3f2fd;
-            border-radius: 8px;
-            padding: 12px 16px;
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm) var(--spacing-md);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all var(--transition-normal);
             text-align: center;
             font-family: 'Courier New', monospace;
             font-size: 14px;
             font-weight: bold;
+            color: var(--text-color);
         }
         
         .quick-command:hover {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
+            background: var(--button-color);
+            color: var(--button-text-color);
+            border-color: var(--button-color);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 4px 12px var(--shadow-color);
         }
         
         .stats-info {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            border: 2px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 25px 0;
-            color: #856404;
+            background: var(--highlight-color);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+            color: var(--text-color);
             text-align: center;
             font-size: 1.1em;
             font-weight: 600;
         }
         
         .results-section {
-            margin-top: 30px;
+            margin-top: var(--spacing-xl);
         }
         
         .results-header {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 15px 20px;
-            border-radius: 8px 8px 0 0;
-            border-bottom: 2px solid #dee2e6;
+            background: var(--highlight-color);
+            padding: var(--spacing-md) var(--spacing-lg);
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
+            border-bottom: 2px solid var(--border-color);
             font-weight: bold;
-            color: #495057;
+            color: var(--text-color);
         }
         
         .command-result {
-            background: white;
-            border: 2px solid #e9ecef;
+            background: var(--bg-color);
+            border: 2px solid var(--border-color);
             border-top: none;
-            padding: 25px;
-            transition: all 0.3s;
+            padding: var(--spacing-xl);
+            transition: all var(--transition-normal);
             position: relative;
         }
         
         .command-result:last-child {
-            border-radius: 0 0 8px 8px;
+            border-radius: 0 0 var(--border-radius) var(--border-radius);
         }
         
         .command-result:hover {
-            box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+            box-shadow: 0 6px 24px var(--shadow-color);
             transform: translateY(-2px);
-            border-color: #667eea;
+            border-color: var(--button-color);
         }
         
         .command-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 15px;
+            margin-bottom: var(--spacing-md);
             flex-wrap: wrap;
-            gap: 10px;
+            gap: var(--spacing-sm);
         }
         
         .command-name {
             font-size: 24px;
             font-weight: bold;
-            color: #667eea;
+            color: var(--button-color);
             font-family: 'Courier New', monospace;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            text-shadow: 1px 1px 2px var(--shadow-color);
         }
         
         .command-os {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
+            background: var(--success-color);
+            color: var(--button-text-color);
             padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
@@ -269,94 +252,95 @@
         }
         
         .command-description {
-            color: #495057;
-            margin-bottom: 20px;
+            color: var(--text-color);
+            margin-bottom: var(--spacing-lg);
             line-height: 1.6;
             font-size: 15px;
         }
         
         .command-syntax {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-left: 4px solid #667eea;
-            padding: 15px 20px;
-            margin: 15px 0;
+            background: var(--highlight-color);
+            border-left: 4px solid var(--button-color);
+            padding: var(--spacing-md) var(--spacing-lg);
+            margin: var(--spacing-md) 0;
             font-family: 'Courier New', monospace;
             font-size: 13px;
             overflow-x: auto;
-            border-radius: 4px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+            border-radius: var(--border-radius);
+            box-shadow: inset 0 2px 4px var(--shadow-color);
+            position: relative;
         }
         
         .command-examples {
-            margin-top: 20px;
+            margin-top: var(--spacing-lg);
         }
         
         .command-examples h4 {
-            color: #495057;
-            margin-bottom: 12px;
+            color: var(--text-color);
+            margin-bottom: var(--spacing-sm);
             font-size: 16px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--spacing-xs);
         }
         
         .example {
-            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
-            border: 1px solid #c3e6cb;
-            border-radius: 6px;
-            padding: 12px 16px;
-            margin: 8px 0;
+            background: var(--highlight-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-sm) var(--spacing-md);
+            margin: var(--spacing-xs) 0;
             font-family: 'Courier New', monospace;
             font-size: 13px;
             position: relative;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all var(--transition-normal);
         }
         
         .example:hover {
-            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            background: var(--button-hover-color);
             transform: translateX(5px);
         }
         
         .example::before {
             content: '$ ';
-            color: #28a745;
+            color: var(--success-color);
             font-weight: bold;
         }
         
         .no-results {
             text-align: center;
-            color: #666;
+            color: var(--text-color);
             font-style: italic;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            border: 2px dashed #dee2e6;
+            padding: var(--spacing-xxl) var(--spacing-lg);
+            background: var(--highlight-color);
+            border-radius: var(--border-radius);
+            border: 2px dashed var(--border-color);
         }
         
         .no-results h3 {
-            color: #495057;
-            margin-bottom: 15px;
+            color: var(--heading-color);
+            margin-bottom: var(--spacing-md);
         }
         
         .search-suggestions {
-            margin-top: 15px;
+            margin-top: var(--spacing-md);
             font-size: 14px;
         }
         
         .search-suggestions .suggestion {
             display: inline-block;
-            background: #667eea;
-            color: white;
+            background: var(--button-color);
+            color: var(--button-text-color);
             padding: 4px 8px;
             border-radius: 12px;
             margin: 2px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all var(--transition-normal);
         }
         
         .search-suggestions .suggestion:hover {
-            background: #5a6fd8;
+            background: var(--button-hover-color);
             transform: scale(1.05);
         }
         
@@ -364,15 +348,15 @@
             position: absolute;
             top: 8px;
             right: 8px;
-            background: #667eea;
-            color: white;
+            background: var(--button-color);
+            color: var(--button-text-color);
             border: none;
             padding: 4px 8px;
-            border-radius: 4px;
+            border-radius: var(--border-radius);
             font-size: 11px;
             cursor: pointer;
             opacity: 0;
-            transition: all 0.3s;
+            transition: all var(--transition-normal);
         }
         
         .example:hover .copy-btn,
@@ -382,8 +366,8 @@
         
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #667eea;
+            padding: var(--spacing-xxl);
+            color: var(--button-color);
             font-size: 18px;
         }
         
@@ -399,13 +383,21 @@
             80%, 100% { content: ''; }
         }
         
+        /* Style pour les correspondances surlignées */
+        mark {
+            background: var(--warning-color) !important;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: var(--bg-color);
+        }
+        
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin: 10px;
+            .search-container {
+                padding: var(--spacing-md);
             }
             
-            h1 {
+            .header h1 {
                 font-size: 2em;
             }
             
@@ -419,18 +411,18 @@
             
             .os-tabs {
                 justify-content: center;
-                gap: 8px;
+                gap: var(--spacing-xs);
             }
             
             .os-tab {
                 min-width: 100px;
-                padding: 10px 16px;
+                padding: var(--spacing-xs) var(--spacing-md);
                 font-size: 13px;
             }
             
             .command-header {
                 flex-direction: column;
-                gap: 10px;
+                gap: var(--spacing-sm);
                 align-items: flex-start;
             }
             
@@ -456,46 +448,50 @@
     
     <!-- Contenu principal -->
     <div class="container fade-in">
-        <div class="row">
-        <div class="header">
-            <h1>🔍 Recherche SS64</h1>
-            <div class="subtitle">Base de données complète hors-ligne</div>
-            </div>
-    </div>
-        
-        <div class="quick-access">
-            <h3>🚀 Commandes populaires</h3>
-            <div class="quick-commands" id="quickCommands">
-                <!-- Les commandes populaires seront générées ici -->
-            </div>
-        </div>
-        
-        <div class="search-section">
-            <div class="search-input-group">
-                <input type="text" class="search-input" id="searchInput" 
-                       placeholder="Rechercher une commande (ex: ping, ls, dir, grep, netstat...)" 
-                       onkeyup="handleSearch(event)" autofocus>
-                <button class="search-btn" onclick="performSearch()">🔍 Rechercher</button>
+        <div class="search-container">
+            <div class="header">
+                <h1>🔍 Recherche SS64</h1>
+                <div class="subtitle">Base de données complète hors-ligne</div>
             </div>
             
-            <div class="os-tabs">
-                <button class="os-tab active" data-os="all" onclick="selectOS('all')">🌐 Tous</button>
-                <button class="os-tab" data-os="windows" onclick="selectOS('windows')">🪟 Windows</button>
-                <button class="os-tab" data-os="linux" onclick="selectOS('linux')">🐧 Linux</button>
-                <button class="os-tab" data-os="macos" onclick="selectOS('macos')">🍎 macOS</button>
-                <button class="os-tab" data-os="powershell" onclick="selectOS('powershell')">⚡ PowerShell</button>
+            <div class="quick-access">
+                <h3>🚀 Commandes populaires</h3>
+                <div class="quick-commands" id="quickCommands">
+                    <!-- Les commandes populaires seront générées ici -->
+                </div>
             </div>
-        </div>
-        
-        <div class="stats-info" id="statsInfo">
-            <div class="loading">Chargement de la base de données</div>
-        </div>
-        
-        <div class="results-section" id="resultsSection">
-            <!-- Les résultats apparaîtront ici -->
+            
+            <div class="search-section">
+                <div class="search-input-group">
+                    <input type="text" class="search-input" id="searchInput" 
+                           placeholder="Rechercher une commande (ex: ping, ls, dir, grep, netstat...)" 
+                           onkeyup="handleSearch(event)" autofocus>
+                    <button class="search-btn" onclick="performSearch()">🔍 Rechercher</button>
+                </div>
+                
+                <div class="os-tabs">
+                    <button class="os-tab active" data-os="all" onclick="selectOS('all')">🌐 Tous</button>
+                    <button class="os-tab" data-os="windows" onclick="selectOS('windows')">🪟 Windows</button>
+                    <button class="os-tab" data-os="linux" onclick="selectOS('linux')">🐧 Linux</button>
+                    <button class="os-tab" data-os="macos" onclick="selectOS('macos')">🍎 macOS</button>
+                    <button class="os-tab" data-os="powershell" onclick="selectOS('powershell')">⚡ PowerShell</button>
+                </div>
+            </div>
+            
+            <div class="stats-info" id="statsInfo">
+                <div class="loading">Chargement de la base de données</div>
+            </div>
+            
+            <div class="results-section" id="resultsSection">
+                <!-- Les résultats apparaîtront ici -->
+            </div>
         </div>
     </div>
 
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
     <!-- Chargement de la base de données -->
     <script src="js/ss64-database.js"></script>
     
@@ -515,6 +511,12 @@
         
         // Initialisation
         document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            
             initializeDatabase();
         });
         
@@ -533,7 +535,7 @@
             } catch (error) {
                 console.error('❌ Erreur lors du chargement de la base de données:', error);
                 document.getElementById('statsInfo').innerHTML = `
-                    <div style="color: #dc3545;">
+                    <div style="color: var(--error-color);">
                         ⚠️ Erreur lors du chargement de la base de données<br>
                         <small>Vérifiez que le fichier js/ss64-database.js est présent</small>
                     </div>
@@ -782,7 +784,7 @@
         function highlightMatch(text, query) {
             if (!query) return text;
             const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
-            return text.replace(regex, '<mark style="background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%); padding: 2px 4px; border-radius: 3px; font-weight: bold;">$1</mark>');
+            return text.replace(regex, '<mark>$1</mark>');
         }
         
         // Échapper les caractères spéciaux pour regex
@@ -874,12 +876,14 @@
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #333;
-                color: white;
+                background: var(--bg-secondary);
+                color: var(--text-color);
                 padding: 12px 20px;
-                border-radius: 6px;
+                border-radius: var(--border-radius);
                 z-index: 10000;
                 font-size: 14px;
+                border: 1px solid var(--border-color);
+                box-shadow: 0 4px 12px var(--shadow-color);
                 animation: slideIn 0.3s ease-out;
             `;
             
