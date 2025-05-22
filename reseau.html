@@ -51,8 +51,13 @@
                                 <input type="radio" name="ipService" value="fallback">
                                 <span>Service externe (ip-api.com)</span>
                             </label>
+                            <label class="toggle-label">
+                                <input type="checkbox" id="debugMode">
+                                <span>Mode debug</span>
+                            </label>
                         </div>
                         <button class="button secondary" onclick="refreshIPInfo()">🔄 Actualiser</button>
+                        <button class="button secondary" onclick="testIPRange()">🧪 Test plages</button>
                     </div>
                     <div id="myIP">Chargement des informations IP...</div>
                     <div id="ipServiceStatus" class="service-status"></div>
@@ -218,11 +223,11 @@
                 try {
                     this.updateStatus('Chargement de la base de données IP...', 'loading');
                     
-                    // Chargement limité pour la démo (premiers 2000 enregistrements)
+                    // Chargement étendu pour une meilleure couverture
                     const response = await fetch(this.databases.country);
                     const csvData = await response.text();
                     
-                    const lines = csvData.split('\n').slice(0, 2000);
+                    const lines = csvData.split('\n').slice(0, 10000); // Augmenté à 10k
                     const database = [];
                     
                     for (const line of lines) {
@@ -259,6 +264,15 @@
                 if (!database) return null;
                 
                 const ipNum = this.ipToNumber(ip);
+                console.log(`🔢 IP convertie: ${ip} -> ${ipNum}`);
+                console.log(`📊 Base de données: ${database.length} entrées`);
+                
+                // Afficher quelques plages pour debug
+                if (database.length > 0) {
+                    console.log(`📈 Première plage: ${database[0].startIP} - ${database[0].endIP}`);
+                    console.log(`📈 Dernière plage: ${database[database.length-1].startIP} - ${database[database.length-1].endIP}`);
+                }
+                
                 let left = 0;
                 let right = database.length - 1;
                 
@@ -267,6 +281,7 @@
                     const entry = database[mid];
                     
                     if (ipNum >= entry.startIP && ipNum <= entry.endIP) {
+                        console.log(`✅ IP trouvée dans la plage: ${entry.startIP} - ${entry.endIP}`);
                         return {
                             ip: ip,
                             country: entry.country,
@@ -280,6 +295,7 @@
                     }
                 }
                 
+                console.log(`❌ IP ${ipNum} non trouvée dans la base`);
                 return null;
             },
 
@@ -316,14 +332,22 @@
             async lookup(ip) {
                 const useAutonomous = document.querySelector('input[name="ipService"]:checked').value === 'autonomous';
                 
+                console.log(`🔍 Recherche IP: ${ip}, Mode: ${useAutonomous ? 'autonome' : 'externe'}`);
+                
                 if (useAutonomous) {
                     const database = await this.loadDatabase();
                     let result = this.findIPLocation(ip, database);
                     
+                    console.log('Résultat base locale:', result);
+                    
                     if (!result) {
                         // Si pas trouvé, essayer le fallback
+                        console.log('IP non trouvée localement, essai fallback...');
                         result = await this.fallbackLookup(ip);
-                        if (result) result.source += ' (fallback)';
+                        if (result) {
+                            result.source = 'API externe (fallback)';
+                            console.log('Résultat fallback:', result);
+                        }
                     }
                     
                     return result;
@@ -344,6 +368,12 @@
                 if (serviceStatusEl) {
                     serviceStatusEl.textContent = message;
                     serviceStatusEl.className = `service-status ${type}`;
+                }
+                
+                // Log pour debug
+                const isDebug = document.getElementById('debugMode')?.checked;
+                if (isDebug) {
+                    console.log(`[${type.toUpperCase()}] ${message}`);
                 }
             }
         };
@@ -378,8 +408,18 @@
             
             try {
                 const ip = await AutonomousIPService.getPublicIP();
+                infoEl.innerHTML = "🔍 Recherche des informations pour IP: " + ip + "...";
+                
                 const info = await AutonomousIPService.lookup(ip);
-                infoEl.innerHTML = formatIPInfo(info);
+                
+                if (!info) {
+                    // Si pas trouvé, essayer directement le fallback
+                    infoEl.innerHTML = "⚠️ IP non trouvée dans la base locale, essai du service externe...";
+                    const fallbackInfo = await AutonomousIPService.fallbackLookup(ip);
+                    infoEl.innerHTML = formatIPInfo(fallbackInfo);
+                } else {
+                    infoEl.innerHTML = formatIPInfo(info);
+                }
             } catch (error) {
                 infoEl.innerHTML = "<span style='color: var(--error-color);'>❌ Erreur: " + error.message + "</span>";
             }
@@ -413,6 +453,32 @@
             }
         }
 
+        // Fonction de test des plages IP
+        async function testIPRange() {
+            const database = await AutonomousIPService.loadDatabase();
+            if (!database || database.length === 0) {
+                alert('Base de données non chargée');
+                return;
+            }
+            
+            const testIPs = ['8.8.8.8', '1.1.1.1', '208.67.222.222', '9.9.9.9'];
+            console.log('🧪 Test de quelques IPs populaires:');
+            
+            for (const testIP of testIPs) {
+                const result = AutonomousIPService.findIPLocation(testIP, database);
+                console.log(`IP ${testIP}:`, result ? `🌍 ${result.countryName}` : '❌ Non trouvée');
+            }
+            
+            // Afficher quelques plages au hasard
+            console.log('📊 Échantillon de plages dans la base:');
+            for (let i = 0; i < Math.min(10, database.length); i += Math.floor(database.length / 10)) {
+                const entry = database[i];
+                console.log(`Plage ${i}: ${entry.startIP} - ${entry.endIP} = ${entry.countryName}`);
+            }
+            
+            alert('Test terminé - voir la console pour les détails');
+        }
+        
         // Permettre Enter pour la recherche
         document.addEventListener('DOMContentLoaded', function() {
             const lookupInput = document.getElementById('lookupIP');
