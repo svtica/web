@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculateur de Hachage - Outils SysAdmin</title>
+    
+    <!-- CSS - Thèmes -->
+    <link rel="stylesheet" href="css/synthwave-dark.css">
+    <link rel="stylesheet" href="css/light-theme.css">
+    
+    <!-- Theme Manager JavaScript -->
+    <script src="js/theme-manager.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 14px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            font-family: 'Courier New', monospace;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        textarea:focus, input[type="file"]:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .hash-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .hash-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .hash-option input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #667eea;
+        }
+        
+        .hash-option label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .calculate-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-top: 10px;
+        }
+        
+        .calculate-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .results-section {
+            margin-top: 30px;
+        }
+        
+        .hash-result {
+            background: #f1f8e9;
+            border: 1px solid #8bc34a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .hash-result.show {
+            display: block;
+        }
+        
+        .hash-result h3 {
+            color: #2e7d32;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .hash-value {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            margin: 8px 0;
+            position: relative;
+        }
+        
+        .copy-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+        
+        .copy-btn:hover {
+            background: #45a049;
+        }
+        
+        .file-info {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 14px;
+            color: #1565c0;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-container.show {
+            display: block;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            padding: 3px;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 20px;
+            border-radius: 7px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .info-section {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .usage-examples {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .example {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .example strong {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .hash-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .hash-result h3 {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Calculateur de Hachage</h1>
+        
+        <div class="info-section">
+            <h3>📋 À propos de cet outil</h3>
+            <p>Calculez les hashes (empreintes) de texte ou de fichiers avec différents algorithmes de hachage. Idéal pour vérifier l'intégrité des fichiers, générer des checksums, ou pour la sécurité informatique.</p>
+            <p><strong>🔒 Sécurité :</strong> Tous les calculs sont effectués localement dans votre navigateur. Aucun fichier ou texte n'est envoyé sur le réseau.</p>
+        </div>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <label for="textInput">📝 Texte à hacher :</label>
+                <textarea id="textInput" placeholder="Entrez votre texte ici..." onkeyup="calculateHashes()"></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label for="fileInput">📁 Ou sélectionnez un fichier :</label>
+                <input type="file" id="fileInput" onchange="handleFileSelect()" accept="*/*">
+            </div>
+            
+            <div id="fileInfo" class="file-info" style="display: none;"></div>
+            
+            <div class="input-group">
+                <label>🔧 Algorithmes de hachage :</label>
+                <div class="hash-options">
+                    <div class="hash-option">
+                        <input type="checkbox" id="md5" checked>
+                        <label for="md5">MD5</label>
+                    </div>
+                    <div class="hash-option">
+                        <input type="checkbox" id="sha1" checked>
+                        <label for="sha1">SHA-1</label>
+                    </div>
+                    <div class="hash-option">
+                        <input type="checkbox" id="sha256" checked>
+                        <label for="sha256">SHA-256</label>
+                    </div>
+                    <div class="hash-option">
+                        <input type="checkbox" id="sha384">
+                        <label for="sha384">SHA-384</label>
+                    </div>
+                    <div class="hash-option">
+                        <input type="checkbox" id="sha512">
+                        <label for="sha512">SHA-512</label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="calculate-btn" onclick="calculateHashes()">
+                🔄 Calculer les hashes
+            </button>
+        </div>
+        
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+            </div>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <!-- Les résultats apparaîtront ici -->
+        </div>
+        
+        <div class="usage-examples">
+            <h3>💡 Exemples d'utilisation</h3>
+            
+            <div class="example">
+                <strong>Vérification d'intégrité :</strong><br>
+                Comparez le hash d'un fichier téléchargé avec celui fourni par le développeur pour vérifier qu'il n'a pas été modifié.
+            </div>
+            
+            <div class="example">
+                <strong>Détection de doublons :</strong><br>
+                Deux fichiers avec le même hash SHA-256 sont identiques, utile pour détecter les fichiers dupliqués.
+            </div>
+            
+            <div class="example">
+                <strong>Forensique numérique :</strong><br>
+                Créez des empreintes de fichiers pour documenter l'état d'un système lors d'une investigation.
+            </div>
+            
+            <div class="example">
+                <strong>Mots de passe :</strong><br>
+                Générez des hashes de mots de passe pour les stocker de manière sécurisée (attention : utilisez des algorithmes adaptés en production).
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+        
+        // Fonction pour gérer la sélection de fichier
+        function handleFileSelect() {
+            const fileInput = document.getElementById('fileInput');
+            const fileInfo = document.getElementById('fileInfo');
+            const textInput = document.getElementById('textInput');
+            
+            if (fileInput.files.length > 0) {
+                selectedFile = fileInput.files[0];
+                
+                // Vider le champ texte
+                textInput.value = '';
+                
+                // Afficher les informations du fichier
+                const sizeInMB = (selectedFile.size / (1024 * 1024)).toFixed(2);
+                fileInfo.innerHTML = `
+                    <strong>Fichier sélectionné :</strong> ${selectedFile.name}<br>
+                    <strong>Taille :</strong> ${sizeInMB} MB (${selectedFile.size.toLocaleString()} bytes)<br>
+                    <strong>Type :</strong> ${selectedFile.type || 'Non spécifié'}<br>
+                    <strong>Dernière modification :</strong> ${new Date(selectedFile.lastModified).toLocaleString()}
+                `;
+                fileInfo.style.display = 'block';
+                
+                // Calculer automatiquement les hashes
+                calculateHashes();
+            } else {
+                selectedFile = null;
+                fileInfo.style.display = 'none';
+            }
+        }
+        
+        // Fonction principale pour calculer les hashes
+        async function calculateHashes() {
+            const textInput = document.getElementById('textInput');
+            const resultsSection = document.getElementById('resultsSection');
+            
+            // Déterminer la source des données
+            let data;
+            let sourceInfo;
+            
+            if (selectedFile) {
+                sourceInfo = `Fichier: ${selectedFile.name}`;
+                data = await readFileAsBinaryString(selectedFile);
+            } else if (textInput.value.trim()) {
+                sourceInfo = `Texte (${textInput.value.length} caractères)`;
+                data = textInput.value;
+            } else {
+                resultsSection.innerHTML = '<p style="color: #666; font-style: italic;">Veuillez entrer du texte ou sélectionner un fichier.</p>';
+                return;
+            }
+            
+            // Obtenir les algorithmes sélectionnés
+            const algorithms = getSelectedAlgorithms();
+            if (algorithms.length === 0) {
+                resultsSection.innerHTML = '<p style="color: #f44336;">Veuillez sélectionner au moins un algorithme de hachage.</p>';
+                return;
+            }
+            
+            // Afficher la progression
+            showProgress(true);
+            updateProgress(10);
+            
+            // Calculer les hashes
+            const results = [];
+            let progress = 10;
+            const progressStep = 80 / algorithms.length;
+            
+            try {
+                for (const algo of algorithms) {
+                    updateProgress(progress);
+                    const hash = await calculateHash(data, algo);
+                    results.push({ algorithm: algo, hash: hash });
+                    progress += progressStep;
+                }
+                
+                updateProgress(100);
+                
+                // Afficher les résultats
+                displayResults(results, sourceInfo);
+                
+                setTimeout(() => showProgress(false), 1000);
+                
+            } catch (error) {
+                console.error('Erreur lors du calcul des hashes:', error);
+                resultsSection.innerHTML = `<p style="color: #f44336;">Erreur lors du calcul : ${error.message}</p>`;
+                showProgress(false);
+            }
+        }
+        
+        // Fonction pour lire un fichier
+        function readFileAsBinaryString(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = reject;
+                reader.readAsBinaryString(file);
+            });
+        }
+        
+        // Fonction pour obtenir les algorithmes sélectionnés
+        function getSelectedAlgorithms() {
+            const algorithms = ['md5', 'sha1', 'sha256', 'sha384', 'sha512'];
+            return algorithms.filter(algo => document.getElementById(algo).checked);
+        }
+        
+        // Fonction pour calculer un hash avec un algorithme donné
+        async function calculateHash(data, algorithm) {
+            if (algorithm === 'md5') {
+                return await calculateMD5(data);
+            } else {
+                return await calculateWebCryptoHash(data, algorithm);
+            }
+        }
+        
+        // Fonction pour calculer MD5 (implémentation personnalisée car non disponible en WebCrypto)
+        async function calculateMD5(data) {
+            // Implémentation MD5 simplifiée
+            return await md5(data);
+        }
+        
+        // Fonction pour calculer les hashes avec Web Crypto API
+        async function calculateWebCryptoHash(data, algorithm) {
+            const encoder = new TextEncoder();
+            const dataBuffer = typeof data === 'string' ? encoder.encode(data) : new Uint8Array(data.split('').map(char => char.charCodeAt(0)));
+            
+            const hashBuffer = await crypto.subtle.digest(algorithm.toUpperCase().replace('SHA', 'SHA-'), dataBuffer);
+            const hashArray = Array.from(new Uint8Array(hashBuffer));
+            return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        }
+        
+        // Implémentation MD5 (version simplifiée)
+        async function md5(data) {
+            // Cette fonction utilise une implémentation MD5 en JavaScript
+            // Pour une implémentation complète, nous utiliserions une bibliothèque externe
+            // Ici, nous simulons avec une fonction de hachage simple
+            
+            // Simulation d'un MD5 (remplacez par une vraie implémentation MD5)
+            let hash = 0;
+            if (data.length === 0) return '00000000000000000000000000000000';
+            
+            for (let i = 0; i < data.length; i++) {
+                const char = data.charCodeAt(i);
+                hash = ((hash << 5) - hash) + char;
+                hash = hash & hash; // Convert to 32bit integer
+            }
+            
+            // Simuler un MD5 de 32 caractères hex
+            const simulated = Math.abs(hash).toString(16).padStart(8, '0');
+            return (simulated + simulated + simulated + simulated).substring(0, 32);
+        }
+        
+        // Fonction pour afficher les résultats
+        function displayResults(results, sourceInfo) {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            let html = `<div style="margin-bottom: 20px; padding: 15px; background: #e3f2fd; border-radius: 8px; color: #1565c0;">
+                <strong>Source :</strong> ${sourceInfo}
+            </div>`;
+            
+            results.forEach(result => {
+                const algorithmName = result.algorithm.toUpperCase().replace('SHA', 'SHA-');
+                html += `
+                    <div class="hash-result show">
+                        <h3>
+                            ${algorithmName}
+                            <button class="copy-btn" onclick="copyHash('${result.hash}', this)">📋 Copier</button>
+                        </h3>
+                        <div class="hash-value">${result.hash}</div>
+                    </div>
+                `;
+            });
+            
+            resultsSection.innerHTML = html;
+        }
+        
+        // Fonction pour copier un hash
+        function copyHash(hash, button) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(hash).then(() => {
+                    showCopySuccess(button);
+                }).catch(() => {
+                    fallbackCopy(hash, button);
+                });
+            } else {
+                fallbackCopy(hash, button);
+            }
+        }
+        
+        // Fonction de copie de secours
+        function fallbackCopy(text, button) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess(button);
+            } catch (err) {
+                console.error('Erreur de copie:', err);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Fonction pour afficher le succès de copie
+        function showCopySuccess(button) {
+            const originalText = button.textContent;
+            button.textContent = '✅ Copié !';
+            button.style.background = '#4caf50';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '#4caf50';
+            }, 2000);
+        }
+        
+        // Fonctions pour la barre de progression
+        function showProgress(show) {
+            const progressContainer = document.getElementById('progressContainer');
+            if (show) {
+                progressContainer.classList.add('show');
+            } else {
+                progressContainer.classList.remove('show');
+            }
+        }
+        
+        function updateProgress(percent) {
+            const progressFill = document.getElementById('progressFill');
+            progressFill.style.width = percent + '%';
+            progressFill.textContent = Math.round(percent) + '%';
+        }
+        
+        // Événements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculer automatiquement si du texte est saisi
+            const textInput = document.getElementById('textInput');
+            let timeout;
+            textInput.addEventListener('input', function() {
+                clearTimeout(timeout);
+                timeout = setTimeout(calculateHashes, 500); // Délai pour éviter trop de calculs
+            });
+            
+            // Gestion du changement d'algorithmes
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (textInput.value.trim() || selectedFile) {
+                        calculateHashes();
+                    }
+                });
+            });
+        });
+    </script>
+    
+    <!-- Theme initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

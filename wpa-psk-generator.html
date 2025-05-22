@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Générateur de Clé WPA-PSK - Outils SysAdmin</title>
+    
+    <!-- CSS - Thèmes -->
+    <link rel="stylesheet" href="css/synthwave-dark.css">
+    <link rel="stylesheet" href="css/light-theme.css">
+    
+    <!-- Theme Manager JavaScript -->
+    <script src="js/theme-manager.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .info-section {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .info-section h3 {
+            color: #1565c0;
+            margin-top: 0;
+        }
+        
+        .form-section {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+        
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        .generate-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .generate-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .generate-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .result-section {
+            background: #f1f8e9;
+            border: 2px solid #8bc34a;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            display: none;
+        }
+        
+        .result-section.show {
+            display: block;
+        }
+        
+        .psk-output {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            word-break: break-all;
+            margin: 10px 0;
+            min-height: 40px;
+            line-height: 1.4;
+        }
+        
+        .progress-bar {
+            background: #e0e0e0;
+            border-radius: 10px;
+            padding: 3px;
+            margin: 10px 0;
+            display: none;
+        }
+        
+        .progress-bar.show {
+            display: block;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 20px;
+            border-radius: 7px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .copy-btn {
+            background: #4caf50;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .copy-btn:hover {
+            background: #45a049;
+        }
+        
+        .security-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 20px 0;
+            color: #856404;
+        }
+        
+        .usage-examples {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .usage-examples h3 {
+            color: #333;
+            margin-top: 0;
+        }
+        
+        .example {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        
+        .example strong {
+            color: #667eea;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            .form-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔐 Générateur de Clé WPA-PSK</h1>
+        
+        <div class="info-section">
+            <h3>📋 À propos de cet outil</h3>
+            <p>Ce générateur calcule la clé pré-partagée (PSK) WPA à partir d'une phrase de passe et d'un SSID. La clé résultante de 256 bits est utilisée pour la dérivation de clé dans les réseaux Wi-Fi sécurisés.</p>
+            <p><strong>🔒 Sécurité :</strong> Tous les calculs sont effectués localement dans votre navigateur. Aucune information n'est transmise sur le réseau.</p>
+        </div>
+        
+        <div class="form-section">
+            <form id="pskForm">
+                <div class="form-group">
+                    <label for="passphrase">Phrase de passe WPA :</label>
+                    <input type="password" id="passphrase" placeholder="Entrez votre phrase de passe WPA (8-63 caractères)" maxlength="63">
+                    <div style="margin-top: 5px;">
+                        <input type="checkbox" id="showPassphrase" onchange="togglePasswordVisibility()">
+                        <label for="showPassphrase" style="display: inline; font-weight: normal; margin-left: 5px;">Afficher la phrase de passe</label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="ssid">SSID du réseau :</label>
+                    <input type="text" id="ssid" placeholder="Nom du réseau Wi-Fi" maxlength="32">
+                </div>
+                
+                <button type="button" class="generate-btn" onclick="generatePSK()" id="generateBtn">
+                    Générer la clé PSK
+                </button>
+            </form>
+        </div>
+        
+        <div class="progress-bar" id="progressBar">
+            <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <h3>🔑 Clé PSK générée :</h3>
+            <div class="psk-output" id="pskOutput">La clé apparaîtra ici...</div>
+            <button class="copy-btn" onclick="copyPSK()">📋 Copier la clé</button>
+        </div>
+        
+        <div class="security-note">
+            <strong>⚠️ Note de sécurité :</strong> Conservez cette clé en lieu sûr. Elle donne accès complet à votre réseau Wi-Fi. Ne la partagez qu'avec des personnes de confiance.
+        </div>
+        
+        <div class="usage-examples">
+            <h3>💡 Exemples d'utilisation</h3>
+            
+            <div class="example">
+                <strong>Configuration de routeur :</strong><br>
+                Utilisez cette clé dans la configuration avancée de votre routeur au lieu de la phrase de passe pour une authentification plus rapide.
+            </div>
+            
+            <div class="example">
+                <strong>Diagnostic réseau :</strong><br>
+                Vérifiez que vos appareils utilisent la même clé PSK pour diagnostiquer les problèmes de connexion Wi-Fi.
+            </div>
+            
+            <div class="example">
+                <strong>Scripts d'automatisation :</strong><br>
+                Intégrez cette clé dans vos scripts de configuration réseau automatisée.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction pour basculer la visibilité du mot de passe
+        function togglePasswordVisibility() {
+            const passphraseInput = document.getElementById('passphrase');
+            const checkbox = document.getElementById('showPassphrase');
+            
+            passphraseInput.type = checkbox.checked ? 'text' : 'password';
+        }
+        
+        // Fonction de validation des entrées
+        function validateInputs() {
+            const passphrase = document.getElementById('passphrase').value;
+            const ssid = document.getElementById('ssid').value;
+            const generateBtn = document.getElementById('generateBtn');
+            
+            // Reset des styles d'erreur
+            document.getElementById('passphrase').style.borderColor = '#ddd';
+            document.getElementById('ssid').style.borderColor = '#ddd';
+            
+            let isValid = true;
+            let errorMessage = '';
+            
+            // Validation de la phrase de passe
+            if (!passphrase) {
+                errorMessage += 'La phrase de passe est obligatoire. ';
+                document.getElementById('passphrase').style.borderColor = '#f44336';
+                isValid = false;
+            } else if (passphrase.length < 8 || passphrase.length > 63) {
+                errorMessage += 'La phrase de passe doit contenir entre 8 et 63 caractères. ';
+                document.getElementById('passphrase').style.borderColor = '#f44336';
+                isValid = false;
+            }
+            
+            // Validation du SSID
+            if (!ssid) {
+                errorMessage += 'Le SSID est obligatoire. ';
+                document.getElementById('ssid').style.borderColor = '#f44336';
+                isValid = false;
+            } else if (ssid.length > 32) {
+                errorMessage += 'Le SSID ne peut pas dépasser 32 caractères. ';
+                document.getElementById('ssid').style.borderColor = '#f44336';
+                isValid = false;
+            }
+            
+            // Mise à jour du bouton
+            generateBtn.disabled = !isValid;
+            
+            if (!isValid && errorMessage) {
+                showError(errorMessage);
+            }
+            
+            return isValid;
+        }
+        
+        // Fonction pour afficher les erreurs
+        function showError(message) {
+            const pskOutput = document.getElementById('pskOutput');
+            pskOutput.innerHTML = `<span style="color: #f44336;">❌ ${message}</span>`;
+            document.getElementById('resultSection').classList.add('show');
+        }
+        
+        // Fonction de mise à jour de la barre de progression
+        function updateProgress(percent) {
+            const progressBar = document.getElementById('progressBar');
+            const progressFill = document.getElementById('progressFill');
+            
+            if (percent > 0) {
+                progressBar.classList.add('show');
+            }
+            
+            progressFill.style.width = percent + '%';
+            progressFill.textContent = Math.round(percent) + '%';
+            
+            if (percent >= 100) {
+                setTimeout(() => {
+                    progressBar.classList.remove('show');
+                }, 1000);
+            }
+        }
+        
+        // Fonction principale de génération PSK
+        async function generatePSK() {
+            if (!validateInputs()) {
+                return;
+            }
+            
+            const passphrase = document.getElementById('passphrase').value;
+            const ssid = document.getElementById('ssid').value;
+            const pskOutput = document.getElementById('pskOutput');
+            const resultSection = document.getElementById('resultSection');
+            
+            // Affichage du début du processus
+            pskOutput.innerHTML = '🔄 Génération de la clé PSK en cours...';
+            resultSection.classList.add('show');
+            updateProgress(10);
+            
+            try {
+                // Simulation d'un processus de calcul progressif
+                updateProgress(25);
+                
+                // Calcul de la clé PSK en utilisant PBKDF2
+                const key = await calculatePBKDF2(passphrase, ssid, 4096, 32);
+                
+                updateProgress(90);
+                
+                // Conversion en format hexadécimal
+                const hexKey = Array.from(new Uint8Array(key))
+                    .map(b => b.toString(16).padStart(2, '0'))
+                    .join('');
+                
+                updateProgress(100);
+                
+                // Affichage du résultat
+                pskOutput.innerHTML = `
+                    <strong>Clé PSK (256 bits) :</strong><br>
+                    <span style="font-size: 16px; color: #2e7d32;">${hexKey}</span><br><br>
+                    <small><strong>SSID :</strong> ${ssid}</small><br>
+                    <small><strong>Longueur :</strong> ${hexKey.length} caractères (${key.byteLength} bytes)</small><br>
+                    <small><strong>Algorithme :</strong> PBKDF2-SHA1, 4096 itérations</small>
+                `;
+                
+            } catch (error) {
+                updateProgress(0);
+                showError('Erreur lors de la génération de la clé : ' + error.message);
+                console.error('Erreur PSK:', error);
+            }
+        }
+        
+        // Fonction PBKDF2 utilisant l'API Web Crypto
+        async function calculatePBKDF2(password, salt, iterations, keyLength) {
+            const encoder = new TextEncoder();
+            const passwordBuffer = encoder.encode(password);
+            const saltBuffer = encoder.encode(salt);
+            
+            // Import de la clé
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                passwordBuffer,
+                { name: 'PBKDF2' },
+                false,
+                ['deriveBits']
+            );
+            
+            // Dérivation de la clé
+            const derivedKey = await crypto.subtle.deriveBits(
+                {
+                    name: 'PBKDF2',
+                    salt: saltBuffer,
+                    iterations: iterations,
+                    hash: 'SHA-1'
+                },
+                keyMaterial,
+                keyLength * 8
+            );
+            
+            return derivedKey;
+        }
+        
+        // Fonction pour copier la clé dans le presse-papiers
+        function copyPSK() {
+            const pskOutput = document.getElementById('pskOutput');
+            const textContent = pskOutput.textContent || pskOutput.innerText;
+            
+            // Extraction de la clé hexadécimale
+            const hexMatch = textContent.match(/([0-9a-f]{64})/i);
+            if (hexMatch) {
+                const hexKey = hexMatch[1];
+                
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(hexKey).then(() => {
+                        showCopySuccess();
+                    }).catch(err => {
+                        fallbackCopyText(hexKey);
+                    });
+                } else {
+                    fallbackCopyText(hexKey);
+                }
+            }
+        }
+        
+        // Fonction de copie de secours
+        function fallbackCopyText(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess();
+            } catch (err) {
+                alert('Impossible de copier automatiquement. Veuillez sélectionner et copier manuellement.');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Fonction pour afficher le succès de la copie
+        function showCopySuccess() {
+            const copyBtn = document.querySelector('.copy-btn');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = '✅ Copié !';
+            copyBtn.style.background = '#4caf50';
+            
+            setTimeout(() => {
+                copyBtn.textContent = originalText;
+                copyBtn.style.background = '#4caf50';
+            }, 2000);
+        }
+        
+        // Validation en temps réel
+        document.getElementById('passphrase').addEventListener('input', validateInputs);
+        document.getElementById('ssid').addEventListener('input', validateInputs);
+        
+        // Génération automatique en appuyant sur Entrée
+        document.getElementById('passphrase').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generatePSK();
+            }
+        });
+        
+        document.getElementById('ssid').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                generatePSK();
+            }
+        });
+        
+        // Validation initiale
+        document.addEventListener('DOMContentLoaded', function() {
+            validateInputs();
+        });
+    </script>
+    
+    <!-- Theme initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

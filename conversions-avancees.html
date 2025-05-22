@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversions Avancées - Outils SysAdmin</title>
+    
+    <!-- CSS - Thèmes -->
+    <link rel="stylesheet" href="css/synthwave-dark.css">
+    <link rel="stylesheet" href="css/light-theme.css">
+    
+    <!-- Theme Manager JavaScript -->
+    <script src="js/theme-manager.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .converter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .converter-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .converter-section h3 {
+            color: #333;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+        }
+        
+        .convert-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        
+        .convert-btn:hover {
+            background: #5a6fd8;
+        }
+        
+        .unit {
+            font-size: 12px;
+            color: #666;
+            margin-left: 5px;
+        }
+        
+        .note {
+            background: #e3f2fd;
+            border: 1px solid #90caf9;
+            border-radius: 4px;
+            padding: 10px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #1565c0;
+        }
+        
+        @media (max-width: 768px) {
+            .converter-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔧 Conversions Avancées pour SysAdmins</h1>
+        
+        <div class="note">
+            <strong>Usage :</strong> Modifiez la valeur dans n'importe quel champ et cliquez sur "Convertir" ou pressez "Entrée" pour recalculer automatiquement les autres valeurs.
+        </div>
+        
+        <div class="converter-grid">
+            <!-- Température -->
+            <div class="converter-section">
+                <h3>🌡️ Température</h3>
+                <div class="form-group">
+                    <label>Celsius <span class="unit">°C</span></label>
+                    <input type="number" id="celsius" step="0.01" onchange="convertTemperature('celsius')" onkeyup="convertTemperature('celsius')">
+                </div>
+                <div class="form-group">
+                    <label>Fahrenheit <span class="unit">°F</span></label>
+                    <input type="number" id="fahrenheit" step="0.01" onchange="convertTemperature('fahrenheit')" onkeyup="convertTemperature('fahrenheit')">
+                </div>
+                <div class="form-group">
+                    <label>Kelvin <span class="unit">K</span></label>
+                    <input type="number" id="kelvin" step="0.01" onchange="convertTemperature('kelvin')" onkeyup="convertTemperature('kelvin')">
+                </div>
+                <button class="convert-btn" onclick="convertTemperature('celsius')">Convertir</button>
+            </div>
+            
+            <!-- Pression -->
+            <div class="converter-section">
+                <h3>📊 Pression</h3>
+                <div class="form-group">
+                    <label>Pascal <span class="unit">Pa</span></label>
+                    <input type="number" id="pascal" step="0.01" onchange="convertPressure('pascal')" onkeyup="convertPressure('pascal')">
+                </div>
+                <div class="form-group">
+                    <label>Bar <span class="unit">bar</span></label>
+                    <input type="number" id="bar" step="0.01" onchange="convertPressure('bar')" onkeyup="convertPressure('bar')">
+                </div>
+                <div class="form-group">
+                    <label>PSI <span class="unit">psi</span></label>
+                    <input type="number" id="psi" step="0.01" onchange="convertPressure('psi')" onkeyup="convertPressure('psi')">
+                </div>
+                <div class="form-group">
+                    <label>Atmosphère <span class="unit">atm</span></label>
+                    <input type="number" id="atmosphere" step="0.01" onchange="convertPressure('atmosphere')" onkeyup="convertPressure('atmosphere')">
+                </div>
+                <button class="convert-btn" onclick="convertPressure('pascal')">Convertir</button>
+            </div>
+            
+            <!-- Vitesse -->
+            <div class="converter-section">
+                <h3>🚀 Vitesse</h3>
+                <div class="form-group">
+                    <label>Kilomètres/heure <span class="unit">km/h</span></label>
+                    <input type="number" id="kmh" step="0.01" onchange="convertSpeed('kmh')" onkeyup="convertSpeed('kmh')">
+                </div>
+                <div class="form-group">
+                    <label>Mètres/seconde <span class="unit">m/s</span></label>
+                    <input type="number" id="ms" step="0.01" onchange="convertSpeed('ms')" onkeyup="convertSpeed('ms')">
+                </div>
+                <div class="form-group">
+                    <label>Miles/heure <span class="unit">mph</span></label>
+                    <input type="number" id="mph" step="0.01" onchange="convertSpeed('mph')" onkeyup="convertSpeed('mph')">
+                </div>
+                <div class="form-group">
+                    <label>Nœuds <span class="unit">kt</span></label>
+                    <input type="number" id="knots" step="0.01" onchange="convertSpeed('knots')" onkeyup="convertSpeed('knots')">
+                </div>
+                <button class="convert-btn" onclick="convertSpeed('kmh')">Convertir</button>
+            </div>
+            
+            <!-- Puissance -->
+            <div class="converter-section">
+                <h3>⚡ Puissance</h3>
+                <div class="form-group">
+                    <label>Watts <span class="unit">W</span></label>
+                    <input type="number" id="watts" step="0.01" onchange="convertPower('watts')" onkeyup="convertPower('watts')">
+                </div>
+                <div class="form-group">
+                    <label>Kilowatts <span class="unit">kW</span></label>
+                    <input type="number" id="kilowatts" step="0.01" onchange="convertPower('kilowatts')" onkeyup="convertPower('kilowatts')">
+                </div>
+                <div class="form-group">
+                    <label>Chevaux-vapeur <span class="unit">CV</span></label>
+                    <input type="number" id="horsepower" step="0.01" onchange="convertPower('horsepower')" onkeyup="convertPower('horsepower')">
+                </div>
+                <div class="form-group">
+                    <label>BTU/heure <span class="unit">BTU/h</span></label>
+                    <input type="number" id="btu" step="0.01" onchange="convertPower('btu')" onkeyup="convertPower('btu')">
+                </div>
+                <button class="convert-btn" onclick="convertPower('watts')">Convertir</button>
+            </div>
+            
+            <!-- Nombres/bases -->
+            <div class="converter-section">
+                <h3>🔢 Bases numériques</h3>
+                <div class="form-group">
+                    <label>Décimal <span class="unit">base 10</span></label>
+                    <input type="text" id="decimal" onchange="convertNumber('decimal')" onkeyup="convertNumber('decimal')">
+                </div>
+                <div class="form-group">
+                    <label>Binaire <span class="unit">base 2</span></label>
+                    <input type="text" id="binary" onchange="convertNumber('binary')" onkeyup="convertNumber('binary')">
+                </div>
+                <div class="form-group">
+                    <label>Hexadécimal <span class="unit">base 16</span></label>
+                    <input type="text" id="hexadecimal" onchange="convertNumber('hexadecimal')" onkeyup="convertNumber('hexadecimal')">
+                </div>
+                <div class="form-group">
+                    <label>Octal <span class="unit">base 8</span></label>
+                    <input type="text" id="octal" onchange="convertNumber('octal')" onkeyup="convertNumber('octal')">
+                </div>
+                <button class="convert-btn" onclick="convertNumber('decimal')">Convertir</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Fonction de conversion de température
+        function convertTemperature(from) {
+            let celsius, fahrenheit, kelvin;
+            
+            try {
+                switch(from) {
+                    case 'celsius':
+                        celsius = parseFloat(document.getElementById('celsius').value) || 0;
+                        fahrenheit = (celsius * 9/5) + 32;
+                        kelvin = celsius + 273.15;
+                        break;
+                    case 'fahrenheit':
+                        fahrenheit = parseFloat(document.getElementById('fahrenheit').value) || 0;
+                        celsius = (fahrenheit - 32) * 5/9;
+                        kelvin = celsius + 273.15;
+                        break;
+                    case 'kelvin':
+                        kelvin = parseFloat(document.getElementById('kelvin').value) || 0;
+                        celsius = kelvin - 273.15;
+                        fahrenheit = (celsius * 9/5) + 32;
+                        break;
+                }
+                
+                if (from !== 'celsius') document.getElementById('celsius').value = celsius.toFixed(2);
+                if (from !== 'fahrenheit') document.getElementById('fahrenheit').value = fahrenheit.toFixed(2);
+                if (from !== 'kelvin') document.getElementById('kelvin').value = kelvin.toFixed(2);
+            } catch(e) {
+                console.error('Erreur de conversion de température:', e);
+            }
+        }
+        
+        // Fonction de conversion de pression
+        function convertPressure(from) {
+            let pascal, bar, psi, atmosphere;
+            
+            try {
+                switch(from) {
+                    case 'pascal':
+                        pascal = parseFloat(document.getElementById('pascal').value) || 0;
+                        bar = pascal / 100000;
+                        psi = pascal / 6894.76;
+                        atmosphere = pascal / 101325;
+                        break;
+                    case 'bar':
+                        bar = parseFloat(document.getElementById('bar').value) || 0;
+                        pascal = bar * 100000;
+                        psi = bar * 14.5038;
+                        atmosphere = bar / 1.01325;
+                        break;
+                    case 'psi':
+                        psi = parseFloat(document.getElementById('psi').value) || 0;
+                        pascal = psi * 6894.76;
+                        bar = psi / 14.5038;
+                        atmosphere = psi / 14.696;
+                        break;
+                    case 'atmosphere':
+                        atmosphere = parseFloat(document.getElementById('atmosphere').value) || 0;
+                        pascal = atmosphere * 101325;
+                        bar = atmosphere * 1.01325;
+                        psi = atmosphere * 14.696;
+                        break;
+                }
+                
+                if (from !== 'pascal') document.getElementById('pascal').value = pascal.toFixed(2);
+                if (from !== 'bar') document.getElementById('bar').value = bar.toFixed(4);
+                if (from !== 'psi') document.getElementById('psi').value = psi.toFixed(3);
+                if (from !== 'atmosphere') document.getElementById('atmosphere').value = atmosphere.toFixed(4);
+            } catch(e) {
+                console.error('Erreur de conversion de pression:', e);
+            }
+        }
+        
+        // Fonction de conversion de vitesse
+        function convertSpeed(from) {
+            let kmh, ms, mph, knots;
+            
+            try {
+                switch(from) {
+                    case 'kmh':
+                        kmh = parseFloat(document.getElementById('kmh').value) || 0;
+                        ms = kmh / 3.6;
+                        mph = kmh / 1.609344;
+                        knots = kmh / 1.852;
+                        break;
+                    case 'ms':
+                        ms = parseFloat(document.getElementById('ms').value) || 0;
+                        kmh = ms * 3.6;
+                        mph = ms * 2.237;
+                        knots = ms * 1.944;
+                        break;
+                    case 'mph':
+                        mph = parseFloat(document.getElementById('mph').value) || 0;
+                        kmh = mph * 1.609344;
+                        ms = mph / 2.237;
+                        knots = mph / 1.151;
+                        break;
+                    case 'knots':
+                        knots = parseFloat(document.getElementById('knots').value) || 0;
+                        kmh = knots * 1.852;
+                        ms = knots / 1.944;
+                        mph = knots * 1.151;
+                        break;
+                }
+                
+                if (from !== 'kmh') document.getElementById('kmh').value = kmh.toFixed(2);
+                if (from !== 'ms') document.getElementById('ms').value = ms.toFixed(2);
+                if (from !== 'mph') document.getElementById('mph').value = mph.toFixed(2);
+                if (from !== 'knots') document.getElementById('knots').value = knots.toFixed(2);
+            } catch(e) {
+                console.error('Erreur de conversion de vitesse:', e);
+            }
+        }
+        
+        // Fonction de conversion de puissance
+        function convertPower(from) {
+            let watts, kilowatts, horsepower, btu;
+            
+            try {
+                switch(from) {
+                    case 'watts':
+                        watts = parseFloat(document.getElementById('watts').value) || 0;
+                        kilowatts = watts / 1000;
+                        horsepower = watts / 735.5;
+                        btu = watts * 3.412;
+                        break;
+                    case 'kilowatts':
+                        kilowatts = parseFloat(document.getElementById('kilowatts').value) || 0;
+                        watts = kilowatts * 1000;
+                        horsepower = kilowatts * 1.341;
+                        btu = kilowatts * 3412;
+                        break;
+                    case 'horsepower':
+                        horsepower = parseFloat(document.getElementById('horsepower').value) || 0;
+                        watts = horsepower * 735.5;
+                        kilowatts = watts / 1000;
+                        btu = watts * 3.412;
+                        break;
+                    case 'btu':
+                        btu = parseFloat(document.getElementById('btu').value) || 0;
+                        watts = btu / 3.412;
+                        kilowatts = watts / 1000;
+                        horsepower = watts / 735.5;
+                        break;
+                }
+                
+                if (from !== 'watts') document.getElementById('watts').value = watts.toFixed(1);
+                if (from !== 'kilowatts') document.getElementById('kilowatts').value = kilowatts.toFixed(3);
+                if (from !== 'horsepower') document.getElementById('horsepower').value = horsepower.toFixed(3);
+                if (from !== 'btu') document.getElementById('btu').value = btu.toFixed(1);
+            } catch(e) {
+                console.error('Erreur de conversion de puissance:', e);
+            }
+        }
+        
+        // Fonction de conversion de nombres
+        function convertNumber(from) {
+            let decimal, binary, hexadecimal, octal;
+            
+            try {
+                switch(from) {
+                    case 'decimal':
+                        decimal = parseInt(document.getElementById('decimal').value) || 0;
+                        binary = decimal.toString(2);
+                        hexadecimal = decimal.toString(16).toUpperCase();
+                        octal = decimal.toString(8);
+                        break;
+                    case 'binary':
+                        binary = document.getElementById('binary').value || '0';
+                        decimal = parseInt(binary, 2);
+                        hexadecimal = decimal.toString(16).toUpperCase();
+                        octal = decimal.toString(8);
+                        break;
+                    case 'hexadecimal':
+                        hexadecimal = document.getElementById('hexadecimal').value || '0';
+                        decimal = parseInt(hexadecimal, 16);
+                        binary = decimal.toString(2);
+                        octal = decimal.toString(8);
+                        break;
+                    case 'octal':
+                        octal = document.getElementById('octal').value || '0';
+                        decimal = parseInt(octal, 8);
+                        binary = decimal.toString(2);
+                        hexadecimal = decimal.toString(16).toUpperCase();
+                        break;
+                }
+                
+                if (from !== 'decimal') document.getElementById('decimal').value = decimal;
+                if (from !== 'binary') document.getElementById('binary').value = binary;
+                if (from !== 'hexadecimal') document.getElementById('hexadecimal').value = hexadecimal;
+                if (from !== 'octal') document.getElementById('octal').value = octal;
+            } catch(e) {
+                console.error('Erreur de conversion de nombre:', e);
+                // En cas d'erreur, vider les champs
+                if (from !== 'decimal') document.getElementById('decimal').value = '';
+                if (from !== 'binary') document.getElementById('binary').value = '';
+                if (from !== 'hexadecimal') document.getElementById('hexadecimal').value = '';
+                if (from !== 'octal') document.getElementById('octal').value = '';
+            }
+        }
+        
+        // Initialisation avec des valeurs par défaut
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('celsius').value = '20';
+            convertTemperature('celsius');
+            
+            document.getElementById('pascal').value = '101325';
+            convertPressure('pascal');
+            
+            document.getElementById('kmh').value = '100';
+            convertSpeed('kmh');
+            
+            document.getElementById('watts').value = '1000';
+            convertPower('watts');
+            
+            document.getElementById('decimal').value = '255';
+            convertNumber('decimal');
+        });
+    </script>
+    
+    <!-- Theme initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!localStorage.getItem('theme')) {
+                localStorage.setItem('theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

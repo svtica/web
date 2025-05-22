@@ -1,0 +1,216 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* Variables pour le thème clair */
+:root[data-theme="light"] {
+    --bg-color: #f5f5f5;
+    --text-color: #2c2c2c;
+    --heading-color: #8e44ad;
+    --link-color: #2980b9;
+    --button-color: #8e44ad;
+    --border-color: #8e44ad;
+    --highlight-color: rgba(142, 68, 173, 0.1);
+    --grid-color: rgba(142, 68, 173, 0.3);
+}
+
+/* Thème clair */
+[data-theme="light"] body {
+    font-family: 'VT323', monospace;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+[data-theme="light"] .background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(to bottom, rgba(245, 245, 245, 0.9) 0%, rgba(245, 245, 245, 0.7) 75%, rgba(245, 245, 245, 0.8) 100%),
+        linear-gradient(to right, var(--heading-color), var(--link-color));
+    z-index: -2;
+}
+
+[data-theme="light"] .grid {
+    position: fixed;
+    width: 200%;
+    height: 200vh;
+    background: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    transform-origin: center top;
+    animation: grid-move 15s linear infinite;
+    z-index: -1;
+}
+
+[data-theme="light"] .container {
+    max-width: 800px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 20px rgba(142, 68, 173, 0.3), 0 0 30px rgba(142, 68, 173, 0.1) inset;
+}
+
+[data-theme="light"] h1, 
+[data-theme="light"] h2, 
+[data-theme="light"] h3, 
+[data-theme="light"] h4, 
+[data-theme="light"] h5, 
+[data-theme="light"] h6 {
+    color: var(--heading-color);
+    text-shadow: 1px 1px var(--link-color);
+    margin-top: 1em;
+    margin-bottom: 0.5em;
+}
+
+[data-theme="light"] a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+[data-theme="light"] a:hover {
+    color: var(--heading-color);
+    text-shadow: 0 0 3px var(--heading-color);
+}
+
+[data-theme="light"] .button {
+    display: inline-block;
+    background-color: var(--button-color);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+[data-theme="light"] .button:hover {
+    background-color: var(--link-color);
+    box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+}
+
+[data-theme="light"] code {
+    background-color: var(--highlight-color);
+    padding: 2px 5px;
+    border-radius: 3px;
+}
+
+/* Styles de navigation pour le thème clair */
+[data-theme="light"] nav {
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 15px rgba(142, 68, 173, 0.2);
+}
+
+[data-theme="light"] nav a {
+    color: var(--link-color);
+    padding: 10px 15px;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+[data-theme="light"] nav a:hover {
+    background-color: var(--highlight-color);
+    color: var(--heading-color);
+}
+
+/* Styles des tableaux pour le thème clair */
+[data-theme="light"] table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 1em;
+}
+
+[data-theme="light"] th, 
+[data-theme="light"] td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid var(--border-color);
+}
+
+[data-theme="light"] th {
+    background-color: var(--heading-color);
+    color: white;
+    text-transform: uppercase;
+}
+
+[data-theme="light"] tr:nth-child(even) {
+    background-color: rgba(142, 68, 173, 0.05);
+}
+
+/* Styles des formulaires pour le thème clair */
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="email"],
+[data-theme="light"] input[type="password"],
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1em;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    font-family: 'VT323', monospace;
+}
+
+[data-theme="light"] input[type="submit"] {
+    background-color: var(--button-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+[data-theme="light"] input[type="submit"]:hover {
+    background-color: var(--link-color);
+    box-shadow: 0 0 10px rgba(41, 128, 185, 0.5);
+}
+
+/* Ligne horizontale */
+[data-theme="light"] hr {
+    border: none;
+    height: 2px;
+    background: linear-gradient(to right, var(--heading-color), var(--link-color));
+    margin: 20px 0;
+}
+
+/* Images */
+[data-theme="light"] img {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid var(--border-color);
+    box-shadow: 0 0 10px rgba(142, 68, 173, 0.2);
+}
+
+/* Footer */
+[data-theme="light"] .footer {
+    color: var(--text-color);
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    [data-theme="light"] .container {
+        margin: 20px;
+        padding: 10px;
+    }
+
+    [data-theme="light"] table, 
+    [data-theme="light"] th, 
+    [data-theme="light"] td {
+        font-size: 0.9em;
+    }
+}

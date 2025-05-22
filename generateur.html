@@ -17,9 +17,13 @@
             }
     </style>
 
-  <!-- CSS
+  <!-- CSS - Thèmes
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/synthwave.css">
+  <link rel="stylesheet" href="css/synthwave-dark.css">
+  <link rel="stylesheet" href="css/light-theme.css">
+
+  <!-- Theme Manager JavaScript -->
+  <script src="js/theme-manager.js"></script>
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -495,6 +499,16 @@ generate();
         </div>
     </div>
   </div>
+
+<!-- Theme initialization -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!localStorage.getItem('theme')) {
+            localStorage.setItem('theme', 'dark');
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    });
+</script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

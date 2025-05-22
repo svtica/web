@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche Commandes SS64 - Base Hors-ligne</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+        
+        h1 {
+            color: #333;
+            margin: 0;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-top: 10px;
+            font-size: 1.2em;
+        }
+        
+        .search-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 30px;
+            border-radius: 12px;
+            border-left: 6px solid #667eea;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+        
+        .search-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .search-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: white;
+        }
+        
+        .search-input:focus {
+            border-color: #667eea;
+            outline: none;
+            box-shadow: 0 0 12px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .search-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s;
+            min-width: 140px;
+        }
+        
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .os-tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .os-tab {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s;
+            text-align: center;
+            min-width: 120px;
+        }
+        
+        .os-tab.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .os-tab:hover:not(.active) {
+            background: #f1f3f5;
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+        
+        .quick-access {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 2px solid #90caf9;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .quick-access h3 {
+            margin: 0 0 20px 0;
+            color: #1565c0;
+            font-size: 1.3em;
+        }
+        
+        .quick-commands {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px;
+        }
+        
+        .quick-command {
+            background: white;
+            border: 2px solid #e3f2fd;
+            border-radius: 8px;
+            padding: 12px 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .quick-command:hover {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+        
+        .stats-info {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            color: #856404;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .results-section {
+            margin-top: 30px;
+        }
+        
+        .results-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px 20px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 2px solid #dee2e6;
+            font-weight: bold;
+            color: #495057;
+        }
+        
+        .command-result {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-top: none;
+            padding: 25px;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .command-result:last-child {
+            border-radius: 0 0 8px 8px;
+        }
+        
+        .command-result:hover {
+            box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+            border-color: #667eea;
+        }
+        
+        .command-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .command-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            font-family: 'Courier New', monospace;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        
+        .command-os {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .command-description {
+            color: #495057;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+        
+        .command-syntax {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-left: 4px solid #667eea;
+            padding: 15px 20px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            overflow-x: auto;
+            border-radius: 4px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .command-examples {
+            margin-top: 20px;
+        }
+        
+        .command-examples h4 {
+            color: #495057;
+            margin-bottom: 12px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .example {
+            background: linear-gradient(135deg, #e8f5e8 0%, #d4edda 100%);
+            border: 1px solid #c3e6cb;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .example:hover {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            transform: translateX(5px);
+        }
+        
+        .example::before {
+            content: '$ ';
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .no-results h3 {
+            color: #495057;
+            margin-bottom: 15px;
+        }
+        
+        .search-suggestions {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        
+        .search-suggestions .suggestion {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            margin: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .search-suggestions .suggestion:hover {
+            background: #5a6fd8;
+            transform: scale(1.05);
+        }
+        
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        
+        .example:hover .copy-btn,
+        .command-syntax:hover .copy-btn {
+            opacity: 1;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+            font-size: 18px;
+        }
+        
+        .loading::after {
+            content: '';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .search-input-group {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                min-width: unset;
+            }
+            
+            .os-tabs {
+                justify-content: center;
+                gap: 8px;
+            }
+            
+            .os-tab {
+                min-width: 100px;
+                padding: 10px 16px;
+                font-size: 13px;
+            }
+            
+            .command-header {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+            }
+            
+            .quick-commands {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
+            
+            .command-name {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 Recherche SS64</h1>
+            <div class="subtitle">Base de données complète hors-ligne</div>
+        </div>
+        
+        <div class="quick-access">
+            <h3>🚀 Commandes populaires</h3>
+            <div class="quick-commands" id="quickCommands">
+                <!-- Les commandes populaires seront générées ici -->
+            </div>
+        </div>
+        
+        <div class="search-section">
+            <div class="search-input-group">
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="Rechercher une commande (ex: ping, ls, dir, grep, netstat...)" 
+                       onkeyup="handleSearch(event)" autofocus>
+                <button class="search-btn" onclick="performSearch()">🔍 Rechercher</button>
+            </div>
+            
+            <div class="os-tabs">
+                <button class="os-tab active" data-os="all" onclick="selectOS('all')">🌐 Tous</button>
+                <button class="os-tab" data-os="windows" onclick="selectOS('windows')">🪟 Windows</button>
+                <button class="os-tab" data-os="linux" onclick="selectOS('linux')">🐧 Linux</button>
+                <button class="os-tab" data-os="macos" onclick="selectOS('macos')">🍎 macOS</button>
+                <button class="os-tab" data-os="powershell" onclick="selectOS('powershell')">⚡ PowerShell</button>
+            </div>
+        </div>
+        
+        <div class="stats-info" id="statsInfo">
+            <div class="loading">Chargement de la base de données</div>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <!-- Les résultats apparaîtront ici -->
+        </div>
+    </div>
+
+    <!-- Chargement de la base de données -->
+    <script src="js/ss64-database.js"></script>
+    
+    <script>
+        let currentOS = 'all';
+        let database = {};
+        let isLoaded = false;
+        
+        // Commandes populaires par OS
+        const popularCommands = {
+            all: ['ping', 'ls', 'dir', 'grep', 'netstat', 'ps', 'ipconfig', 'find', 'chmod', 'Get-Process', 'cat', 'cp', 'mv', 'rm', 'systeminfo', 'tasklist', 'ssh', 'curl', 'tar', 'brew'],
+            windows: ['ping', 'dir', 'ipconfig', 'netstat', 'tasklist', 'systeminfo', 'copy', 'xcopy', 'del', 'wmic', 'net', 'robocopy'],
+            linux: ['ls', 'grep', 'find', 'ps', 'top', 'chmod', 'cat', 'cp', 'mv', 'rm', 'tar', 'ssh', 'curl', 'ping', 'netstat', 'systemctl'],
+            macos: ['ls', 'brew', 'defaults', 'diskutil', 'launchctl', 'find', 'open', 'screencapture', 'say', 'softwareupdate', 'system_profiler', 'mdfind'],
+            powershell: ['Get-Process', 'Get-Service', 'Test-Connection', 'Get-EventLog', 'Get-ChildItem', 'Get-Content', 'Copy-Item', 'Move-Item', 'Get-WmiObject', 'Invoke-Command']
+        };
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeDatabase();
+        });
+        
+        // Initialiser la base de données
+        function initializeDatabase() {
+            try {
+                if (typeof SS64_DATABASE !== 'undefined') {
+                    database = SS64_DATABASE;
+                    isLoaded = true;
+                    updateQuickCommands();
+                    updateStats();
+                    console.log('✅ Base de données SS64 chargée avec succès');
+                } else {
+                    throw new Error('Base de données non trouvée');
+                }
+            } catch (error) {
+                console.error('❌ Erreur lors du chargement de la base de données:', error);
+                document.getElementById('statsInfo').innerHTML = `
+                    <div style="color: #dc3545;">
+                        ⚠️ Erreur lors du chargement de la base de données<br>
+                        <small>Vérifiez que le fichier js/ss64-database.js est présent</small>
+                    </div>
+                `;
+            }
+        }
+        
+        // Fonction pour sélectionner un OS
+        function selectOS(os) {
+            currentOS = os;
+            
+            // Mettre à jour les onglets
+            document.querySelectorAll('.os-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.os === os);
+            });
+            
+            // Mettre à jour les commandes rapides
+            updateQuickCommands();
+            
+            // Relancer la recherche si il y a du texte
+            const searchInput = document.getElementById('searchInput');
+            if (searchInput.value.trim()) {
+                performSearch();
+            } else {
+                updateStats();
+            }
+        }
+        
+        // Fonction pour mettre à jour les commandes rapides
+        function updateQuickCommands() {
+            if (!isLoaded) return;
+            
+            const quickCommandsContainer = document.getElementById('quickCommands');
+            const commands = popularCommands[currentOS] || [];
+            
+            quickCommandsContainer.innerHTML = commands.map(cmd => 
+                `<div class="quick-command" onclick="quickSearch('${cmd}')" title="Rechercher ${cmd}">${cmd}</div>`
+            ).join('');
+        }
+        
+        // Fonction de recherche rapide
+        function quickSearch(command) {
+            document.getElementById('searchInput').value = command;
+            performSearch();
+        }
+        
+        // Fonction de gestion de la touche Entrée
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            } else if (event.target.value.trim().length >= 2) {
+                // Recherche en temps réel avec délai
+                clearTimeout(event.target.searchTimeout);
+                event.target.searchTimeout = setTimeout(() => {
+                    performSearch();
+                }, 300);
+            }
+        }
+        
+        // Fonction principale de recherche
+        function performSearch() {
+            if (!isLoaded) {
+                document.getElementById('resultsSection').innerHTML = `
+                    <div class="no-results">
+                        <h3>Base de données non chargée</h3>
+                        Veuillez attendre le chargement de la base de données...
+                    </div>
+                `;
+                return;
+            }
+            
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsSection = document.getElementById('resultsSection');
+            
+            if (!query) {
+                resultsSection.innerHTML = '';
+                updateStats();
+                return;
+            }
+            
+            // Obtenir les bases de données à rechercher
+            let databasesToSearch = [];
+            if (currentOS === 'all') {
+                databasesToSearch = Object.keys(database);
+            } else {
+                databasesToSearch = [currentOS];
+            }
+            
+            // Effectuer la recherche
+            let results = [];
+            databasesToSearch.forEach(osType => {
+                const commands = database[osType] || [];
+                commands.forEach(cmd => {
+                    const score = calculateRelevanceScore(cmd, query);
+                    if (score > 0) {
+                        results.push({ ...cmd, os: osType, score });
+                    }
+                });
+            });
+            
+            // Supprimer les doublons et trier par pertinence
+            results = results
+                .filter((cmd, index, self) => 
+                    index === self.findIndex(c => c.name === cmd.name && c.os === cmd.os)
+                )
+                .sort((a, b) => b.score - a.score);
+            
+            // Afficher les résultats
+            displayResults(results, query);
+        }
+        
+        // Fonction pour calculer le score de pertinence
+        function calculateRelevanceScore(cmd, query) {
+            let score = 0;
+            const queryLower = query.toLowerCase();
+            const nameLower = cmd.name.toLowerCase();
+            const descLower = cmd.description.toLowerCase();
+            const syntaxLower = cmd.syntax.toLowerCase();
+            
+            // Correspondance exacte du nom (score le plus élevé)
+            if (nameLower === queryLower) score += 100;
+            
+            // Nom commence par la requête
+            else if (nameLower.startsWith(queryLower)) score += 80;
+            
+            // Nom contient la requête
+            else if (nameLower.includes(queryLower)) score += 60;
+            
+            // Description contient la requête
+            if (descLower.includes(queryLower)) score += 30;
+            
+            // Syntaxe contient la requête
+            if (syntaxLower.includes(queryLower)) score += 20;
+            
+            // Bonus pour les exemples
+            if (cmd.examples && cmd.examples.some(ex => ex.toLowerCase().includes(queryLower))) {
+                score += 15;
+            }
+            
+            return score;
+        }
+        
+        // Fonction pour afficher les résultats
+        function displayResults(results, query) {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            if (results.length === 0) {
+                const suggestions = generateSearchSuggestions(query);
+                resultsSection.innerHTML = `
+                    <div class="no-results">
+                        <h3>Aucune commande trouvée pour "${query}"</h3>
+                        ${suggestions.length > 0 ? `
+                            <div class="search-suggestions">
+                                <strong>Suggestions :</strong><br>
+                                ${suggestions.map(s => `<span class="suggestion" onclick="quickSearch('${s}')">${s}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                return;
+            }
+            
+            const resultsHeader = `
+                <div class="results-header">
+                    📋 ${results.length} résultat${results.length > 1 ? 's' : ''} trouvé${results.length > 1 ? 's' : ''} pour "${query}"
+                    ${currentOS !== 'all' ? ` dans ${getOSDisplayName(currentOS)}` : ''}
+                </div>
+            `;
+            
+            const html = results.map((cmd, index) => `
+                <div class="command-result">
+                    <div class="command-header">
+                        <div class="command-name">${highlightMatch(cmd.name, query)}</div>
+                        <div class="command-os">${getOSDisplayName(cmd.os)}</div>
+                    </div>
+                    <div class="command-description">${highlightMatch(cmd.description, query)}</div>
+                    <div class="command-syntax">
+                        <strong>Syntaxe :</strong><br>
+                        ${highlightMatch(cmd.syntax, query)}
+                        <button class="copy-btn" onclick="copyToClipboard('${cmd.syntax.replace(/'/g, "\\'")}')">Copier</button>
+                    </div>
+                    ${cmd.examples && cmd.examples.length > 0 ? `
+                        <div class="command-examples">
+                            <h4>📝 Exemples d'utilisation :</h4>
+                            ${cmd.examples.map(example => `
+                                <div class="example" onclick="copyToClipboard('${example.replace(/'/g, "\\'")}')">
+                                    ${highlightMatch(example, query)}
+                                    <button class="copy-btn" onclick="event.stopPropagation(); copyToClipboard('${example.replace(/'/g, "\\'")}')">Copier</button>
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+            
+            resultsSection.innerHTML = resultsHeader + html;
+            updateStats(results.length, query);
+        }
+        
+        // Fonction pour générer des suggestions de recherche
+        function generateSearchSuggestions(query) {
+            const allCommands = [];
+            Object.values(database).forEach(commands => {
+                commands.forEach(cmd => {
+                    if (!allCommands.includes(cmd.name)) {
+                        allCommands.push(cmd.name);
+                    }
+                });
+            });
+            
+            // Trouver des commandes similaires
+            return allCommands
+                .filter(cmd => {
+                    const distance = levenshteinDistance(query.toLowerCase(), cmd.toLowerCase());
+                    return distance <= 2 && distance > 0;
+                })
+                .slice(0, 8);
+        }
+        
+        // Calcul de la distance de Levenshtein pour les suggestions
+        function levenshteinDistance(str1, str2) {
+            const matrix = [];
+            for (let i = 0; i <= str2.length; i++) {
+                matrix[i] = [i];
+            }
+            for (let j = 0; j <= str1.length; j++) {
+                matrix[0][j] = j;
+            }
+            for (let i = 1; i <= str2.length; i++) {
+                for (let j = 1; j <= str1.length; j++) {
+                    if (str2.charAt(i - 1) === str1.charAt(j - 1)) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            return matrix[str2.length][str1.length];
+        }
+        
+        // Fonction pour surligner les correspondances
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${escapeRegExp(query)})`, 'gi');
+            return text.replace(regex, '<mark style="background: linear-gradient(135deg, #ffeb3b 0%, #ffc107 100%); padding: 2px 4px; border-radius: 3px; font-weight: bold;">$1</mark>');
+        }
+        
+        // Échapper les caractères spéciaux pour regex
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+        
+        // Fonction pour obtenir le nom d'affichage de l'OS
+        function getOSDisplayName(os) {
+            const names = {
+                windows: 'Windows',
+                linux: 'Linux',
+                macos: 'macOS',
+                powershell: 'PowerShell'
+            };
+            return names[os] || os;
+        }
+        
+        // Fonction pour mettre à jour les statistiques
+        function updateStats(resultCount = null, query = null) {
+            if (!isLoaded) return;
+            
+            const statsInfo = document.getElementById('statsInfo');
+            
+            if (resultCount !== null && query) {
+                statsInfo.innerHTML = `
+                    🎯 <strong>${resultCount}</strong> commande${resultCount > 1 ? 's' : ''} trouvée${resultCount > 1 ? 's' : ''} pour "<strong>${query}</strong>"
+                    ${currentOS !== 'all' ? ` dans <strong>${getOSDisplayName(currentOS)}</strong>` : ''}
+                `;
+            } else {
+                const totalCommands = Object.values(database).reduce((total, commands) => total + commands.length, 0);
+                const currentCommands = currentOS === 'all' ? totalCommands : database[currentOS]?.length || 0;
+                
+                statsInfo.innerHTML = `
+                    📚 Base de données: <strong>${currentCommands}</strong> commandes ${currentOS !== 'all' ? `(${getOSDisplayName(currentOS)})` : 'au total'}
+                    • Windows: <strong>${database.windows?.length || 0}</strong>
+                    • Linux: <strong>${database.linux?.length || 0}</strong>
+                    • macOS: <strong>${database.macos?.length || 0}</strong>
+                    • PowerShell: <strong>${database.powershell?.length || 0}</strong>
+                `;
+            }
+        }
+        
+        // Fonction pour copier dans le presse-papiers
+        function copyToClipboard(text) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✅ Copié dans le presse-papiers');
+                }).catch(err => {
+                    console.error('Erreur de copie:', err);
+                    fallbackCopyTextToClipboard(text);
+                });
+            } else {
+                fallbackCopyTextToClipboard(text);
+            }
+        }
+        
+        // Fonction de copie alternative
+        function fallbackCopyTextToClipboard(text) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.position = "fixed";
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showToast('✅ Copié dans le presse-papiers');
+                } else {
+                    showToast('❌ Impossible de copier');
+                }
+            } catch (err) {
+                console.error('Erreur de copie:', err);
+                showToast('❌ Erreur lors de la copie');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        // Fonction pour afficher un toast
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #333;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 6px;
+                z-index: 10000;
+                font-size: 14px;
+                animation: slideIn 0.3s ease-out;
+            `;
+            
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.animation = 'slideOut 0.3s ease-in forwards';
+                setTimeout(() => {
+                    document.body.removeChild(toast);
+                }, 300);
+            }, 2000);
+        }
+        
+        // CSS pour les animations toast
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+            
+            @keyframes slideOut {
+                from {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+                to {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
