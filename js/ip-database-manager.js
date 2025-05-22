@@ -11,14 +11,13 @@
 class IPDatabaseManager {
     constructor(config = {}) {
         this.config = {
-            // URLs des bases de données (à adapter selon votre serveur)
+            // URLs des bases de données - URLs mises à jour 2024
             databases: {
-                // Base pays (plus petite, ~3MB)
-                country: config.countryDB || 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-country/dbip-country-ipv4.csv',
-                // Base ville (plus complète, ~15MB)
-                city: config.cityDB || 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-city/dbip-city-ipv4.csv',
-                // Base ASN (informations sur les FAI)
-                asn: config.asnDB || 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-asn/dbip-asn-ipv4.csv'
+                // Base pays (fonctionne, vérifiée)
+                country: config.countryDB || 'https://raw.githubusercontent.com/sapics/ip-location-db/master/dbip-country/dbip-country-ipv4.csv',
+                // Alternatives pour les données détaillées
+                city: config.cityDB || null, // Désactivé temporairement - fichiers compressés non pris en charge
+                asn: config.asnDB || 'https://raw.githubusercontent.com/sapics/ip-location-db/master/asn/asn-ipv4.csv'
             },
             
             // Configuration du cache
@@ -92,6 +91,12 @@ class IPDatabaseManager {
      * Charger une base de données spécifique
      */
     async loadDatabase(type) {
+        // Ignore les bases de données désactivées
+        if (!this.config.databases[type]) {
+            this.config.onStatusUpdate(`Base ${type} désactivée`, 'warning');
+            return null;
+        }
+        
         if (this.isLoading[type]) {
             // Attendre que le chargement en cours se termine
             while (this.isLoading[type]) {
@@ -153,7 +158,9 @@ class IPDatabaseManager {
             
         } catch (error) {
             this.config.onStatusUpdate(`Erreur chargement ${type}: ${error.message}`, 'error');
-            throw error;
+            // Marquer cette base comme échouée pour éviter les tentatives répétées
+            this.databases[type] = null;
+            console.warn(`Base ${type} désactivée suite à l'erreur:`, error.message);
         } finally {
             this.isLoading[type] = false;
         }
@@ -267,7 +274,7 @@ class IPDatabaseManager {
     /**
      * Rechercher une IP dans la base de données
      */
-    async findIP(ip, databases = ['city', 'country', 'asn']) {
+    async findIP(ip, databases = ['country', 'asn']) {
         const ipNum = this.ipToNumber(ip);
         if (isNaN(ipNum)) {
             throw new Error('Adresse IP invalide');
@@ -275,10 +282,12 @@ class IPDatabaseManager {
         
         const result = { ip };
         
-        // Charger les bases demandées
+        // Charger les bases demandées (en ignorant les bases désactivées)
         for (const dbType of databases) {
             try {
                 const database = await this.loadDatabase(dbType);
+                if (!database) continue; // Base désactivée ou échouée
+                
                 const entry = this.binarySearch(ipNum, database);
                 
                 if (entry) {
@@ -322,32 +331,89 @@ class IPDatabaseManager {
      * Service de fallback
      */
     async fallbackLookup(ip) {
-        for (const service of this.config.fallbackServices) {
-            try {
-                const response = await fetch(`${service}${ip}`);
-                const data = await response.json();
-                
-                // Adapter selon l'API
-                if (service.includes('ip-api.com')) {
-                    if (data.status === 'success') {
+        // Services HTTPS uniquement pour éviter Mixed Content
+        const httpsServices = [
+            {
+                url: `https://ipapi.co/${ip || ''}/json/`,
+                parser: (data) => {
+                    if (data.country_code && data.country_code !== 'undefined') {
                         return {
-                            ip: data.query,
-                            country: data.countryCode,
-                            countryName: data.country,
-                            region: data.regionName,
+                            ip: data.ip,
+                            country: data.country_code,
+                            countryName: data.country_name,
+                            region: data.region,
                             city: data.city,
-                            lat: data.lat,
-                            lon: data.lon,
-                            timezone: data.timezone,
                             org: data.org,
-                            asn: data.as,
-                            source: 'ip-api.com'
+                            timezone: data.timezone,
+                            lat: data.latitude,
+                            lon: data.longitude,
+                            source: 'ipapi.co (HTTPS)'
                         };
                     }
+                    return null;
                 }
-                // Ajouter d'autres services selon leurs formats
+            },
+            {
+                url: `https://ipinfo.io/${ip || ''}/json`,
+                parser: (data) => {
+                    if (data.country && !data.error) {
+                        const [lat, lon] = (data.loc || ',').split(',');
+                        return {
+                            ip: data.ip,
+                            country: data.country,
+                            countryName: data.country,
+                            region: data.region,
+                            city: data.city,
+                            org: data.org,
+                            timezone: data.timezone,
+                            lat: parseFloat(lat) || null,
+                            lon: parseFloat(lon) || null,
+                            source: 'ipinfo.io (HTTPS)'
+                        };
+                    }
+                    return null;
+                }
+            },
+            {
+                url: `https://freeipapi.com/api/json/${ip || ''}`,
+                parser: (data) => {
+                    if (data.countryCode) {
+                        return {
+                            ip: data.ipAddress,
+                            country: data.countryCode,
+                            countryName: data.countryName,
+                            region: data.regionName,
+                            city: data.cityName,
+                            timezone: data.timeZone,
+                            lat: data.latitude,
+                            lon: data.longitude,
+                            source: 'freeipapi.com (HTTPS)'
+                        };
+                    }
+                    return null;
+                }
+            }
+        ];
+        
+        for (const service of httpsServices) {
+            try {
+                const response = await fetch(service.url, { 
+                    timeout: 5000,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
                 
+                if (!response.ok) continue;
+                
+                const data = await response.json();
+                const result = service.parser(data);
+                
+                if (result) {
+                    return result;
+                }
             } catch (error) {
+                console.warn(`Erreur service ${service.url}:`, error.message);
                 continue;
             }
         }
