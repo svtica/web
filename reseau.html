@@ -38,26 +38,30 @@
             <h1>Outils réseau</h1>
 
             <div class="network-tools">
-                <!-- Section IP améliorée avec API autonome -->
+                <!-- Section IP améliorée avec gestionnaire robuste -->
                 <div class="tool-section">
                     <h4>🌐 Mon adresse IP</h4>
                     <div class="ip-options">
                         <div class="toggle-group">
                             <label class="toggle-label">
                                 <input type="radio" name="ipService" value="autonomous" checked>
-                                <span>Service autonome (gratuit)</span>
+                                <span>Service autonome (avec cache)</span>
                             </label>
                             <label class="toggle-label">
                                 <input type="radio" name="ipService" value="fallback">
-                                <span>Service externe (ip-api.com)</span>
+                                <span>Service externe uniquement</span>
                             </label>
                             <label class="toggle-label">
                                 <input type="checkbox" id="debugMode">
                                 <span>Mode debug</span>
                             </label>
                         </div>
-                        <button class="button secondary" onclick="refreshIPInfo()">🔄 Actualiser</button>
-                        <button class="button secondary" onclick="testIPRange()">🧪 Test plages</button>
+                        <div class="advanced-controls">
+                            <button class="button secondary" onclick="refreshIPInfo()">🔄 Actualiser</button>
+                            <button class="button secondary" onclick="testIPRange()">🧪 Test DNS</button>
+                            <button class="button secondary" onclick="preloadDatabases()">📥 Précharger</button>
+                            <button class="button secondary" onclick="clearCache()">🗑️ Vider cache</button>
+                        </div>
                     </div>
                     <div id="myIP">Chargement des informations IP...</div>
                     <div id="ipServiceStatus" class="service-status"></div>
@@ -171,387 +175,156 @@
     <script src="js/unified-theme-manager.js"></script>
     <script src="js/navigation.js"></script>
     
-    <!-- Script de géolocalisation IP autonome -->
+    <!-- Script IP avec le nouveau gestionnaire -->
+    <script src="js/ip-database-manager.js"></script>
     <script>
-        // Configuration de l'API autonome
-        const AutonomousIPService = {
-            // URLs des bases de données
-            databases: {
-                country: 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-country/dbip-country-ipv4.csv',
-                city: 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-city/dbip-city-ipv4.csv'
-            },
+        // Configuration du gestionnaire IP amélioré
+        let ipManager;
+
+        // Initialiser le gestionnaire
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Créer l'instance du gestionnaire
+            ipManager = new IPDatabaseManager({
+                maxRecords: 75000, // Limiter à 75k pour éviter les problèmes de mémoire
+                onStatusUpdate: updateIPStatus,
+                cacheExpiry: 12 * 60 * 60 * 1000, // 12 heures
+                useIndexedDB: true
+            });
+
+            // Charger les infos IP au démarrage
+            await refreshIPInfo();
             
-            // Cache
-            cache: new Map(),
-            cacheExpiry: 24 * 60 * 60 * 1000, // 24 heures
-            
-            // Base de données en mémoire
-            ipDatabase: null,
-            dbLoadTime: null,
-
-            // Services IP publique
-            async getPublicIP() {
-                const services = [
-                    'https://api.ipify.org?format=json',
-                    'https://jsonip.com',
-                    'https://httpbin.org/ip'
-                ];
-                
-                for (const service of services) {
-                    try {
-                        const response = await fetch(service, { timeout: 5000 });
-                        const data = await response.json();
-                        return data.ip || data.origin;
-                    } catch (e) {
-                        continue;
+            // Événement Enter pour la recherche
+            const lookupInput = document.getElementById('lookupIP');
+            if (lookupInput) {
+                lookupInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performIPLookup();
                     }
-                }
-                throw new Error('Services IP indisponibles');
-            },
-
-            // Convertir IP en nombre
-            ipToNumber(ip) {
-                return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0) >>> 0;
-            },
-            
-            // Valider une adresse IP
-            isValidIP(ip) {
-                const regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-                return regex.test(ip);
-            },
-            
-            // Parser une ligne CSV en gérant les guillemets
-            parseCSVLine(line) {
-                const fields = [];
-                let field = '';
-                let inQuotes = false;
-                
-                for (let i = 0; i < line.length; i++) {
-                    const char = line[i];
-                    
-                    if (char === '"') {
-                        if (inQuotes && line[i + 1] === '"') {
-                            field += '"';
-                            i++; // Skip next quote
-                        } else {
-                            inQuotes = !inQuotes;
-                        }
-                    } else if (char === ',' && !inQuotes) {
-                        fields.push(field);
-                        field = '';
-                    } else {
-                        field += char;
-                    }
-                }
-                
-                fields.push(field); // Add last field
-                return fields;
-            },
-
-            // Charger la base de données (version simplifiée pour la démo)
-            async loadDatabase() {
-                if (this.ipDatabase && this.dbLoadTime && 
-                    (Date.now() - this.dbLoadTime < this.cacheExpiry)) {
-                    return this.ipDatabase;
-                }
-
-                try {
-                    this.updateStatus('Chargement de la base de données IP...', 'loading');
-                    
-                    // Chargement de toute la base pour une couverture complète
-                    const response = await fetch(this.databases.country);
-                    const csvData = await response.text();
-                    
-                    // Parser toute la base (pas de limitation)
-                    const lines = csvData.split('\n');
-                    this.updateStatus(`Parsing de ${lines.length} lignes...`, 'loading');
-                    const database = [];
-                    
-                    for (let i = 0; i < lines.length; i++) {
-                        const line = lines[i];
-                        if (!line.trim()) continue;
-                        
-                        // Afficher le progrès tous les 10000 enregistrements
-                        if (i % 10000 === 0 && i > 0) {
-                            this.updateStatus(`Traitement: ${i}/${lines.length} lignes...`, 'loading');
-                            // Permettre au navigateur de respirer
-                            await new Promise(resolve => setTimeout(resolve, 1));
-                        }
-                        
-                        // Parser la ligne CSV correctement
-                        const fields = this.parseCSVLine(line);
-                        if (fields.length >= 4) {
-                            const startIP = fields[0].replace(/"/g, '').trim();
-                            const endIP = fields[1].replace(/"/g, '').trim();
-                            const country = fields[2].replace(/"/g, '').trim();
-                            const countryName = fields[3].replace(/"/g, '').trim();
-                            
-                            if (startIP && endIP && country && this.isValidIP(startIP) && this.isValidIP(endIP)) {
-                                database.push({
-                                    startIP: this.ipToNumber(startIP),
-                                    endIP: this.ipToNumber(endIP),
-                                    country: country,
-                                    countryName: countryName || country
-                                });
-                            }
-                        }
-                    }
-                    
-                    // Trier par startIP pour la recherche binaire
-                    database.sort((a, b) => a.startIP - b.startIP);
-                    
-                    this.ipDatabase = database;
-                    this.dbLoadTime = Date.now();
-                    this.updateStatus(`Base de données chargée: ${database.length} entrées`, 'success');
-                    
-                    return database;
-                } catch (error) {
-                    console.error('Erreur DB:', error);
-                    this.updateStatus('Erreur de chargement. Utilisation du service de fallback.', 'error');
-                    return null;
-                }
-            },
-
-            // Rechercher une IP dans la base
-            findIPLocation(ip, database) {
-                if (!database) return null;
-                
-                const ipNum = this.ipToNumber(ip);
-                console.log(`🔢 IP convertie: ${ip} -> ${ipNum}`);
-                console.log(`📊 Base de données: ${database.length} entrées`);
-                
-                // Afficher quelques plages pour debug
-                if (database.length > 0) {
-                    console.log(`📈 Première plage: ${database[0].startIP} - ${database[0].endIP}`);
-                    console.log(`📈 Dernière plage: ${database[database.length-1].startIP} - ${database[database.length-1].endIP}`);
-                }
-                
-                let left = 0;
-                let right = database.length - 1;
-                
-                while (left <= right) {
-                    const mid = Math.floor((left + right) / 2);
-                    const entry = database[mid];
-                    
-                    if (ipNum >= entry.startIP && ipNum <= entry.endIP) {
-                        console.log(`✅ IP trouvée dans la plage: ${entry.startIP} - ${entry.endIP}`);
-                        return {
-                            ip: ip,
-                            country: entry.country,
-                            countryName: entry.countryName,
-                            source: 'Base autonome'
-                        };
-                    } else if (ipNum < entry.startIP) {
-                        right = mid - 1;
-                    } else {
-                        left = mid + 1;
-                    }
-                }
-                
-                console.log(`❌ IP ${ipNum} non trouvée dans la base`);
-                return null;
-            },
-
-            // Service de fallback avec services gratuits HTTPS
-            async fallbackLookup(ip) {
-                // Essayer ipapi.co (gratuit avec HTTPS)
-                try {
-                    const response = await fetch(`https://ipapi.co/${ip || ''}/json/`);
-                    const data = await response.json();
-                    
-                    if (data.country_code && data.country_code !== 'undefined') {
-                        return {
-                            ip: data.ip,
-                            country: data.country_code,
-                            countryName: data.country_name,
-                            region: data.region,
-                            city: data.city,
-                            org: data.org,
-                            timezone: data.timezone,
-                            lat: data.latitude,
-                            lon: data.longitude,
-                            source: 'ipapi.co (gratuit HTTPS)'
-                        };
-                    }
-                } catch (error) {
-                    console.warn('Erreur ipapi.co:', error);
-                }
-                
-                // Essayer ipinfo.io (gratuit avec HTTPS, limite 50k/mois)
-                try {
-                    const response = await fetch(`https://ipinfo.io/${ip || ''}/json`);
-                    const data = await response.json();
-                    
-                    if (data.country && !data.error) {
-                        const [lat, lon] = (data.loc || ',').split(',');
-                        return {
-                            ip: data.ip,
-                            country: data.country,
-                            countryName: data.country, // ipinfo ne donne que le code
-                            region: data.region,
-                            city: data.city,
-                            org: data.org,
-                            timezone: data.timezone,
-                            lat: parseFloat(lat) || null,
-                            lon: parseFloat(lon) || null,
-                            source: 'ipinfo.io (gratuit HTTPS)'
-                        };
-                    }
-                } catch (error) {
-                    console.warn('Erreur ipinfo.io:', error);
-                }
-                
-                // Essayer freeipapi.com (gratuit avec HTTPS)
-                try {
-                    const response = await fetch(`https://freeipapi.com/api/json/${ip || ''}`);
-                    const data = await response.json();
-                    
-                    if (data.countryCode) {
-                        return {
-                            ip: data.ipAddress,
-                            country: data.countryCode,
-                            countryName: data.countryName,
-                            region: data.regionName,
-                            city: data.cityName,
-                            timezone: data.timeZone,
-                            lat: data.latitude,
-                            lon: data.longitude,
-                            source: 'freeipapi.com (gratuit HTTPS)'
-                        };
-                    }
-                } catch (error) {
-                    console.warn('Erreur freeipapi.com:', error);
-                }
-                
-                // Si le site est en HTTP, essayer ip-api.com
-                if (window.location.protocol === 'http:') {
-                    try {
-                        const response = await fetch(`http://ip-api.com/json/${ip || ''}`);
-                        const data = await response.json();
-                        
-                        if (data.status === 'success') {
-                            return {
-                                ip: data.query,
-                                country: data.countryCode,
-                                countryName: data.country,
-                                region: data.regionName,
-                                city: data.city,
-                                isp: data.isp,
-                                org: data.org,
-                                timezone: data.timezone,
-                                lat: data.lat,
-                                lon: data.lon,
-                                zip: data.zip,
-                                as: data.as,
-                                source: 'ip-api.com (HTTP seulement)'
-                            };
-                        }
-                    } catch (error) {
-                        console.warn('Erreur ip-api.com:', error);
-                    }
-                }
-                
-                return null;
-            },
-
-            // Recherche principale
-            async lookup(ip) {
-                const useAutonomous = document.querySelector('input[name="ipService"]:checked').value === 'autonomous';
-                
-                console.log(`🔍 Recherche IP: ${ip}, Mode: ${useAutonomous ? 'autonome' : 'externe'}`);
-                
-                if (useAutonomous) {
-                    const database = await this.loadDatabase();
-                    let result = this.findIPLocation(ip, database);
-                    
-                    console.log('Résultat base locale:', result);
-                    
-                    if (!result) {
-                        // Si pas trouvé, essayer le fallback
-                        console.log('IP non trouvée localement, essai fallback...');
-                        result = await this.fallbackLookup(ip);
-                        if (result) {
-                            result.source = 'API externe (fallback)';
-                            console.log('Résultat fallback:', result);
-                        }
-                    }
-                    
-                    return result;
-                } else {
-                    return await this.fallbackLookup(ip);
-                }
-            },
-
-            // Mettre à jour le statut
-            updateStatus(message, type = 'info') {
-                const statusEl = document.getElementById('dbLoadStatus');
-                if (statusEl) {
-                    statusEl.textContent = message;
-                    statusEl.className = `load-status ${type}`;
-                }
-                
-                const serviceStatusEl = document.getElementById('ipServiceStatus');
-                if (serviceStatusEl) {
-                    serviceStatusEl.textContent = message;
-                    serviceStatusEl.className = `service-status ${type}`;
-                }
-                
-                // Log pour debug
-                const isDebug = document.getElementById('debugMode')?.checked;
-                if (isDebug) {
-                    console.log(`[${type.toUpperCase()}] ${message}`);
-                }
+                });
             }
-        };
+        });
 
-        // Formater les informations IP
+        // Fonction de mise à jour du statut
+        function updateIPStatus(message, type = 'info') {
+            const statusElements = [
+                document.getElementById('dbLoadStatus'),
+                document.getElementById('ipServiceStatus')
+            ];
+            
+            statusElements.forEach(el => {
+                if (el) {
+                    el.textContent = message;
+                    el.className = `service-status ${type}`;
+                }
+            });
+            
+            // Log pour debug
+            const isDebug = document.getElementById('debugMode')?.checked;
+            if (isDebug) {
+                console.log(`[${type.toUpperCase()}] ${message}`);
+            }
+        }
+
+        // Formater les informations IP (version améliorée)
         function formatIPInfo(data) {
             if (!data) {
                 return "<span style='color: var(--error-color);'>❌ Aucune information trouvée</span>";
             }
 
-            let html = "<strong>🌐 Adresse IP:</strong> " + data.ip + "<br>";
-            html += "<strong>🇺🇳 Pays:</strong> " + (data.countryName || 'Inconnu') + " (" + (data.country || 'N/A') + ")<br>";
+            let html = `<div class="ip-info-card">`;
+            html += `<div class="ip-header"><strong>🌐 ${data.ip}</strong></div>`;
             
-            if (data.region) html += "<strong>📍 Région:</strong> " + data.region + "<br>";
-            if (data.city) html += "<strong>🏙️ Ville:</strong> " + data.city + "<br>";
-            if (data.isp) html += "<strong>🌐 FAI:</strong> " + data.isp + "<br>";
-            if (data.org) html += "<strong>🏢 Organisation:</strong> " + data.org + "<br>";
-            if (data.timezone) html += "<strong>🕐 Fuseau horaire:</strong> " + data.timezone + "<br>";
-            if (data.lat && data.lon) html += "<strong>📍 Coordonnées:</strong> " + data.lat + ", " + data.lon + "<br>";
-            if (data.zip) html += "<strong>📮 Code postal:</strong> " + data.zip + "<br>";
-            if (data.as) html += "<strong>🔢 ASN:</strong> " + data.as + "<br>";
+            // Informations géographiques
+            if (data.country || data.countryName) {
+                html += `<div class="ip-field">`;
+                html += `<span class="field-label">🇺🇳 Pays:</span> `;
+                html += `<span class="field-value">${data.countryName || data.country}</span>`;
+                if (data.country && data.countryName) {
+                    html += ` (${data.country})`;
+                }
+                html += `</div>`;
+            }
             
-            html += "<br><em>📊 Source: " + (data.source || 'Inconnue') + "</em>";
+            if (data.region) {
+                html += `<div class="ip-field"><span class="field-label">📍 Région:</span> <span class="field-value">${data.region}</span></div>`;
+            }
+            
+            if (data.city) {
+                html += `<div class="ip-field"><span class="field-label">🏙️ Ville:</span> <span class="field-value">${data.city}</span></div>`;
+            }
+            
+            // Coordonnées
+            if (data.lat && data.lon) {
+                html += `<div class="ip-field">`;
+                html += `<span class="field-label">📍 Coordonnées:</span> `;
+                html += `<span class="field-value">${data.lat.toFixed(4)}, ${data.lon.toFixed(4)}</span>`;
+                html += `</div>`;
+            }
+            
+            // Informations réseau
+            if (data.org) {
+                html += `<div class="ip-field"><span class="field-label">🏢 Organisation:</span> <span class="field-value">${data.org}</span></div>`;
+            }
+            
+            if (data.asn) {
+                html += `<div class="ip-field"><span class="field-label">🔢 ASN:</span> <span class="field-value">${data.asn}</span></div>`;
+            }
+            
+            if (data.timezone) {
+                html += `<div class="ip-field"><span class="field-label">🕐 Fuseau:</span> <span class="field-value">${data.timezone}</span></div>`;
+            }
+            
+            // Source
+            html += `<div class="ip-source">📊 Source: ${data.source || 'Inconnue'}</div>`;
+            html += `</div>`;
             
             return html;
         }
 
-        // Actualiser les informations IP
+        // Actualiser les informations IP (version améliorée)
         async function refreshIPInfo() {
             const infoEl = document.getElementById("myIP");
-            infoEl.innerHTML = "🔄 Chargement des informations IP...";
+            
+            if (!ipManager) {
+                infoEl.innerHTML = "❌ Gestionnaire IP non initialisé";
+                return;
+            }
+            
+            infoEl.innerHTML = "🔄 Obtention de votre adresse IP...";
             
             try {
-                const ip = await AutonomousIPService.getPublicIP();
-                infoEl.innerHTML = "🔍 Recherche des informations pour IP: " + ip + "...";
+                // Obtenir l'IP publique
+                const ip = await ipManager.getPublicIP();
+                infoEl.innerHTML = `🔍 Recherche des informations pour ${ip}...`;
                 
-                const info = await AutonomousIPService.lookup(ip);
+                // Déterminer le mode de recherche
+                const useAutonomous = document.querySelector('input[name="ipService"]:checked').value === 'autonomous';
                 
-                if (!info) {
-                    // Si pas trouvé, essayer directement le fallback
-                    infoEl.innerHTML = "⚠️ IP non trouvée dans la base locale, essai du service externe...";
-                    const fallbackInfo = await AutonomousIPService.fallbackLookup(ip);
-                    infoEl.innerHTML = formatIPInfo(fallbackInfo);
+                let info;
+                if (useAutonomous) {
+                    // Utiliser notre base autonome
+                    info = await ipManager.lookup(ip);
                 } else {
-                    infoEl.innerHTML = formatIPInfo(info);
+                    // Utiliser le service externe direct
+                    info = await ipManager.fallbackLookup(ip);
                 }
+                
+                infoEl.innerHTML = formatIPInfo(info);
+                
+                // Afficher les statistiques en mode debug
+                if (document.getElementById('debugMode')?.checked) {
+                    const stats = ipManager.getStats();
+                    console.log('📊 Statistiques des bases:', stats);
+                }
+                
             } catch (error) {
-                infoEl.innerHTML = "<span style='color: var(--error-color);'>❌ Erreur: " + error.message + "</span>";
+                console.error('Erreur refresh IP:', error);
+                infoEl.innerHTML = `<span style='color: var(--error-color);'>❌ Erreur: ${error.message}</span>`;
             }
         }
 
-        // Recherche d'IP personnalisée
+        // Recherche d'IP personnalisée (version améliorée)
         async function performIPLookup() {
             const ip = document.getElementById('lookupIP').value.trim();
             const resultEl = document.getElementById('lookupResult');
@@ -561,7 +334,12 @@
                 return;
             }
             
-            // Validation IP
+            if (!ipManager) {
+                alert('Gestionnaire IP non initialisé');
+                return;
+            }
+            
+            // Validation IP plus robuste
             const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
             if (!ipRegex.test(ip)) {
                 alert('Format d\'adresse IP invalide');
@@ -572,53 +350,105 @@
             resultEl.innerHTML = '🔍 Recherche en cours...';
             
             try {
-                const info = await AutonomousIPService.lookup(ip);
+                const useAutonomous = document.querySelector('input[name="ipService"]:checked').value === 'autonomous';
+                
+                let info;
+                if (useAutonomous) {
+                    info = await ipManager.lookup(ip);
+                } else {
+                    info = await ipManager.fallbackLookup(ip);
+                }
+                
                 resultEl.innerHTML = formatIPInfo(info);
+                
             } catch (error) {
-                resultEl.innerHTML = "<span style='color: var(--error-color);'>❌ Erreur: " + error.message + "</span>";
+                console.error('Erreur lookup:', error);
+                resultEl.innerHTML = `<span style='color: var(--error-color);'>❌ Erreur: ${error.message}</span>`;
             }
         }
 
-        // Fonction de test des plages IP
+        // Test des plages IP (version améliorée)
         async function testIPRange() {
-            const database = await AutonomousIPService.loadDatabase();
-            if (!database || database.length === 0) {
-                alert('Base de données non chargée');
+            if (!ipManager) {
+                alert('Gestionnaire IP non initialisé');
                 return;
             }
             
-            const testIPs = ['8.8.8.8', '1.1.1.1', '208.67.222.222', '9.9.9.9'];
-            console.log('🧪 Test de quelques IPs populaires:');
+            const testIPs = [
+                '8.8.8.8',      // Google DNS
+                '1.1.1.1',      // Cloudflare DNS
+                '208.67.222.222', // OpenDNS
+                '9.9.9.9',      // Quad9 DNS
+                '4.4.4.4',      // Level3
+                '185.228.168.9' // CleanBrowsing
+            ];
+            
+            console.log('🧪 Test de géolocalisation des DNS publics:');
             
             for (const testIP of testIPs) {
-                const result = AutonomousIPService.findIPLocation(testIP, database);
-                console.log(`IP ${testIP}:`, result ? `🌍 ${result.countryName}` : '❌ Non trouvée');
+                try {
+                    const result = await ipManager.lookup(testIP);
+                    console.log(`${testIP}: ${result ? `🌍 ${result.countryName || result.country} (${result.source})` : '❌ Non trouvée'}`);
+                } catch (error) {
+                    console.log(`${testIP}: ❌ Erreur - ${error.message}`);
+                }
             }
             
-            // Afficher quelques plages au hasard
-            console.log('📊 Échantillon de plages dans la base:');
-            for (let i = 0; i < Math.min(10, database.length); i += Math.floor(database.length / 10)) {
-                const entry = database[i];
-                console.log(`Plage ${i}: ${entry.startIP} - ${entry.endIP} = ${entry.countryName}`);
-            }
+            // Statistiques des bases
+            const stats = ipManager.getStats();
+            console.log('📊 Statistiques des bases de données:', stats);
             
-            alert('Test terminé - voir la console pour les détails');
+            alert('Test terminé - consultez la console pour les détails');
         }
-        
-        // Permettre Enter pour la recherche
-        document.addEventListener('DOMContentLoaded', function() {
-            const lookupInput = document.getElementById('lookupIP');
-            if (lookupInput) {
-                lookupInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        performIPLookup();
-                    }
-                });
+
+        // Précharger les bases de données
+        async function preloadDatabases() {
+            if (!ipManager) {
+                alert('Gestionnaire IP non initialisé');
+                return;
             }
             
-            // Charger les infos IP au démarrage
-            refreshIPInfo();
-        });
+            updateIPStatus('Préchargement des bases de données...', 'loading');
+            
+            try {
+                await Promise.all([
+                    ipManager.loadDatabase('country'),
+                    ipManager.loadDatabase('city')
+                ]);
+                
+                const stats = ipManager.getStats();
+                updateIPStatus(`Bases préchargées - Pays: ${stats.country?.records || 0}, Villes: ${stats.city?.records || 0}`, 'success');
+                
+            } catch (error) {
+                updateIPStatus(`Erreur préchargement: ${error.message}`, 'error');
+            }
+        }
+
+        // Nettoyer le cache
+        async function clearCache() {
+            if (!ipManager) {
+                alert('Gestionnaire IP non initialisé');
+                return;
+            }
+            
+            try {
+                await ipManager.cleanExpiredCache();
+                
+                // Réinitialiser les bases en mémoire
+                ipManager.databases = {
+                    country: null,
+                    city: null,
+                    asn: null
+                };
+                ipManager.loadTimes = {};
+                
+                updateIPStatus('Cache nettoyé', 'success');
+                alert('Cache nettoyé avec succès');
+                
+            } catch (error) {
+                updateIPStatus(`Erreur nettoyage: ${error.message}`, 'error');
+            }
+        }
     </script>
     
     <!-- Script de calcul réseau (inchangé) -->
@@ -870,6 +700,83 @@
             margin-bottom: var(--spacing-sm);
         }
         
+        .ip-info-card {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm) 0;
+        }
+        
+        .ip-header {
+            font-size: 1.2em;
+            color: var(--accent-color);
+            margin-bottom: var(--spacing-sm);
+            padding-bottom: var(--spacing-xs);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .ip-field {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-xs) 0;
+            border-bottom: 1px solid rgba(var(--border-color-rgb), 0.3);
+        }
+        
+        .ip-field:last-of-type {
+            border-bottom: none;
+        }
+        
+        .field-label {
+            font-weight: bold;
+            color: var(--text-color);
+            min-width: 120px;
+        }
+        
+        .field-value {
+            color: var(--heading-color);
+            text-align: right;
+            flex: 1;
+            font-family: monospace;
+        }
+        
+        .ip-source {
+            margin-top: var(--spacing-sm);
+            padding-top: var(--spacing-sm);
+            border-top: 1px solid var(--border-color);
+            font-style: italic;
+            color: var(--muted-color);
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        /* Boutons supplémentaires */
+        .advanced-controls {
+            display: flex;
+            gap: var(--spacing-sm);
+            margin-top: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+        
+        .advanced-controls .button {
+            font-size: 0.9em;
+            padding: var(--spacing-xs) var(--spacing-sm);
+        }
+        
+        /* Animation pour le chargement */
+        .service-status.loading::after {
+            content: "...";
+            animation: dots 1.5s infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: ""; }
+            40% { content: "."; }
+            60% { content: ".."; }
+            80%, 100% { content: "..."; }
+        }
+        
         .db-info {
             background: var(--bg-color);
             padding: var(--spacing-md);
@@ -918,6 +825,22 @@
             
             .input-with-button input {
                 min-width: auto;
+            }
+            
+            /* Responsive pour les champs IP */
+            .ip-field {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-xs);
+            }
+            
+            .field-label {
+                min-width: auto;
+            }
+            
+            .field-value {
+                text-align: left;
+                width: 100%;
             }
         }
         
