@@ -159,6 +159,7 @@
                         <p><strong>Avantages:</strong> Gratuit, sans limite de requêtes, respecte la vie privée</p>
                         <p><strong>Précision:</strong> ~95% au niveau pays, ~80% au niveau ville</p>
                         <p><strong>Mise à jour:</strong> Données actualisées automatiquement depuis les registres RIR</p>
+                        <p><strong>Note:</strong> Le premier chargement de la base complète peut prendre 30-60 secondes</p>
                         <div id="dbLoadStatus" class="load-status"></div>
                     </div>
                 </div>
@@ -212,6 +213,40 @@
             ipToNumber(ip) {
                 return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0) >>> 0;
             },
+            
+            // Valider une adresse IP
+            isValidIP(ip) {
+                const regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+                return regex.test(ip);
+            },
+            
+            // Parser une ligne CSV en gérant les guillemets
+            parseCSVLine(line) {
+                const fields = [];
+                let field = '';
+                let inQuotes = false;
+                
+                for (let i = 0; i < line.length; i++) {
+                    const char = line[i];
+                    
+                    if (char === '"') {
+                        if (inQuotes && line[i + 1] === '"') {
+                            field += '"';
+                            i++; // Skip next quote
+                        } else {
+                            inQuotes = !inQuotes;
+                        }
+                    } else if (char === ',' && !inQuotes) {
+                        fields.push(field);
+                        field = '';
+                    } else {
+                        field += char;
+                    }
+                }
+                
+                fields.push(field); // Add last field
+                return fields;
+            },
 
             // Charger la base de données (version simplifiée pour la démo)
             async loadDatabase() {
@@ -223,22 +258,40 @@
                 try {
                     this.updateStatus('Chargement de la base de données IP...', 'loading');
                     
-                    // Chargement étendu pour une meilleure couverture
+                    // Chargement de toute la base pour une couverture complète
                     const response = await fetch(this.databases.country);
                     const csvData = await response.text();
                     
-                    const lines = csvData.split('\n').slice(0, 10000); // Augmenté à 10k
+                    // Parser toute la base (pas de limitation)
+                    const lines = csvData.split('\n');
+                    this.updateStatus(`Parsing de ${lines.length} lignes...`, 'loading');
                     const database = [];
                     
-                    for (const line of lines) {
-                        if (line.trim()) {
-                            const [startIP, endIP, country, countryName] = line.split(',');
-                            if (startIP && endIP && country) {
+                    for (let i = 0; i < lines.length; i++) {
+                        const line = lines[i];
+                        if (!line.trim()) continue;
+                        
+                        // Afficher le progrès tous les 10000 enregistrements
+                        if (i % 10000 === 0 && i > 0) {
+                            this.updateStatus(`Traitement: ${i}/${lines.length} lignes...`, 'loading');
+                            // Permettre au navigateur de respirer
+                            await new Promise(resolve => setTimeout(resolve, 1));
+                        }
+                        
+                        // Parser la ligne CSV correctement
+                        const fields = this.parseCSVLine(line);
+                        if (fields.length >= 4) {
+                            const startIP = fields[0].replace(/"/g, '').trim();
+                            const endIP = fields[1].replace(/"/g, '').trim();
+                            const country = fields[2].replace(/"/g, '').trim();
+                            const countryName = fields[3].replace(/"/g, '').trim();
+                            
+                            if (startIP && endIP && country && this.isValidIP(startIP) && this.isValidIP(endIP)) {
                                 database.push({
-                                    startIP: this.ipToNumber(startIP.replace(/"/g, '')),
-                                    endIP: this.ipToNumber(endIP.replace(/"/g, '')),
-                                    country: country.replace(/"/g, ''),
-                                    countryName: countryName?.replace(/"/g, '') || 'Inconnu'
+                                    startIP: this.ipToNumber(startIP),
+                                    endIP: this.ipToNumber(endIP),
+                                    country: country,
+                                    countryName: countryName || country
                                 });
                             }
                         }
@@ -299,32 +352,105 @@
                 return null;
             },
 
-            // Service de fallback
+            // Service de fallback avec services gratuits HTTPS
             async fallbackLookup(ip) {
+                // Essayer ipapi.co (gratuit avec HTTPS)
                 try {
-                    const response = await fetch(`http://ip-api.com/json/${ip || ''}`);
+                    const response = await fetch(`https://ipapi.co/${ip || ''}/json/`);
                     const data = await response.json();
                     
-                    if (data.status === 'success') {
+                    if (data.country_code && data.country_code !== 'undefined') {
                         return {
-                            ip: data.query,
-                            country: data.countryCode,
-                            countryName: data.country,
-                            region: data.regionName,
+                            ip: data.ip,
+                            country: data.country_code,
+                            countryName: data.country_name,
+                            region: data.region,
                             city: data.city,
-                            isp: data.isp,
                             org: data.org,
                             timezone: data.timezone,
-                            lat: data.lat,
-                            lon: data.lon,
-                            zip: data.zip,
-                            as: data.as,
-                            source: 'API externe'
+                            lat: data.latitude,
+                            lon: data.longitude,
+                            source: 'ipapi.co (gratuit HTTPS)'
                         };
                     }
                 } catch (error) {
-                    console.error('Erreur fallback:', error);
+                    console.warn('Erreur ipapi.co:', error);
                 }
+                
+                // Essayer ipinfo.io (gratuit avec HTTPS, limite 50k/mois)
+                try {
+                    const response = await fetch(`https://ipinfo.io/${ip || ''}/json`);
+                    const data = await response.json();
+                    
+                    if (data.country && !data.error) {
+                        const [lat, lon] = (data.loc || ',').split(',');
+                        return {
+                            ip: data.ip,
+                            country: data.country,
+                            countryName: data.country, // ipinfo ne donne que le code
+                            region: data.region,
+                            city: data.city,
+                            org: data.org,
+                            timezone: data.timezone,
+                            lat: parseFloat(lat) || null,
+                            lon: parseFloat(lon) || null,
+                            source: 'ipinfo.io (gratuit HTTPS)'
+                        };
+                    }
+                } catch (error) {
+                    console.warn('Erreur ipinfo.io:', error);
+                }
+                
+                // Essayer freeipapi.com (gratuit avec HTTPS)
+                try {
+                    const response = await fetch(`https://freeipapi.com/api/json/${ip || ''}`);
+                    const data = await response.json();
+                    
+                    if (data.countryCode) {
+                        return {
+                            ip: data.ipAddress,
+                            country: data.countryCode,
+                            countryName: data.countryName,
+                            region: data.regionName,
+                            city: data.cityName,
+                            timezone: data.timeZone,
+                            lat: data.latitude,
+                            lon: data.longitude,
+                            source: 'freeipapi.com (gratuit HTTPS)'
+                        };
+                    }
+                } catch (error) {
+                    console.warn('Erreur freeipapi.com:', error);
+                }
+                
+                // Si le site est en HTTP, essayer ip-api.com
+                if (window.location.protocol === 'http:') {
+                    try {
+                        const response = await fetch(`http://ip-api.com/json/${ip || ''}`);
+                        const data = await response.json();
+                        
+                        if (data.status === 'success') {
+                            return {
+                                ip: data.query,
+                                country: data.countryCode,
+                                countryName: data.country,
+                                region: data.regionName,
+                                city: data.city,
+                                isp: data.isp,
+                                org: data.org,
+                                timezone: data.timezone,
+                                lat: data.lat,
+                                lon: data.lon,
+                                zip: data.zip,
+                                as: data.as,
+                                source: 'ip-api.com (HTTP seulement)'
+                            };
+                        }
+                    } catch (error) {
+                        console.warn('Erreur ip-api.com:', error);
+                    }
+                }
+                
                 return null;
             },
 
