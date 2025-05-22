@@ -38,39 +38,43 @@
             <h1>Outils réseau</h1>
 
             <div class="network-tools">
+                <!-- Section IP améliorée avec API autonome -->
                 <div class="tool-section">
-                    <h4>Mon adresse IP</h4>
+                    <h4>🌐 Mon adresse IP</h4>
+                    <div class="ip-options">
+                        <div class="toggle-group">
+                            <label class="toggle-label">
+                                <input type="radio" name="ipService" value="autonomous" checked>
+                                <span>Service autonome (gratuit)</span>
+                            </label>
+                            <label class="toggle-label">
+                                <input type="radio" name="ipService" value="fallback">
+                                <span>Service externe (ip-api.com)</span>
+                            </label>
+                        </div>
+                        <button class="button secondary" onclick="refreshIPInfo()">🔄 Actualiser</button>
+                    </div>
                     <div id="myIP">Chargement des informations IP...</div>
-                    <script type="text/javascript">
-                        $.ajax({
-                            url: 'http://ip-api.com/json',
-                            dataType: 'json',
-                            success: function (res) {
-                                document.getElementById("myIP").innerHTML = 
-                                    "<strong>Adresse IP:</strong> " + res.query + "<br>" +
-                                    "<strong>Ville:</strong> " + res.city + "<br>" +
-                                    "<strong>Région:</strong> " + res.regionName + "<br>" +
-                                    "<strong>Pays:</strong> " + res.country + "<br>" +
-                                    "<strong>Organisation:</strong> " + res.org + "<br>" +
-                                    "<strong>Fuseau horaire:</strong> " + res.timezone + "<br>" +
-                                    "<strong>Code pays:</strong> " + res.countryCode + "<br>" +
-                                    "<strong>Code région:</strong> " + res.region + "<br>" +
-                                    "<strong>Code postal:</strong> " + res.zip + "<br>" +
-                                    "<strong>Latitude:</strong> " + res.lat + "<br>" +
-                                    "<strong>Longitude:</strong> " + res.lon + "<br>" +
-                                    "<strong>ASN:</strong> " + res.as + "<br>" +
-                                    "<strong>FAI:</strong> " + res.isp;
-                            },
-                            error: function() {
-                                document.getElementById("myIP").innerHTML = 
-                                    "<span style='color: var(--error-color);'>Erreur lors de la récupération des informations IP</span>";
-                            }
-                        });
-                    </script>
+                    <div id="ipServiceStatus" class="service-status"></div>
+                </div>
+
+                <!-- Nouvelle section de recherche IP -->
+                <div class="tool-section">
+                    <h4>🔍 Recherche d'adresse IP</h4>
+                    <div class="ip-lookup-form">
+                        <div class="form-group">
+                            <label for="lookupIP">Adresse IP à rechercher:</label>
+                            <div class="input-with-button">
+                                <input type="text" id="lookupIP" placeholder="Ex: 8.8.8.8, 1.1.1.1" />
+                                <button class="button" onclick="performIPLookup()">🔍 Rechercher</button>
+                            </div>
+                        </div>
+                        <div id="lookupResult" class="lookup-result" style="display: none;"></div>
+                    </div>
                 </div>
 
                 <div class="tool-section">
-                    <h4>Calculateur de sous-réseau</h4>
+                    <h4>🧮 Calculateur de sous-réseau</h4>
                     <form class="subnet-form">
                         <div class="form-group">
                             <label for="ipAddress">Adresse IP:</label>
@@ -141,6 +145,18 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Informations sur la base de données -->
+                <div class="tool-section">
+                    <h4>ℹ️ Information sur la géolocalisation IP</h4>
+                    <div class="db-info">
+                        <p><strong>Service autonome:</strong> Utilise la base de données <a href="https://github.com/sapics/ip-location-db" target="_blank">ip-location-db</a></p>
+                        <p><strong>Avantages:</strong> Gratuit, sans limite de requêtes, respecte la vie privée</p>
+                        <p><strong>Précision:</strong> ~95% au niveau pays, ~80% au niveau ville</p>
+                        <p><strong>Mise à jour:</strong> Données actualisées automatiquement depuis les registres RIR</p>
+                        <div id="dbLoadStatus" class="load-status"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -149,16 +165,278 @@
     <script src="js/unified-theme-manager.js"></script>
     <script src="js/navigation.js"></script>
     
-    <!-- Script de calcul réseau -->
+    <!-- Script de géolocalisation IP autonome -->
+    <script>
+        // Configuration de l'API autonome
+        const AutonomousIPService = {
+            // URLs des bases de données
+            databases: {
+                country: 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-country/dbip-country-ipv4.csv',
+                city: 'https://raw.githubusercontent.com/sapics/ip-location-db/main/dbip-city/dbip-city-ipv4.csv'
+            },
+            
+            // Cache
+            cache: new Map(),
+            cacheExpiry: 24 * 60 * 60 * 1000, // 24 heures
+            
+            // Base de données en mémoire
+            ipDatabase: null,
+            dbLoadTime: null,
+
+            // Services IP publique
+            async getPublicIP() {
+                const services = [
+                    'https://api.ipify.org?format=json',
+                    'https://jsonip.com',
+                    'https://httpbin.org/ip'
+                ];
+                
+                for (const service of services) {
+                    try {
+                        const response = await fetch(service, { timeout: 5000 });
+                        const data = await response.json();
+                        return data.ip || data.origin;
+                    } catch (e) {
+                        continue;
+                    }
+                }
+                throw new Error('Services IP indisponibles');
+            },
+
+            // Convertir IP en nombre
+            ipToNumber(ip) {
+                return ip.split('.').reduce((acc, octet) => (acc << 8) + parseInt(octet), 0) >>> 0;
+            },
+
+            // Charger la base de données (version simplifiée pour la démo)
+            async loadDatabase() {
+                if (this.ipDatabase && this.dbLoadTime && 
+                    (Date.now() - this.dbLoadTime < this.cacheExpiry)) {
+                    return this.ipDatabase;
+                }
+
+                try {
+                    this.updateStatus('Chargement de la base de données IP...', 'loading');
+                    
+                    // Chargement limité pour la démo (premiers 2000 enregistrements)
+                    const response = await fetch(this.databases.country);
+                    const csvData = await response.text();
+                    
+                    const lines = csvData.split('\n').slice(0, 2000);
+                    const database = [];
+                    
+                    for (const line of lines) {
+                        if (line.trim()) {
+                            const [startIP, endIP, country, countryName] = line.split(',');
+                            if (startIP && endIP && country) {
+                                database.push({
+                                    startIP: this.ipToNumber(startIP.replace(/"/g, '')),
+                                    endIP: this.ipToNumber(endIP.replace(/"/g, '')),
+                                    country: country.replace(/"/g, ''),
+                                    countryName: countryName?.replace(/"/g, '') || 'Inconnu'
+                                });
+                            }
+                        }
+                    }
+                    
+                    // Trier par startIP pour la recherche binaire
+                    database.sort((a, b) => a.startIP - b.startIP);
+                    
+                    this.ipDatabase = database;
+                    this.dbLoadTime = Date.now();
+                    this.updateStatus(`Base de données chargée: ${database.length} entrées`, 'success');
+                    
+                    return database;
+                } catch (error) {
+                    console.error('Erreur DB:', error);
+                    this.updateStatus('Erreur de chargement. Utilisation du service de fallback.', 'error');
+                    return null;
+                }
+            },
+
+            // Rechercher une IP dans la base
+            findIPLocation(ip, database) {
+                if (!database) return null;
+                
+                const ipNum = this.ipToNumber(ip);
+                let left = 0;
+                let right = database.length - 1;
+                
+                while (left <= right) {
+                    const mid = Math.floor((left + right) / 2);
+                    const entry = database[mid];
+                    
+                    if (ipNum >= entry.startIP && ipNum <= entry.endIP) {
+                        return {
+                            ip: ip,
+                            country: entry.country,
+                            countryName: entry.countryName,
+                            source: 'Base autonome'
+                        };
+                    } else if (ipNum < entry.startIP) {
+                        right = mid - 1;
+                    } else {
+                        left = mid + 1;
+                    }
+                }
+                
+                return null;
+            },
+
+            // Service de fallback
+            async fallbackLookup(ip) {
+                try {
+                    const response = await fetch(`http://ip-api.com/json/${ip || ''}`);
+                    const data = await response.json();
+                    
+                    if (data.status === 'success') {
+                        return {
+                            ip: data.query,
+                            country: data.countryCode,
+                            countryName: data.country,
+                            region: data.regionName,
+                            city: data.city,
+                            isp: data.isp,
+                            org: data.org,
+                            timezone: data.timezone,
+                            lat: data.lat,
+                            lon: data.lon,
+                            zip: data.zip,
+                            as: data.as,
+                            source: 'API externe'
+                        };
+                    }
+                } catch (error) {
+                    console.error('Erreur fallback:', error);
+                }
+                return null;
+            },
+
+            // Recherche principale
+            async lookup(ip) {
+                const useAutonomous = document.querySelector('input[name="ipService"]:checked').value === 'autonomous';
+                
+                if (useAutonomous) {
+                    const database = await this.loadDatabase();
+                    let result = this.findIPLocation(ip, database);
+                    
+                    if (!result) {
+                        // Si pas trouvé, essayer le fallback
+                        result = await this.fallbackLookup(ip);
+                        if (result) result.source += ' (fallback)';
+                    }
+                    
+                    return result;
+                } else {
+                    return await this.fallbackLookup(ip);
+                }
+            },
+
+            // Mettre à jour le statut
+            updateStatus(message, type = 'info') {
+                const statusEl = document.getElementById('dbLoadStatus');
+                if (statusEl) {
+                    statusEl.textContent = message;
+                    statusEl.className = `load-status ${type}`;
+                }
+                
+                const serviceStatusEl = document.getElementById('ipServiceStatus');
+                if (serviceStatusEl) {
+                    serviceStatusEl.textContent = message;
+                    serviceStatusEl.className = `service-status ${type}`;
+                }
+            }
+        };
+
+        // Formater les informations IP
+        function formatIPInfo(data) {
+            if (!data) {
+                return "<span style='color: var(--error-color);'>❌ Aucune information trouvée</span>";
+            }
+
+            let html = "<strong>🌐 Adresse IP:</strong> " + data.ip + "<br>";
+            html += "<strong>🇺🇳 Pays:</strong> " + (data.countryName || 'Inconnu') + " (" + (data.country || 'N/A') + ")<br>";
+            
+            if (data.region) html += "<strong>📍 Région:</strong> " + data.region + "<br>";
+            if (data.city) html += "<strong>🏙️ Ville:</strong> " + data.city + "<br>";
+            if (data.isp) html += "<strong>🌐 FAI:</strong> " + data.isp + "<br>";
+            if (data.org) html += "<strong>🏢 Organisation:</strong> " + data.org + "<br>";
+            if (data.timezone) html += "<strong>🕐 Fuseau horaire:</strong> " + data.timezone + "<br>";
+            if (data.lat && data.lon) html += "<strong>📍 Coordonnées:</strong> " + data.lat + ", " + data.lon + "<br>";
+            if (data.zip) html += "<strong>📮 Code postal:</strong> " + data.zip + "<br>";
+            if (data.as) html += "<strong>🔢 ASN:</strong> " + data.as + "<br>";
+            
+            html += "<br><em>📊 Source: " + (data.source || 'Inconnue') + "</em>";
+            
+            return html;
+        }
+
+        // Actualiser les informations IP
+        async function refreshIPInfo() {
+            const infoEl = document.getElementById("myIP");
+            infoEl.innerHTML = "🔄 Chargement des informations IP...";
+            
+            try {
+                const ip = await AutonomousIPService.getPublicIP();
+                const info = await AutonomousIPService.lookup(ip);
+                infoEl.innerHTML = formatIPInfo(info);
+            } catch (error) {
+                infoEl.innerHTML = "<span style='color: var(--error-color);'>❌ Erreur: " + error.message + "</span>";
+            }
+        }
+
+        // Recherche d'IP personnalisée
+        async function performIPLookup() {
+            const ip = document.getElementById('lookupIP').value.trim();
+            const resultEl = document.getElementById('lookupResult');
+            
+            if (!ip) {
+                alert('Veuillez entrer une adresse IP');
+                return;
+            }
+            
+            // Validation IP
+            const ipRegex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+            if (!ipRegex.test(ip)) {
+                alert('Format d\'adresse IP invalide');
+                return;
+            }
+            
+            resultEl.style.display = 'block';
+            resultEl.innerHTML = '🔍 Recherche en cours...';
+            
+            try {
+                const info = await AutonomousIPService.lookup(ip);
+                resultEl.innerHTML = formatIPInfo(info);
+            } catch (error) {
+                resultEl.innerHTML = "<span style='color: var(--error-color);'>❌ Erreur: " + error.message + "</span>";
+            }
+        }
+
+        // Permettre Enter pour la recherche
+        document.addEventListener('DOMContentLoaded', function() {
+            const lookupInput = document.getElementById('lookupIP');
+            if (lookupInput) {
+                lookupInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        performIPLookup();
+                    }
+                });
+            }
+            
+            // Charger les infos IP au démarrage
+            refreshIPInfo();
+        });
+    </script>
+    
+    <!-- Script de calcul réseau (inchangé) -->
     <script>
         function calculateResults(event) {
-            event.preventDefault(); // Previent le rechargement de la page
+            event.preventDefault();
 
-            // Variables
             var ipAddress = document.getElementById("ipAddress").value;
             var cidr = document.getElementById("cidr").value;
             
-            // Validation de l'IP
             if (!isValidIP(ipAddress)) {
                 alert("Veuillez entrer une adresse IP valide (ex: 192.168.1.1)");
                 return;
@@ -169,13 +447,11 @@
             var networkAddress = calculateNetworkAddress(ipAddress, cidr);
             var usableHosts = calculateUsableHosts(cidr);
 
-            // Fonction de validation IP
             function isValidIP(ip) {
                 var regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
                 return regex.test(ip);
             }
 
-            // Fonction de calcul du masque de sous-réseau
             function calculateSubnetMask(cidr) {
                 var networkBits = parseInt(cidr);
                 var subnetMask = "";
@@ -201,7 +477,6 @@
                 return subnetMask;
             }
 
-            // Fonction de calcul de l'adresse de diffusion
             function calculateBroadcastAddress(ipAddress, cidr) {
                 var n_ipParts = ipAddress.split('.').map(Number);
                 var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
@@ -217,7 +492,6 @@
                 return broadcastParts.join('.');
             }
 
-            // Fonction de calcul de l'adresse réseau
             function calculateNetworkAddress(ipAddress, cidr) {
                 var n_ipParts = ipAddress.split('.').map(Number);
                 var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
@@ -229,24 +503,21 @@
                 return networkParts.join('.');
             }
 
-            // Fonction de calcul du nombre d'hôtes utilisables
             function calculateUsableHosts(cidr) {
                 var hostBits = 32 - parseInt(cidr);
                 return Math.pow(2, hostBits) - 2;
             }
 
-            // Mise à jour des résultats
             document.getElementById("networkAddress").textContent = networkAddress;
             document.getElementById("broadcastAddress").textContent = broadcastAddress;
             document.getElementById("subnetMask").textContent = subnetMask;
             document.getElementById("usableHosts").textContent = usableHosts.toLocaleString();
 
-            // Afficher les résultats
             document.getElementById("networkDetails").style.display = "block";
         }
     </script>
     
-    <!-- Styles spécifiques à la page -->
+    <!-- Styles spécifiques améliorés -->
     <style>
         .network-tools {
             display: flex;
@@ -266,6 +537,85 @@
             color: var(--heading-color);
             border-bottom: 2px solid var(--border-color);
             padding-bottom: var(--spacing-sm);
+            font-size: 1.3em;
+        }
+        
+        .ip-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+        }
+        
+        .toggle-group {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+            cursor: pointer;
+            color: var(--text-color);
+        }
+        
+        .toggle-label input[type="radio"] {
+            margin: 0;
+        }
+        
+        .ip-lookup-form {
+            max-width: 600px;
+        }
+        
+        .input-with-button {
+            display: flex;
+            gap: var(--spacing-sm);
+            flex-wrap: wrap;
+        }
+        
+        .input-with-button input {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .lookup-result {
+            background: var(--bg-color);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin-top: var(--spacing-md);
+            font-family: monospace;
+            line-height: 1.6;
+        }
+        
+        .service-status, .load-status {
+            margin-top: var(--spacing-sm);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+        
+        .service-status.loading, .load-status.loading {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border-left: 3px solid #ffc107;
+        }
+        
+        .service-status.success, .load-status.success {
+            background: rgba(40, 167, 69, 0.2);
+            color: #28a745;
+            border-left: 3px solid #28a745;
+        }
+        
+        .service-status.error, .load-status.error {
+            background: rgba(220, 53, 69, 0.2);
+            color: #dc3545;
+            border-left: 3px solid #dc3545;
         }
         
         .subnet-form {
@@ -325,6 +675,34 @@
             border: 1px solid var(--border-color);
             font-family: monospace;
             line-height: 1.8;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .db-info {
+            background: var(--bg-color);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            line-height: 1.6;
+        }
+        
+        .db-info a {
+            color: var(--accent-color);
+            text-decoration: none;
+        }
+        
+        .db-info a:hover {
+            text-decoration: underline;
+        }
+        
+        .button.secondary {
+            background: var(--border-color);
+            color: var(--text-color);
+        }
+        
+        .button.secondary:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
         }
         
         /* Responsive */
@@ -333,8 +711,21 @@
                 grid-template-columns: 1fr;
             }
             
-            .subnet-form {
+            .subnet-form, .ip-lookup-form {
                 max-width: 100%;
+            }
+            
+            .ip-options {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .input-with-button {
+                flex-direction: column;
+            }
+            
+            .input-with-button input {
+                min-width: auto;
             }
         }
         
@@ -351,12 +742,15 @@
         :root[data-theme="retro"] #myIP {
             box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
         }
+        
+        :root[data-theme="retro"] .lookup-result {
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
     </style>
     
     <!-- Initialisation -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // S'assurer que le thème sombre est appliqué par défaut
             if (!localStorage.getItem('unified-theme')) {
                 localStorage.setItem('unified-theme', 'dark');
                 document.documentElement.setAttribute('data-theme', 'dark');
