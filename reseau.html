@@ -303,14 +303,25 @@
                 
                 let info;
                 if (useAutonomous) {
-                    // Utiliser notre base autonome
-                    info = await ipManager.lookup(ip);
+                    // Mode autonome : utiliser UNIQUEMENT les bases locales
+                    info = await ipManager.findIP(ip, ['country', 'asn']);
+                    if (info) {
+                        info.source = 'Base autonome';
+                    }
                 } else {
-                    // Utiliser le service externe direct
+                    // Mode externe : utiliser directement les services externes
                     info = await ipManager.fallbackLookup(ip);
                 }
                 
-                infoEl.innerHTML = formatIPInfo(info);
+                if (!info) {
+                    if (useAutonomous) {
+                        infoEl.innerHTML = "<span style='color: var(--error-color);'>❌ IP non trouvée dans les bases locales</span>";
+                    } else {
+                        infoEl.innerHTML = "<span style='color: var(--error-color);'>❌ Services externes indisponibles</span>";
+                    }
+                } else {
+                    infoEl.innerHTML = formatIPInfo(info);
+                }
                 
                 // Afficher les statistiques en mode debug
                 if (document.getElementById('debugMode')?.checked) {
@@ -354,12 +365,25 @@
                 
                 let info;
                 if (useAutonomous) {
-                    info = await ipManager.lookup(ip);
+                    // Mode autonome : bases locales uniquement
+                    info = await ipManager.findIP(ip, ['country', 'asn']);
+                    if (info) {
+                        info.source = 'Base autonome';
+                    }
                 } else {
+                    // Mode externe : services externes
                     info = await ipManager.fallbackLookup(ip);
                 }
                 
-                resultEl.innerHTML = formatIPInfo(info);
+                if (!info) {
+                    if (useAutonomous) {
+                        resultEl.innerHTML = "<span style='color: var(--error-color);'>❌ IP non trouvée dans les bases locales</span>";
+                    } else {
+                        resultEl.innerHTML = "<span style='color: var(--error-color);'>❌ Services externes indisponibles</span>";
+                    }
+                } else {
+                    resultEl.innerHTML = formatIPInfo(info);
+                }
                 
             } catch (error) {
                 console.error('Erreur lookup:', error);
@@ -384,11 +408,18 @@
             ];
             
             console.log('🧪 Test de géolocalisation des DNS publics:');
+            console.log('--- BASES LOCALES UNIQUEMENT ---');
             
             for (const testIP of testIPs) {
                 try {
-                    const result = await ipManager.lookup(testIP);
-                    console.log(`${testIP}: ${result ? `🌍 ${result.countryName || result.country} (${result.source})` : '❌ Non trouvée'}`);
+                    // Test avec bases locales uniquement
+                    const result = await ipManager.findIP(testIP, ['country', 'asn']);
+                    if (result) {
+                        result.source = 'Base autonome';
+                        console.log(`${testIP}: 🌍 ${result.countryName || result.country} (Local)`);
+                    } else {
+                        console.log(`${testIP}: ❌ Non trouvée en local`);
+                    }
                 } catch (error) {
                     console.log(`${testIP}: ❌ Erreur - ${error.message}`);
                 }
