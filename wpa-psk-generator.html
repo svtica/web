@@ -4,117 +4,117 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Générateur de Clé WPA-PSK - Outils SysAdmin</title>
+    <meta name="description" content="Générateur de clés pré-partagées WPA pour diagnostics et configuration réseau">
     
-    <!-- CSS - Thèmes -->
-    <link rel="stylesheet" href="css/synthwave-dark.css">
-    <link rel="stylesheet" href="css/light-theme.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     
-    <!-- Theme Manager JavaScript -->
-    <script src="js/theme-manager.js"></script>
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
         
         h1 {
-            color: #333;
+            color: var(--heading-color);
             text-align: center;
             margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
+            border-bottom: 3px solid var(--button-color);
             padding-bottom: 10px;
         }
         
         .info-section {
-            background: #e3f2fd;
-            border: 1px solid #90caf9;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
+            background: var(--highlight-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
         }
         
         .info-section h3 {
-            color: #1565c0;
+            color: var(--heading-color);
             margin-top: 0;
         }
         
+        .info-section p {
+            color: var(--text-color);
+        }
+        
         .form-section {
-            background: #f8f9fa;
-            padding: 30px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-            margin-bottom: 30px;
+            background: var(--highlight-color);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--button-color);
+            margin-bottom: var(--spacing-xl);
+            border: 1px solid var(--border-color);
         }
         
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: var(--spacing-lg);
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: var(--spacing-sm);
             font-weight: bold;
-            color: #333;
+            color: var(--text-color);
             font-size: 16px;
         }
         
         input[type="text"], input[type="password"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
             font-size: 16px;
             box-sizing: border-box;
-            transition: border-color 0.3s;
+            transition: border-color var(--transition-normal);
+            background: var(--bg-color);
+            color: var(--text-color);
         }
         
         input[type="text"]:focus, input[type="password"]:focus {
-            border-color: #667eea;
+            border-color: var(--button-color);
             outline: none;
-            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 8px var(--shadow-color);
         }
         
         .generate-btn {
-            background: #667eea;
-            color: white;
+            background: var(--button-color);
+            color: var(--bg-color);
             border: none;
-            padding: 15px 30px;
-            border-radius: 6px;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
             width: 100%;
-            transition: background-color 0.3s;
+            transition: all var(--transition-normal);
         }
         
         .generate-btn:hover {
-            background: #5a6fd8;
+            background: var(--heading-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
         
         .generate-btn:disabled {
-            background: #ccc;
+            background: var(--muted-color);
             cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
         }
         
         .result-section {
-            background: #f1f8e9;
-            border: 2px solid #8bc34a;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
+            background: var(--highlight-color);
+            border: 2px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
             display: none;
         }
         
@@ -122,24 +122,29 @@
             display: block;
         }
         
+        .result-section h3 {
+            color: var(--heading-color);
+        }
+        
         .psk-output {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
             font-family: 'Courier New', monospace;
             font-size: 14px;
             word-break: break-all;
-            margin: 10px 0;
+            margin: var(--spacing-sm) 0;
             min-height: 40px;
             line-height: 1.4;
+            color: var(--text-color);
         }
         
         .progress-bar {
-            background: #e0e0e0;
+            background: var(--muted-color);
             border-radius: 10px;
             padding: 3px;
-            margin: 10px 0;
+            margin: var(--spacing-sm) 0;
             display: none;
         }
         
@@ -148,142 +153,181 @@
         }
         
         .progress-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, var(--button-color), var(--link-color));
             height: 20px;
             border-radius: 7px;
             transition: width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--bg-color);
             font-size: 12px;
             font-weight: bold;
         }
         
         .copy-btn {
-            background: #4caf50;
-            color: white;
+            background: var(--success-color);
+            color: var(--bg-color);
             border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
+            padding: var(--spacing-sm) var(--spacing-md);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 14px;
-            margin-top: 10px;
+            margin-top: var(--spacing-sm);
+            transition: all var(--transition-normal);
         }
         
         .copy-btn:hover {
-            background: #45a049;
+            background: var(--heading-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px var(--shadow-color);
         }
         
         .security-note {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 4px;
-            padding: 15px;
-            margin: 20px 0;
-            color: #856404;
+            background: var(--warning-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
+            color: var(--text-color);
         }
         
         .usage-examples {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
+            background: var(--highlight-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border: 1px solid var(--border-color);
         }
         
         .usage-examples h3 {
-            color: #333;
+            color: var(--heading-color);
             margin-top: 0;
         }
         
         .example {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
-            margin: 10px 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm) 0;
         }
         
         .example strong {
-            color: #667eea;
+            color: var(--button-color);
+        }
+        
+        .example {
+            color: var(--text-color);
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .info-section,
+        :root[data-theme="retro"] .form-section,
+        :root[data-theme="retro"] .usage-examples {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
+        
+        :root[data-theme="retro"] .result-section {
+            border-color: var(--success-color);
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.3);
+        }
+        
+        :root[data-theme="retro"] .generate-btn:hover,
+        :root[data-theme="retro"] .copy-btn:hover {
+            box-shadow: 0 0 15px var(--button-color), 0 4px 8px var(--shadow-color);
+        }
+        
+        :root[data-theme="retro"] input[type="text"]:focus, 
+        :root[data-theme="retro"] input[type="password"]:focus {
+            box-shadow: 0 0 15px var(--button-color);
         }
         
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin: 10px;
-            }
-            
             .form-section {
-                padding: 20px;
+                padding: var(--spacing-lg);
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔐 Générateur de Clé WPA-PSK</h1>
-        
-        <div class="info-section">
-            <h3>📋 À propos de cet outil</h3>
-            <p>Ce générateur calcule la clé pré-partagée (PSK) WPA à partir d'une phrase de passe et d'un SSID. La clé résultante de 256 bits est utilisée pour la dérivation de clé dans les réseaux Wi-Fi sécurisés.</p>
-            <p><strong>🔒 Sécurité :</strong> Tous les calculs sont effectués localement dans votre navigateur. Aucune information n'est transmise sur le réseau.</p>
-        </div>
-        
-        <div class="form-section">
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div class="row">
+            <h1>🔐 Générateur de Clé WPA-PSK</h1>
+            
+            <div class="info-section">
+                <h3>📋 À propos de cet outil</h3>
+                <p>Ce générateur calcule la clé pré-partagée (PSK) WPA à partir d'une phrase de passe et d'un SSID. La clé résultante de 256 bits est utilisée pour la dérivation de clé dans les réseaux Wi-Fi sécurisés.</p>
+                <p><strong>🔒 Sécurité :</strong> Tous les calculs sont effectués localement dans votre navigateur. Aucune information n'est transmise sur le réseau.</p>
+            </div>
+            
+            <div class="form-section">
             <form id="pskForm">
-                <div class="form-group">
-                    <label for="passphrase">Phrase de passe WPA :</label>
-                    <input type="password" id="passphrase" placeholder="Entrez votre phrase de passe WPA (8-63 caractères)" maxlength="63">
-                    <div style="margin-top: 5px;">
-                        <input type="checkbox" id="showPassphrase" onchange="togglePasswordVisibility()">
-                        <label for="showPassphrase" style="display: inline; font-weight: normal; margin-left: 5px;">Afficher la phrase de passe</label>
+                    <div class="form-group">
+                        <label for="passphrase">Phrase de passe WPA :</label>
+                        <input type="password" id="passphrase" placeholder="Entrez votre phrase de passe WPA (8-63 caractères)" maxlength="63">
+                        <div style="margin-top: 5px;">
+                            <input type="checkbox" id="showPassphrase" onchange="togglePasswordVisibility()">
+                            <label for="showPassphrase" style="display: inline; font-weight: normal; margin-left: 5px;">Afficher la phrase de passe</label>
+                        </div>
                     </div>
+                    
+                    <div class="form-group">
+                        <label for="ssid">SSID du réseau :</label>
+                        <input type="text" id="ssid" placeholder="Nom du réseau Wi-Fi" maxlength="32">
+                    </div>
+                    
+                    <button type="button" class="generate-btn" onclick="generatePSK()" id="generateBtn">
+                        Générer la clé PSK
+                    </button>
+                </form>
+            </div>
+            
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+            </div>
+            
+            <div class="result-section" id="resultSection">
+                <h3>🔑 Clé PSK générée :</h3>
+                <div class="psk-output" id="pskOutput">La clé apparaîtra ici...</div>
+                <button class="copy-btn" onclick="copyPSK()">📋 Copier la clé</button>
+            </div>
+            
+            <div class="security-note">
+                <strong>⚠️ Note de sécurité :</strong> Conservez cette clé en lieu sûr. Elle donne accès complet à votre réseau Wi-Fi. Ne la partagez qu'avec des personnes de confiance.
+            </div>
+            
+            
+            <div class="usage-examples">
+                <h3>💡 Exemples d'utilisation</h3>
+                
+                <div class="example">
+                    <strong>Configuration de routeur :</strong><br>
+                    Utilisez cette clé dans la configuration avancée de votre routeur au lieu de la phrase de passe pour une authentification plus rapide.
                 </div>
                 
-                <div class="form-group">
-                    <label for="ssid">SSID du réseau :</label>
-                    <input type="text" id="ssid" placeholder="Nom du réseau Wi-Fi" maxlength="32">
+                <div class="example">
+                    <strong>Diagnostic réseau :</strong><br>
+                    Vérifiez que vos appareils utilisent la même clé PSK pour diagnostiquer les problèmes de connexion Wi-Fi.
                 </div>
                 
-                <button type="button" class="generate-btn" onclick="generatePSK()" id="generateBtn">
-                    Générer la clé PSK
-                </button>
-            </form>
-        </div>
-        
-        <div class="progress-bar" id="progressBar">
-            <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
-        </div>
-        
-        <div class="result-section" id="resultSection">
-            <h3>🔑 Clé PSK générée :</h3>
-            <div class="psk-output" id="pskOutput">La clé apparaîtra ici...</div>
-            <button class="copy-btn" onclick="copyPSK()">📋 Copier la clé</button>
-        </div>
-        
-        <div class="security-note">
-            <strong>⚠️ Note de sécurité :</strong> Conservez cette clé en lieu sûr. Elle donne accès complet à votre réseau Wi-Fi. Ne la partagez qu'avec des personnes de confiance.
-        </div>
-        
-        <div class="usage-examples">
-            <h3>💡 Exemples d'utilisation</h3>
-            
-            <div class="example">
-                <strong>Configuration de routeur :</strong><br>
-                Utilisez cette clé dans la configuration avancée de votre routeur au lieu de la phrase de passe pour une authentification plus rapide.
+                <div class="example">
+                    <strong>Scripts d'automatisation :</strong><br>
+                    Intégrez cette clé dans vos scripts de configuration réseau automatisée.
+                </div>
             </div>
-            
-            <div class="example">
-                <strong>Diagnostic réseau :</strong><br>
-                Vérifiez que vos appareils utilisent la même clé PSK pour diagnostiquer les problèmes de connexion Wi-Fi.
-            </div>
-            
-            <div class="example">
-                <strong>Scripts d'automatisation :</strong><br>
-                Intégrez cette clé dans vos scripts de configuration réseau automatisée.
-            </div>
-        </div>
     </div>
 
     <script>
@@ -521,11 +565,16 @@
         });
     </script>
     
-    <!-- Theme initialization -->
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Initialisation -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('theme')) {
-                localStorage.setItem('theme', 'dark');
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
         });

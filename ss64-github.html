@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SS64 Search Pro - Recherche Avancée Hors-ligne</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+    <style>
+        /* [GARDE TOUS LES STYLES CSS EXISTANTS] */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            padding: 30px;
+            position: relative;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+            color: #721c24;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--primary-color);
+            font-size: 18px;
+        }
+        
+        .loading::after {
+            content: '';
+            animation: dots 1.5s steps(5, end) infinite;
+        }
+        
+        @keyframes dots {
+            0%, 20% { content: '.'; }
+            40% { content: '..'; }
+            60% { content: '...'; }
+            80%, 100% { content: ''; }
+        }
+
+        /* [GARDEZ TOUS LES AUTRES STYLES CSS DU FICHIER ORIGINAL] */
+        .header { text-align: center; margin-bottom: 30px; border-bottom: 3px solid var(--primary-color); padding-bottom: 20px; }
+        .logo { font-size: 3em; margin-bottom: 10px; }
+        h1 { color: #333; margin: 0; font-size: 2.5em; font-weight: 700; }
+        .subtitle { color: #666; margin-top: 10px; font-size: 1.2em; }
+        .search-section { background: linear-gradient(135deg, var(--light-color) 0%, #e9ecef 100%); padding: 30px; border-radius: 12px; margin-bottom: 30px; }
+        .search-input { width: 100%; padding: 15px 20px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; }
+        .search-btn { background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%); color: white; border: none; padding: 15px 30px; border-radius: 8px; cursor: pointer; font-size: 16px; margin-left: 10px; }
+        .stats-info { background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%); border: 2px solid #ffeaa7; border-radius: 8px; padding: 20px; margin: 25px 0; color: #856404; text-align: center; }
+        .quick-commands { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin: 20px 0; }
+        .quick-command { background: white; border: 2px solid #e3f2fd; border-radius: 8px; padding: 12px; cursor: pointer; text-align: center; font-family: monospace; }
+        .quick-command:hover { background: var(--primary-color); color: white; }
+        .results-section { margin-top: 30px; }
+        .command-result { background: white; border: 2px solid #e9ecef; padding: 25px; margin-bottom: 1px; }
+        .command-name { font-size: 24px; font-weight: bold; color: var(--primary-color); font-family: monospace; }
+        .command-description { color: #495057; margin: 15px 0; }
+        .command-syntax { background: #f8f9fa; border-left: 4px solid var(--primary-color); padding: 15px; margin: 15px 0; font-family: monospace; }
+        .example { background: #e8f5e8; border: 1px solid #c3e6cb; padding: 12px; margin: 8px 0; font-family: monospace; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">🔍</div>
+            <h1>SS64 Search Pro</h1>
+            <div class="subtitle">Recherche avancée hors-ligne - Base de données complète</div>
+        </div>
+        
+        <div class="search-section">
+            <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                <input type="text" class="search-input" id="searchInput" 
+                       placeholder="Rechercher une commande (ex: ping, ls, dir, grep, netstat...)" 
+                       onkeyup="handleSearch(event)" style="flex: 1; min-width: 300px;">
+                <button class="search-btn" onclick="performSearch()">🔍 Rechercher</button>
+            </div>
+            
+            <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: center;">
+                <button class="search-btn" data-os="all" onclick="selectOS('all')" style="padding: 10px 20px; font-size: 14px;">🌐 Tous</button>
+                <button class="search-btn" data-os="windows" onclick="selectOS('windows')" style="padding: 10px 20px; font-size: 14px;">🪟 Windows</button>
+                <button class="search-btn" data-os="linux" onclick="selectOS('linux')" style="padding: 10px 20px; font-size: 14px;">🐧 Linux</button>
+                <button class="search-btn" data-os="macos" onclick="selectOS('macos')" style="padding: 10px 20px; font-size: 14px;">🍎 macOS</button>
+                <button class="search-btn" data-os="powershell" onclick="selectOS('powershell')" style="padding: 10px 20px; font-size: 14px;">⚡ PowerShell</button>
+            </div>
+        </div>
+        
+        <div class="quick-commands" id="quickCommands">
+            <!-- Commandes populaires par défaut -->
+            <div class="quick-command" onclick="quickSearch('ping')">ping</div>
+            <div class="quick-command" onclick="quickSearch('ls')">ls</div>
+            <div class="quick-command" onclick="quickSearch('dir')">dir</div>
+            <div class="quick-command" onclick="quickSearch('grep')">grep</div>
+            <div class="quick-command" onclick="quickSearch('netstat')">netstat</div>
+            <div class="quick-command" onclick="quickSearch('ps')">ps</div>
+            <div class="quick-command" onclick="quickSearch('find')">find</div>
+            <div class="quick-command" onclick="quickSearch('chmod')">chmod</div>
+        </div>
+        
+        <div class="stats-info" id="statsInfo">
+            <div class="loading">Chargement de la base de données</div>
+        </div>
+        
+        <div class="results-section" id="resultsSection">
+            <!-- Les résultats apparaîtront ici -->
+        </div>
+    </div>
+
+    <script>
+        // ===== BASE DE DONNÉES INTÉGRÉE DIRECTEMENT =====
+        const SS64_DATABASE = {
+            "windows": [
+                {"name": "ping", "description": "Teste la connectivité réseau vers un hôte spécifique", "syntax": "ping [-t] [-a] [-n count] [-l size] target", "examples": ["ping google.com", "ping -t 192.168.1.1", "ping -n 4 8.8.8.8"]},
+                {"name": "ipconfig", "description": "Affiche et modifie la configuration IP de Windows", "syntax": "ipconfig [/all] [/release] [/renew] [/flushdns]", "examples": ["ipconfig", "ipconfig /all", "ipconfig /flushdns"]},
+                {"name": "netstat", "description": "Affiche les connexions réseau actives et les statistiques", "syntax": "netstat [-a] [-b] [-n] [-o] [-r]", "examples": ["netstat -an", "netstat -b", "netstat -r"]},
+                {"name": "dir", "description": "Affiche la liste des fichiers et dossiers", "syntax": "dir [drive:][path][filename] [/A] [/B] [/S]", "examples": ["dir", "dir /s", "dir *.txt"]},
+                {"name": "copy", "description": "Copie un ou plusieurs fichiers", "syntax": "copy source destination [/V] [/Y]", "examples": ["copy file1.txt file2.txt", "copy *.txt backup\\"]},
+                {"name": "del", "description": "Supprime un ou plusieurs fichiers", "syntax": "del [/P] [/F] [/S] filename", "examples": ["del *.tmp", "del /s temp\\*.*"]},
+                {"name": "tasklist", "description": "Affiche la liste des processus en cours", "syntax": "tasklist [/FI filter] [/FO format]", "examples": ["tasklist", "tasklist /svc"]},
+                {"name": "taskkill", "description": "Termine des processus", "syntax": "taskkill [/F] [/PID processid] [/IM imagename]", "examples": ["taskkill /im notepad.exe", "taskkill /pid 1234"]},
+                {"name": "systeminfo", "description": "Affiche les informations système", "syntax": "systeminfo [/S system] [/FO format]", "examples": ["systeminfo", "systeminfo /fo csv"]},
+                {"name": "whoami", "description": "Affiche le nom d'utilisateur actuel", "syntax": "whoami [/upn] [/fqdn] [/user] [/groups]", "examples": ["whoami", "whoami /groups"]}
+            ],
+            "linux": [
+                {"name": "ls", "description": "Liste le contenu des répertoires", "syntax": "ls [OPTION]... [FILE]...", "examples": ["ls", "ls -la", "ls -lh"]},
+                {"name": "grep", "description": "Recherche des motifs dans les fichiers", "syntax": "grep [OPTIONS] PATTERN [FILE...]", "examples": ["grep \"error\" file.log", "grep -r \"TODO\" ."]},
+                {"name": "find", "description": "Recherche des fichiers et répertoires", "syntax": "find [path...] [expression]", "examples": ["find . -name \"*.txt\"", "find /home -type d"]},
+                {"name": "ps", "description": "Affiche les processus en cours", "syntax": "ps [options]", "examples": ["ps aux", "ps -ef"]},
+                {"name": "chmod", "description": "Modifie les permissions des fichiers", "syntax": "chmod [OPTION]... MODE[,MODE]... FILE...", "examples": ["chmod 755 script.sh", "chmod +x file"]},
+                {"name": "cp", "description": "Copie des fichiers ou répertoires", "syntax": "cp [OPTION]... SOURCE... DIRECTORY", "examples": ["cp file1 file2", "cp -r dir1 dir2"]},
+                {"name": "mv", "description": "Déplace/renomme des fichiers", "syntax": "mv [OPTION]... SOURCE... DIRECTORY", "examples": ["mv file1 file2", "mv *.txt docs/"]},
+                {"name": "rm", "description": "Supprime des fichiers et répertoires", "syntax": "rm [OPTION]... FILE...", "examples": ["rm file.txt", "rm -rf directory"]},
+                {"name": "cat", "description": "Affiche le contenu d'un fichier", "syntax": "cat [OPTION]... [FILE]...", "examples": ["cat file.txt", "cat file1 file2"]},
+                {"name": "ping", "description": "Teste la connectivité réseau", "syntax": "ping [options] destination", "examples": ["ping google.com", "ping -c 4 8.8.8.8"]}
+            ],
+            "macos": [
+                {"name": "ls", "description": "Liste le contenu des répertoires (BSD)", "syntax": "ls [options] [file ...]", "examples": ["ls -la", "ls -lG"]},
+                {"name": "brew", "description": "Gestionnaire de paquets pour macOS", "syntax": "brew [command] [options] [formula]", "examples": ["brew install git", "brew update", "brew list"]},
+                {"name": "defaults", "description": "Accède aux préférences système", "syntax": "defaults [read|write|delete] domain key [value]", "examples": ["defaults write com.apple.dock autohide -bool true"]},
+                {"name": "open", "description": "Ouvre des fichiers et applications", "syntax": "open [options] file ...", "examples": ["open file.txt", "open -a Safari", "open ."]},
+                {"name": "find", "description": "Recherche des fichiers (BSD)", "syntax": "find [path ...] [expression]", "examples": ["find . -name \"*.txt\"", "find /Users -type d -name Documents"]},
+                {"name": "screencapture", "description": "Capture d'écran en ligne de commande", "syntax": "screencapture [options] [file]", "examples": ["screencapture screenshot.png", "screencapture -c"]},
+                {"name": "say", "description": "Synthèse vocale", "syntax": "say [options] [message]", "examples": ["say \"Hello World\"", "say -v Alex \"Test\""]},
+                {"name": "diskutil", "description": "Utilitaire de gestion des disques", "syntax": "diskutil [verb] [options]", "examples": ["diskutil list", "diskutil info disk0"]}
+            ],
+            "powershell": [
+                {"name": "Get-Process", "description": "Obtient les processus en cours d'exécution", "syntax": "Get-Process [[-Name] <String[]>] [<CommonParameters>]", "examples": ["Get-Process", "Get-Process -Name \"notepad\""]},
+                {"name": "Get-Service", "description": "Obtient les services sur l'ordinateur", "syntax": "Get-Service [[-Name] <String[]>] [<CommonParameters>]", "examples": ["Get-Service", "Get-Service -Name \"Spooler\""]},
+                {"name": "Test-Connection", "description": "Teste la connectivité réseau (ping PowerShell)", "syntax": "Test-Connection [-ComputerName] <String[]> [<CommonParameters>]", "examples": ["Test-Connection google.com", "Test-Connection -ComputerName 192.168.1.1"]},
+                {"name": "Get-ChildItem", "description": "Obtient les éléments d'un emplacement", "syntax": "Get-ChildItem [[-Path] <String[]>] [<CommonParameters>]", "examples": ["Get-ChildItem", "Get-ChildItem *.txt"]},
+                {"name": "Copy-Item", "description": "Copie un élément d'un emplacement vers un autre", "syntax": "Copy-Item [-Path] <String[]> [[-Destination] <String>] [<CommonParameters>]", "examples": ["Copy-Item file.txt backup.txt", "Copy-Item -Recurse source dest"]},
+                {"name": "Remove-Item", "description": "Supprime les éléments spécifiés", "syntax": "Remove-Item [-Path] <String[]> [<CommonParameters>]", "examples": ["Remove-Item file.txt", "Remove-Item -Recurse folder"]},
+                {"name": "Get-Content", "description": "Obtient le contenu d'un fichier", "syntax": "Get-Content [-Path] <String[]> [<CommonParameters>]", "examples": ["Get-Content file.txt", "Get-Content -Tail 10 log.txt"]},
+                {"name": "Set-Content", "description": "Écrit du contenu dans un fichier", "syntax": "Set-Content [-Path] <String[]> [-Value] <Object[]> [<CommonParameters>]", "examples": ["Set-Content -Path file.txt -Value \"Hello\"", "\"Content\" | Set-Content file.txt"]}
+            ]
+        };
+
+        // ===== VARIABLES GLOBALES =====
+        let currentOS = 'all';
+        let database = SS64_DATABASE;
+        let isLoaded = true;
+        let searchHistory = JSON.parse(localStorage.getItem('ss64SearchHistory') || '[]');
+        let lastResults = [];
+
+        // ===== INITIALISATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🔍 SS64 Search Pro - Version GitHub');
+            updateStats();
+            initializeOSTabs();
+        });
+
+        // ===== FONCTIONS PRINCIPALES =====
+        function initializeOSTabs() {
+            document.querySelectorAll('[data-os]').forEach(tab => {
+                tab.style.opacity = currentOS === 'all' || currentOS === tab.dataset.os ? '1' : '0.7';
+            });
+        }
+
+        function selectOS(os) {
+            currentOS = os;
+            initializeOSTabs();
+            updateStats();
+            if (document.getElementById('searchInput').value.trim()) {
+                performSearch();
+            }
+        }
+
+        function updateStats() {
+            const totalCommands = Object.values(database).reduce((total, commands) => total + commands.length, 0);
+            const currentCommands = currentOS === 'all' ? totalCommands : database[currentOS]?.length || 0;
+            
+            const osNames = { windows: 'Windows', linux: 'Linux', macos: 'macOS', powershell: 'PowerShell' };
+            const osDisplay = currentOS === 'all' ? 'toutes plateformes' : osNames[currentOS];
+            
+            document.getElementById('statsInfo').innerHTML = `
+                📚 <strong>${currentCommands}</strong> commandes disponibles (${osDisplay})<br>
+                <small>Windows: ${database.windows.length} • Linux: ${database.linux.length} • macOS: ${database.macos.length} • PowerShell: ${database.powershell.length}</small>
+            `;
+        }
+
+        function quickSearch(command) {
+            document.getElementById('searchInput').value = command;
+            performSearch();
+        }
+
+        function handleSearch(event) {
+            if (event.key === 'Enter') {
+                performSearch();
+            }
+        }
+
+        function performSearch() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const resultsSection = document.getElementById('resultsSection');
+            
+            if (!query) {
+                resultsSection.innerHTML = '';
+                return;
+            }
+
+            // Ajouter à l'historique
+            if (!searchHistory.includes(query)) {
+                searchHistory.unshift(query);
+                searchHistory = searchHistory.slice(0, 20);
+                localStorage.setItem('ss64SearchHistory', JSON.stringify(searchHistory));
+            }
+            
+            // Rechercher
+            let results = [];
+            const databasesToSearch = currentOS === 'all' ? Object.keys(database) : [currentOS];
+            
+            databasesToSearch.forEach(osType => {
+                const commands = database[osType] || [];
+                commands.forEach(cmd => {
+                    let score = 0;
+                    const nameLower = cmd.name.toLowerCase();
+                    const descLower = cmd.description.toLowerCase();
+                    
+                    if (nameLower === query) score += 100;
+                    else if (nameLower.startsWith(query)) score += 80;
+                    else if (nameLower.includes(query)) score += 60;
+                    else if (descLower.includes(query)) score += 40;
+                    else if (cmd.syntax.toLowerCase().includes(query)) score += 30;
+                    
+                    if (score > 0) {
+                        results.push({ ...cmd, os: osType, score });
+                    }
+                });
+            });
+            
+            results = results.sort((a, b) => b.score - a.score).slice(0, 50);
+            lastResults = results;
+            displayResults(results, query);
+        }
+
+        function displayResults(results, query) {
+            const resultsSection = document.getElementById('resultsSection');
+            
+            if (results.length === 0) {
+                resultsSection.innerHTML = `
+                    <div style="text-align: center; padding: 40px; color: #666;">
+                        <h3>Aucune commande trouvée pour "${query}"</h3>
+                        <p>Essayez: ping, ls, dir, grep, netstat, ps, find, chmod</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const osNames = { windows: 'Windows', linux: 'Linux', macos: 'macOS', powershell: 'PowerShell' };
+            
+            const html = `
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px 8px 0 0; border-bottom: 2px solid #dee2e6; font-weight: bold;">
+                    📋 ${results.length} résultat${results.length > 1 ? 's' : ''} pour "${query}"
+                </div>
+            ` + results.map(cmd => `
+                <div class="command-result">
+                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 15px;">
+                        <div class="command-name">${highlightMatch(cmd.name, query)}</div>
+                        <div style="background: #28a745; color: white; padding: 4px 8px; border-radius: 12px; font-size: 12px;">
+                            ${osNames[cmd.os]}
+                        </div>
+                    </div>
+                    <div class="command-description">${highlightMatch(cmd.description, query)}</div>
+                    <div class="command-syntax">
+                        <strong>Syntaxe:</strong> ${cmd.syntax}
+                    </div>
+                    ${cmd.examples && cmd.examples.length > 0 ? `
+                        <div style="margin-top: 15px;">
+                            <h4>📝 Exemples:</h4>
+                            ${cmd.examples.map(example => `
+                                <div class="example" onclick="copyToClipboard('${example}')">
+                                    ${example}
+                                </div>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+            `).join('');
+            
+            resultsSection.innerHTML = html;
+        }
+
+        function highlightMatch(text, query) {
+            if (!query) return text;
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<mark style="background: #ffeb3b; padding: 2px;">$1</mark>');
+        }
+
+        function copyToClipboard(text) {
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast('✅ Copié: ' + text);
+                });
+            } else {
+                // Fallback pour les navigateurs plus anciens
+                const textArea = document.createElement("textarea");
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showToast('✅ Copié: ' + text);
+            }
+        }
+
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.textContent = message;
+            toast.style.cssText = `
+                position: fixed; top: 20px; right: 20px; background: #333; color: white;
+                padding: 12px 20px; border-radius: 4px; z-index: 10000; font-size: 14px;
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => document.body.removeChild(toast), 3000);
+        }
+
+        // Message de statut initial
+        setTimeout(() => {
+            console.log('✅ Base de données chargée:', Object.values(database).reduce((a,b) => a + b.length, 0), 'commandes');
+        }, 100);
+    </script>
+</body>
+</html>

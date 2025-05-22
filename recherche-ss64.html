@@ -1,9 +1,34 @@
-<!DOCTYPE html>
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Initialisation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png"><!DOCTYPE html>
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recherche Commandes SS64 - Base Hors-ligne</title>
+    <meta name="description" content="Base de données de recherche hors ligne pour commandes Windows, Linux, macOS et PowerShell">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -420,11 +445,23 @@
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div class="row">
         <div class="header">
             <h1>🔍 Recherche SS64</h1>
             <div class="subtitle">Base de données complète hors-ligne</div>
-        </div>
+            </div>
+    </div>
         
         <div class="quick-access">
             <h3>🚀 Commandes populaires</h3>

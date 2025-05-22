@@ -1,42 +1,29 @@
-<!-- Credit: https://github.com/stephenegriffin/MHA -->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>Analyseur de courriels</title>
-        <meta name="description" content="">
-        
-          <!-- Mobile Specific Metas
-        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-      
-        <!-- Font
-        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
-      
-          <style type="text/css">
-              body{
-              font-family: 'new_yorkregular';
-                  }
-          </style>
-      
-        <!-- CSS - Thèmes
-        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        <link rel="stylesheet" href="css/synthwave-dark.css">
-        <link rel="stylesheet" href="css/light-theme.css">
-
-        <!-- Theme Manager JavaScript -->
-        <script src="js/theme-manager.js"></script>
-        
-        <link rel="stylesheet" href="css/synthwave.css">
-        <link rel="stylesheet" href="css/mha-app.css">
-        <link  rel="stylesheet" href="css/mha-office-min.css">
-        <link  rel="stylesheet" href="css/mha-office.css">
-        
-        <!-- Favicon
-        –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        <link rel="icon" type="image/png" href="images/favicon.png">
-      <!-- Scripts
-      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Analyseur de courriels - Outils Sysadmin</title>
+    <meta name="description" content="Analyseur d'entêtes de courriels pour diagnostics et sécurité">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- CSS spécifique au MHA -->
+    <link rel="stylesheet" href="css/mha-app.css">
+    <link rel="stylesheet" href="css/mha-office-min.css">
+    <link rel="stylesheet" href="css/mha-office.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Scripts MHA -->
     <script defer="defer" src="js/mha-runtime.js"></script>
     <script defer="defer" src="js/mha-428.js"></script>
     <script defer="defer" src="js/mha-441.js"></script>
@@ -44,62 +31,366 @@
     <script defer="defer" src="js/mha-303.js"></script>
     <script defer="defer" src="js/mha-529.js"></script>
     <script defer="defer" src="js/mha-standalone.js"></script>
-
 </head>
-
 <body>
-          <!-- Navigation
-      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-      <nav>
-        <a href="index.html">Accueil</a>
-        <a href="generateur.html">Générateurs</a>
-        <a href="reseau.html">Réseau</a>
-        <a href="mha.html">Analyseur de courriels</a>
-        <a href="cyberchef.html">CyberChef</a>
-        <a href="conversion.html">Conversion</a>
-        <a href="raid-calc.html">Calculateur RAID</a>
-        <a href="base64.html">Conversion Base 64</a>
-        <a href="ias-logs.html">Analyseur IAS</a>
-        <a href="rps.html">Simulateur sauvegardes</a>
-      </nav>
-
-        <!-- Contenu
-      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<div class="background"></div>
-<div class="grid"></div>
-<div id="SectionHeader"><div id="floater"></div>
-<h1 id="title">Analyseur d'entête de courriels</h1></div>
-<div id="SectionContent">
-<textarea id="inputHeaders" autofocus="autofocus" placeholder="Copier l'entête ici" required="required" rows="15"></textarea>
-<button class="ms-Button ms-Button--primary" id="analyzeButton">
-<span class="ms-Button-label">Analyser</span>
-</button> <button class="ms-Button hiddenElement" id="clearButton">
-<span class="ms-Button-label">Effacer</span></button>
-<button class="ms-Button hiddenElement" id="copyButton">
-<span class="ms-Button-icon"><i class="ms-Icon ms-Icon--Copy"></i></span>
-<span class="ms-Button-label">Copier</span></button>
-<hr id="lineBreak"/>
-<div id="response" class="hiddenElement">
-<div class="responsePane">
-<div id="status"></div>
-<table id="summary"></table>
-<table id="receivedHeaders">
-</table>
-<table id="forefrontAntiSpamReport">
-</table>
-<table id="antiSpamReport"></table>
-<table id="otherHeaders"></table>
-</div>
-</div>
-<!-- Theme initialization -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        if (!localStorage.getItem('theme')) {
-            localStorage.setItem('theme', 'dark');
-            document.documentElement.setAttribute('data-theme', 'dark');
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div id="SectionHeader">
+            <div id="floater"></div>
+            <h1 id="title">Analyseur d'entête de courriels</h1>
+        </div>
+        
+        <div id="SectionContent">
+            <div class="mha-intro">
+                <p><strong>Analysez les entêtes de vos courriels</strong> pour diagnostiquer les problèmes de livraison, détecter le spam, et comprendre le routage des messages.</p>
+                <p>Collez simplement l'entête complet de votre courriel dans la zone ci-dessous et cliquez sur "Analyser".</p>
+            </div>
+            
+            <div class="mha-input-section">
+                <textarea id="inputHeaders" autofocus="autofocus" placeholder="Copier l'entête complet du courriel ici..." required="required" rows="15"></textarea>
+                
+                <div class="mha-buttons">
+                    <button class="ms-Button ms-Button--primary" id="analyzeButton">
+                        <span class="ms-Button-label">Analyser</span>
+                    </button> 
+                    <button class="ms-Button hiddenElement" id="clearButton">
+                        <span class="ms-Button-label">Effacer</span>
+                    </button>
+                    <button class="ms-Button hiddenElement" id="copyButton">
+                        <span class="ms-Button-icon"><i class="ms-Icon ms-Icon--Copy"></i></span>
+                        <span class="ms-Button-label">Copier</span>
+                    </button>
+                </div>
+            </div>
+            
+            <hr id="lineBreak"/>
+            
+            <div id="response" class="hiddenElement">
+                <div class="responsePane">
+                    <div id="status"></div>
+                    <table id="summary"></table>
+                    <table id="receivedHeaders"></table>
+                    <table id="forefrontAntiSpamReport"></table>
+                    <table id="antiSpamReport"></table>
+                    <table id="otherHeaders"></table>
+                </div>
+            </div>
+            
+            <div class="mha-help">
+                <h3>Comment obtenir les entêtes d'un courriel ?</h3>
+                <div class="help-sections">
+                    <div class="help-section">
+                        <h4>📧 Outlook (Bureau)</h4>
+                        <ol>
+                            <li>Ouvrez le courriel</li>
+                            <li>Cliquez sur "Fichier" → "Propriétés"</li>
+                            <li>Copiez le contenu de la zone "Entêtes Internet"</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>🌐 Outlook Web</h4>
+                        <ol>
+                            <li>Ouvrez le courriel</li>
+                            <li>Cliquez sur "..." → "Afficher la source du message"</li>
+                            <li>Copiez les entêtes affichés</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>📬 Gmail</h4>
+                        <ol>
+                            <li>Ouvrez le courriel</li>
+                            <li>Cliquez sur "..." → "Afficher l'original"</li>
+                            <li>Copiez les entêtes de la nouvelle page</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="help-section">
+                        <h4>🍎 Apple Mail</h4>
+                        <ol>
+                            <li>Sélectionnez le courriel</li>
+                            <li>Menu "Présentation" → "Message" → "Source complète"</li>
+                            <li>Copiez les entêtes affichés</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="help-info">
+                    <h4>Que va analyser cet outil ?</h4>
+                    <ul>
+                        <li><strong>Chemin de routage :</strong> Serveurs par lesquels le message est passé</li>
+                        <li><strong>Authentification :</strong> SPF, DKIM, DMARC</li>
+                        <li><strong>Anti-spam :</strong> Scores et analyses de sécurité</li>
+                        <li><strong>Timing :</strong> Temps de transit entre serveurs</li>
+                        <li><strong>Métadonnées :</strong> Informations techniques du message</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Styles spécifiques à la page -->
+    <style>
+        #SectionHeader {
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
         }
-    });
-</script>
-
+        
+        #SectionHeader h1 {
+            color: var(--heading-color);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .mha-intro {
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .mha-intro p {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .mha-input-section {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        #inputHeaders {
+            width: 100%;
+            min-height: 200px;
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            resize: vertical;
+            transition: border-color var(--transition-normal);
+        }
+        
+        #inputHeaders:focus {
+            outline: none;
+            border-color: var(--button-color);
+            box-shadow: 0 0 0 2px var(--highlight-color);
+        }
+        
+        .mha-buttons {
+            display: flex;
+            gap: var(--spacing-md);
+            margin-top: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+        
+        .ms-Button {
+            background: var(--button-color);
+            color: var(--bg-color);
+            border: none;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            display: inline-flex;
+            align-items: center;
+            gap: var(--spacing-xs);
+        }
+        
+        .ms-Button:hover {
+            background: var(--heading-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+        }
+        
+        .ms-Button.ms-Button--primary {
+            background: var(--button-color);
+            font-weight: bold;
+        }
+        
+        .hiddenElement {
+            display: none;
+        }
+        
+        #lineBreak {
+            border: none;
+            height: 2px;
+            background: linear-gradient(to right, var(--heading-color), var(--link-color));
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .responsePane {
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .responsePane table {
+            width: 100%;
+            margin-bottom: var(--spacing-lg);
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .responsePane th,
+        .responsePane td {
+            padding: var(--spacing-sm) var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .responsePane th {
+            background: var(--button-color);
+            color: var(--bg-color);
+            font-weight: bold;
+        }
+        
+        .responsePane tr:nth-child(even) {
+            background: var(--bg-color);
+        }
+        
+        .mha-help {
+            margin-top: var(--spacing-xl);
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .mha-help h3 {
+            margin-top: 0;
+            color: var(--heading-color);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .help-sections {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .help-section {
+            background: var(--bg-color);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .help-section h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .help-section ol {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+        
+        .help-section li {
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        .help-info {
+            background: var(--bg-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .help-info h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .help-info ul {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+        
+        .help-info li {
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .help-info strong {
+            color: var(--heading-color);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .help-sections {
+                grid-template-columns: 1fr;
+            }
+            
+            .mha-buttons {
+                flex-direction: column;
+            }
+            
+            .ms-Button {
+                justify-content: center;
+            }
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .mha-intro,
+        :root[data-theme="retro"] .mha-help,
+        :root[data-theme="retro"] .responsePane {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
+        
+        :root[data-theme="retro"] #inputHeaders {
+            border-color: var(--border-color);
+            box-shadow: 0 0 5px rgba(0, 255, 159, 0.3);
+        }
+        
+        :root[data-theme="retro"] #inputHeaders:focus {
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.5);
+        }
+        
+        :root[data-theme="retro"] .ms-Button:hover {
+            box-shadow: 0 0 15px var(--button-color), 0 4px 8px var(--shadow-color);
+        }
+        
+        :root[data-theme="retro"] .help-section,
+        :root[data-theme="retro"] .help-info {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.03);
+        }
+    </style>
+    
+    <!-- Initialisation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>

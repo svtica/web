@@ -1,81 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Analyseur IAS/NPS</title>
-    <meta name="description" content="">
-  
-    <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <title>Analyseur IAS/NPS - Outils Sysadmin</title>
+    <meta name="description" content="Analyse de logs provenant d'IAS (et de NPS - au format IAS)">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <!-- Font
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    
+    <!-- Fonts -->
     <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
-  
-      <style type="text/css">
-          body{
-          font-family: 'new_yorkregular';
-              }
-      </style>
-  
-    <!-- CSS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="css/synthwave.css">
-  
-    <!-- Favicon
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
-  
-  <!-- Scripts
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="js/jquery.min.js" type="text/javascript"></script>
-  <script src="js/engine.js" type="text/javascript"></script>
-  <script src="js/ias-logs.js" type="text/javascript"></script>
-
+    
+    <!-- Scripts -->
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/engine.js" type="text/javascript"></script>
+    <script src="js/ias-logs.js" type="text/javascript"></script>
 </head>
 <body>
-      <!-- Navigation
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="generateur.html">Générateurs</a>
-    <a href="reseau.html">Réseau</a>
-    <a href="mha.html">Analyseur de courriels</a>
-    <a href="cyberchef.html">CyberChef</a>
-    <a href="conversion.html">Conversion</a>
-    <a href="raid-calc.html">Calculateur RAID</a>
-    <a href="base64.html">Conversion Base 64</a>
-    <a href="ias-logs.html">Analyseur IAS</a>
-    <a href="rps.html">Simulateur sauvegardes</a>
-  </nav>
-
-    <!-- Contenu
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<div class="background"></div>
-<div class="grid"></div>
-<div class="container">
-<div class="row">
-<div id="mydiv"></div>
-<h1>Analyseur de Log IAS/NPS</h1>
-
-
-<form>
-
-<p><label for="in_box" >
-Copie des logs au format IAS <kbd>C:\Windows\system32\LogFiles\IN*.log.</kbd> </label>  
-<p>
-<textarea rows="2" cols="120" id="in_box" oninput="parseNPS(this)">
-</textarea>
-<p>
-
-<p><label for="out_box">Sortie Formattée</label>:
-
-<p>
-<textarea rows="40" cols="80" id="out_box" readonly>
-</textarea>
-
-
-</form>
-
-
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div class="row">
+            <div id="mydiv"></div>
+            <h1>Analyseur de Log IAS/NPS</h1>
+            
+            <div class="ias-form">
+                <div class="form-group">
+                    <label for="in_box">Copie des logs au format IAS <kbd>C:\Windows\system32\LogFiles\IN*.log</kbd></label>
+                    <textarea rows="10" cols="120" id="in_box" oninput="parseNPS(this)" placeholder="Collez vos logs IAS/NPS ici..."></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="out_box">Sortie Formatée :</label>
+                    <textarea rows="40" cols="80" id="out_box" readonly placeholder="La sortie analysée apparaîtra ici..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Styles spécifiques -->
+    <style>
+        h1 {
+            color: var(--heading-color);
+            text-align: center;
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 3px solid var(--button-color);
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .ias-form {
+            background: var(--highlight-color);
+            padding: var(--spacing-xl);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--button-color);
+            border: 1px solid var(--border-color);
+        }
+        
+        .form-group {
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        label {
+            display: block;
+            margin-bottom: var(--spacing-sm);
+            font-weight: bold;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+        
+        kbd {
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-xs) var(--spacing-sm);
+            font-family: 'Courier New', monospace;
+            color: var(--text-color);
+            font-size: 0.9em;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            resize: vertical;
+            transition: border-color var(--transition-normal);
+            box-sizing: border-box;
+        }
+        
+        textarea:focus {
+            border-color: var(--button-color);
+            outline: none;
+            box-shadow: 0 0 8px var(--shadow-color);
+        }
+        
+        textarea[readonly] {
+            background: var(--muted-color);
+            cursor: not-allowed;
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .ias-form {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
+        
+        :root[data-theme="retro"] textarea:focus {
+            box-shadow: 0 0 15px var(--button-color);
+        }
+        
+        :root[data-theme="retro"] kbd {
+            box-shadow: 0 0 5px rgba(0, 255, 159, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .ias-form {
+                padding: var(--spacing-lg);
+            }
+            
+            textarea {
+                font-size: 12px;
+            }
+        }
+    </style>
+    
+    <!-- Initialisation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>

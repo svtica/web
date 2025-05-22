@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Démonstration - Outils Sysadmin</title>
+    <meta name="description" content="Page de démonstration du nouveau système de thèmes unifié">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+</head>
+<body>
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <h1>🎨 Démonstration du Système de Thèmes Unifié</h1>
+        
+        <div class="demo-section">
+            <h2>Thèmes Disponibles</h2>
+            <p>Cette page démontre le nouveau système de thèmes unifié avec trois modes :</p>
+            
+            <div class="theme-cards">
+                <div class="theme-card">
+                    <h3>🌙 Mode Sombre</h3>
+                    <p>Interface moderne et élégante par défaut. Confortable pour les yeux lors d'un usage prolongé.</p>
+                    <button onclick="setTheme('dark')" class="button">Activer le mode sombre</button>
+                </div>
+                
+                <div class="theme-card">
+                    <h3>☀️ Mode Clair</h3>
+                    <p>Interface classique avec un fond clair, parfaite pour une utilisation en journée.</p>
+                    <button onclick="setTheme('light')" class="button">Activer le mode clair</button>
+                </div>
+                
+                <div class="theme-card">
+                    <h3>💾 Mode Retro</h3>
+                    <p>Style synthwave nostalgique avec des effets néon et une grille animée en arrière-plan.</p>
+                    <button onclick="setTheme('retro')" class="button">Activer le mode retro</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Éléments d'Interface</h2>
+            
+            <h3>Typographie</h3>
+            <p>Voici un exemple de paragraphe normal avec du <strong>texte en gras</strong> et de l'<em>italique</em>.</p>
+            <p>Les <a href="#demo">liens</a> changent d'apparence selon le thème actif.</p>
+            
+            <h3>Boutons</h3>
+            <div class="button-demo">
+                <button class="button">Bouton normal</button>
+                <button class="button success">Bouton succès</button>
+                <button class="button warning">Bouton attention</button>
+                <button class="button error">Bouton erreur</button>
+            </div>
+            
+            <h3>Formulaire</h3>
+            <form class="demo-form">
+                <label for="demo-input">Champ de saisie :</label>
+                <input type="text" id="demo-input" placeholder="Tapez quelque chose...">
+                
+                <label for="demo-select">Sélection :</label>
+                <select id="demo-select">
+                    <option>Option 1</option>
+                    <option>Option 2</option>
+                    <option>Option 3</option>
+                </select>
+                
+                <label for="demo-textarea">Zone de texte :</label>
+                <textarea id="demo-textarea" rows="3" placeholder="Entrez votre message..."></textarea>
+                
+                <button type="submit" class="button">Envoyer</button>
+            </form>
+            
+            <h3>Tableau</h3>
+            <table class="demo-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Fichier 1</td>
+                        <td>Document</td>
+                        <td>Actif</td>
+                        <td><button class="button">Modifier</button></td>
+                    </tr>
+                    <tr>
+                        <td>Fichier 2</td>
+                        <td>Image</td>
+                        <td>Inactif</td>
+                        <td><button class="button">Modifier</button></td>
+                    </tr>
+                    <tr>
+                        <td>Fichier 3</td>
+                        <td>Vidéo</td>
+                        <td>En cours</td>
+                        <td><button class="button">Modifier</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Navigation Automatique</h2>
+            <p>La navigation est générée automatiquement par <code>navigation.js</code>. Pour ajouter une nouvelle page :</p>
+            <pre><code>// Dans navigation.js, ajouter à la liste des pages :
+{ name: 'Ma Nouvelle Page', url: 'ma-page.html', icon: '🆕' }</code></pre>
+            <p>La page apparaîtra automatiquement dans tous les menus sans modification manuelle !</p>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Test de Migration</h2>
+            <p>Utilisez l'outil de migration pour convertir vos anciennes pages :</p>
+            <button onclick="loadMigrator()" class="button">Charger l'outil de migration</button>
+            <div id="migrator-status" class="mt-md"></div>
+        </div>
+        
+        <div class="demo-section">
+            <h2>Informations Techniques</h2>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>🎯 Fonctionnalités</h4>
+                    <ul>
+                        <li>Navigation automatique</li>
+                        <li>Thèmes unifiés</li>
+                        <li>Mode sombre par défaut</li>
+                        <li>Animations fluides</li>
+                        <li>Design responsive</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h4>🔧 Technologies</h4>
+                    <ul>
+                        <li>CSS Variables</li>
+                        <li>JavaScript ES6+</li>
+                        <li>LocalStorage</li>
+                        <li>CSS Grid/Flexbox</li>
+                        <li>Media Queries</li>
+                    </ul>
+                </div>
+                
+                <div class="info-card">
+                    <h4>📱 Compatibilité</h4>
+                    <ul>
+                        <li>Tous navigateurs modernes</li>
+                        <li>Mobile et tablette</li>
+                        <li>Utilisation hors ligne</li>
+                        <li>Aucune dépendance</li>
+                        <li>Rapide et léger</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Styles spécifiques à la démo -->
+    <style>
+        .demo-section {
+            margin-bottom: var(--spacing-xl);
+            padding-bottom: var(--spacing-lg);
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .theme-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .theme-card {
+            padding: var(--spacing-lg);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--highlight-color);
+            text-align: center;
+            transition: all var(--transition-normal);
+        }
+        
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+        
+        .button-demo {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+            margin: var(--spacing-md) 0;
+        }
+        
+        .demo-form {
+            max-width: 400px;
+            margin: var(--spacing-md) 0;
+        }
+        
+        .demo-form label {
+            display: block;
+            margin-bottom: var(--spacing-xs);
+            font-weight: bold;
+        }
+        
+        .demo-form input,
+        .demo-form select,
+        .demo-form textarea {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .demo-table {
+            margin: var(--spacing-md) 0;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-lg);
+            margin: var(--spacing-lg) 0;
+        }
+        
+        .info-card {
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--highlight-color);
+        }
+        
+        .info-card h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .info-card ul {
+            margin: 0;
+            padding-left: var(--spacing-lg);
+        }
+        
+        pre {
+            background: var(--highlight-color);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--button-color);
+            overflow-x: auto;
+        }
+        
+        code {
+            background: var(--highlight-color);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .theme-card,
+        :root[data-theme="retro"] .info-card {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+        }
+        
+        :root[data-theme="retro"] .theme-card:hover,
+        :root[data-theme="retro"] .info-card:hover {
+            box-shadow: 0 0 20px var(--border-color);
+        }
+        
+        :root[data-theme="retro"] pre {
+            border-left-color: var(--heading-color);
+            background: rgba(0, 255, 159, 0.1);
+        }
+    </style>
+    
+    <!-- Scripts de démonstration -->
+    <script>
+        // Fonction pour charger l'outil de migration
+        function loadMigrator() {
+            const status = document.getElementById('migrator-status');
+            status.innerHTML = '<p>Chargement de l\'outil de migration...</p>';
+            
+            const script = document.createElement('script');
+            script.src = 'js/page-migrator.js';
+            script.onload = () => {
+                status.innerHTML = '<p class="success">✅ Outil de migration chargé ! Regardez en bas à droite.</p>';
+            };
+            script.onerror = () => {
+                status.innerHTML = '<p class="error">❌ Erreur lors du chargement de l\'outil.</p>';
+            };
+            document.head.appendChild(script);
+        }
+        
+        // Écouter les changements de thème pour la démo
+        window.addEventListener('themeChanged', function(e) {
+            console.log('🎨 Thème changé vers:', e.detail.theme);
+            
+            // Afficher une notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: var(--success-color);
+                color: white;
+                padding: 10px 20px;
+                border-radius: 5px;
+                z-index: 1001;
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.textContent = `Thème changé vers: ${e.detail.themeName}`;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        });
+        
+        // Animation pour les notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from {
+                    transform: translateX(100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateX(0);
+                    opacity: 1;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+            
+            console.log('🎨 Page de démonstration chargée !');
+            console.log('Thème actuel:', getCurrentTheme());
+        });
+    </script>
+</body>
+</html>

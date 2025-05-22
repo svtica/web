@@ -4,69 +4,77 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculateur de Hachage - Outils SysAdmin</title>
+    <meta name="description" content="Calcul MD5, SHA1, SHA256, SHA384, SHA512 pour fichiers et textes - Vérification d'intégrité">
     
-    <!-- CSS - Thèmes -->
-    <link rel="stylesheet" href="css/synthwave-dark.css">
-    <link rel="stylesheet" href="css/light-theme.css">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     
-    <!-- Theme Manager JavaScript -->
-    <script src="js/theme-manager.js"></script>
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.1);
-            padding: 30px;
-        }
-        
         h1 {
-            color: #333;
+            color: var(--heading-color);
             text-align: center;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #667eea;
-            padding-bottom: 10px;
+            margin-bottom: var(--spacing-xl);
+            border-bottom: 3px solid var(--button-color);
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .info-section {
+            background: var(--highlight-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .info-section h3 {
+            color: var(--heading-color);
+            margin-top: 0;
+        }
+        
+        .info-section p {
+            color: var(--text-color);
         }
         
         .input-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
-            margin-bottom: 30px;
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--button-color);
+            margin-bottom: var(--spacing-xl);
+            border: 1px solid var(--border-color);
         }
         
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: var(--spacing-lg);
         }
         
         label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: var(--spacing-sm);
             font-weight: bold;
-            color: #333;
+            color: var(--text-color);
             font-size: 16px;
         }
         
         textarea, input[type="file"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
+            padding: var(--spacing-md);
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
             font-size: 14px;
             box-sizing: border-box;
-            transition: border-color 0.3s;
+            transition: border-color var(--transition-normal);
             font-family: 'Courier New', monospace;
+            background: var(--bg-color);
+            color: var(--text-color);
         }
         
         textarea {
@@ -75,64 +83,67 @@
         }
         
         textarea:focus, input[type="file"]:focus {
-            border-color: #667eea;
+            border-color: var(--button-color);
             outline: none;
-            box-shadow: 0 0 8px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 8px var(--shadow-color);
         }
         
         .hash-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 15px;
-            margin: 20px 0;
+            gap: var(--spacing-md);
+            margin: var(--spacing-lg) 0;
         }
         
         .hash-option {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: var(--spacing-sm);
         }
         
         .hash-option input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: #667eea;
+            accent-color: var(--button-color);
         }
         
         .hash-option label {
             margin: 0;
             font-weight: normal;
             cursor: pointer;
+            color: var(--text-color);
         }
         
         .calculate-btn {
-            background: #667eea;
-            color: white;
+            background: var(--button-color);
+            color: var(--bg-color);
             border: none;
-            padding: 15px 30px;
-            border-radius: 6px;
+            padding: var(--spacing-md) var(--spacing-xl);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 16px;
             font-weight: bold;
             width: 100%;
-            transition: background-color 0.3s;
-            margin-top: 10px;
+            transition: all var(--transition-normal);
+            margin-top: var(--spacing-sm);
         }
         
         .calculate-btn:hover {
-            background: #5a6fd8;
+            background: var(--heading-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
         
         .results-section {
-            margin-top: 30px;
+            margin-top: var(--spacing-xl);
         }
         
         .hash-result {
-            background: #f1f8e9;
-            border: 1px solid #8bc34a;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 15px;
+            background: var(--highlight-color);
+            border: 1px solid var(--success-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-bottom: var(--spacing-md);
             display: none;
         }
         
@@ -141,53 +152,57 @@
         }
         
         .hash-result h3 {
-            color: #2e7d32;
+            color: var(--heading-color);
             margin-top: 0;
-            margin-bottom: 10px;
+            margin-bottom: var(--spacing-sm);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .hash-value {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 12px;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
             font-family: 'Courier New', monospace;
             font-size: 14px;
             word-break: break-all;
-            margin: 8px 0;
+            margin: var(--spacing-sm) 0;
             position: relative;
+            color: var(--text-color);
         }
         
         .copy-btn {
-            background: #4caf50;
-            color: white;
+            background: var(--success-color);
+            color: var(--bg-color);
             border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--border-radius);
             cursor: pointer;
             font-size: 12px;
-            margin-left: 10px;
+            margin-left: var(--spacing-sm);
+            transition: all var(--transition-normal);
         }
         
         .copy-btn:hover {
-            background: #45a049;
+            background: var(--heading-color);
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px var(--shadow-color);
         }
         
         .file-info {
-            background: #e3f2fd;
-            border: 1px solid #90caf9;
-            border-radius: 4px;
-            padding: 15px;
-            margin: 15px 0;
+            background: var(--highlight-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-md) 0;
             font-size: 14px;
-            color: #1565c0;
+            color: var(--text-color);
         }
         
         .progress-container {
-            margin: 20px 0;
+            margin: var(--spacing-lg) 0;
             display: none;
         }
         
@@ -196,81 +211,115 @@
         }
         
         .progress-bar {
-            background: #e0e0e0;
+            background: var(--muted-color);
             border-radius: 10px;
             padding: 3px;
         }
         
         .progress-fill {
-            background: linear-gradient(90deg, #667eea, #764ba2);
+            background: linear-gradient(90deg, var(--button-color), var(--link-color));
             height: 20px;
             border-radius: 7px;
             transition: width 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--bg-color);
             font-size: 12px;
             font-weight: bold;
         }
         
-        .info-section {
-            background: #fff3cd;
-            border: 1px solid #ffeaa7;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
+        .usage-examples {
+            background: var(--highlight-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-lg);
+            margin-top: var(--spacing-xl);
+            border: 1px solid var(--border-color);
         }
         
-        .usage-examples {
-            background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 30px;
+        .usage-examples h3 {
+            color: var(--heading-color);
+            margin-top: 0;
         }
         
         .example {
-            background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            padding: 15px;
-            margin: 10px 0;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: var(--spacing-md);
+            margin: var(--spacing-sm) 0;
+            color: var(--text-color);
         }
         
         .example strong {
-            color: #667eea;
+            color: var(--button-color);
         }
         
+        /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin: 10px;
-            }
-            
             .hash-options {
                 flex-direction: column;
-                gap: 10px;
+                gap: var(--spacing-sm);
             }
             
             .hash-result h3 {
                 flex-direction: column;
                 align-items: flex-start;
-                gap: 10px;
+                gap: var(--spacing-sm);
             }
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .info-section,
+        :root[data-theme="retro"] .input-section,
+        :root[data-theme="retro"] .usage-examples {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
+        
+        :root[data-theme="retro"] .hash-result {
+            border-color: var(--success-color);
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.3);
+        }
+        
+        :root[data-theme="retro"] .calculate-btn:hover,
+        :root[data-theme="retro"] .copy-btn:hover {
+            box-shadow: 0 0 15px var(--button-color), 0 4px 8px var(--shadow-color);
+        }
+        
+        :root[data-theme="retro"] textarea:focus,
+        :root[data-theme="retro"] input[type="file"]:focus {
+            box-shadow: 0 0 15px var(--button-color);
+        }
+        
+        :root[data-theme="retro"] .hash-value {
+            box-shadow: 0 0 5px rgba(0, 255, 159, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔐 Calculateur de Hachage</h1>
-        
-        <div class="info-section">
-            <h3>📋 À propos de cet outil</h3>
-            <p>Calculez les hashes (empreintes) de texte ou de fichiers avec différents algorithmes de hachage. Idéal pour vérifier l'intégrité des fichiers, générer des checksums, ou pour la sécurité informatique.</p>
-            <p><strong>🔒 Sécurité :</strong> Tous les calculs sont effectués localement dans votre navigateur. Aucun fichier ou texte n'est envoyé sur le réseau.</p>
-        </div>
-        
-        <div class="input-section">
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div class="row">
+            <h1>🔐 Calculateur de Hachage</h1>
+            
+            <div class="info-section">
+                <h3>📋 À propos de cet outil</h3>
+                <p>Calculez les hashes (empreintes) de texte ou de fichiers avec différents algorithmes de hachage. Idéal pour vérifier l'intégrité des fichiers, générer des checksums, ou pour la sécurité informatique.</p>
+                <p><strong>🔒 Sécurité :</strong> Tous les calculs sont effectués localement dans votre navigateur. Aucun fichier ou texte n'est envoyé sur le réseau.</p>
+            </div>
+            
+            <div class="input-section">
             <div class="input-group">
                 <label for="textInput">📝 Texte à hacher :</label>
                 <textarea id="textInput" placeholder="Entrez votre texte ici..." onkeyup="calculateHashes()"></textarea>
@@ -309,44 +358,44 @@
                 </div>
             </div>
             
-            <button class="calculate-btn" onclick="calculateHashes()">
-                🔄 Calculer les hashes
-            </button>
-        </div>
-        
-        <div class="progress-container" id="progressContainer">
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
-            </div>
-        </div>
-        
-        <div class="results-section" id="resultsSection">
-            <!-- Les résultats apparaîtront ici -->
-        </div>
-        
-        <div class="usage-examples">
-            <h3>💡 Exemples d'utilisation</h3>
-            
-            <div class="example">
-                <strong>Vérification d'intégrité :</strong><br>
-                Comparez le hash d'un fichier téléchargé avec celui fourni par le développeur pour vérifier qu'il n'a pas été modifié.
+                <button class="calculate-btn" onclick="calculateHashes()">
+                    🔄 Calculer les hashes
+                </button>
             </div>
             
-            <div class="example">
-                <strong>Détection de doublons :</strong><br>
-                Deux fichiers avec le même hash SHA-256 sont identiques, utile pour détecter les fichiers dupliqués.
+            <div class="progress-container" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%;">0%</div>
+                </div>
             </div>
             
-            <div class="example">
-                <strong>Forensique numérique :</strong><br>
-                Créez des empreintes de fichiers pour documenter l'état d'un système lors d'une investigation.
+            <div class="results-section" id="resultsSection">
+                <!-- Les résultats apparaîtront ici -->
             </div>
             
-            <div class="example">
-                <strong>Mots de passe :</strong><br>
-                Générez des hashes de mots de passe pour les stocker de manière sécurisée (attention : utilisez des algorithmes adaptés en production).
+            <div class="usage-examples">
+                <h3>💡 Exemples d'utilisation</h3>
+                
+                <div class="example">
+                    <strong>Vérification d'intégrité :</strong><br>
+                    Comparez le hash d'un fichier téléchargé avec celui fourni par le développeur pour vérifier qu'il n'a pas été modifié.
+                </div>
+                
+                <div class="example">
+                    <strong>Détection de doublons :</strong><br>
+                    Deux fichiers avec le même hash SHA-256 sont identiques, utile pour détecter les fichiers dupliqués.
+                </div>
+                
+                <div class="example">
+                    <strong>Forensique numérique :</strong><br>
+                    Créez des empreintes de fichiers pour documenter l'état d'un système lors d'une investigation.
+                </div>
+                
+                <div class="example">
+                    <strong>Mots de passe :</strong><br>
+                    Générez des hashes de mots de passe pour les stocker de manière sécurisée (attention : utilisez des algorithmes adaptés en production).
+                </div>
             </div>
-        </div>
     </div>
 
     <script>
@@ -608,11 +657,16 @@
         });
     </script>
     
-    <!-- Theme initialization -->
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Initialisation -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('theme')) {
-                localStorage.setItem('theme', 'dark');
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
         });

@@ -1,140 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Accueil</title>
-    <meta name="description" content="Outils web pour Sysadmins - Interface avec thème sombre/clair">
-  
-    <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <title>Accueil - Outils Sysadmin</title>
+    <meta name="description" content="Outils web pour Sysadmins - Interface avec thème sombre/clair/retro">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <!-- Font
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    
+    <!-- Fonts -->
     <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
-  
-    <style type="text/css">
-        body{
-            font-family: 'new_yorkregular';
-        }
-    </style>
-  
-    <!-- CSS - Thèmes -->
-    <link rel="stylesheet" href="css/synthwave-dark.css">
-    <link rel="stylesheet" href="css/light-theme.css">
-  
-    <!-- Theme Manager JavaScript -->
-    <script src="js/theme-manager.js"></script>
-  
-    <!-- Favicon
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
 </head>
 <body>
-    <!-- Navigation
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <nav>
-        <a href="index.html">Accueil</a>
-        <a href="generateur.html">Générateurs</a>
-        <a href="reseau.html">Réseau</a>
-        <a href="mha.html">Analyseur de courriels</a>
-        <a href="cyberchef.html">CyberChef</a>
-        <a href="conversion.html">Conversion</a>
-        <a href="raid-calc.html">Calculateur RAID</a>
-        <a href="base64.html">Conversion Base 64</a>
-        <a href="ias-logs.html">Analyseur IAS</a>
-        <a href="rps.html">Simulateur sauvegardes</a>
-        <a href="conversions-avancees.html">Conversions avancées</a>
-        <a href="wpa-psk-generator.html">Générateur WPA-PSK</a>
-        <a href="calculateur-hachage.html">Calculateur Hachage</a>
-        <a href="recherche-ss64.html">Recherche SS64</a>
-        <a href="generateur-commandes-reseau.html">Commandes Réseau</a>
-        <a href="calculateur-date-heure.html">Date/Heure Avancé</a>
-    </nav>
-  
-    <!-- Contenu
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- Arrière-plans animés -->
     <div class="background"></div>
     <div class="grid"></div>
-    <div class="container">
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
         <div class="row">
-            <div style="text-align:center;">
+            <div class="text-center">
                 <img src="./images/logo.png" alt="logo" width="160" height="160">
             </div>
 
             <h1>Outils pour Sysadmins</h1>
-            <div><br>
+            
+            <div class="mb-lg">
+                <p><strong>Ensemble d'outils web moderne avec support des thèmes :</strong></p>
+                <ul>
+                    <li><strong>🌙 Mode Sombre</strong> - Interface moderne par défaut</li>
+                    <li><strong>☀️ Mode Clair</strong> - Interface classique</li>
+                    <li><strong>💾 Mode Retro</strong> - Style synthwave nostalgique</li>
+                </ul>
+                <p><em>Utilisez le sélecteur de thème en haut à droite pour basculer entre les modes !</em></p>
+            </div>
 
-                Liste des outils disponibles et détails:<br><br>
+            <div class="tools-grid">
+                <h2>Liste des outils disponibles</h2>
 
-                <h4><a href="generateur.html">🔧 Générateurs</a></h4>
-                <li>Générateurs de mots de passe et d'entrée SPF</li>
+                <div class="tool-category">
+                    <h4><a href="generateur.html">🔧 Générateurs</a></h4>
+                    <p>Générateurs de mots de passe et d'entrées SPF</p>
+                </div>
                 
-                <h4><a href="reseau.html">🌐 Outils réseau</a></h4>
-                <li> Identification d'adresse IP, calculateur de sous-réseau, identification des classes, conversion d'adresse IP, calculateur CIDR, et superNETs.</li>
+                <div class="tool-category">
+                    <h4><a href="reseau.html">🌐 Outils réseau</a></h4>
+                    <p>Identification d'adresse IP, calculateur de sous-réseau, identification des classes, conversion d'adresse IP, calculateur CIDR, et superNETs</p>
+                </div>
                 
-                <h4><a href="mha.html">📧 Analyseur de courriels</a></h4>
-                <li>Analyse les en-têtes de courriels</li>
+                <div class="tool-category">
+                    <h4><a href="mha.html">📧 Analyseur de courriels</a></h4>
+                    <p>Analyse les en-têtes de courriels</p>
+                </div>
                 
-                <h4><a href="cyberchef.html">🍳 CyberChef</a></h4>
-                <li>De nombreuses opérations de conversion à travers des recettes. Supporte le chiffrement, encodage, compression et analyse de données.</li> 
+                <div class="tool-category">
+                    <h4><a href="cyberchef.html">🍳 CyberChef</a></h4>
+                    <p>De nombreuses opérations de conversion à travers des recettes. Supporte le chiffrement, encodage, compression et analyse de données</p>
+                </div>
                 
-                <h4><a href="conversion.html">📊 Outils de conversion</a></h4>
-                <li>Conversion de tailles, de temps de transfert, de dégagement de chaleur et de texte (casse)</li>
+                <div class="tool-category">
+                    <h4><a href="conversion.html">📊 Outils de conversion</a></h4>
+                    <p>Conversion de tailles, de temps de transfert, de dégagement de chaleur et de texte (casse)</p>
+                </div>
                 
-                <h4><a href="raid-calc.html">💾 Calculateur RAID</a></h4>
-                <li>Calculateur de RAID, en fonction du nombre de disques et de leur taille. Informations supplémentaires en fonction de chaque type de RAID.</li>
+                <div class="tool-category">
+                    <h4><a href="raid-calc.html">💾 Calculateur RAID</a></h4>
+                    <p>Calculateur de RAID, en fonction du nombre de disques et de leur taille. Informations supplémentaires en fonction de chaque type de RAID</p>
+                </div>
                 
-                <h4><a href="base64.html">🔤 Conversion en Base 64</a></h4>
-                <li>Encodeur et décodeur de Base64.</li>
+                <div class="tool-category">
+                    <h4><a href="base64.html">🔤 Conversion en Base 64</a></h4>
+                    <p>Encodeur et décodeur de Base64</p>
+                </div>
                 
-                <h4><a href="ias-logs.html">📝 Analyseur de Log IAS/NPS</a></h4>
-                <li> Analyse de logs provenant d'IAS (et de NPS - au format IAS)</li>
+                <div class="tool-category">
+                    <h4><a href="ias-logs.html">📝 Analyseur de Log IAS/NPS</a></h4>
+                    <p>Analyse de logs provenant d'IAS (et de NPS - au format IAS)</p>
+                </div>
                 
-                <h4><a href="rps.html">💿 Simulateur de sauvegardes</a></h4>
-                <li>Simulateur de sauvegardes Veeam</li>
+                <div class="tool-category">
+                    <h4><a href="rps.html">💿 Simulateur de sauvegardes</a></h4>
+                    <p>Simulateur de sauvegardes Veeam</p>
+                </div>
                 
-                <!-- Nouveaux outils ajoutés -->
-                <h4><a href="conversions-avancees.html">🔧 Conversions avancées</a> <span style="color: #00ff00; font-size: 12px;">NOUVEAU</span></h4>
-                <li>Convertisseur multi-unités : température, pression, vitesse, puissance et bases numériques</li>
+                <!-- Nouveaux outils -->
+                <div class="tool-category">
+                    <h4><a href="conversions-avancees.html">🔧 Conversions avancées</a> <span class="badge success">NOUVEAU</span></h4>
+                    <p>Convertisseur multi-unités : température, pression, vitesse, puissance et bases numériques</p>
+                </div>
                 
-                <h4><a href="wpa-psk-generator.html">🔐 Générateur WPA-PSK</a> <span style="color: #00ff00; font-size: 12px;">NOUVEAU</span></h4>
-                <li>Génération de clés pré-partagées WPA pour diagnostics et configuration réseau</li>
+                <div class="tool-category">
+                    <h4><a href="wpa-psk-generator.html">🔐 Générateur WPA-PSK</a> <span class="badge success">NOUVEAU</span></h4>
+                    <p>Génération de clés pré-partagées WPA pour diagnostics et configuration réseau</p>
+                </div>
                 
-                <h4><a href="calculateur-hachage.html">🔒 Calculateur de Hachage</a> <span style="color: #00ff00; font-size: 12px;">NOUVEAU</span></h4>
-                <li>Calcul MD5, SHA1, SHA256, SHA384, SHA512 pour fichiers et textes - Vérification d'intégrité</li>
+                <div class="tool-category">
+                    <h4><a href="calculateur-hachage.html">🔒 Calculateur de Hachage</a> <span class="badge success">NOUVEAU</span></h4>
+                    <p>Calcul MD5, SHA1, SHA256, SHA384, SHA512 pour fichiers et textes - Vérification d'intégrité</p>
+                </div>
                 
-                <h4><a href="recherche-ss64.html">🔍 Recherche Commandes SS64</a> <span style="color: #00ff00; font-size: 12px;">NOUVEAU</span></h4>
-                <li>Base de données de recherche hors ligne pour commandes Windows, Linux, macOS et PowerShell</li>
+                <div class="tool-category">
+                    <h4><a href="recherche-ss64.html">🔍 Recherche Commandes SS64</a> <span class="badge success">NOUVEAU</span></h4>
+                    <p>Base de données de recherche hors ligne pour commandes Windows, Linux, macOS et PowerShell</p>
+                </div>
                 
-                <h4><a href="generateur-commandes-reseau.html">🌐 Générateur de Commandes Réseau</a> <span style="color: #00ff00; font-size: 12px;">NOUVEAU</span></h4>
-                <li>Génère des commandes réseau personnalisées : ping, traceroute, netstat, nslookup, wget/curl, port scan</li>
+                <div class="tool-category">
+                    <h4><a href="generateur-commandes-reseau.html">🌐 Générateur de Commandes Réseau</a> <span class="badge success">NOUVEAU</span></h4>
+                    <p>Génère des commandes réseau personnalisées : ping, traceroute, netstat, nslookup, wget/curl, port scan</p>
+                </div>
                 
-                <h4><a href="calculateur-date-heure.html">📅 Calculateur Date/Heure Avancé</a> <span style="color: #00ff00; font-size: 12px;">NOUVEAU</span></h4>
-                <li>Calculs de dates, conversions de formats, fuseaux horaires, timestamps Unix, jours ouvrés</li><br><br><br>
+                <div class="tool-category">
+                    <h4><a href="calculateur-date-heure.html">📅 Calculateur Date/Heure Avancé</a> <span class="badge success">NOUVEAU</span></h4>
+                    <p>Calculs de dates, conversions de formats, fuseaux horaires, timestamps Unix, jours ouvrés</p>
+                </div>
             </div>
             
             <div class="footer">
                 <p>
-                    <i>Ensemble d'outils web pour Sysadmins et facilement portables, sans pub, sans cookies, sans tracking, sans prérequis.</i><br>
-
-                    <i>Chaque outil est indépendant et peut être utilisé localement sur un poste de travail (sans connexion Internet).</i><br>
-
-                    <i>Aucun contenu n'est envoyé à un serveur. Toutes les opérations sont effectuées dans le navigateur web.</i><br><br>
-
-                    <i>OpenSource et hébergé sur GitHub   <a aria-label="GitHub" title="GitHub" class="d-none d-xl-block color-fg-muted" href="https://github.com/svtica/web" target="_blank"><svg aria-hidden="true" role="img" class="octicon octicon-mark-github" viewBox="0 0 16 16" width="24" height="24" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg></a>
-                    </i> <img style="float: none;" alt="" src="./images/qr.png" width="10" height="10"/>  <br>
+                    <em>Ensemble d'outils web pour Sysadmins facilement portables, sans pub, sans cookies, sans tracking, sans prérequis.</em><br>
+                    <em>Chaque outil est indépendant et peut être utilisé localement sur un poste de travail (sans connexion Internet).</em><br>
+                    <em>Aucun contenu n'est envoyé à un serveur. Toutes les opérations sont effectuées dans le navigateur web.</em><br><br>
+                    <em>OpenSource et hébergé sur GitHub   
+                        <a aria-label="GitHub" title="GitHub" href="https://github.com/svtica/web" target="_blank">
+                            <svg aria-hidden="true" role="img" viewBox="0 0 16 16" width="24" height="24" fill="currentColor" style="display:inline-block;user-select:none;vertical-align:text-bottom;overflow:visible">
+                                <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+                            </svg>
+                        </a>
+                    </em> 
+                    <img style="float: none;" alt="" src="./images/qr.png" width="10" height="10"/>
                 </p>
             </div>
         </div>
     </div>
-
-    <!-- Info sur le thème -->
+    
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Styles spécifiques à la page d'accueil -->
+    <style>
+        .tools-grid {
+            display: grid;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .tool-category {
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--highlight-color);
+            transition: all var(--transition-normal);
+        }
+        
+        .tool-category:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px var(--shadow-color);
+            border-color: var(--button-color);
+        }
+        
+        .tool-category h4 {
+            margin-top: 0;
+            margin-bottom: var(--spacing-sm);
+        }
+        
+        .tool-category h4 a {
+            color: var(--heading-color);
+            text-decoration: none;
+        }
+        
+        .tool-category h4 a:hover {
+            color: var(--link-color);
+        }
+        
+        .tool-category p {
+            margin-bottom: 0;
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+        
+        .badge {
+            font-size: 0.7em;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: normal;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .badge.success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        /* Responsive grid */
+        @media (min-width: 768px) {
+            .tools-grid {
+                display: block;
+            }
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .tool-category {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+        }
+        
+        :root[data-theme="retro"] .tool-category:hover {
+            box-shadow: 0 0 15px var(--border-color), 0 4px 8px var(--shadow-color);
+        }
+        
+        :root[data-theme="retro"] .badge.success {
+            background-color: var(--success-color);
+            color: var(--bg-color);
+            text-shadow: none;
+        }
+    </style>
+    
+    <!-- Initialisation -->
     <script>
-        // Initialiser le thème sombre par défaut si aucune préférence n'est sauvegardée
         document.addEventListener('DOMContentLoaded', function() {
-            if (!localStorage.getItem('theme')) {
-                localStorage.setItem('theme', 'dark');
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
                 document.documentElement.setAttribute('data-theme', 'dark');
             }
+            
+            // Animation d'entrée
+            setTimeout(() => {
+                document.querySelector('.container')?.classList.add('fade-in');
+            }, 100);
+        });
+        
+        // Écouter les changements de thème
+        window.addEventListener('themeChanged', function(e) {
+            console.log('Thème changé vers:', e.detail.theme, '(' + e.detail.themeName + ')');
         });
     </script>
 </body>
+</html>

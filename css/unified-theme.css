@@ -1,0 +1,522 @@
+/**
+ * CSS unifié pour tous les thèmes
+ * Définit les variables CSS et les styles de base
+ */
+
+/* Variables par défaut (thème sombre) */
+:root {
+    /* Couleurs de base - Mode sombre par défaut */
+    --bg-color: #1a1a2e;
+    --text-color: #e0e0e0;
+    --heading-color: #ffffff;
+    --link-color: #64b5f6;
+    --button-color: #64b5f6;
+    --border-color: #424242;
+    --highlight-color: rgba(100, 181, 246, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --error-color: #f44336;
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    
+    /* Couleurs d'état */
+    --hover-color: rgba(100, 181, 246, 0.2);
+    --active-color: rgba(100, 181, 246, 0.3);
+    --disabled-color: rgba(255, 255, 255, 0.3);
+    
+    /* Espacement */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    
+    /* Bordures */
+    --border-radius: 8px;
+    --border-width: 2px;
+    
+    /* Animations */
+    --transition-fast: 0.15s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+}
+
+/* =========================== */
+/* THÈME SOMBRE (par défaut)   */
+/* =========================== */
+:root,
+:root[data-theme="dark"],
+.theme-dark {
+    --bg-color: #1a1a2e;
+    --text-color: #e0e0e0;
+    --heading-color: #ffffff;
+    --link-color: #64b5f6;
+    --button-color: #64b5f6;
+    --border-color: #424242;
+    --highlight-color: rgba(100, 181, 246, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+/* =========================== */
+/* THÈME CLAIR                 */
+/* =========================== */
+:root[data-theme="light"],
+.theme-light {
+    --bg-color: #ffffff;
+    --text-color: #333333;
+    --heading-color: #1976d2;
+    --link-color: #1976d2;
+    --button-color: #1976d2;
+    --border-color: #e0e0e0;
+    --highlight-color: rgba(25, 118, 210, 0.1);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+/* =========================== */
+/* THÈME RETRO SYNTHWAVE       */
+/* =========================== */
+:root[data-theme="retro"],
+.theme-retro {
+    --bg-color: #1a1a2e;
+    --text-color: #00ff9f;
+    --heading-color: #ff00ff;
+    --link-color: #00ffff;
+    --button-color: #ff00ff;
+    --border-color: #00ff9f;
+    --highlight-color: rgba(0, 255, 159, 0.2);
+    --shadow-color: rgba(255, 0, 255, 0.3);
+    --retro-grid-color: rgba(255, 0, 255, 0.5);
+    --retro-glow: 0 0 10px currentColor;
+}
+
+/* =========================== */
+/* STYLES DE BASE              */
+/* =========================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'VT323', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    overflow-x: hidden;
+}
+
+/* =========================== */
+/* ARRIÈRE-PLANS ANIMÉS        */
+/* =========================== */
+
+.background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    opacity: 0.1;
+    transition: all var(--transition-normal);
+}
+
+/* Mode sombre et clair - arrière-plan simple */
+:root[data-theme="dark"] .background,
+:root[data-theme="light"] .background {
+    background: var(--bg-color);
+}
+
+/* Mode retro - arrière-plan animé */
+:root[data-theme="retro"] .background {
+    background: 
+        linear-gradient(to bottom, rgba(26, 26, 46, 0.9) 0%, rgba(26, 26, 46, 0.7) 75%, rgba(26, 26, 46, 0.8) 100%),
+        linear-gradient(to right, var(--heading-color), var(--link-color));
+    opacity: 1;
+}
+
+.grid {
+    position: fixed;
+    width: 200%;
+    height: 200vh;
+    z-index: -1;
+    opacity: 0;
+    transition: all var(--transition-normal);
+}
+
+/* Grille animée pour le mode retro uniquement */
+:root[data-theme="retro"] .grid {
+    background: 
+        linear-gradient(var(--retro-grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--retro-grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    transform-origin: center top;
+    animation: grid-move 15s linear infinite;
+    opacity: 1;
+}
+
+@keyframes grid-move {
+    0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    100% { transform: perspective(500px) rotateX(60deg) translateY(-50px); }
+}
+
+/* =========================== */
+/* CONTENEUR PRINCIPAL         */
+/* =========================== */
+
+.container {
+    max-width: 1200px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-lg);
+    background-color: var(--bg-color);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px var(--shadow-color);
+    transition: all var(--transition-normal);
+}
+
+/* Effet spécial pour le mode retro */
+:root[data-theme="retro"] .container {
+    background-color: rgba(26, 26, 46, 0.8);
+    box-shadow: 
+        0 0 20px var(--border-color), 
+        0 0 30px var(--border-color) inset;
+}
+
+/* =========================== */
+/* TYPOGRAPHIE                 */
+/* =========================== */
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--heading-color);
+    margin-top: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    transition: color var(--transition-normal);
+}
+
+/* Effet spécial pour les titres en mode retro */
+:root[data-theme="retro"] h1,
+:root[data-theme="retro"] h2,
+:root[data-theme="retro"] h3,
+:root[data-theme="retro"] h4,
+:root[data-theme="retro"] h5,
+:root[data-theme="retro"] h6 {
+    text-shadow: 2px 2px var(--link-color);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: all var(--transition-normal);
+}
+
+a:hover {
+    color: var(--heading-color);
+    text-decoration: underline;
+}
+
+/* Effet néon pour les liens en mode retro */
+:root[data-theme="retro"] a:hover {
+    text-shadow: var(--retro-glow);
+    text-decoration: none;
+}
+
+/* =========================== */
+/* NAVIGATION                  */
+/* =========================== */
+
+nav {
+    background: var(--bg-color);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin: var(--spacing-lg) auto;
+    max-width: 1200px;
+    padding: var(--spacing-md);
+    box-shadow: 0 2px 4px var(--shadow-color);
+    text-align: center;
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.nav-link {
+    color: var(--link-color);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 1rem;
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    background-color: var(--hover-color);
+    color: var(--heading-color);
+    text-decoration: none;
+}
+
+.nav-link.active {
+    background-color: var(--active-color);
+    color: var(--heading-color);
+    font-weight: bold;
+}
+
+.nav-icon {
+    font-size: 1.1em;
+}
+
+/* Bouton de thème dans la navigation */
+.nav-theme-toggle {
+    background: var(--button-color);
+    color: var(--bg-color);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    font-size: 1rem;
+    margin-left: var(--spacing-md);
+}
+
+.nav-theme-toggle:hover {
+    background-color: var(--heading-color);
+    transform: scale(1.05);
+}
+
+/* Effets spéciaux pour la navigation en mode retro */
+:root[data-theme="retro"] nav {
+    background: rgba(26, 26, 46, 0.9);
+    box-shadow: 0 0 15px var(--border-color);
+}
+
+:root[data-theme="retro"] .nav-link:hover {
+    text-shadow: var(--retro-glow);
+}
+
+/* =========================== */
+/* FORMULAIRES                 */
+/* =========================== */
+
+input, textarea, select {
+    background: var(--bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: inherit;
+    transition: all var(--transition-normal);
+    width: 100%;
+    margin-bottom: var(--spacing-sm);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--button-color);
+    box-shadow: 0 0 0 2px var(--highlight-color);
+}
+
+button, .button {
+    background: var(--button-color);
+    color: var(--bg-color);
+    border: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    text-decoration: none;
+}
+
+button:hover, .button:hover {
+    background-color: var(--heading-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+button:active, .button:active {
+    transform: translateY(0);
+}
+
+/* Effets spéciaux pour les boutons en mode retro */
+:root[data-theme="retro"] button:hover,
+:root[data-theme="retro"] .button:hover {
+    box-shadow: var(--retro-glow), 0 4px 8px var(--shadow-color);
+}
+
+/* =========================== */
+/* TABLEAUX                    */
+/* =========================== */
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+th, td {
+    padding: var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: var(--button-color);
+    color: var(--bg-color);
+    font-weight: bold;
+}
+
+tr:nth-child(even) {
+    background-color: var(--highlight-color);
+}
+
+tr:hover {
+    background-color: var(--hover-color);
+}
+
+/* =========================== */
+/* UTILITAIRES                 */
+/* =========================== */
+
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+
+.hidden { display: none; }
+.visible { display: block; }
+
+/* =========================== */
+/* RESPONSIVE                  */
+/* =========================== */
+
+@media (max-width: 768px) {
+    .container {
+        margin: var(--spacing-md);
+        padding: var(--spacing-md);
+    }
+    
+    nav {
+        margin: var(--spacing-md);
+        padding: var(--spacing-sm);
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+    
+    .nav-link {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+    
+    .nav-theme-toggle {
+        margin-left: 0;
+        margin-top: var(--spacing-sm);
+    }
+    
+    table {
+        font-size: 0.9rem;
+    }
+    
+    th, td {
+        padding: var(--spacing-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: var(--spacing-sm);
+        padding: var(--spacing-sm);
+    }
+    
+    nav {
+        margin: var(--spacing-sm);
+    }
+    
+    .nav-link {
+        font-size: 0.8rem;
+        padding: var(--spacing-xs);
+    }
+}
+
+/* =========================== */
+/* ANIMATIONS ET EFFETS        */
+/* =========================== */
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.pulse {
+    animation: pulse 2s infinite;
+}
+
+/* Classes d'état pour les messages */
+.success {
+    color: var(--success-color);
+    border-color: var(--success-color);
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.warning {
+    color: var(--warning-color);
+    border-color: var(--warning-color);
+    background-color: rgba(255, 152, 0, 0.1);
+}
+
+.error {
+    color: var(--error-color);
+    border-color: var(--error-color);
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+/* Footer */
+.footer {
+    color: var(--text-color);
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    transition: all var(--transition-normal);
+}
+
+.footer a {
+    color: var(--link-color);
+}

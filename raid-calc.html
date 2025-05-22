@@ -1,481 +1,596 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
     <meta charset="utf-8">
-    <title>Calculateur RAID</title>
-    <meta name="description" content="">
-  
-    <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <title>Calculateur RAID - Outils Sysadmin</title>
+    <meta name="description" content="Calculateur RAID pour différents types de RAID avec informations détaillées">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-  
-    <!-- Font
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    
+    <!-- Fonts -->
     <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
-  
-      <style type="text/css">
-  body{
-  font-family: 'new_yorkregular';
-  }
-      </style>
-  
-    <!-- CSS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="css/synthwave.css">
-  
-    <!-- Favicon
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="images/favicon.png">
-  
-    <!-- Scripts
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery-ui.min.js"></script>
-
+    
+    <!-- Scripts -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui.min.js"></script>
 </head>
-
 <body>
-  <!-- Navigation
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="generateur.html">Générateurs</a>
-    <a href="reseau.html">Réseau</a>
-    <a href="mha.html">Analyseur de courriels</a>
-    <a href="cyberchef.html">CyberChef</a>
-    <a href="conversion.html">Conversion</a>
-    <a href="raid-calc.html">Calculateur RAID</a>
-    <a href="base64.html">Conversion Base 64</a>
-    <a href="ias-logs.html">Analyseur IAS</a>
-    <a href="rps.html">Simulateur sauvegardes</a>
-  </nav>
-
-    <!-- Contenu
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  
-  <!-- Script du calculateur
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
     
-<script>// <![CDATA[
-$(function() {
-// START RAID TABLE CONTROL
-$("#raid tr:odd").addClass("odd");
-$("#raid tr:not(.odd)").hide();
-$("#raid tr:first-child").show();
-
-$("#raid tr.odd").click(function(){
-$(this).next("tr").toggle();
-$(this).find(".arrow").toggleClass("up");
-});
-// END RAID TABLE CONTROL
-
-// calculate raid
-$("#raid0").click(function() { calculate(0); });
-$("#raid1").click(function() { calculate(1); });	
-$("#raid5").click(function() { calculate(5); });
-$("#raid6").click(function() { calculate(6); });
-$("#raid10").click(function() { calculate(10); });
-$("#raid50").click(function() { calculate(50); });
-$("#raid60").click(function() { calculate(60); });
-    });
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
     
-    // raid calculator
-    function calculate(raid) {
-var utilize   = 0;
-var utilize2  = 0;
-var arraysize = 0;
-var useable   = 0;
-var tebibyte  = 1099511627776;
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div class="row">
+            <div class="eleven columns">
+                <h3>Calculateur RAID</h3>
+                <p>Entrez le nombre et la capacité des disques, puis sélectionnez le type de RAID pour calculer.</p>
 
-disk_num = parseInt($("#disks").val());
-disk_spc = parseFloat($("#space").val());
+                <div class="raid-calculator">
+                    <div class="calculator-inputs">
+                        <table class="input-table">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: right;">Nombre de disques:</td>
+                                    <td><input type="text" name="disks" id="disks" class="slider-text" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">Capacité des disques (GB):</td>
+                                    <td><input type="text" name="space" id="space" class="slider-text" /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;" valign="top">Type de RAID:</td>
+                                    <td class="raid-options">
+                                        <input type="radio" name="raid" id="raid0" value="raid0" /> <label for="raid0">RAID 0</label><br />
+                                        <input type="radio" name="raid" id="raid1" value="raid1" /> <label for="raid1">RAID 1</label><br />
+                                        <input type="radio" name="raid" id="raid5" value="raid5" /> <label for="raid5">RAID 5</label><br />
+                                        <input type="radio" name="raid" id="raid6" value="raid6" /> <label for="raid6">RAID 6</label><br />
+                                        <input type="radio" name="raid" id="raid10" value="raid10" /> <label for="raid10">RAID 10</label><br />
+                                        <input type="radio" name="raid" id="raid50" value="raid50" /> <label for="raid50">RAID 50</label><br />
+                                        <input type="radio" name="raid" id="raid60" value="raid60" /> <label for="raid60">RAID 60</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">Taille totale du RAID (GB):</td>
+                                    <td><input type="text" name="arraysize" id="arraysize" class="slider-text" readonly /></td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: right;">Espace utilisable (GB):</td>
+                                    <td><input type="text" name="useable" id="useable" class="slider-text" readonly /></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
-tot_space = disk_num * disk_spc;
+                    <div class="raid-benefits">
+                        <h4>Bénéfices du RAID</h4>
+                        <div class="benefit-item">
+                            <h5>Performances plus rapides</h5>
+                            <p>Dans un RAID 0, 10, 50, ou 60, le système hôte peut accéder aux disques simultanément. Ceci améliore les performances, puisque chaque disque a un disque virtuel pour traiter les requêtes.</p>
+                        </div>
+                        <div class="benefit-item">
+                            <h5>Protection de données</h5>
+                            <p>Dans les disques virtuels RAID 1, 10, 5, 6, 50 et 60, les données sont sauvegardées sur disque (miroir). Sur les disques virtuels RAID 5, 50, 6 ou 60, les données sont protégées par parité.</p>
+                        </div>
+                    </div>
+                </div>
 
-if( raid == 0 && disk_num < 2 ) {
-arraysize = 'Erreur';
-useable   = 'Minimum 2 disques';
-} else if( raid == 1 && (disk_num == 0 || disk_num == 1)) {
-arraysize = 'Erreur';
-useable   = 'Minimum 2 disques';
-} else if( raid == 1 && disk_num % 2 != 0 ) {
-arraysize = 'Erreur';
-useable   = 'Nb de disques';
-} else if( raid == 5 && disk_num < 3 ) {
-arraysize = 'Erreur';
-useable   = 'Minimum 3 disques';
-} else if( raid == 6 && disk_num < 4 ) {
-arraysize = 'Erreur';
-useable   = 'Minimum 4 disques';
-} else if( raid == 10 && disk_num < 4 ) {
-arraysize = 'Erreur';
-useable   = 'Minimum 4 disques';
-} else if( raid == 50 && disk_num < 6 ) {
-arraysize = 'Erreur';
-useable   = 'Minimum 6 disques';
-} else if( raid == 60 && disk_num < 8 ) {
-arraysize = 'Erreur';
-useable   = 'Minimum 8 disques';
-} else if( $("#disks").val() == '' && $("#space").val() == '' ) {
-arraysize = 'Erreur';
-useable   = 'Données insuffisantes';
-} else {
-switch(raid) {
-    case 0:
-utilize   = tot_space;
-utilize2  = ( ( tot_space * 1000000000 ) / 1073741824 );
-    break;
+                <!-- Informations supplémentaires -->
+                <div class="raid-info">
+                    <h4>Informations supplémentaires</h4>
+                    <p>La perte de données pour quiconque, qu'il s'agisse d'une entreprise ou d'un individu, signifie en fin de compte une perte d'entreprise ou des souvenirs brisés respectivement. Les données sont l'actif le plus précieux de toute entreprise.</p>
+                    <p>La sauvegarde des données ne sera pas suffisante si vous n'avez aucune protection contre les pannes de disque en ligne. L'ajout de RAID à votre configuration de stockage est le moyen le plus rentable et le plus simple de maintenir l'accès et la protection des données.</p>
+                    
+                    <h5>Facteurs à considérer pour choisir le niveau RAID :</h5>
+                    <ul>
+                        <li>Coût du stockage sur disque</li>
+                        <li>Protection des données (faible, moyenne, élevée)</li>
+                        <li>Disponibilité des données requise (faible, moyenne, élevée)</li>
+                        <li>Exigences de performance (faible, moyenne, élevée)</li>
+                    </ul>
+                </div>
+
+                <!-- Tableau des niveaux RAID -->
+                <div class="raid-levels">
+                    <h4>Niveaux RAID couramment utilisés</h4>
+                    <p><em>Note: Cliquez sur le RAID pour plus de détails</em></p>
+
+                    <table cellpadding="1" cellspacing="1" id="raid" class="raid-table">
+                        <thead>
+                            <tr>
+                                <th>RAID</th>
+                                <th>Nb min de disques</th>
+                                <th>Protection de données</th>
+                                <th>Vitesse lecture</th>
+                                <th>Vitesse écriture</th>
+                                <th>Utilisation</th>
+                                <th>Type d'applications</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="raid-row">
+                                <td style="font-weight: bold;">RAID 0</td>
+                                <td>2</td>
+                                <td>Aucune Protection</td>
+                                <td>Élevé</td>
+                                <td>Élevé</td>
+                                <td>100%</td>
+                                <td>Stations de travail haut de gamme, rendu temps réel</td>
+                            </tr>
+                            <tr class="raid-details" style="display: none;">
+                                <td colspan="7">
+                                    <div class="raid-detail-content">
+                                        <h5>Définition</h5>
+                                        <p>Striping sans parité, performances améliorées, stockage supplémentaire, aucune tolérance aux pannes</p>
+                                        <h5>Avantages</h5>
+                                        <ul>
+                                            <li>Performances d'E/S considérablement améliorées</li>
+                                            <li>Aucune surcharge de calcul de parité</li>
+                                            <li>Conception très simple</li>
+                                        </ul>
+                                        <h5>Inconvénients</h5>
+                                        <ul>
+                                            <li>Pas un "vrai" RAID car la panne d'un seul disque entraîne la perte totale</li>
+                                            <li>Ne doit pas être utilisé pour les données critiques</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="raid-row">
+                                <td style="font-weight: bold;">RAID 1</td>
+                                <td>2</td>
+                                <td>Panne de lecteur unique</td>
+                                <td>Élevé</td>
+                                <td>Moyen</td>
+                                <td>50%</td>
+                                <td>Système d'exploitation, bases de données transactionnelles</td>
+                            </tr>
+                            <tr class="raid-details" style="display: none;">
+                                <td colspan="7">
+                                    <div class="raid-detail-content">
+                                        <h5>Définition</h5>
+                                        <p>Mise en miroir sans parité, tolérance aux pannes pour les erreurs de disque</p>
+                                        <h5>Avantages</h5>
+                                        <ul>
+                                            <li>Haute performance avec taux de lecture doublé</li>
+                                            <li>100% de redondance des données</li>
+                                            <li>Support des disques remplaçables à chaud</li>
+                                        </ul>
+                                        <h5>Inconvénients</h5>
+                                        <ul>
+                                            <li>Surcharge de disque la plus élevée (100%)</li>
+                                            <li>Capacité limitée à deux disques</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="raid-row">
+                                <td style="font-weight: bold;">RAID 5</td>
+                                <td>3</td>
+                                <td>Panne de lecteur unique</td>
+                                <td>Élevé</td>
+                                <td>Faible</td>
+                                <td>67% - 94%</td>
+                                <td>Entrepôt de données, hébergement web, archivage</td>
+                            </tr>
+                            <tr class="raid-details" style="display: none;">
+                                <td colspan="7">
+                                    <div class="raid-detail-content">
+                                        <h5>Définition</h5>
+                                        <p>Répartition avec parité distribuée, performances améliorées</p>
+                                        <h5>Avantages</h5>
+                                        <ul>
+                                            <li>Utilisation efficace de la capacité de disque</li>
+                                            <li>Taux de transaction de lecture élevé</li>
+                                            <li>Bon compromis performance/protection</li>
+                                        </ul>
+                                        <h5>Inconvénients</h5>
+                                        <ul>
+                                            <li>Panne de disque impacte le débit</li>
+                                            <li>Conception de contrôleur complexe</li>
+                                            <li>Récupération plus lente qu'avec miroir</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="raid-row">
+                                <td style="font-weight: bold;">RAID 6</td>
+                                <td>4</td>
+                                <td>Échec de deux disques</td>
+                                <td>Élevé</td>
+                                <td>Faible</td>
+                                <td>50% - 88%</td>
+                                <td>Stockage critique, grandes capacités</td>
+                            </tr>
+                            <tr class="raid-details" style="display: none;">
+                                <td colspan="7">
+                                    <div class="raid-detail-content">
+                                        <h5>Définition</h5>
+                                        <p>Striping avec double parité, tolérance aux pannes pour deux disques</p>
+                                        <h5>Avantages</h5>
+                                        <ul>
+                                            <li>Peut survivre à la perte de deux disques</li>
+                                            <li>Redondance des données élevée</li>
+                                            <li>Bon taux de lecture</li>
+                                        </ul>
+                                        <h5>Inconvénients</h5>
+                                        <ul>
+                                            <li>Performances d'écriture significativement réduites</li>
+                                            <li>Coûts supplémentaires de capacité</li>
+                                            <li>Récupération plus complexe</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr class="raid-row">
+                                <td style="font-weight: bold;">RAID 10</td>
+                                <td>4</td>
+                                <td>Jusqu'à une panne par sous-ensemble</td>
+                                <td>Élevé</td>
+                                <td>Moyen</td>
+                                <td>50%</td>
+                                <td>Bases de données rapides, serveurs d'applications</td>
+                            </tr>
+                            <tr class="raid-details" style="display: none;">
+                                <td colspan="7">
+                                    <div class="raid-detail-content">
+                                        <h5>Définition</h5>
+                                        <p>Combine RAID 1 + 0, miroir avec striping</p>
+                                        <h5>Avantages</h5>
+                                        <ul>
+                                            <li>Même redondance que RAID 1</li>
+                                            <li>Hauts taux d'E/S par striping</li>
+                                            <li>Récupération rapide</li>
+                                        </ul>
+                                        <h5>Inconvénients</h5>
+                                        <ul>
+                                            <li>Solution RAID la plus chère</li>
+                                            <li>Nécessite minimum 4 disques</li>
+                                            <li>Évolutivité limitée</li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
     
-    case 1:
-utilize  = tot_space / 2;
-utilize2 = ( ( tot_space * 1000000000 ) / 1073741824 ) / 2;
-    break;
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
     
-    case 5:
-utilize  = ( tot_space * ( ( parseInt( ( ( disk_num - 1 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
-utilize2 = ( ( ( tot_space * 1000000000 ) / 1073741824 ) * ( ( parseInt( ( ( disk_num - 1 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
-    break;
+    <!-- Script du calculateur RAID -->
+    <script>
+        $(function() {
+            // Contrôle du tableau RAID
+            $("#raid .raid-row:odd").addClass("odd");
+            $("#raid .raid-details").hide();
+
+            $("#raid .raid-row").click(function(){
+                $(this).next(".raid-details").toggle();
+                $(this).toggleClass("expanded");
+            });
+
+            // Calculer RAID
+            $("#raid0").click(function() { calculate(0); });
+            $("#raid1").click(function() { calculate(1); });	
+            $("#raid5").click(function() { calculate(5); });
+            $("#raid6").click(function() { calculate(6); });
+            $("#raid10").click(function() { calculate(10); });
+            $("#raid50").click(function() { calculate(50); });
+            $("#raid60").click(function() { calculate(60); });
+        });
+        
+        // Calculateur RAID
+        function calculate(raid) {
+            var utilize = 0;
+            var utilize2 = 0;
+            var arraysize = 0;
+            var useable = 0;
+            var tebibyte = 1099511627776;
+
+            var disk_num = parseInt($("#disks").val());
+            var disk_spc = parseFloat($("#space").val());
+            var tot_space = disk_num * disk_spc;
+
+            if( raid == 0 && disk_num < 2 ) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 2 disques';
+            } else if( raid == 1 && (disk_num == 0 || disk_num == 1)) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 2 disques';
+            } else if( raid == 1 && disk_num % 2 != 0 ) {
+                arraysize = 'Erreur';
+                useable = 'Nombre pair de disques requis';
+            } else if( raid == 5 && disk_num < 3 ) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 3 disques';
+            } else if( raid == 6 && disk_num < 4 ) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 4 disques';
+            } else if( raid == 10 && disk_num < 4 ) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 4 disques';
+            } else if( raid == 50 && disk_num < 6 ) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 6 disques';
+            } else if( raid == 60 && disk_num < 8 ) {
+                arraysize = 'Erreur';
+                useable = 'Minimum 8 disques';
+            } else if( $("#disks").val() == '' || $("#space").val() == '' ) {
+                arraysize = 'Erreur';
+                useable = 'Données insuffisantes';
+            } else {
+                switch(raid) {
+                    case 0:
+                        utilize = tot_space;
+                        utilize2 = ( ( tot_space * 1000000000 ) / 1073741824 );
+                        break;
+                    
+                    case 1:
+                        utilize = tot_space / 2;
+                        utilize2 = ( ( tot_space * 1000000000 ) / 1073741824 ) / 2;
+                        break;
+                    
+                    case 5:
+                        utilize = ( tot_space * ( ( parseInt( ( ( disk_num - 1 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
+                        utilize2 = ( ( ( tot_space * 1000000000 ) / 1073741824 ) * ( ( parseInt( ( ( disk_num - 1 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
+                        break;
+                    
+                    case 6:
+                        utilize = ( tot_space * ( ( parseInt( ( ( disk_num - 2 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
+                        utilize2 = ( ( ( tot_space * 1000000000 ) / 1073741824 ) * ( ( parseInt( ( ( disk_num - 2 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
+                        break;
+                    
+                    case 10:
+                        utilize = tot_space / 2;
+                        utilize2 = ( ( tot_space * 1000000000 ) / 1073741824 ) / 2;
+                        break;
+                    
+                    case 50:
+                        utilize = tot_space - ( 2 * disk_spc );
+                        utilize2 = ( utilize * 1000000000000 ) / tebibyte;
+                        break;
+                    
+                    case 60:
+                        utilize = tot_space - ( 4 * disk_spc );
+                        utilize2 = ( utilize * 1000000000000 ) / tebibyte;
+                        break;
+                }
+
+                arraysize = Math.round(utilize * 100) / 100;
+                useable = Math.round(utilize2 * 100) / 100;
+            }
+
+            $("#arraysize").val(arraysize);
+            $("#useable").val(useable);
+        }
+    </script>
     
-    case 6:
-utilize  = ( tot_space * ( ( parseInt( ( ( disk_num - 2 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
-utilize2 =  ( ( ( tot_space * 1000000000 ) / 1073741824 ) * ( ( parseInt( ( ( disk_num - 2 ) / disk_num ) * 10000 ) / 100 ) / 100 ) );
-    break;
+    <!-- Styles spécifiques à la page -->
+    <style>
+        .raid-calculator {
+            display: grid;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-xl);
+        }
+        
+        .calculator-inputs {
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .input-table {
+            width: 100%;
+        }
+        
+        .input-table td {
+            padding: var(--spacing-sm);
+            vertical-align: top;
+        }
+        
+        .input-table td:first-child {
+            font-weight: bold;
+            min-width: 200px;
+        }
+        
+        .slider-text {
+            width: 100%;
+            max-width: 200px;
+            padding: var(--spacing-sm);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        
+        .raid-options {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .raid-options input[type="radio"] {
+            margin-right: var(--spacing-xs);
+        }
+        
+        .raid-options label {
+            cursor: pointer;
+            padding: var(--spacing-xs);
+            border-radius: var(--border-radius);
+            transition: background-color var(--transition-normal);
+        }
+        
+        .raid-options label:hover {
+            background: var(--hover-color);
+        }
+        
+        .raid-benefits {
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .raid-benefits h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .benefit-item {
+            margin-bottom: var(--spacing-md);
+            padding: var(--spacing-md);
+            background: var(--bg-color);
+            border-radius: var(--border-radius);
+        }
+        
+        .benefit-item h5 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .raid-info {
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin: var(--spacing-xl) 0;
+        }
+        
+        .raid-info h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .raid-levels {
+            margin-top: var(--spacing-xl);
+        }
+        
+        .raid-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 4px var(--shadow-color);
+        }
+        
+        .raid-table th,
+        .raid-table td {
+            padding: var(--spacing-md);
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .raid-table th {
+            background: var(--button-color);
+            color: var(--bg-color);
+            font-weight: bold;
+        }
+        
+        .raid-row {
+            cursor: pointer;
+            transition: background-color var(--transition-normal);
+        }
+        
+        .raid-row:hover {
+            background: var(--hover-color);
+        }
+        
+        .raid-row.expanded {
+            background: var(--active-color);
+        }
+        
+        .raid-details td {
+            padding: 0;
+        }
+        
+        .raid-detail-content {
+            padding: var(--spacing-lg);
+            background: var(--bg-color);
+            border-top: 2px solid var(--border-color);
+        }
+        
+        .raid-detail-content h5 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .raid-detail-content ul {
+            margin: var(--spacing-sm) 0;
+            padding-left: var(--spacing-lg);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .raid-calculator {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-table td:first-child {
+                min-width: auto;
+            }
+            
+            .raid-table {
+                font-size: 0.9rem;
+            }
+            
+            .raid-table th,
+            .raid-table td {
+                padding: var(--spacing-sm);
+            }
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .calculator-inputs,
+        :root[data-theme="retro"] .raid-benefits,
+        :root[data-theme="retro"] .raid-info {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
+        
+        :root[data-theme="retro"] .raid-table {
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.3);
+        }
+        
+        :root[data-theme="retro"] .raid-row:hover {
+            background: rgba(0, 255, 159, 0.1);
+            text-shadow: 0 0 5px var(--text-color);
+        }
+    </style>
     
-    case 10:
-utilize  = tot_space / 2;
-utilize2 = ( ( tot_space * 1000000000 ) / 1073741824 ) / 2;
-    break;
-    
-    case 50:
-utilize  = tot_space - ( 2 * disk_spc );
-utilize2 = ( utilize * 1000000000000 ) / tebibyte;
-    break;
-    
-    case 60:
-utilize  = tot_space - ( 4 * disk_spc );
-utilize2 = ( utilize * 1000000000000 ) / tebibyte;
-    break;
-}
-
-arraysize = parseInt(utilize*100)/100;
-useable   = parseInt(utilize2*100)/100;
-}
-
-$("#arraysize").val(arraysize);
-$("#useable").val(useable);
-    }
-// ]]></script>
-
-   <!-- Saisie
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->    
-<div class="background"></div>
-<div class="grid"></div>
-<div class="container">
-<div class="row">
-<div class="eleven columns">
-<h3>Calculateur RAID</h3>
-
-<p>Entrez le nombre et la capacité des disques, puis sélectionnez le type de RAID pour calculer.</p>
-
-<table>
-<tbody>
-<tr><td style="text-align: right;">Nombre de disques:</td>
-<td><input type="text" name="disks" id="disks" class="slider-text" /></td></tr>
-<tr><td style="text-align: right;">Capacité des disques (GB):</td>
-<td><input type="text" name="space" id="space" class="slider-text" /></td></tr><br />
-<tr><td style="text-align: right;" valign="top">Raid:</td>
-<td><input type="radio" name="raid" id="raid0" value="raid0" /> Raid 0<br /> <input type="radio" name="raid" id="raid1" value="raid1" /> Raid 1<br /> <input type="radio" name="raid" id="raid5" value="raid5" /> Raid 5<br /> <input type="radio" name="raid" id="raid6" value="raid6" /> Raid 6<br /> <input type="radio" name="raid" id="raid10" value="raid10" /> Raid 10<br /> <input type="radio" name="raid" id="raid50" value="raid50" /> Raid 50<br /> <input type="radio" name="raid" id="raid60" value="raid60" /> Raid 60</td>
-<tr><td style="text-align: right;">Taille Totale du Array (GB):</td>
-<td><input type="text" name="arraysize" id="arraysize" class="slider-text" /></td></tr>
-<tr><td style="text-align: right;">Total d'espace disponible (GB):</td>
-<td><input type="text" name="useable" id="useable" class="slider-text" /></td></tr>
-</tbody>
-</table>
-<br />
-<tr><td style="text-align: right;">En fonction du type de RAID choisi, les bénéfices peuvent être les suivants:</td></tr>
-<table>
-<tbody>
-<tr>
-</tr>
-<td style="font-weight: bold; text-align: right;  border: 0px;" valign="top" width="150px">Performances plus rapides</td>
-<td style="text-align: justify;  border: 0px;">Dans un RAID 0, 10, 50, ou 60 disques virtuels, le système hôte peut accéder aux disques simultanément. Ceci améliore les performances, puique chaque disque a un disque virtuel pour traiter les requêtes. Par exemple, dans un cas de deux disques virtuels, chaque disque a besoin de fournir seulement les requêtes qui lui sont demandées.</td>
-</tr>
-<tr>
-<td style="font-weight: bold; text-align: right;  border: 0px;" valign="top" width="150px">Protection de données</td>
-<td style="text-align: justify;  border: 0px;">Dans les disques virtuels RAID 1, 10, 5, 6, 50 et 60, les données sont sauvegardées sur disque (miroir). Sur les disques virtuels RAID 5, 50, 6 ou 60, les données sont protégées par parité sur un seul disque multiple. RAID 10, 50 et 60 permettent également à l'hôte d'accéder simultanément aux disques.</td>
-</tr>
-</tbody>
-</table>
-
-   <!-- Informations
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->       
-   
-<h4>Informations supplémentaires</h4>
-
-<p>La perte de données pour quiconque, qu'il s'agisse d'une entreprise ou d'un individu, signifie en fin de compte une perte d'entreprise ou des souvenirs brisés respectivement. Les données sont l'actif le plus précieux de toute entreprise, et cela ne peut être sous-estimé, la protection des actifs de l'entreprise doit toujours avoir la priorité la plus élevée.</p>
-<p>La sauvegarde des données ne sera pas suffisante si vous n'avez aucune protection contre les pannes de disque en ligne. L'ajout de RAID à votre configuration de stockage est le moyen le plus rentable et le plus simple de maintenir l'accès et la protection des données.</p>    
-<p>Alors qu'un certain nombre d'entreprises proposent le RAID, toutes les implémentations RAID ne sont pas créées de la même manière. Par exemple, il y a le RAID matériel qui est déterminé par un contrôleur RAID spécifique qui aura probablement également une mémoire cache pour augmenter les performances et la sauvegarde de la batterie en cas de défaillance du contrôleur. Le RAID matériel a une histoire et est très mature. Le RAID logiciel, en revanche, n'est pas totalement nouveau, mais la qualité et la fiabilité sont dictées par la qualité des composants utilisés dans l'intégration des composants RAID et la qualité du code logiciel régissant la mise en œuvre du RAID.</p>
-<p>Pour choisir le niveau RAID qui vous convient, commencez par considérer les facteurs ci-dessous. Chacun de ces facteurs devient un compromis pour un autre:</p>
-
-<ul class="raid">
-<li>Coût du stockage sur disque;</li>
-<li>Protection des données (faible, moyenne, élevée);</li>
-<li>Disponibilité des données requise (faible, moyenne, élevée);</li>
-<li>Exigences de performance (faible, moyenne, élevée);</li>
-</ul>
-<p>Le coût se résume essentiellement au compromis entre la capacité du disque et la disponibilité ou les performances supplémentaires des données. Par exemple, RAID 1,10 et les petits nombres de disques de RAID 6 sont coûteux en termes d'espace disque perdu (50%), mais élevés en termes de disponibilité des données.</p>
-<p>Les performances dépendent également du modèle d'accès (aléatoire / séquentiel, lecture / écriture, long / court) et du nombre d'utilisateurs. Notre guide est destiné à donner un aperçu des performances et de la disponibilité des différents niveaux RAID en général et peut ne pas être précis dans tous les scénarios utilisateur. Il s'agit uniquement d'un guide à travers la jungle RAID.</p>
-<p>Les niveaux RAID suivants sont couramment utilisés:</p>
-<p>Note: Cliquez sur le RAID pour plus de détails</p>
-
-<table cellpadding="1" cellspacing="1" id="raid">
-<tbody>
-<tr>
-    <th>RAID</th>
-    <th>Nb min de disques</th>
-    <th>Protection de données</th>
-    <th>Vitesse lecture</th>
-    <th>Vitesse écriture</th>
-    <th>Vitesse lecture (dégradé)</th>
-    <th>Vitesse écriture (dégradé)</th>
-    <th>Utilisation</th>
-    <th>Type d'applications</th>
-</tr>
-<tr >
-<td style="font-weight: bold;">RAID 0</td>
-<td>2</td>
-<td>Aucune Protection</td>
-<td>Élevé</td>
-<td>Élevé</td>
-<td>N/A</td>
-<td>N/A</td>
-<td>100%</td>
-<td>Stations de travail haut de gamme, enregistrement des données, rendu en temps réel, données très transitoires</td>
-<td>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Striping sans parité, performances améliorées, stockage supplémentaire, aucune tolérance aux pannes</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>Les performances d'E/S sont considérablement améliorées en répartissant la charge d'E/S sur de nombreux canaux et disques (les meilleures performances sont obtenues lorsque les données sont réparties sur plusieurs canaux avec un seul lecteur par canal)</li>
-<li>Aucune surcharge de calcul de parité n'est impliquée</li>
-<li>Conception très simple</li>
-<li>Facile à mettre en oeuvre</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>Pas un "vrai" RAID car la panne d'un seul disque entraînera la perte de toutes les données d'un disque virtuel</li>
-<li>Ne doit pas être utilisé pour les données critiques</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td style="font-weight: bold;">RAID 1</td>
-<td>2</td>
-<td>Panne de lecteur unique</td>
-<td>Élevé</td>
-<td>Moyen</td>
-<td>Moyen</td>
-<td>Élevé</td>
-<td>50%</td>
-<td>Système d'exploitation, bases de données transactionnelles</td>
-<td>
-<div class="arrow"></div>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Mise en miroir sans parité, tolérance aux pannes pour les erreurs de disque et les défaillances de disque unique</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>Haute performance jusqu'à deux fois le taux de transaction de lecture des disques simples et le même taux de transaction d'écriture que les disques simples</li>
-<li>100% de redondance des données signifie qu'aucune reconstruction des données n'est nécessaire en cas de défaillance du disque, juste une copie sur le disque de remplacement</li>
-<li>Prend généralement en charge les disques remplaçables à chaud</li>
-<li>Conception de sous-système de stockage RAID la plus simple</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>La surcharge de disque la plus élevée de tous les types de RAID (100%) entraîne une utilisation inefficace de la capacité du disque</li>
-<li>Capacité limitée car le disque virtuel ne peut contenir que deux disques</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td style="font-weight: bold;">RAID 5</td>
-<td>3</td>
-<td>Panne de lecteur unique</td>
-<td>Élevé</td>
-<td>Faible</td>
-<td>Faible</td>
-<td>Faible</td>
-<td>67% - 94%</td>
-<td>Entrepôt de données, hébergement web, archivage</td>
-<td>
-<div class="arrow"></div>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Répartition avec parité distribuée, performances améliorées, tolérance aux pannes pour les erreurs de disque et les défaillances de disque unique</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>Utilisation la plus efficace de la capacité de disque de toutes les configurations RAID redondantes</li>
-<li>Taux de transaction de lecture élevé</li>
-<li>Taux de transaction d'écriture moyen-élevé</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>Une panne de disque a un impact moyen sur le débit</li>
-<li>Conception de contrôleur la plus complexe</li>
-<li>La récupération des informations de parité après une panne de disque prend plus de temps qu'avec la mise en miroir</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td style="font-weight: bold;">RAID 6</td>
-<td>4</td>
-<td>Échec de deux disques</td>
-<td>Élevé</td>
-<td>Faible</td>
-<td>Faible</td>
-<td>Faible</td>
-<td>50% - 88%</td>
-<td>Stations de travail haut de gamme, enregistrement des données, rendu en temps réel, données très transitoires</td>
-<td>
-<div class="arrow"></div>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Striping avec double parité, tolérance aux pannes pour les pannes de deux disques</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>Peut survivre à la perte de deux disques sans perdre de données</li>
-<li>Redondance des données, taux de lecture Élevé et bonnes performances</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>Nécessite deux ensembles de données de parité pour chaque opération d'écriture, ce qui entraîne une diminution significative des performances d'écriture</li>
-<li>Coûts supplémentaires en raison de la capacité supplémentaire requise en utilisant deux blocs de parité par bande</li>
-<li>La récupération des informations de parité après une panne de disque prend plus de temps qu'avec la mise en miroir</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td style="font-weight: bold;">RAID 10</td>
-<td>4</td>
-<td>Jusqu'à une défaillance de disque dans chaque sous-baie</td>
-<td>Élevé</td>
-<td>Moyen</td>
-<td>Élevé</td>
-<td>Élevé</td>
-<td>50%</td>
-<td>Bases de données rapides et serveurs d'applications</td>
-<td>
-<div class="arrow"></div>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Implémente un niveau RAID 1 + 0, permettant le niveau de bloc et la mise en miroir combinés avec l'entrelacement, de meilleures performances, la tolérance aux pannes pour les erreurs de disque et les pannes de plusieurs disques (une panne de disque par ensemble de miroirs)</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>RAID 10 a la même redondance que le niveau RAID 1</li>
-<li>Des taux d'E/S élevés sont atteints en répartissant les segments RAID 1</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>Solution RAID la plus chère</li>
-<li>Nécessite 2n où n> 1 disques</li>
-<li>Évolutivité très limitée à un coût inhérent très élevé</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td style="font-weight: bold;">RAID 50</td>
-<td>6</td>
-<td>Jusqu'à une défaillance de disque dans chaque sous-baie</td>
-<td>Élevé</td>
-<td>Moyen</td>
-<td>Moyen</td>
-<td>Moyen</td>
-<td>67% - 94%</td>
-<td>Grandes bases de données, serveurs de fichiers, serveurs d'applications</td>
-<td>
-<div class="arrow"></div>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Combine plusieurs ensembles RAID 5 avec agrégat par bandes, performances améliorées, erreurs de disque de panne et plusieurs pannes de disque (une panne de disque par plage)</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>Permet la création des plus grands groupes RAID, jusqu'à 256 disques (théorique)</li>
-<li>Taux de transaction de lecture élevé</li>
-<li>Degré de tolérance aux pannes supérieur grâce au calcul de parité effectué pour chaque sous-ensemble RAID 5</li>
-<li>Possibilité de taux de transaction de lecture plus rapides sur de grands disques virtuels RAID 5</li>
-<li>Taux de transaction d'écriture moyen à élevé</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>Possibilité de taux de transaction de lecture plus rapides sur de grands disques virtuels RAID 5</li>
-<li>L'une des implémentations RAID les plus complexes</li>
-<li>Moins efficace en termes d'espace que RAID 5, car des calculs de parité séparés sont effectués pour chaque sous-ensemble RAID 5</li>
-<li>La récupération des informations de parité après une panne de lecteur prend plus de temps que l'utilisation d'une solution en miroir</li>
-</ul>
-</td>
-</tr>
-<tr >
-<td style="font-weight: bold;">RAID 60</td>
-<td>8</td>
-<td>Jusqu'à deux pannes de disque dans chaque sous-baie</td>
-<td>Élevé</td>
-<td>Moyen</td>
-<td>Moyen</td>
-<td>Faible</td>
-<td>50% - 88%</td>
-<td>Archivage de données, sauvegarde sur disque, solutions de disponibilité élevé, serveurs à forte capacité</td>
-<td>
-<div class="arrow"></div>
-</td>
-</tr>
-<tr style="display: none;">
-<td colspan="10">
-<h5>Définition</h5>
-<p>Combine plusieurs ensembles RAID 6 avec agrégat par bandes, performances améliorées, erreurs de disque de panne et plusieurs pannes de disque (deux pannes de disque par plage)</p>
-<h5>Avantages</h5>
-<ul class="raid">
-<li>Permet la création des plus grands groupes RAID, jusqu'à 256 disques (théoriques)</li>
-<li>Haut degré de tolérance aux pannes grâce à 2 calculs de parité effectués pour chaque sous-ensemble RAID 6</li>
-<li>Taux de transaction d'écriture moyen à élevé</li>
-</ul>
-<br />
-<h5>Inconvénients</h5>
-<ul class="raid">
-<li>L'une des implémentations RAID les plus complexes</li>
-<li>Moins efficace en termes d'espace que RAID 6, car des calculs de parité séparés sont effectués pour chaque sous-ensemble RAID 6</li>
-<li>La récupération des informations de parité après une panne de lecteur prend plus de temps que l'utilisation d'une solution en miroir</li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</div>
-</div>
-<!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <!-- Initialisation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
+        });
+    </script>
 </body>
 </html>

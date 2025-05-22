@@ -1,257 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>Outils réseau</title>
-  <meta name="description" content="">
-
-  <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Font
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
-
-  <style type="text/css">
-    body {
-      font-family: 'new_yorkregular';
-    }
-  </style>
-
-  <!-- CSS - Thèmes
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="css/synthwave-dark.css">
-  <link rel="stylesheet" href="css/light-theme.css">
-
-  <!-- Theme Manager JavaScript -->
-  <script src="js/theme-manager.js"></script>
-
-  <!-- Favicon
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="icon" type="image/png" href="images/favicon.png">
-
-  <!-- Scripts
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="js/jquery.min.js" type="text/javascript"></script>
-  <script src="js/jquery-ui.min.js" type="text/javascript"></script>
+    <meta charset="utf-8">
+    <title>Outils réseau - Outils Sysadmin</title>
+    <meta name="description" content="Outils réseau : identification IP, calculateur de sous-réseau, CIDR">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Fonts -->
+    <link rel="stylesheet" href="fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    
+    <!-- CSS Unifié -->
+    <link rel="stylesheet" href="css/unified-theme.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    
+    <!-- Scripts -->
+    <script src="js/jquery.min.js" type="text/javascript"></script>
+    <script src="js/jquery-ui.min.js" type="text/javascript"></script>
 </head>
-
 <body>
+    <!-- Arrière-plans animés -->
+    <div class="background"></div>
+    <div class="grid"></div>
+    
+    <!-- Navigation (sera générée automatiquement) -->
+    <nav id="main-navigation">
+        <!-- La navigation sera injectée ici par navigation.js -->
+    </nav>
+    
+    <!-- Contenu principal -->
+    <div class="container fade-in">
+        <div class="row">
+            <h1>Outils réseau</h1>
 
-  <!-- Navigation
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="generateur.html">Générateurs</a>
-    <a href="reseau.html">Réseau</a>
-    <a href="mha.html">Analyseur de courriels</a>
-    <a href="cyberchef.html">CyberChef</a>
-    <a href="conversion.html">Conversion</a>
-    <a href="raid-calc.html">Calculateur RAID</a>
-    <a href="base64.html">Conversion Base 64</a>
-    <a href="ias-logs.html">Analyseur IAS</a>
-    <a href="rps.html">Simulateur sauvegardes</a>
-  </nav>
+            <div class="network-tools">
+                <div class="tool-section">
+                    <h4>Mon adresse IP</h4>
+                    <div id="myIP">Chargement des informations IP...</div>
+                    <script type="text/javascript">
+                        $.ajax({
+                            url: 'http://ip-api.com/json',
+                            dataType: 'json',
+                            success: function (res) {
+                                document.getElementById("myIP").innerHTML = 
+                                    "<strong>Adresse IP:</strong> " + res.query + "<br>" +
+                                    "<strong>Ville:</strong> " + res.city + "<br>" +
+                                    "<strong>Région:</strong> " + res.regionName + "<br>" +
+                                    "<strong>Pays:</strong> " + res.country + "<br>" +
+                                    "<strong>Organisation:</strong> " + res.org + "<br>" +
+                                    "<strong>Fuseau horaire:</strong> " + res.timezone + "<br>" +
+                                    "<strong>Code pays:</strong> " + res.countryCode + "<br>" +
+                                    "<strong>Code région:</strong> " + res.region + "<br>" +
+                                    "<strong>Code postal:</strong> " + res.zip + "<br>" +
+                                    "<strong>Latitude:</strong> " + res.lat + "<br>" +
+                                    "<strong>Longitude:</strong> " + res.lon + "<br>" +
+                                    "<strong>ASN:</strong> " + res.as + "<br>" +
+                                    "<strong>FAI:</strong> " + res.isp;
+                            },
+                            error: function() {
+                                document.getElementById("myIP").innerHTML = 
+                                    "<span style='color: var(--error-color);'>Erreur lors de la récupération des informations IP</span>";
+                            }
+                        });
+                    </script>
+                </div>
 
-  <!-- Contenu
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="background"></div>
-  <div class="grid"></div>
-  <div class="container">
-    <div class="row">
+                <div class="tool-section">
+                    <h4>Calculateur de sous-réseau</h4>
+                    <form class="subnet-form">
+                        <div class="form-group">
+                            <label for="ipAddress">Adresse IP:</label>
+                            <input type="text" id="ipAddress" name="ipAddress" placeholder="Ex: 192.168.0.1" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="cidr">Masque CIDR:</label>
+                            <select id="cidr">
+                                <option value="0">0.0.0.0/0</option>
+                                <option value="1">128.0.0.0/1</option>
+                                <option value="2">192.0.0.0/2</option>
+                                <option value="3">224.0.0.0/3</option>
+                                <option value="4">240.0.0.0/4</option>
+                                <option value="5">248.0.0.0/5</option>
+                                <option value="6">252.0.0.0/6</option>
+                                <option value="7">254.0.0.0/7</option>
+                                <option value="8">255.0.0.0/8</option>
+                                <option value="9">255.128.0.0/9</option>
+                                <option value="10">255.192.0.0/10</option>
+                                <option value="11">255.224.0.0/11</option>
+                                <option value="12">255.240.0.0/12</option>
+                                <option value="13">255.248.0.0/13</option>
+                                <option value="14">255.252.0.0/14</option>
+                                <option value="15">255.254.0.0/15</option>
+                                <option value="16">255.255.0.0/16</option>
+                                <option value="17">255.255.128.0/17</option>
+                                <option value="18">255.255.192.0/18</option>
+                                <option value="19">255.255.224.0/19</option>
+                                <option value="20">255.255.240.0/20</option>
+                                <option value="21">255.255.248.0/21</option>
+                                <option value="22">255.255.252.0/22</option>
+                                <option value="23">255.255.254.0/23</option>
+                                <option value="24" selected>255.255.255.0/24</option>
+                                <option value="25">255.255.255.128/25</option>
+                                <option value="26">255.255.255.192/26</option>
+                                <option value="27">255.255.255.224/27</option>
+                                <option value="28">255.255.255.240/28</option>
+                                <option value="29">255.255.255.248/29</option>
+                                <option value="30">255.255.255.252/30</option>
+                                <option value="31">255.255.255.254/31</option>
+                                <option value="32">255.255.255.255/32</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" onclick="calculateResults(event)" class="button">Calculer</button>
+                    </form>
 
-      <h1>Outils réseau</h1>
-
-      <h4>Mon adresse IP</h4>
-
-      <script type="text/javascript">
-        $.ajax({
-          url: 'http://ip-api.com/json',
-          dataType: 'json',
-          success: function (res) {
-            document.getElementById("myIP").innerHTML = "Adresse IP: " + res.query + "<br>" +
-              "Ville: " + res.city + "<br>" +
-              "Région: " + res.regionName + "<br>" +
-              "Pays: " + res.country + "<br>" +
-              "Organisation: " + res.org + "<br>" +
-              "Fuseau horaire: " + res.timezone + "<br>" +
-              "Code pays: " + res.countryCode + "<br>" +
-              "Code région: " + res.region + "<br>" +
-              "Code postal: " + res.zip + "<br>" +
-              "Latitude: " + res.lat + "<br>" +
-              "Longitude: " + res.lon + "<br>" +
-              "ASN: " + res.as + "<br>" +
-              "FAI: " + res.isp;
-          }
-        });
-      </script>
-      <br>
-
-      <h4>Calculateur de sous-réseau</h4>
-
-      <form>
-        <label for="ipAddress">Adresse IP:</label>
-        <input type="text" id="ipAddress" name="ipAddress" placeholder="Ex: 192.168.0.1" required>
-        <br>
-        <br>
-        <label for="cidr">Masque:</label>
-        <select id="cidr">
-          <!-- Options pour le masque CIDR -->
-          <option value="0">0.0.0.0/0</option>
-          <option value="1">128.0.0.0/1</option>
-          <option value="2">192.0.0.0/2</option>
-          <option value="3">224.0.0.0/3</option>
-          <option value="4">240.0.0.0/4</option>
-          <option value="5">248.0.0.0/5</option>
-          <option value="6">252.0.0.0/6</option>
-          <option value="7">254.0.0.0/7</option>
-          <option value="8">255.0.0.0/8</option>
-          <option value="9">255.128.0.0/9</option>
-          <option value="10">255.192.0.0/10</option>
-          <option value="11">255.224.0.0/11</option>
-          <option value="12">255.240.0.0/12</option>
-          <option value="13">255.248.0.0/13</option>
-          <option value="14">255.252.0.0/14</option>
-          <option value="15">255.254.0.0/15</option>
-          <option value="16">255.255.0.0/16</option>
-          <option value="17">255.255.128.0/17</option>
-          <option value="18">255.255.192.0/18</option>
-          <option value="19">255.255.224.0/19</option>
-          <option value="20">255.255.240.0/20</option>
-          <option value="21">255.255.248.0/21</option>
-          <option value="22">255.255.252.0/22</option>
-          <option value="23">255.255.254.0/23</option>
-          <option value="24">255.255.255.0/24</option>
-          <option value="25">255.255.255.128/25</option>
-          <option value="26">255.255.255.192/26</option>
-          <option value="27">255.255.255.224/27</option>
-          <option value="28">255.255.255.240/28</option>
-          <option value="29">255.255.255.248/29</option>
-          <option value="30">255.255.255.252/30</option>
-          <option value="31">255.255.255.254/31</option>
-          <option value="32">255.255.255.255/32</option>
-        </select>
-        <br>
-        <br>
-        <button type="submit" onclick="calculateResults(event)">Calculer</button>
-      </form>
-
-      <div id="networkDetails" style="display: none;">
-        <h5>Résultats:</h5>
-        <p id="networkAddress">Adresse réseau:</p>
-        <p id="broadcastAddress">Adresse de diffusion:</p>
-        <p id="subnetMask">Masque de sous-réseau:</p>
-        <p id="usableHosts">Nombre d'hôtes utilisables:</p>
-      </div>
-
+                    <div id="networkDetails" class="results-section" style="display: none;">
+                        <h5>Résultats du calcul de sous-réseau:</h5>
+                        <div class="results-grid">
+                            <div class="result-item">
+                                <strong>Adresse réseau:</strong>
+                                <span id="networkAddress"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong>Adresse de diffusion:</strong>
+                                <span id="broadcastAddress"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong>Masque de sous-réseau:</strong>
+                                <span id="subnetMask"></span>
+                            </div>
+                            <div class="result-item">
+                                <strong>Nombre d'hôtes utilisables:</strong>
+                                <span id="usableHosts"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
+    
+    <!-- Scripts -->
+    <script src="js/unified-theme-manager.js"></script>
+    <script src="js/navigation.js"></script>
+    
+    <!-- Script de calcul réseau -->
+    <script>
+        function calculateResults(event) {
+            event.preventDefault(); // Previent le rechargement de la page
 
-  <script>
-    function calculateResults(event) {
-      event.preventDefault(); // Previent le rechargement de la page
+            // Variables
+            var ipAddress = document.getElementById("ipAddress").value;
+            var cidr = document.getElementById("cidr").value;
+            
+            // Validation de l'IP
+            if (!isValidIP(ipAddress)) {
+                alert("Veuillez entrer une adresse IP valide (ex: 192.168.1.1)");
+                return;
+            }
 
-      // Variables
-      var ipAddress = document.getElementById("ipAddress").value;
-      var cidr = document.getElementById("cidr").value;
-      var subnetMask = calculateSubnetMask(cidr);
-      var broadcastAddress = calculateBroadcastAddress(ipAddress, cidr);
-      var networkAddress = calculateNetworkAddress(ipAddress, cidr);
-      var usableHosts = calculateUsableHosts(cidr);
+            var subnetMask = calculateSubnetMask(cidr);
+            var broadcastAddress = calculateBroadcastAddress(ipAddress, cidr);
+            var networkAddress = calculateNetworkAddress(ipAddress, cidr);
+            var usableHosts = calculateUsableHosts(cidr);
 
-      // Fonction de calcul du masque de sous-réseau
-      function calculateSubnetMask(cidr) {
+            // Fonction de validation IP
+            function isValidIP(ip) {
+                var regex = /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+                return regex.test(ip);
+            }
 
-        var networkBits = parseInt(cidr);
-        var subnetMask = "";
+            // Fonction de calcul du masque de sous-réseau
+            function calculateSubnetMask(cidr) {
+                var networkBits = parseInt(cidr);
+                var subnetMask = "";
 
-        for (var i = 0; i < 4; i++) {
-          if (networkBits >= 8) {
-            subnetMask += "255";
-            networkBits -= 8;
-          } else if (networkBits > 0) {
-            var subnetBits = 8 - networkBits;
-            var subnetValue = 256 - Math.pow(2, subnetBits);
-            subnetMask += subnetValue.toString();
-            networkBits = 0;
-          } else {
-            subnetMask += "0";
-          }
+                for (var i = 0; i < 4; i++) {
+                    if (networkBits >= 8) {
+                        subnetMask += "255";
+                        networkBits -= 8;
+                    } else if (networkBits > 0) {
+                        var subnetBits = 8 - networkBits;
+                        var subnetValue = 256 - Math.pow(2, subnetBits);
+                        subnetMask += subnetValue.toString();
+                        networkBits = 0;
+                    } else {
+                        subnetMask += "0";
+                    }
 
-          if (i < 3) {
-            subnetMask += ".";
-          }
+                    if (i < 3) {
+                        subnetMask += ".";
+                    }
+                }
+
+                return subnetMask;
+            }
+
+            // Fonction de calcul de l'adresse de diffusion
+            function calculateBroadcastAddress(ipAddress, cidr) {
+                var n_ipParts = ipAddress.split('.').map(Number);
+                var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
+
+                var invertedMaskParts = n_maskParts.map(function (n_maskPart) {
+                    return 255 - n_maskPart;
+                });
+
+                var broadcastParts = n_ipParts.map(function (n_ipPart, i) {
+                    return n_ipPart | invertedMaskParts[i];
+                });
+
+                return broadcastParts.join('.');
+            }
+
+            // Fonction de calcul de l'adresse réseau
+            function calculateNetworkAddress(ipAddress, cidr) {
+                var n_ipParts = ipAddress.split('.').map(Number);
+                var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
+
+                var networkParts = n_ipParts.map(function (n_ipPart, i) {
+                    return n_ipPart & n_maskParts[i];
+                });
+
+                return networkParts.join('.');
+            }
+
+            // Fonction de calcul du nombre d'hôtes utilisables
+            function calculateUsableHosts(cidr) {
+                var hostBits = 32 - parseInt(cidr);
+                return Math.pow(2, hostBits) - 2;
+            }
+
+            // Mise à jour des résultats
+            document.getElementById("networkAddress").textContent = networkAddress;
+            document.getElementById("broadcastAddress").textContent = broadcastAddress;
+            document.getElementById("subnetMask").textContent = subnetMask;
+            document.getElementById("usableHosts").textContent = usableHosts.toLocaleString();
+
+            // Afficher les résultats
+            document.getElementById("networkDetails").style.display = "block";
         }
-
-        return subnetMask;
-      }
-
-      // Fonction de calcul de l'adresse de diffusion
-      function calculateBroadcastAddress(ipAddress, cidr) {
-        var n_ipParts = ipAddress.split('.').map(Number);
-        var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
-
-        var invertedMaskParts = n_maskParts.map(function (n_maskPart) {
-          return 255 - n_maskPart;
+    </script>
+    
+    <!-- Styles spécifiques à la page -->
+    <style>
+        .network-tools {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+        
+        .tool-section {
+            background: var(--highlight-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+        }
+        
+        .tool-section h4 {
+            margin-top: 0;
+            color: var(--heading-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: var(--spacing-sm);
+        }
+        
+        .subnet-form {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+            max-width: 500px;
+            margin-bottom: var(--spacing-lg);
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+        
+        .form-group label {
+            font-weight: bold;
+            color: var(--text-color);
+        }
+        
+        .results-section {
+            background: var(--bg-color);
+            padding: var(--spacing-lg);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            margin-top: var(--spacing-lg);
+        }
+        
+        .results-section h5 {
+            margin-top: 0;
+            color: var(--heading-color);
+        }
+        
+        .results-grid {
+            display: grid;
+            gap: var(--spacing-md);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+        
+        .result-item {
+            padding: var(--spacing-sm);
+            background: var(--highlight-color);
+            border-radius: var(--border-radius);
+        }
+        
+        .result-item strong {
+            color: var(--heading-color);
+            display: block;
+            margin-bottom: var(--spacing-xs);
+        }
+        
+        #myIP {
+            background: var(--bg-color);
+            padding: var(--spacing-md);
+            border-radius: var(--border-radius);
+            border: 1px solid var(--border-color);
+            font-family: monospace;
+            line-height: 1.8;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .results-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .subnet-form {
+                max-width: 100%;
+            }
+        }
+        
+        /* Effets spéciaux pour le mode retro */
+        :root[data-theme="retro"] .tool-section {
+            border-color: var(--border-color);
+            background: rgba(0, 255, 159, 0.05);
+        }
+        
+        :root[data-theme="retro"] .results-section {
+            box-shadow: 0 0 15px rgba(0, 255, 159, 0.3);
+        }
+        
+        :root[data-theme="retro"] #myIP {
+            box-shadow: 0 0 10px rgba(0, 255, 159, 0.2);
+        }
+    </style>
+    
+    <!-- Initialisation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // S'assurer que le thème sombre est appliqué par défaut
+            if (!localStorage.getItem('unified-theme')) {
+                localStorage.setItem('unified-theme', 'dark');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            }
         });
-
-        var broadcastParts = n_ipParts.map(function (n_ipPart, i) {
-          return n_ipPart | invertedMaskParts[i];
-        });
-
-        broadcastAddress = broadcastParts.join('.');
-
-        return broadcastAddress;
-      }
-
-      // Fonction de calcul de l'adresse réseau
-      function calculateNetworkAddress(ipAddress, cidr) {
-        var n_ipParts = ipAddress.split('.').map(Number);
-        var n_maskParts = calculateSubnetMask(cidr).split('.').map(Number);
-
-        var networkParts = n_ipParts.map(function (n_ipPart, i) {
-          return n_ipPart & n_maskParts[i];
-        });
-
-        networkAddress = networkParts.join('.');
-
-        return networkAddress;
-      }
-
-      // Fonction de calcul du nombre d'hôtes utilisables
-      function calculateUsableHosts(cidr) {
-        // Calculate the number of host bits
-        var hostBits = 32 - parseInt(cidr);
-
-        // Calcul du nombre d'hôtes utilisables
-        usableHosts = Math.pow(2, hostBits) - 2;
-
-        return usableHosts;
-      }
-
-      // Mise à jour des résultats
-      document.getElementById("networkAddress").textContent = "Adresse réseau: " + networkAddress;
-      document.getElementById("broadcastAddress").textContent = "Adresse de diffusion: " + broadcastAddress;
-      document.getElementById("subnetMask").textContent = "Masque de sous-réseau: " + subnetMask;
-      document.getElementById("usableHosts").textContent = "Nombre d'hôtes utilisables: " + usableHosts;
-
-      // Afficher les résultats
-      document.getElementById("networkDetails").style.display = "block";
-    }
-  </script>
-
-  <!-- Theme initialization -->
-  <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          if (!localStorage.getItem('theme')) {
-              localStorage.setItem('theme', 'dark');
-              document.documentElement.setAttribute('data-theme', 'dark');
-          }
-      });
-  </script>
-
-  <!-- End Document
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
+    </script>
 </body>
-
 </html>
