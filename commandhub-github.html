@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SS64 Search Pro - Recherche Avancée Hors-ligne</title>
+    <title>CommandHub Search Pro - Recherche Avancée Hors-ligne</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
     <style>
         /* [GARDE TOUS LES STYLES CSS EXISTANTS] */
@@ -95,7 +95,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">🔍</div>
-            <h1>SS64 Search Pro</h1>
+            <h1>CommandHub Search Pro</h1>
             <div class="subtitle">Recherche avancée hors-ligne - Base de données complète</div>
         </div>
         
@@ -139,7 +139,7 @@
 
     <script>
         // ===== BASE DE DONNÉES INTÉGRÉE DIRECTEMENT =====
-        const SS64_DATABASE = {
+        const COMMANDHUB_DATABASE = {
             "windows": [
                 {"name": "ping", "description": "Teste la connectivité réseau vers un hôte spécifique", "syntax": "ping [-t] [-a] [-n count] [-l size] target", "examples": ["ping google.com", "ping -t 192.168.1.1", "ping -n 4 8.8.8.8"]},
                 {"name": "ipconfig", "description": "Affiche et modifie la configuration IP de Windows", "syntax": "ipconfig [/all] [/release] [/renew] [/flushdns]", "examples": ["ipconfig", "ipconfig /all", "ipconfig /flushdns"]},
@@ -188,14 +188,14 @@
 
         // ===== VARIABLES GLOBALES =====
         let currentOS = 'all';
-        let database = SS64_DATABASE;
+        let database = COMMANDHUB_DATABASE;
         let isLoaded = true;
-        let searchHistory = JSON.parse(localStorage.getItem('ss64SearchHistory') || '[]');
+        let searchHistory = JSON.parse(localStorage.getItem('commandhubSearchHistory') || '[]');
         let lastResults = [];
 
         // ===== INITIALISATION =====
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🔍 SS64 Search Pro - Version GitHub');
+            console.log('🔍 CommandHub Search Pro - Version GitHub');
             updateStats();
             initializeOSTabs();
         });
@@ -253,7 +253,7 @@
             if (!searchHistory.includes(query)) {
                 searchHistory.unshift(query);
                 searchHistory = searchHistory.slice(0, 20);
-                localStorage.setItem('ss64SearchHistory', JSON.stringify(searchHistory));
+                localStorage.setItem('commandhubSearchHistory', JSON.stringify(searchHistory));
             }
             
             // Rechercher

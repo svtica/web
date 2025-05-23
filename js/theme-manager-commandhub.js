@@ -1,4 +1,4 @@
-// Gestionnaire de thèmes pour SS64
+// Gestionnaire de thèmes pour CommandHub
 // Permet de basculer entre différents thèmes visuels
 
 class ThemeManager {
@@ -155,7 +155,7 @@ class ThemeManager {
 
     // Charger le thème sauvegardé
     loadSavedTheme() {
-        const saved = localStorage.getItem('ss64Theme');
+        const saved = localStorage.getItem('commandhubTheme');
         if (saved && this.themes[saved]) {
             this.currentTheme = saved;
         }
@@ -164,7 +164,7 @@ class ThemeManager {
 
     // Sauvegarder le thème actuel
     saveTheme() {
-        localStorage.setItem('ss64Theme', this.currentTheme);
+        localStorage.setItem('commandhubTheme', this.currentTheme);
     }
 
     // Appliquer un thème
@@ -274,7 +274,7 @@ class ThemeManager {
                 min-width: 200px;
                 display: none;
             " id="theme-panel">
-                <h4 style="margin: 0 0 15px 0; color: var(--primary-color);">🎨 Thèmes</h4>
+                <h4 style="margin: 0 0 15px 0; color: var(--primary-color);">🎨 Thèmes CommandHub</h4>
                 <div id="theme-options">
                     ${Object.entries(this.themes).map(([key, theme]) => `
                         <div class="theme-option" data-theme="${key}" style="
@@ -377,7 +377,7 @@ class ThemeManager {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `ss64-theme-${this.currentTheme}.json`;
+        a.download = `commandhub-theme-${this.currentTheme}.json`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);

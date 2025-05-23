@@ -1,82 +1,16 @@
 {
-  "name": "ss64-search-pro",
+  "name": "commandhub-extractor",
   "version": "1.0.0",
-  "description": "Recherche avancée hors-ligne pour base de données SS64 avec interface complète",
-  "main": "ss64-search-pro.html",
+  "description": "Extracteur pour base de données CommandHub",
+  "main": "extract-commandes.js",
   "scripts": {
-    "start": "node deploy.js serve",
-    "deploy": "node deploy.js",
-    "serve": "python3 -m http.server 8000 || python -m http.server 8000 || npx serve . -p 8000",
-    "test": "node ss64-tests.js",
-    "validate": "node ss64-maintenance.js validate",
-    "stats": "node ss64-maintenance.js stats",
-    "optimize": "node ss64-maintenance.js optimize",
-    "backup": "node ss64-maintenance.js backup",
-    "build": "npm run optimize && npm run validate && npm run deploy",
-    "dev": "npm run serve",
-    "check": "node deploy.js check",
-    "cleanup": "node deploy.js cleanup",
-    "report": "node deploy.js report",
-    "help": "node deploy.js help"
+    "extract": "node extract-commandes.js",
+    "test": "echo \"Extraction CommandHub\" && node extract-commandes.js"
   },
-  "keywords": [
-    "ss64",
-    "command-line",
-    "database",
-    "offline",
-    "search",
-    "windows",
-    "linux",
-    "macos",
-    "powershell",
-    "cmd",
-    "bash",
-    "terminal",
-    "documentation",
-    "reference"
-  ],
-  "author": "Votre nom <votre.email@example.com>",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/votre-username/ss64-search-pro.git"
+  "dependencies": {
+    "jsdom": "^22.1.0"
   },
-  "bugs": {
-    "url": "https://github.com/votre-username/ss64-search-pro/issues"
-  },
-  "homepage": "https://github.com/votre-username/ss64-search-pro#readme",
-  "devDependencies": {
-    "serve": "^14.0.0"
-  },
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "files": [
-    "ss64-search-pro.html",
-    "js/*.js",
-    "README-SS64.md",
-    "deploy.js",
-    "ss64-maintenance.js",
-    "ss64-tests.js"
-  ],
-  "config": {
-    "port": 8000,
-    "host": "localhost"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ],
-  "contributors": [
-    {
-      "name": "Votre nom",
-      "email": "votre.email@example.com",
-      "url": "https://github.com/votre-username"
-    }
-  ],
-  "funding": {
-    "type": "github",
-    "url": "https://github.com/sponsors/votre-username"
-  }
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
 }

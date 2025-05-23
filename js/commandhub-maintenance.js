@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 /**
- * Script de maintenance pour la base de données SS64
- * Usage: node ss64-maintenance.js [command] [options]
+ * Script de maintenance pour la base de données CommandHub
+ * Usage: node commandhub-maintenance.js [command] [options]
  * 
  * Commandes disponibles:
  * - validate: Valider la base de données
@@ -17,9 +17,9 @@
 const fs = require('fs');
 const path = require('path');
 
-class SS64Maintenance {
+class CommandHubMaintenance {
     constructor() {
-        this.databasePath = path.join(__dirname, 'ss64-database.js');
+        this.databasePath = path.join(__dirname, 'commandhub-database.js');
         this.backupDir = path.join(__dirname, 'backups');
         this.database = null;
     }
@@ -29,7 +29,7 @@ class SS64Maintenance {
         try {
             const content = fs.readFileSync(this.databasePath, 'utf8');
             // Extraire la partie JSON de la variable JS
-            const match = content.match(/const SS64_DATABASE = ({[\s\S]*?});/);
+            const match = content.match(/const COMMANDHUB_DATABASE = ({[\s\S]*?});/);
             if (match) {
                 this.database = JSON.parse(match[1]);
                 console.log('✅ Base de données chargée');
@@ -49,20 +49,20 @@ class SS64Maintenance {
             const timestamp = new Date().toISOString();
             const totalCommands = Object.values(this.database).reduce((total, commands) => total + commands.length, 0);
             
-            const jsContent = `// Base de données SS64 - Générée automatiquement
+            const jsContent = `// Base de données CommandHub - Générée automatiquement
 // Date: ${timestamp}
 // Total des commandes: ${totalCommands}
 
-const SS64_DATABASE = ${JSON.stringify(this.database, null, 2)};
+const COMMANDHUB_DATABASE = ${JSON.stringify(this.database, null, 2)};
 
 // Export pour utilisation dans les modules
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = SS64_DATABASE;
+    module.exports = COMMANDHUB_DATABASE;
 }
 
 // Disponible globalement dans le navigateur
 if (typeof window !== 'undefined') {
-    window.SS64_DATABASE = SS64_DATABASE;
+    window.COMMANDHUB_DATABASE = COMMANDHUB_DATABASE;
 }`;
 
             fs.writeFileSync(this.databasePath, jsContent, 'utf8');
@@ -131,7 +131,7 @@ if (typeof window !== 'undefined') {
     stats() {
         if (!this.loadDatabase()) return false;
 
-        console.log('📊 Statistiques de la base de données SS64\n');
+        console.log('📊 Statistiques de la base de données CommandHub\n');
 
         const totalCommands = Object.values(this.database).reduce((total, commands) => total + commands.length, 0);
         
@@ -247,7 +247,7 @@ if (typeof window !== 'undefined') {
         }
 
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const backupPath = path.join(this.backupDir, `ss64-backup-${timestamp}.json`);
+        const backupPath = path.join(this.backupDir, `commandhub-backup-${timestamp}.json`);
 
         const backupData = {
             timestamp: new Date().toISOString(),
@@ -316,7 +316,7 @@ if (typeof window !== 'undefined') {
                 otherDatabase = JSON.parse(content);
             } catch {
                 // Essayer d'extraire depuis un fichier JS
-                const match = content.match(/const SS64_DATABASE = ({[\s\S]*?});/);
+                const match = content.match(/const COMMANDHUB_DATABASE = ({[\s\S]*?});/);
                 if (match) {
                     otherDatabase = JSON.parse(match[1]);
                 } else {
@@ -361,9 +361,9 @@ if (typeof window !== 'undefined') {
     // Afficher l'aide
     help() {
         console.log(`
-🛠️  Script de maintenance SS64
+🛠️  Script de maintenance CommandHub
 
-Usage: node ss64-maintenance.js <command> [options]
+Usage: node commandhub-maintenance.js <command> [options]
 
 Commandes disponibles:
   validate              Valider la structure de la base de données
@@ -375,10 +375,10 @@ Commandes disponibles:
   help                  Afficher cette aide
 
 Exemples:
-  node ss64-maintenance.js validate
-  node ss64-maintenance.js backup
-  node ss64-maintenance.js restore backups/ss64-backup-2024-01-01.json
-  node ss64-maintenance.js merge other-database.json
+  node commandhub-maintenance.js validate
+  node commandhub-maintenance.js backup
+  node commandhub-maintenance.js restore backups/commandhub-backup-2024-01-01.json
+  node commandhub-maintenance.js merge other-database.json
 
 📁 Fichiers:
   Base principale: ${this.databasePath}
@@ -391,7 +391,7 @@ Exemples:
 function main() {
     const args = process.argv.slice(2);
     const command = args[0];
-    const maintenance = new SS64Maintenance();
+    const maintenance = new CommandHubMaintenance();
 
     if (!command) {
         maintenance.help();
@@ -418,7 +418,7 @@ function main() {
                 success = maintenance.restore(args[1]);
             } else {
                 console.error('❌ Fichier de sauvegarde requis');
-                console.log('Usage: node ss64-maintenance.js restore <backup-file>');
+                console.log('Usage: node commandhub-maintenance.js restore <backup-file>');
             }
             break;
         case 'merge':
@@ -426,7 +426,7 @@ function main() {
                 success = maintenance.merge(args[1]);
             } else {
                 console.error('❌ Fichier de base à fusionner requis');
-                console.log('Usage: node ss64-maintenance.js merge <database-file>');
+                console.log('Usage: node commandhub-maintenance.js merge <database-file>');
             }
             break;
         case 'help':
@@ -448,5 +448,5 @@ function main() {
 if (require.main === module) {
     main();
 } else {
-    module.exports = SS64Maintenance;
+    module.exports = CommandHubMaintenance;
 }

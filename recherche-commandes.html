@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recherche Commandes SS64 - Base Hors-ligne</title>
+    <title>CommandHub - Recherche de Commandes</title>
     <meta name="description" content="Base de données de recherche hors ligne pour commandes Windows, Linux, macOS et PowerShell">
     
     <!-- Fonts -->
@@ -450,8 +450,8 @@
     <div class="container fade-in">
         <div class="search-container">
             <div class="header">
-                <h1>🔍 Recherche SS64</h1>
-                <div class="subtitle">Base de données complète hors-ligne</div>
+                <h1>🔍 CommandHub</h1>
+                <div class="subtitle">Recherche rapide de commandes</div>
             </div>
             
             <div class="quick-access">
@@ -493,7 +493,7 @@
     <script src="js/navigation.js"></script>
     
     <!-- Chargement de la base de données -->
-    <script src="js/ss64-database.js"></script>
+    <script src="js/commandes-database.js"></script>
     
     <script>
         let currentOS = 'all';
@@ -523,12 +523,12 @@
         // Initialiser la base de données
         function initializeDatabase() {
             try {
-                if (typeof SS64_DATABASE !== 'undefined') {
-                    database = SS64_DATABASE;
+                if (typeof COMMANDS_DATABASE !== 'undefined') {
+                    database = COMMANDS_DATABASE;
                     isLoaded = true;
                     updateQuickCommands();
                     updateStats();
-                    console.log('✅ Base de données SS64 chargée avec succès');
+                    console.log('✅ Base de données CommandHub chargée avec succès');
                 } else {
                     throw new Error('Base de données non trouvée');
                 }
@@ -537,7 +537,7 @@
                 document.getElementById('statsInfo').innerHTML = `
                     <div style="color: var(--error-color);">
                         ⚠️ Erreur lors du chargement de la base de données<br>
-                        <small>Vérifiez que le fichier js/ss64-database.js est présent</small>
+                        <small>Vérifiez que le fichier js/commandes-database.js est présent</small>
                     </div>
                 `;
             }
@@ -587,13 +587,16 @@
             if (event.key === 'Enter') {
                 performSearch();
             } else if (event.target.value.trim().length >= 2) {
-                // Recherche en temps réel avec délai
-                clearTimeout(event.target.searchTimeout);
-                event.target.searchTimeout = setTimeout(() => {
-                    performSearch();
-                }, 300);
+            // Recherche en temps réel avec délai
+            clearTimeout(event.target.searchTimeout);
+            event.target.searchTimeout = setTimeout(() => {
+            performSearch();
+            }, 500);
             }
         }
+        
+        // Configuration
+        const MAX_RESULTS = 50; // Limiter l'affichage
         
         // Fonction principale de recherche
         function performSearch() {
@@ -636,12 +639,13 @@
                 });
             });
             
-            // Supprimer les doublons et trier par pertinence
+            // Supprimer les doublons, trier et limiter
             results = results
                 .filter((cmd, index, self) => 
                     index === self.findIndex(c => c.name === cmd.name && c.os === cmd.os)
                 )
-                .sort((a, b) => b.score - a.score);
+                .sort((a, b) => b.score - a.score)
+                .slice(0, MAX_RESULTS);
             
             // Afficher les résultats
             displayResults(results, query);
@@ -698,10 +702,12 @@
                 return;
             }
             
+            const showingText = results.length === MAX_RESULTS ? `${MAX_RESULTS}+ résultats` : `${results.length} résultat${results.length > 1 ? 's' : ''}`;
             const resultsHeader = `
                 <div class="results-header">
-                    📋 ${results.length} résultat${results.length > 1 ? 's' : ''} trouvé${results.length > 1 ? 's' : ''} pour "${query}"
+                    📋 ${showingText} trouvé${results.length > 1 ? 's' : ''} pour "${query}"
                     ${currentOS !== 'all' ? ` dans ${getOSDisplayName(currentOS)}` : ''}
+                    ${results.length === MAX_RESULTS ? ' <small>(50 premiers résultats)</small>' : ''}
                 </div>
             `;
             

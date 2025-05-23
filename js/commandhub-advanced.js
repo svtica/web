@@ -1,4 +1,4 @@
-// Suite du script JavaScript pour la recherche SS64 avancée
+// Suite du script JavaScript pour la recherche CommandHub avancée
 
 // Fonction pour générer des suggestions de recherche
 function generateSearchSuggestions(query) {
@@ -231,7 +231,7 @@ function exportResults() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `ss64-search-results-${new Date().toISOString().split('T')[0]}.json`;
+    a.download = `commandhub-search-results-${new Date().toISOString().split('T')[0]}.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -252,7 +252,7 @@ function shareResults() {
     
     if (navigator.share) {
         navigator.share({
-            title: `Recherche SS64: ${query}`,
+            title: `Recherche CommandHub: ${query}`,
             text: `${lastResults.length} commandes trouvées pour "${query}"`,
             url: url
         }).then(() => {
@@ -273,7 +273,7 @@ function shareCommand(name, os) {
     
     if (navigator.share) {
         navigator.share({
-            title: `Commande SS64: ${name}`,
+            title: `Commande CommandHub: ${name}`,
             text: `Commande ${name} pour ${getOSDisplayName(os)}`,
             url: url
         }).then(() => {
@@ -447,8 +447,8 @@ function updateAdminStats() {
 function enrichDatabase() {
     showToast('🔄 Enrichissement de la base de données...', 'info');
     
-    if (typeof enrichSS64Database === 'function') {
-        enrichSS64Database().then(newDatabase => {
+    if (typeof enrichCommandHubDatabase === 'function') {
+        enrichCommandHubDatabase().then(newDatabase => {
             database = newDatabase;
             updateOSBadges();
             updateStats();
@@ -519,8 +519,8 @@ function handleFileImport(event) {
 function resetDatabase() {
     if (confirm('Êtes-vous sûr de vouloir réinitialiser la base de données ? Cette action est irréversible.')) {
         // Recharger la base originale
-        if (typeof SS64_DATABASE !== 'undefined') {
-            database = { ...SS64_DATABASE };
+        if (typeof COMMANDHUB_DATABASE !== 'undefined') {
+            database = { ...COMMANDHUB_DATABASE };
             updateOSBadges();
             updateStats();
             showToast('🔄 Base de données réinitialisée', 'success');
@@ -553,10 +553,10 @@ function clearBookmarks() {
 
 function resetSettings() {
     if (confirm('Restaurer tous les paramètres par défaut ?')) {
-        localStorage.removeItem('ss64CurrentOS');
-        localStorage.removeItem('ss64SearchHistory');
-        localStorage.removeItem('ss64Bookmarks');
-        localStorage.removeItem('ss64UsageStats');
+        localStorage.removeItem('commandhubCurrentOS');
+        localStorage.removeItem('commandhubSearchHistory');
+        localStorage.removeItem('commandhubBookmarks');
+        localStorage.removeItem('commandhubUsageStats');
         
         // Réinitialiser les variables
         currentOS = 'all';

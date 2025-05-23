@@ -1,10 +1,10 @@
-// Tests automatisés pour la base de données SS64
-// Usage: node ss64-tests.js ou npm test
+// Tests automatisés pour la base de données CommandHub
+// Usage: node commandhub-tests.js ou npm test
 
 const fs = require('fs');
 const path = require('path');
 
-class SS64Tests {
+class CommandHubTests {
     constructor() {
         this.testResults = {
             passed: 0,
@@ -18,9 +18,9 @@ class SS64Tests {
     // Charger la base de données pour les tests
     loadDatabase() {
         try {
-            const dbPath = path.join(__dirname, 'js', 'ss64-database.js');
+            const dbPath = path.join(__dirname, 'js', 'commandhub-database.js');
             const content = fs.readFileSync(dbPath, 'utf8');
-            const match = content.match(/const SS64_DATABASE = ({[\s\S]*?});/);
+            const match = content.match(/const COMMANDHUB_DATABASE = ({[\s\S]*?});/);
             if (match) {
                 this.database = JSON.parse(match[1]);
                 return true;
@@ -247,7 +247,7 @@ class SS64Tests {
         );
 
         // Test de la taille de la base
-        const dbPath = path.join(__dirname, 'js', 'ss64-database.js');
+        const dbPath = path.join(__dirname, 'js', 'commandhub-database.js');
         const stats = fs.statSync(dbPath);
         const sizeKB = Math.round(stats.size / 1024);
         
@@ -345,7 +345,7 @@ class SS64Tests {
 
     // Exécuter tous les tests
     runAllTests() {
-        console.log('🧪 Démarrage des tests SS64\n');
+        console.log('🧪 Démarrage des tests CommandHub\n');
         
         if (!this.loadDatabase()) {
             return false;
@@ -390,9 +390,9 @@ class SS64Tests {
 
 // Exécution des tests
 if (require.main === module) {
-    const tester = new SS64Tests();
+    const tester = new CommandHubTests();
     const success = tester.runAllTests();
     process.exit(success ? 0 : 1);
 }
 
-module.exports = SS64Tests;
+module.exports = CommandHubTests;
