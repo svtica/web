@@ -38,10 +38,11 @@ input {
 }
 
 #response {
-  overflow: visible;
-  position: static;
+  overflow-y: auto;
+  position: relative;
   width: 100%;
   padding-bottom: 0;
+  max-height: 70vh;
 }
 
 #response table {
