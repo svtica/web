@@ -97,7 +97,7 @@
 }
 
 body {
-    font-family: 'VT323', monospace, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
     line-height: 1.6;
@@ -105,6 +105,20 @@ body {
     padding: 0;
     transition: background-color var(--transition-normal), color var(--transition-normal);
     overflow-x: hidden;
+}
+
+/* Police spécifique au thème rétro */
+:root[data-theme="retro"] body {
+    font-family: 'new_yorkregular', 'VT323', monospace, sans-serif;
+}
+
+/* VT323 pour les éléments de formulaire en mode rétro */
+:root[data-theme="retro"] input,
+:root[data-theme="retro"] textarea,
+:root[data-theme="retro"] button,
+:root[data-theme="retro"] code,
+:root[data-theme="retro"] pre {
+    font-family: 'VT323', monospace;
 }
 
 /* =========================== */

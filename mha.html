@@ -338,6 +338,15 @@
             color: var(--heading-color);
         }
         
+        /* Correction du problème de défilement */
+        #response {
+            position: relative !important;
+            overflow: visible !important;
+            bottom: auto !important;
+            left: auto !important;
+            width: 100% !important;
+        }
+        
         /* Responsive */
         @media (max-width: 768px) {
             .help-sections {
