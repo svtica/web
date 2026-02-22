@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Catalogue d'Outils — Boot CD</title>
+    <meta name="description" content="Catalogue de 95+ outils portables pour sysadmins — Boot CD Project">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="../fonts/font.css" type="text/css" charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/unified-theme.css">
+    <link rel="icon" type="image/png" href="../images/favicon.png">
+
+    <style>
+        .catalog-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-md);
+            align-items: flex-end;
+            margin-bottom: var(--spacing-lg);
+        }
+        .catalog-header h1 { margin: 0; flex: 1; min-width: 200px; }
+        .catalog-subtitle { margin: 4px 0 0; opacity: 0.65; font-size: 0.88rem; }
+        .catalog-stats { font-size: 0.85rem; opacity: 0.55; white-space: nowrap; }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
+            align-items: center;
+        }
+        .search-wrapper { position: relative; flex: 1; min-width: 200px; }
+        .search-wrapper input { width: 100%; padding-left: 2.2rem; margin: 0; }
+        .search-icon {
+            position: absolute; left: 0.65rem; top: 50%;
+            transform: translateY(-50%); opacity: 0.45; pointer-events: none;
+        }
+
+        /* Filter pills */
+        .filter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: var(--spacing-lg);
+        }
+        .pill {
+            padding: 3px 12px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+            background: transparent;
+            color: var(--text-color);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            white-space: nowrap;
+            line-height: 1.6;
+        }
+        .pill:hover { border-color: var(--button-color); color: var(--link-color); transform: none; box-shadow: none; background: transparent; }
+        .pill.active { background: var(--button-color); color: var(--bg-color); border-color: var(--button-color); transform: none; box-shadow: none; }
+        :root[data-theme="retro"] .pill.active { box-shadow: 0 0 8px var(--button-color); }
+
+        /* View + commercial toggle */
+        .view-toggle { display: flex; gap: 2px; }
+        .view-btn {
+            padding: 4px 10px; background: transparent;
+            border: 1px solid var(--border-color); color: var(--text-color);
+            cursor: pointer; font-size: 0.9rem; transition: all var(--transition-fast);
+            transform: none; box-shadow: none;
+        }
+        .view-btn:first-child { border-radius: var(--border-radius) 0 0 var(--border-radius); }
+        .view-btn:last-child  { border-radius: 0 var(--border-radius) var(--border-radius) 0; }
+        .view-btn:hover { background: var(--hover-color); transform: none; box-shadow: none; }
+        .view-btn.active { background: var(--button-color); color: var(--bg-color); border-color: var(--button-color); }
+
+        .btn-commercial {
+            padding: 4px 12px; font-size: 0.8rem;
+            border: 1px solid var(--border-color); background: transparent;
+            color: var(--text-color); border-radius: 20px; cursor: pointer;
+            transition: all var(--transition-fast); transform: none; box-shadow: none;
+        }
+        .btn-commercial:hover { border-color: var(--success-color); color: var(--success-color); transform: none; box-shadow: none; background: transparent; }
+        .btn-commercial.on { background: rgba(76,175,80,0.15); border-color: var(--success-color); color: var(--success-color); }
+
+        /* Results info */
+        .results-info { font-size: 0.82rem; opacity: 0.5; margin-bottom: var(--spacing-md); min-height: 1.1em; }
+
+        /* Grid */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        /* Card */
+        .tool-card {
+            padding: var(--spacing-md);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: var(--highlight-color);
+            display: flex; flex-direction: column; gap: 6px;
+            position: relative; overflow: hidden;
+            transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+        }
+        .tool-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--button-color); opacity: 0; transition: opacity var(--transition-fast);
+        }
+        .tool-card:hover { transform: translateY(-3px); box-shadow: 0 6px 18px var(--shadow-color); border-color: var(--button-color); }
+        .tool-card:hover::after { opacity: 1; }
+        :root[data-theme="retro"] .tool-card:hover { box-shadow: 0 0 18px var(--border-color), 0 6px 14px var(--shadow-color); }
+
+        .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; }
+        .tool-name { font-weight: 600; color: var(--heading-color); font-size: 0.93rem; word-break: break-word; }
+
+        .badges { display: flex; gap: 4px; flex-shrink: 0; flex-wrap: wrap; justify-content: flex-end; }
+        .badge {
+            font-size: 0.66rem; padding: 1px 6px; border-radius: 10px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; white-space: nowrap;
+        }
+        .b-official  { background: rgba(100,181,246,.15); color: var(--link-color);    border: 1px solid rgba(100,181,246,.3); }
+        .b-community { background: rgba(255,152,0,.12);   color: var(--warning-color); border: 1px solid rgba(255,152,0,.3); }
+        .b-commercial{ background: rgba(76,175,80,.13);   color: var(--success-color); border: 1px solid rgba(76,175,80,.3); }
+        .b-personal  { background: rgba(244,67,54,.1);    color: var(--error-color);   border: 1px solid rgba(244,67,54,.22); }
+
+        .tool-desc { font-size: 0.83rem; opacity: 0.82; line-height: 1.42; flex: 1; }
+
+        .card-meta {
+            display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+            margin-top: auto; padding-top: 8px; border-top: 1px solid var(--border-color);
+        }
+        .meta-item { font-size: 0.74rem; opacity: 0.6; display: flex; align-items: center; gap: 3px; }
+        .tool-link {
+            margin-left: auto; font-size: 0.78rem; color: var(--link-color);
+            opacity: 0.75; transition: opacity var(--transition-fast); flex-shrink: 0;
+        }
+        .tool-link:hover { opacity: 1; text-decoration: none; }
+
+        /* Category sections */
+        .cat-section { margin-bottom: var(--spacing-xl); }
+        .cat-heading {
+            display: flex; align-items: center; gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md); padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        .cat-heading h2 { margin: 0; font-size: 1.05rem; }
+        .cat-count { font-size: 0.78rem; opacity: 0.45; margin-left: auto; }
+
+        /* No results */
+        .no-results { text-align: center; padding: var(--spacing-xl) 0; opacity: 0.45; display: none; }
+
+        /* List view */
+        .view-list .tools-grid { grid-template-columns: 1fr; }
+        .view-list .tool-card { flex-direction: row; align-items: center; gap: var(--spacing-md); padding: 10px var(--spacing-md); }
+        .view-list .card-top { min-width: 170px; flex-direction: column; align-items: flex-start; flex-shrink: 0; }
+        .view-list .card-meta { border-top: none; padding-top: 0; min-width: 190px; flex-shrink: 0; }
+        @media (max-width: 640px) {
+            .view-list .tool-card { flex-direction: column; }
+            .view-list .card-top,
+            .view-list .card-meta { min-width: unset; }
+        }
+        @media (max-width: 480px) {
+            .controls { gap: 6px; }
+            .catalog-stats { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+    <div class="grid"></div>
+    <nav id="main-navigation"></nav>
+
+    <div class="container fade-in">
+
+        <div class="catalog-header">
+            <div>
+                <h1>📦 Catalogue d'outils</h1>
+                <p class="catalog-subtitle">
+                    Outils portables pour sysadmins ·
+                    <a href="https://github.com/svtica/bootcd" target="_blank" rel="noopener">Boot CD Project</a>
+                </p>
+            </div>
+            <div class="catalog-stats" id="stats-display"></div>
+        </div>
+
+        <div class="controls">
+            <div class="search-wrapper">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="q" placeholder="Rechercher…" autocomplete="off" spellcheck="false">
+            </div>
+            <div class="view-toggle">
+                <button class="view-btn active" id="btn-grid" onclick="setView('grid')" title="Grille">⊞</button>
+                <button class="view-btn"         id="btn-list" onclick="setView('list')" title="Liste">☰</button>
+            </div>
+            <button class="btn-commercial" id="btn-comm" onclick="toggleCommercial()" title="Filtrer: usage commercial uniquement">
+                💼 Commercial
+            </button>
+        </div>
+
+        <div class="filter-row" id="cat-filters">
+            <button class="pill active" data-cat="all" onclick="setCat('all',this)">Tous</button>
+        </div>
+
+        <div class="results-info" id="results-info"></div>
+        <div id="output"></div>
+        <div class="no-results" id="no-results">
+            <p style="font-size:2rem">🔍</p>
+            <p>Aucun outil trouvé.</p>
+        </div>
+
+        <div class="footer">
+            <p>
+                <em>Tous les outils sont portables — sans pub, sans tracking, sans prérequis.</em><br>
+                <em>Vérifiez les licences individuelles avant utilisation commerciale.</em><br><br>
+                <em>
+                    OpenSource ·
+                    <a href="https://github.com/svtica/bootcd" target="_blank" rel="noopener">github.com/svtica/bootcd</a>
+                    &nbsp;·&nbsp;
+                    <a href="https://github.com/svtica/web" target="_blank" rel="noopener">github.com/svtica/web</a>
+                </em>
+            </p>
+        </div>
+    </div>
+
+    <script src="../js/unified-theme-manager.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script>
+    // ─── Data ──────────────────────────────────────────────────────────────────
+    // Source: bootcd/config/tools.json v3.8.0 — 2026-02-22
+    const TOOLS = [
+        // System_Utilities
+        {n:"AccessEnum",           c:"System_Utilities", d:"Lister les permissions NTFS sur fichiers, dossiers et clés de registre",               v:"1.35",   lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/AccessEnum.zip"},
+        {n:"SysinternalsSuite",    c:"System_Utilities", d:"Suite complète des outils Microsoft Sysinternals",                                      v:"2025",   lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/SysinternalsSuite.zip"},
+        {n:"PSTools",              c:"System_Utilities", d:"Outils d'administration système en ligne de commande (PsExec, PsKill…)",                v:"2025",   lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/PSTools.zip"},
+        {n:"ProcessExplorer",      c:"System_Utilities", d:"Gestionnaire de processus avancé — remplaçant du Gestionnaire des tâches",             v:"17.06",  lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/ProcessExplorer.zip"},
+        {n:"ProcessMonitor",       c:"System_Utilities", d:"Surveillance temps réel du système de fichiers, registre et processus",                 v:"4.0",    lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/ProcessMonitor.zip"},
+        {n:"Autoruns",             c:"System_Utilities", d:"Gestionnaire complet des programmes au démarrage",                                     v:"14.11",  lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/Autoruns.zip"},
+        {n:"NirLauncher",          c:"System_Utilities", d:"Lanceur de la collection NirSoft — 200+ utilitaires en un seul paquet",                v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://launcher.nirsoft.net/"},
+        {n:"NirCmd",               c:"System_Utilities", d:"Utilitaire d'automatisation en ligne de commande (volumes, fenêtres, services…)",      v:"2.86",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/nircmd.html"},
+        {n:"ProduKey",             c:"System_Utilities", d:"Récupération des clés de produit Windows et Office",                                   v:"1.97",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/produkey.html"},
+        {n:"RegScanner",           c:"System_Utilities", d:"Recherche avancée dans le registre Windows",                                           v:"2.80",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/regscanner.html"},
+        {n:"ShellExView",          c:"System_Utilities", d:"Gestionnaire des extensions shell — désactiver les extensions problématiques",          v:"2.01",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/shexview.html"},
+        {n:"BlueScreenView",       c:"System_Utilities", d:"Analyse des dumps de crash écran bleu (BSOD)",                                         v:"1.55",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/blue_screen_view.html"},
+        {n:"CrystalDiskInfo",      c:"System_Utilities", d:"Monitoring de l'état de santé des disques durs via S.M.A.R.T.",                        v:"9.6.3",  lic:"MIT",                com:true,  off:true,  url:"https://crystalmark.info/en/software/crystaldiskinfo/"},
+        {n:"CrystalDiskMark",      c:"System_Utilities", d:"Benchmark de performances disque",                                                     v:"8.0.6",  lic:"MIT",                com:true,  off:true,  url:"https://crystalmark.info/en/software/crystaldiskmark/"},
+        {n:"CPU-Z",                c:"System_Utilities", d:"Informations détaillées sur le processeur, mémoire et carte mère",                     v:"2.15",   lic:"Freeware",           com:true,  off:true,  url:"https://www.cpuid.com/softwares/cpu-z.html"},
+        {n:"GPU-Z",                c:"System_Utilities", d:"Informations détaillées sur la carte graphique",                                        v:"2.65",   lic:"Freeware",           com:true,  off:true,  url:"https://www.techpowerup.com/gpuz/"},
+        {n:"HWiNFO64",             c:"System_Utilities", d:"Informations matérielles et diagnostics complets",                                     v:"8.26",   lic:"Freeware",           com:true,  off:true,  url:"https://www.hwinfo.com/"},
+        {n:"MemTest86",            c:"System_Utilities", d:"Outil bootable de test de la RAM",                                                     v:"11.0+",  lic:"Proprietary (Free)", com:true,  off:true,  url:"https://www.memtest86.com/"},
+        {n:"Rufus",                c:"System_Utilities", d:"Création de médias USB bootables",                                                     v:"4.7",    lic:"GPL v3",             com:true,  off:true,  url:"https://rufus.ie/"},
+        {n:"Ventoy",               c:"System_Utilities", d:"Booter plusieurs ISOs depuis une seule clé USB",                                       v:"1.1.05", lic:"GPL v3",             com:true,  off:true,  url:"https://www.ventoy.net/"},
+        {n:"YUMI",                 c:"System_Utilities", d:"Créateur USB multiboot — variante exFAT avec Ventoy",                                  v:"1.0.3.0",lic:"GPL",               com:true,  off:true,  url:"https://yumiusb.com/"},
+        {n:"RegShot",              c:"System_Utilities", d:"Comparaison du registre avant/après installation",                                     v:"1.9.0",  lic:"LGPL",              com:true,  off:true,  url:"https://sourceforge.net/projects/regshot/"},
+        {n:"CCleaner",             c:"System_Utilities", d:"Nettoyeur système et confidentialité",                                                  v:"6.24",   lic:"Freeware",           com:true,  off:true,  url:"https://www.ccleaner.com/"},
+        {n:"BleachBit",            c:"System_Utilities", d:"Nettoyeur open-source — alternative libre à CCleaner",                                 v:"4.6.0",  lic:"GPL v3",             com:true,  off:true,  url:"https://www.bleachbit.org/"},
+        {n:"RevoUninstaller",      c:"System_Utilities", d:"Désinstalleur avancé avec nettoyage des résidus",                                      v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://www.revouninstaller.com/"},
+        {n:"Speccy",               c:"System_Utilities", d:"Analyse système et matériel détaillée",                                                v:"1.33",   lic:"Freeware",           com:true,  off:true,  url:"https://www.ccleaner.com/speccy"},
+        {n:"LiteTask",             c:"System_Utilities", d:"Utilitaire léger de gestion des tâches — par svtica",                                  v:"1.0.0.2",lic:"Open Source",       com:true,  off:true,  url:"https://github.com/svtica/LiteTask/"},
+        {n:"EventCombMT",          c:"System_Utilities", d:"Analyse multi-thread des journaux d'événements Windows",                               v:"10.04",  lic:"Microsoft",          com:true,  off:true,  url:"https://www.microsoft.com/en-us/download/details.aspx?id=24196"},
+        {n:"LockoutStatus",        c:"System_Utilities", d:"Informations de verrouillage de compte en temps réel depuis les contrôleurs de domaine", v:"1.4.7", lic:"Microsoft",        com:true,  off:true,  url:"https://www.microsoft.com/en-us/download/details.aspx?id=15201"},
+        {n:"ADKSetup",             c:"System_Utilities", d:"Windows ADK — OSCDIMG, fichiers de boot et outils de déploiement",                    v:"Latest", lic:"Microsoft",          com:true,  off:true,  url:"https://go.microsoft.com/fwlink/?linkid=2196127"},
+        {n:"NtfsPermissionsReporter",c:"System_Utilities",d:"Rapports de permissions NTFS — utile pour les audits de sécurité",                   v:"Latest", lic:"Open Source",       com:true,  off:true,  url:"https://github.com/rjpcomputing/ntfspermissionsreporter/"},
+        {n:"TweakingWindowsRepair",c:"System_Utilities", d:"Outil de réparation du système Windows",                                               v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://www.tweaking.com/"},
+        {n:"PALWizard",            c:"System_Utilities", d:"Analyse de logs de compteurs de performance Windows",                                  v:"Latest", lic:"MIT",                com:true,  off:true,  url:"https://github.com/clinthuffman/PAL/"},
+        // Security
+        {n:"PEStudio",             c:"Security",         d:"Analyse de malwares et inspection de fichiers PE",                                     v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://www.winitor.com/"},
+        {n:"YARA",                 c:"Security",         d:"Moteur de correspondance de patterns pour chercheurs en malwares",                     v:"4.5.1",  lic:"BSD",                com:true,  off:true,  url:"https://virustotal.github.io/yara/"},
+        {n:"HashCat",              c:"Security",         d:"Récupération de mots de passe accélérée GPU — usage éthique uniquement",               v:"6.2.6",  lic:"MIT",                com:true,  off:true,  url:"https://hashcat.net/"},
+        {n:"IISCrypto",            c:"Security",         d:"Configurer les protocoles SSL/TLS et suites de chiffrement sur Windows",               v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://www.nartac.com/Products/IISCrypto"},
+        {n:"KeePassPortable",      c:"Security",         d:"Gestionnaire de mots de passe portable avec chiffrement AES",                          v:"2.58",   lic:"GPL v2",             com:true,  off:true,  url:"https://keepass.info/"},
+        {n:"ExifTool",             c:"Security",         d:"Analyse et modification des métadonnées de fichiers",                                  v:"12.96",  lic:"Perl Artistic",      com:true,  off:true,  url:"https://exiftool.org/"},
+        {n:"OpenSSL",              c:"Security",         d:"Boîte à outils cryptographie et SSL/TLS — build officiel FireDaemon Windows",          v:"3.5.0",  lic:"Apache 2.0",         com:true,  off:true,  url:"https://www.firedaemon.com/firedaemon-openssl"},
+        {n:"Ophcrack",             c:"Security",         d:"Récupération de mots de passe Windows via tables arc-en-ciel — usage éthique",         v:"3.8.0",  lic:"GPL",               com:true,  off:true,  url:"https://ophcrack.sourceforge.io/"},
+        {n:"DBAN",                 c:"Security",         d:"Effacement sécurisé de disques, ISO bootable — non adapté aux SSD",                    v:"2.3.0",  lic:"GPL",               com:true,  off:true,  url:"https://dban.org/"},
+        {n:"EnzoicForADLite",      c:"Security",         d:"Audit des mots de passe Active Directory contre les bases de compromissions",          v:"Latest", lic:"Freeware (Free tier)",com:true, off:true,  url:"https://www.enzoic.com/enzoic-for-active-directory-lite/"},
+        {n:"ATF-Cleaner",          c:"Security",         d:"Nettoyeur de fichiers temporaires et résidus Windows",                                 v:"3.0.2.4",lic:"Freeware",           com:true,  off:true,  url:"https://www.atribune.org/"},
+        {n:"PEiD",                 c:"Security",         d:"Identifiant de binaires PE et détecteur de packers",                                   v:"0.95",   lic:"Freeware",           com:true,  off:false, url:"https://github.com/wolfram77web/app-peid"},
+        {n:"McAfeeRemovalTool",    c:"Security",         d:"Outil officiel de désinstallation McAfee",                                             v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://www.mcafee.com/"},
+        {n:"TrendMicroUninstaller",c:"Security",         d:"Désinstalleur officiel Trend Micro",                                                   v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://esupport.trendmicro.com/"},
+        {n:"AviraRemovalTool",     c:"Security",         d:"Outil officiel de suppression Avira",                                                  v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://www.avira.com/"},
+        {n:"RannohDecryptor",      c:"Security",         d:"Déchiffreur Kaspersky pour le ransomware Rannoh",                                      v:"Latest", lic:"Freeware",           com:true,  off:true,  url:"https://support.kaspersky.com/"},
+        {n:"SubBrute",             c:"Security",         d:"Brute-force de sous-domaines DNS — usage éthique uniquement",                          v:"Latest", lic:"GPL v3",             com:true,  off:true,  url:"https://github.com/TheRook/subbrute/"},
+        {n:"SelfSignedCertGenerator",c:"Security",       d:"Génération de certificats auto-signés",                                                v:"Latest", lic:"MIT",                com:true,  off:false, url:"https://github.com/PKISolutions/SelfSignedCertGenerator"},
+        {n:"PowerShellPKI",        c:"Security",         d:"Module PKI PowerShell — gestion de certificats",                                       v:"3.1.0",  lic:"MIT",                com:true,  off:true,  url:"https://www.powershellgallery.com/packages/PSPKI"},
+        // Antivirus
+        {n:"EmsisoftEmergencyKit", c:"Antivirus",        d:"Kit antivirus d'urgence Emsisoft — usage personnel uniquement",                        v:"2025.1", lic:"Freeware (Personnel)",com:false, off:true,  url:"https://www.emsisoft.com/en/home/emergencykit/"},
+        {n:"AdwCleaner",           c:"Antivirus",        d:"Nettoyeur d'adwares et programmes indésirables par Malwarebytes",                      v:"8.5.1",  lic:"Freeware",           com:true,  off:true,  url:"https://www.malwarebytes.com/adwcleaner"},
+        {n:"BitdefenderAVFree",    c:"Antivirus",        d:"Protection temps réel légère avec analyse cloud — usage personnel uniquement",          v:"Latest", lic:"Freeware (Personnel)",com:false, off:true,  url:"https://www.bitdefender.com/solutions/free.html"},
+        // Network
+        {n:"Wireshark",            c:"Network",          d:"Analyseur de protocoles réseau",                                                       v:"4.4.6",  lic:"GPL v2+",            com:true,  off:true,  url:"https://www.wireshark.org/"},
+        {n:"Nmap",                 c:"Network",          d:"Scanner réseau et analyseur de sécurité",                                              v:"7.95",   lic:"GPL",               com:true,  off:true,  url:"https://nmap.org/"},
+        {n:"AdvancedIPScanner",    c:"Network",          d:"Scanner IP avancé pour réseaux locaux",                                                v:"2.5.4594",lic:"Freeware",          com:true,  off:true,  url:"https://www.advanced-ip-scanner.com/"},
+        {n:"AngryIPScanner",       c:"Network",          d:"Scanner IP open-source multiplateforme",                                               v:"3.9.1",  lic:"GPL v2",             com:true,  off:true,  url:"https://angryip.org/"},
+        {n:"TCPView",              c:"Network",          d:"Visualisation des connexions TCP/UDP actives",                                          v:"4.19",   lic:"Microsoft",          com:true,  off:true,  url:"https://download.sysinternals.com/files/TCPView.zip"},
+        {n:"NetworkTrafficView",   c:"Network",          d:"Surveillance du trafic réseau par processus",                                          v:"2.30",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/networktrafficview.html"},
+        {n:"WirelessNetView",      c:"Network",          d:"Scanner de réseaux sans-fil à proximité",                                              v:"1.75",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/wireless_network_view.html"},
+        {n:"NetworkOpenedFiles",   c:"Network",          d:"Voir les fichiers ouverts sur le réseau depuis la machine locale",                     v:"1.52",   lic:"Freeware",           com:true,  off:true,  url:"https://www.nirsoft.net/utils/network_opened_files.html"},
+        {n:"Curl",                 c:"Network",          d:"Transfert de données en ligne de commande (HTTP, FTP, SFTP…)",                         v:"8.0.1",  lic:"MIT",                com:true,  off:true,  url:"https://curl.se/windows/"},
+        {n:"ReinstallNIC",         c:"Network",          d:"Réinstallation de carte réseau — dépannage pilotes",                                   v:"Latest", lic:"MIT",                com:true,  off:false, url:"https://github.com/Microsoft/Windows-driver-samples"},
+        {n:"MailSend",             c:"Network",          d:"Envoi de courriels en ligne de commande",                                              v:"Latest", lic:"BSD",                com:true,  off:true,  url:"https://github.com/muquit/mailsend"},
+        // Remote Access
+        {n:"PuTTY",                c:"Remote_Access",    d:"Client SSH/Telnet pour Windows",                                                       v:"0.83",   lic:"MIT",                com:true,  off:true,  url:"https://www.putty.org/"},
+        {n:"AnyDesk",              c:"Remote_Access",    d:"Bureau à distance rapide — portable, chiffré TLS 1.2",                                 v:"9.5.4",  lic:"Freemium",           com:true,  off:true,  url:"https://anydesk.com/"},
+        {n:"RustDesk",             c:"Remote_Access",    d:"Alternative open-source à TeamViewer — auto-hébergeable",                              v:"1.3.3",  lic:"AGPL v3",            com:true,  off:true,  url:"https://rustdesk.com/"},
+        {n:"TSLogoff",             c:"Remote_Access",    d:"Déconnexion de sessions Terminal Services en ligne de commande",                       v:"Built-in",lic:"Microsoft",         com:true,  off:true,  url:"https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/logoff"},
+        // Development
+        {n:"NotepadPlusPlus",      c:"Development",      d:"Éditeur de texte avancé avec coloration syntaxique",                                   v:"8.8.1",  lic:"GPL v3",             com:true,  off:true,  url:"https://notepad-plus-plus.org/"},
+        {n:"VSCodePortable",       c:"Development",      d:"Visual Studio Code portable — Microsoft",                                              v:"Latest", lic:"MIT",                com:true,  off:true,  url:"https://code.visualstudio.com/"},
+        {n:"OllyDbg",              c:"Development",      d:"Débogueur assembleur 32-bit avec désassembleur intégré",                               v:"2.01",   lic:"Freeware",           com:true,  off:true,  url:"https://www.ollydbg.de/"},
+        {n:"HxDHexEditor",         c:"Development",      d:"Éditeur hexadécimal gratuit et puissant",                                              v:"2.5.0",  lic:"Freeware",           com:true,  off:true,  url:"https://mh-nexus.de/en/hxd/"},
+        {n:"NuGet",                c:"Development",      d:"Gestionnaire de paquets pour .NET",                                                    v:"Latest", lic:"Apache 2.0",         com:true,  off:true,  url:"https://www.nuget.org/"},
+        {n:"AndroidPlatformTools", c:"Development",      d:"ADB et Fastboot pour le développement Android",                                        v:"36.0.0", lic:"Android SDK",        com:true,  off:true,  url:"https://developer.android.com/tools/releases/platform-tools"},
+        {n:"BusyBoxWindows",       c:"Development",      d:"300+ commandes Unix en un seul exécutable de 627 Ko",                                  v:"Latest", lic:"GPL v2",             com:true,  off:true,  url:"https://frippery.org/busybox/"},
+        {n:"CygwinPortable",       c:"Development",      d:"Cygwin portable avec ConEmu et gestionnaire de paquets apt-cyg",                       v:"Latest", lic:"GPL",               com:true,  off:false, url:"https://github.com/MachinaCore/CygwinPortable/"},
+        {n:"LibreOffice",          c:"Development",      d:"Suite bureautique complète portable",                                                  v:"7.6.8",  lic:"MPL 2.0",            com:true,  off:true,  url:"https://www.libreoffice.org/"},
+        // File Management
+        {n:"Everything",           c:"File_Management",  d:"Recherche instantanée de fichiers pour Windows",                                       v:"1.4.1",  lic:"Freeware",           com:true,  off:true,  url:"https://www.voidtools.com/"},
+        {n:"TreeSizeFree",         c:"File_Management",  d:"Analyseur d'espace disque — usage personnel uniquement",                              v:"4.4+",   lic:"Freeware (Personnel)",com:false, off:true,  url:"https://www.jam-software.com/treesize_free"},
+        {n:"WizTree",              c:"File_Management",  d:"Analyseur d'espace disque ultra-rapide — alternative commerciale à TreeSize",          v:"4.20",   lic:"Freeware",           com:true,  off:true,  url:"https://diskanalyzer.com/"},
+        {n:"SpaceSniffer",         c:"File_Management",  d:"Analyseur d'espace disque en treemap interactif",                                      v:"2.0.2.5",lic:"Freeware",           com:true,  off:true,  url:"https://www.uderzo.it/main_products/space_sniffer/"},
+        {n:"7Zip",                 c:"File_Management",  d:"Archiveur de fichiers 7-Zip",                                                          v:"24.08",  lic:"LGPL",              com:true,  off:true,  url:"https://www.7-zip.org/"},
+        {n:"Rar",                  c:"File_Management",  d:"Archiveur WinRAR en ligne de commande — version d'essai",                              v:"6.24",   lic:"Shareware",          com:false, off:true,  url:"https://www.rarlab.com/"},
+        {n:"Unlocker",             c:"File_Management",  d:"Déverrouiller les fichiers et dossiers bloqués par des processus",                     v:"Latest", lic:"Freeware",           com:true,  off:false, url:"https://www.iobit.com/en/iobit-unlocker.php"},
+        {n:"ZipInst",              c:"File_Management",  d:"Installateur basé sur ZIP",                                                            v:"Latest", lic:"Open Source",       com:true,  off:true,  url:"https://github.com/OliverKurowski/zipinst/"},
+        // File Recovery
+        {n:"TestDiskPhotoRec",     c:"File_Recovery",    d:"Récupération de données pour partitions perdues et fichiers supprimés",                v:"7.2",    lic:"GPL",               com:true,  off:true,  url:"https://www.cgsecurity.org/wiki/TestDisk"},
+        {n:"Recuva",               c:"File_Recovery",    d:"Outil de récupération de fichiers par Piriform",                                       v:"1.53",   lic:"Freeware",           com:true,  off:true,  url:"https://www.ccleaner.com/recuva"},
+        {n:"DMDE",                 c:"File_Recovery",    d:"Éditeur disque professionnel — version gratuite: jusqu'à 4000 fichiers récupérés",     v:"4.2.4",  lic:"Freemium",           com:true,  off:true,  url:"https://dmde.com/"},
+        // Media
+        {n:"VLC",                  c:"Media",            d:"Lecteur multimédia VLC portable",                                                       v:"3.0.21", lic:"GPL v2+",            com:true,  off:true,  url:"https://www.videolan.org/vlc/"},
+        {n:"GIMP",                 c:"Media",            d:"Éditeur d'images GNU — retouche et création graphique",                                v:"2.10.38",lic:"GPL v3",             com:true,  off:true,  url:"https://www.gimp.org/"},
+        {n:"SumatraPDF",           c:"Media",            d:"Lecteur léger de PDF, eBook et documents",                                             v:"3.5.2",  lic:"GPL v3",             com:true,  off:true,  url:"https://www.sumatrapdfreader.org/"},
+        {n:"Audacity",             c:"Media",            d:"Logiciel d'édition audio multiformat",                                                 v:"3.6.4",  lic:"GPL v2+",            com:true,  off:true,  url:"https://www.audacityteam.org/"},
+        {n:"PDFTools",             c:"Media",            d:"Boîte à outils PDF Xpdf en ligne de commande (pdfinfo, pdftotext, pdfimages…)",        v:"Latest", lic:"GPL",               com:false, off:true,  url:"https://www.xpdfreader.com/"},
+        // Databases
+        {n:"MITRE_CVE_Database",   c:"Databases",        d:"Base de données CVE complète — CSV mis à jour quotidiennement",                        v:"Daily",  lic:"Public Domain",      com:true,  off:true,  url:"https://cve.mitre.org/data/downloads/allitems.csv"},
+        {n:"IEEE_OUI_Database",    c:"Databases",        d:"Base IEEE OUI — identification des fabricants réseau par adresse MAC",                 v:"Monthly",lic:"IEEE",              com:true,  off:true,  url:"https://regauth.standards.ieee.org/standards-ra-web/pub/view.html#registries"},
+        // Web Browsers
+        {n:"Firefox",              c:"Web_Browsers",     d:"Navigateur web Mozilla Firefox",                                                       v:"Latest", lic:"MPL 2.0",            com:true,  off:true,  url:"https://www.mozilla.org/firefox/"},
+    ];
+
+    const CATS = {
+        System_Utilities: {label:"Utilitaires Système",    icon:"⚙️"},
+        Security:         {label:"Sécurité & Forensique",  icon:"🔐"},
+        Antivirus:        {label:"Antivirus",               icon:"🛡️"},
+        Network:          {label:"Réseau",                  icon:"🌐"},
+        Remote_Access:    {label:"Accès Distant",           icon:"🖥️"},
+        Development:      {label:"Développement",           icon:"💻"},
+        File_Management:  {label:"Gestion de Fichiers",     icon:"📁"},
+        File_Recovery:    {label:"Récupération de Données", icon:"💾"},
+        Media:            {label:"Médias",                  icon:"🎬"},
+        Databases:        {label:"Bases de données",        icon:"🗄️"},
+        Web_Browsers:     {label:"Navigateurs Web",         icon:"🌍"},
+    };
+
+    let state = { cat:'all', comm:false, view:'grid', q:'' };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        buildFilters();
+        updateStats();
+        render();
+        document.getElementById('q').addEventListener('input', e => {
+            state.q = e.target.value.toLowerCase().trim();
+            render();
+        });
+    });
+
+    function buildFilters() {
+        const counts = {};
+        TOOLS.forEach(t => counts[t.c] = (counts[t.c]||0)+1);
+        const bar = document.getElementById('cat-filters');
+        Object.entries(CATS).forEach(([key, cfg]) => {
+            if (!counts[key]) return;
+            const b = document.createElement('button');
+            b.className = 'pill';
+            b.dataset.cat = key;
+            b.innerHTML = `${cfg.icon} ${cfg.label} <span style="opacity:.45;font-size:.85em">${counts[key]}</span>`;
+            b.onclick = () => setCat(key, b);
+            bar.appendChild(b);
+        });
+    }
+
+    function updateStats() {
+        const total = TOOLS.length;
+        const comm  = TOOLS.filter(t => t.com).length;
+        document.getElementById('stats-display').textContent = `${total} outils · ${comm} utilisables commercialement`;
+    }
+
+    function setCat(cat, btn) {
+        state.cat = cat;
+        document.querySelectorAll('.pill').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        render();
+    }
+
+    function toggleCommercial() {
+        state.comm = !state.comm;
+        const b = document.getElementById('btn-comm');
+        b.classList.toggle('on', state.comm);
+        b.textContent = state.comm ? '✅ Commercial' : '💼 Commercial';
+        render();
+    }
+
+    function setView(v) {
+        state.view = v;
+        document.getElementById('btn-grid').classList.toggle('active', v==='grid');
+        document.getElementById('btn-list').classList.toggle('active', v==='list');
+        document.querySelector('.container').classList.toggle('view-list', v==='list');
+        render();
+    }
+
+    function filtered() {
+        return TOOLS.filter(t => {
+            if (state.cat !== 'all' && t.c !== state.cat) return false;
+            if (state.comm && !t.com) return false;
+            if (state.q) {
+                const hay = `${t.n} ${t.d} ${t.c} ${t.lic}`.toLowerCase();
+                if (!hay.includes(state.q)) return false;
+            }
+            return true;
+        });
+    }
+
+    function render() {
+        const tools = filtered();
+        const out   = document.getElementById('output');
+        const noRes = document.getElementById('no-results');
+        const info  = document.getElementById('results-info');
+
+        if (!tools.length) {
+            out.innerHTML = '';
+            noRes.style.display = 'block';
+            info.textContent = '';
+            return;
+        }
+        noRes.style.display = 'none';
+        info.textContent = `${tools.length} outil${tools.length>1?'s':''} affiché${tools.length>1?'s':''}`;
+
+        if (state.cat === 'all' && !state.q) {
+            out.innerHTML = '';
+            const bycat = {};
+            tools.forEach(t => { (bycat[t.c]||(bycat[t.c]=[])).push(t); });
+            Object.entries(CATS).forEach(([key, cfg]) => {
+                if (!bycat[key]?.length) return;
+                const sec = document.createElement('div');
+                sec.className = 'cat-section';
+                sec.innerHTML =
+                    `<div class="cat-heading">
+                        <h2>${cfg.icon} ${cfg.label}</h2>
+                        <span class="cat-count">${bycat[key].length} outil${bycat[key].length>1?'s':''}</span>
+                    </div>
+                    <div class="tools-grid">${bycat[key].map(card).join('')}</div>`;
+                out.appendChild(sec);
+            });
+        } else {
+            out.innerHTML = `<div class="tools-grid">${tools.map(card).join('')}</div>`;
+        }
+    }
+
+    function card(t) {
+        const srcBadge = t.off
+            ? `<span class="badge b-official">Officiel</span>`
+            : `<span class="badge b-community">Community</span>`;
+        const comBadge = t.com
+            ? `<span class="badge b-commercial">Commercial</span>`
+            : `<span class="badge b-personal">Personnel</span>`;
+        return `
+        <div class="tool-card">
+            <div class="card-top">
+                <span class="tool-name">${esc(t.n)}</span>
+                <div class="badges">${srcBadge}${comBadge}</div>
+            </div>
+            <div class="tool-desc">${esc(t.d)}</div>
+            <div class="card-meta">
+                <span class="meta-item">📌 ${esc(t.v)}</span>
+                <span class="meta-item">⚖️ ${esc(t.lic)}</span>
+                <a class="tool-link" href="${esc(t.url)}" target="_blank" rel="noopener">Télécharger ↗</a>
+            </div>
+        </div>`;
+    }
+
+    function esc(s) {
+        return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+    </script>
+</body>
+</html>
