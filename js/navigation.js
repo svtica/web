@@ -5,7 +5,11 @@
 
 class NavigationManager {
     constructor() {
+        // Détection du sous-répertoire courant
+        this.pathPrefix = this._getPathPrefix();
+        
         // Définition de toutes les pages du site
+        // url = chemin depuis la racine du site
         this.pages = [
             { name: 'Accueil', url: 'index.html', icon: '🏠' },
             { name: 'Générateurs', url: 'generateur.html', icon: '🔧' },
@@ -21,7 +25,8 @@ class NavigationManager {
             { name: 'Générateur WPA-PSK', url: 'wpa-psk-generator.html', icon: '🔐' },
             { name: 'Calculateur Hachage', url: 'calculateur-hachage.html', icon: '🔒' },
             { name: 'CommandHub', url: 'recherche-commandes.html', icon: '🔍' },
-            { name: 'Commandes Réseau', url: 'generateur-commandes-reseau.html', icon: '🌐' }
+            { name: 'Commandes Réseau', url: 'generateur-commandes-reseau.html', icon: '🌐' },
+            { name: 'Outils Portables', url: 'tools/index.html', icon: '📦' }
         ];
         
         this.currentPage = this.getCurrentPage();
@@ -29,11 +34,25 @@ class NavigationManager {
     }
     
     /**
+     * Détecte si on est dans un sous-répertoire et retourne le préfixe approprié
+     */
+    _getPathPrefix() {
+        const pathname = window.location.pathname;
+        if (/\/tools\//.test(pathname)) return '../';
+        return '';
+    }
+    
+    /**
      * Détermine la page actuelle basée sur l'URL
      */
     getCurrentPage() {
-        const currentUrl = window.location.pathname.split('/').pop() || 'index.html';
-        return currentUrl;
+        const pathname = window.location.pathname;
+        // Retourne le chemin relatif depuis la racine du site
+        const match = pathname.match(/\/(?:tools\/)?([^/]+)$/);
+        const filename = match ? match[1] : 'index.html';
+        // Inclure le sous-dossier si applicable
+        if (/\/tools\//.test(pathname)) return 'tools/' + filename;
+        return filename || 'index.html';
     }
     
     /**
@@ -57,7 +76,8 @@ class NavigationManager {
         // Créer les liens de navigation
         this.pages.forEach(page => {
             const link = document.createElement('a');
-            link.href = page.url;
+            // Ajuster l'URL selon la profondeur du répertoire courant
+            link.href = this.pathPrefix + page.url;
             link.innerHTML = `<span class="nav-icon">${page.icon}</span> ${page.name}`;
             link.classList.add('nav-link');
             
@@ -113,7 +133,7 @@ class NavigationManager {
     updateActiveLink() {
         const links = document.querySelectorAll('.nav-link');
         links.forEach(link => {
-            if (link.getAttribute('href') === this.currentPage) {
+            if (link.getAttribute('href') === this.pathPrefix + this.currentPage) {
                 link.classList.add('active');
             } else {
                 link.classList.remove('active');
