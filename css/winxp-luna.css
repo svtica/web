@@ -1,0 +1,650 @@
+/**
+ * Windows XP "Luna Silver" / Office XP System UI Theme
+ * Recreates the full Windows XP Luna Silver desktop aesthetic
+ */
+
+/* ===========================
+   CSS VARIABLES
+   =========================== */
+:root[data-theme="winxp"] {
+    /* XP Core Palette */
+    --xp-toolbar: #D4D0C8;
+    --xp-window-bg: #ECE9D8;
+    --xp-title-dark: #0A246A;
+    --xp-title-mid: #1C5AA8;
+    --xp-title-light: #3A6EA8;
+    --xp-selection: #316AC5;
+
+    /* Luna Silver Palette */
+    --xp-silver-light: #F1EFE2;
+    --xp-silver: #ECE9D8;
+    --xp-silver-dark: #D4D0C8;
+    --xp-silver-border: #ACA899;
+    --xp-silver-shadow: #808080;
+
+    /* UI Colors */
+    --xp-white: #FFFFFF;
+    --xp-black: #000000;
+    --xp-text: #000000;
+    --xp-text-gray: #666666;
+    --xp-link: #0066CC;
+    --xp-progress-green: #37B44A;
+    --xp-focus-dotted: #000000;
+
+    /* Status */
+    --xp-success: #37B44A;
+    --xp-warning: #FF8C00;
+    --xp-error: #CC0000;
+
+    /* Override unified theme variables */
+    --bg-color: #ECE9D8;
+    --text-color: #000000;
+    --heading-color: #0A246A;
+    --link-color: #0066CC;
+    --button-color: #D4D0C8;
+    --border-color: #ACA899;
+    --highlight-color: rgba(49, 106, 197, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --hover-color: rgba(49, 106, 197, 0.2);
+    --active-color: rgba(49, 106, 197, 0.3);
+    --disabled-color: rgba(0, 0, 0, 0.3);
+    --error-color: #CC0000;
+    --success-color: #37B44A;
+    --warning-color: #FF8C00;
+    --border-radius: 3px;
+}
+
+/* ===========================
+   BODY & BASE
+   =========================== */
+:root[data-theme="winxp"] body {
+    font-family: Tahoma, 'Segoe UI', Geneva, sans-serif !important;
+    font-size: 11px !important;
+    background-color: #ECE9D8 !important;
+    color: #000000 !important;
+    line-height: 1.4;
+}
+
+:root[data-theme="winxp"] input,
+:root[data-theme="winxp"] textarea,
+:root[data-theme="winxp"] button,
+:root[data-theme="winxp"] select,
+:root[data-theme="winxp"] code,
+:root[data-theme="winxp"] pre {
+    font-family: Tahoma, 'Segoe UI', Geneva, sans-serif !important;
+    font-size: 11px !important;
+}
+
+/* ===========================
+   ANIMATED BACKGROUND - DISABLE
+   =========================== */
+:root[data-theme="winxp"] .background {
+    background: #ECE9D8 !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme="winxp"] .grid {
+    display: none !important;
+}
+
+/* ===========================
+   NAVIGATION - XP TOOLBAR
+   =========================== */
+:root[data-theme="winxp"] nav {
+    background: #D4D0C8 !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    /* XP raised/etched borders via box-shadow */
+    box-shadow:
+        inset 1px 1px 0 #FFFFFF,
+        inset -1px -1px 0 #808080,
+        0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    padding: 3px 6px !important;
+    gap: 1px !important;
+}
+
+/* Etched separator */
+:root[data-theme="winxp"] nav::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #FFFFFF;
+}
+
+:root[data-theme="winxp"] .nav-link {
+    color: #000000 !important;
+    font-size: 11px !important;
+    padding: 2px 8px !important;
+    border-radius: 2px !important;
+    border: 1px solid transparent !important;
+}
+
+:root[data-theme="winxp"] .nav-link:hover {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+    border-color: #316AC5 !important;
+    text-decoration: none !important;
+}
+
+:root[data-theme="winxp"] .nav-link.active {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+}
+
+:root[data-theme="winxp"] .nav-theme-toggle {
+    background: linear-gradient(to bottom, #F5F4F0, #D4D0C8) !important;
+    color: #000000 !important;
+    border: 1px solid #808080 !important;
+    border-radius: 3px !important;
+    font-size: 11px !important;
+    padding: 2px 10px !important;
+    box-shadow:
+        inset 0 1px 0 #FFFFFF,
+        inset 0 -1px 0 #808080 !important;
+}
+
+:root[data-theme="winxp"] .nav-theme-toggle:hover {
+    background: linear-gradient(to bottom, #B8D6FB, #7AADE4) !important;
+    border-color: #316AC5 !important;
+    transform: none !important;
+}
+
+/* ===========================
+   CONTAINER - XP WINDOW WITH EXPLORER PANEL
+   =========================== */
+:root[data-theme="winxp"] .container {
+    background-color: #FFFFFF !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 0 0 0 1px #FFFFFF,
+        2px 2px 6px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* XP Explorer blue gradient header strip */
+:root[data-theme="winxp"] .container::before {
+    content: '';
+    display: block;
+    height: 28px;
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+    background: linear-gradient(to right, #0A246A, #3A6EA8, #1C5AA8);
+    border-bottom: 1px solid #ACA899;
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ===========================
+   HEADINGS
+   =========================== */
+:root[data-theme="winxp"] h1 {
+    color: #0A246A !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    text-shadow: none !important;
+    border-bottom: 1px solid #ACA899 !important;
+    padding-bottom: 4px !important;
+}
+
+:root[data-theme="winxp"] h2 {
+    color: #0A246A !important;
+    font-size: 12px !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="winxp"] h3,
+:root[data-theme="winxp"] h4,
+:root[data-theme="winxp"] h5,
+:root[data-theme="winxp"] h6 {
+    color: #0A246A !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   LINKS
+   =========================== */
+:root[data-theme="winxp"] a {
+    color: #0066CC !important;
+}
+
+:root[data-theme="winxp"] a:hover {
+    color: #316AC5 !important;
+    text-decoration: underline !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   FORMS - XP SYSTEM CONTROLS
+   =========================== */
+:root[data-theme="winxp"] input[type="text"],
+:root[data-theme="winxp"] input[type="email"],
+:root[data-theme="winxp"] input[type="password"],
+:root[data-theme="winxp"] input[type="number"],
+:root[data-theme="winxp"] input[type="url"],
+:root[data-theme="winxp"] textarea,
+:root[data-theme="winxp"] select {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 1px 1px 0 #808080,
+        inset -1px -1px 0 #FFFFFF,
+        inset 2px 2px 0 #D4D0C8 !important;
+    padding: 3px 5px !important;
+}
+
+:root[data-theme="winxp"] input:focus,
+:root[data-theme="winxp"] textarea:focus,
+:root[data-theme="winxp"] select:focus {
+    /* XP-style dotted focus outline */
+    outline: 1px dotted #000000 !important;
+    outline-offset: -1px !important;
+    box-shadow:
+        inset 1px 1px 0 #0A246A,
+        inset -1px -1px 0 #FFFFFF,
+        inset 2px 2px 0 #3A6EA8 !important;
+}
+
+/* XP-style dropdown */
+:root[data-theme="winxp"] select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' fill='none' stroke='%23000' stroke-width='1.5'/%3E%3C/svg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 4px center !important;
+    padding-right: 20px !important;
+}
+
+:root[data-theme="winxp"] select option:checked,
+:root[data-theme="winxp"] select option:hover {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+/* XP Checkboxes & Radios */
+:root[data-theme="winxp"] input[type="checkbox"],
+:root[data-theme="winxp"] input[type="radio"] {
+    accent-color: #316AC5;
+}
+
+/* ===========================
+   BUTTONS - XP PILL STYLE
+   =========================== */
+:root[data-theme="winxp"] button,
+:root[data-theme="winxp"] .button {
+    background: linear-gradient(to bottom, #F5F4F0, #D4D0C8) !important;
+    color: #000000 !important;
+    border: 1px solid #808080 !important;
+    border-radius: 3px !important;
+    padding: 3px 14px !important;
+    box-shadow:
+        inset 0 1px 0 #FFFFFF,
+        inset 0 -1px 0 #808080 !important;
+    text-shadow: none !important;
+    font-size: 11px !important;
+}
+
+:root[data-theme="winxp"] button:hover,
+:root[data-theme="winxp"] .button:hover {
+    background: linear-gradient(to bottom, #B8D6FB, #7AADE4) !important;
+    border-color: #316AC5 !important;
+    color: #000000 !important;
+    transform: none !important;
+    box-shadow:
+        inset 0 1px 0 #FFFFFF,
+        0 0 2px rgba(49, 106, 197, 0.4) !important;
+}
+
+:root[data-theme="winxp"] button:active,
+:root[data-theme="winxp"] .button:active {
+    background: linear-gradient(to bottom, #7AADE4, #4A8BD6) !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* XP-style dotted focus for buttons */
+:root[data-theme="winxp"] button:focus-visible,
+:root[data-theme="winxp"] .button:focus-visible {
+    outline: 1px dotted #000000 !important;
+    outline-offset: -4px !important;
+}
+
+/* ===========================
+   TABLES - XP LIST VIEW
+   =========================== */
+:root[data-theme="winxp"] table {
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="winxp"] th {
+    background: linear-gradient(to bottom, #F5F4F0, #D4D0C8) !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    padding: 3px 8px !important;
+    border-bottom: 1px solid #808080 !important;
+    border-right: 1px solid #D4D0C8 !important;
+    box-shadow: inset 0 1px 0 #FFFFFF !important;
+}
+
+:root[data-theme="winxp"] td {
+    padding: 2px 8px !important;
+    font-size: 11px !important;
+    border-bottom: 1px solid #ECE9D8 !important;
+}
+
+:root[data-theme="winxp"] tr:nth-child(even) {
+    background-color: #F1EFE2 !important;
+}
+
+:root[data-theme="winxp"] tr:hover {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+:root[data-theme="winxp"] tr:hover td {
+    color: #FFFFFF !important;
+}
+
+/* ===========================
+   TOOL CATEGORIES - XP EXPLORER TASKS
+   =========================== */
+:root[data-theme="winxp"] .tool-category {
+    background: #FFFFFF !important;
+    border: 1px solid #D4D0C8 !important;
+    border-radius: 0 !important;
+    padding: 6px 10px !important;
+    box-shadow: inset 0 0 0 1px #FFFFFF !important;
+}
+
+:root[data-theme="winxp"] .tool-category:hover {
+    background: #E8F0FD !important;
+    border-color: #316AC5 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="winxp"] .tool-category h4 a {
+    color: #0066CC !important;
+}
+
+:root[data-theme="winxp"] .tool-category h4 a:hover {
+    color: #316AC5 !important;
+    text-decoration: underline !important;
+}
+
+/* ===========================
+   TABS - XP TAB CONTROLS
+   =========================== */
+:root[data-theme="winxp"] .command-tab,
+:root[data-theme="winxp"] .os-option {
+    background: linear-gradient(to bottom, #F5F4F0, #ECE9D8) !important;
+    color: #000000 !important;
+    border: 1px solid #ACA899 !important;
+    border-bottom: none !important;
+    border-radius: 4px 4px 0 0 !important;
+    padding: 3px 12px !important;
+    font-size: 11px !important;
+    margin-right: -1px !important;
+}
+
+:root[data-theme="winxp"] .command-tab:hover,
+:root[data-theme="winxp"] .os-option:hover {
+    background: linear-gradient(to bottom, #FFFFFF, #F5F4F0) !important;
+    transform: none !important;
+}
+
+:root[data-theme="winxp"] .command-tab.active,
+:root[data-theme="winxp"] .os-option.active {
+    background: #FFFFFF !important;
+    border-bottom: 1px solid #FFFFFF !important;
+    font-weight: bold !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* ===========================
+   PROGRESS BARS - XP STYLE
+   =========================== */
+:root[data-theme="winxp"] .progress-bar {
+    background: #3A6EA8 !important;
+    border: 1px solid #808080 !important;
+    border-radius: 0 !important;
+    height: 16px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+    overflow: hidden;
+}
+
+:root[data-theme="winxp"] .progress-fill {
+    background: linear-gradient(
+        to right,
+        #37B44A 0%,
+        #5DC86A 50%,
+        #37B44A 100%
+    ) !important;
+    border-radius: 0 !important;
+    /* XP animated block fill */
+    background-size: 20px 16px !important;
+    animation: xp-progress 0.5s linear infinite;
+}
+
+@keyframes xp-progress {
+    from { background-position: 0 0; }
+    to { background-position: 20px 0; }
+}
+
+/* ===========================
+   STATUS BAR - XP SUNKEN STRIP
+   =========================== */
+:root[data-theme="winxp"] .footer {
+    background: #D4D0C8 !important;
+    border-top: none !important;
+    border: 1px solid #808080 !important;
+    box-shadow:
+        inset 1px 1px 0 #808080,
+        inset -1px -1px 0 #FFFFFF !important;
+    padding: 2px 8px !important;
+    margin: 0 -1.5rem -1.5rem -1.5rem !important;
+    color: #000000 !important;
+    font-size: 11px !important;
+}
+
+:root[data-theme="winxp"] .footer a {
+    color: #0066CC !important;
+}
+
+/* ===========================
+   STATUS INDICATORS
+   =========================== */
+:root[data-theme="winxp"] .success {
+    color: #37B44A !important;
+    background-color: rgba(55, 180, 74, 0.1) !important;
+    border-color: #37B44A !important;
+}
+
+:root[data-theme="winxp"] .warning {
+    color: #FF8C00 !important;
+    background-color: rgba(255, 140, 0, 0.1) !important;
+}
+
+:root[data-theme="winxp"] .error {
+    color: #CC0000 !important;
+    background-color: rgba(204, 0, 0, 0.1) !important;
+}
+
+:root[data-theme="winxp"] .badge.success {
+    background-color: #37B44A !important;
+    color: #FFFFFF !important;
+    border-radius: 2px !important;
+}
+
+/* ===========================
+   SCROLLBARS - XP CLASSIC
+   =========================== */
+:root[data-theme="winxp"] * {
+    scrollbar-width: auto;
+    scrollbar-color: #D4D0C8 #ECE9D8;
+}
+
+:root[data-theme="winxp"] *::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+:root[data-theme="winxp"] *::-webkit-scrollbar-track {
+    background: #ECE9D8;
+    border: 1px solid #ACA899;
+}
+
+:root[data-theme="winxp"] *::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, #D4D0C8, #C0BDB5);
+    border: 1px solid #808080;
+    box-shadow: inset 1px 1px 0 #FFFFFF;
+}
+
+:root[data-theme="winxp"] *::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to right, #B8D6FB, #7AADE4);
+}
+
+:root[data-theme="winxp"] *::-webkit-scrollbar-button {
+    background: linear-gradient(to bottom, #F5F4F0, #D4D0C8);
+    border: 1px solid #808080;
+    height: 16px;
+    width: 16px;
+}
+
+/* ===========================
+   THEME SELECTOR OVERRIDES
+   =========================== */
+:root[data-theme="winxp"] .theme-selector-main {
+    background: linear-gradient(to bottom, #3A6EA8, #0A246A) !important;
+    border-color: #0A246A !important;
+    color: #FFFFFF !important;
+    border-radius: 3px !important;
+}
+
+:root[data-theme="winxp"] .theme-dropdown {
+    background: #ECE9D8 !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 0 0 0 1px #FFFFFF,
+        2px 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+:root[data-theme="winxp"] .theme-option {
+    color: #000000 !important;
+    border-radius: 2px !important;
+    font-size: 11px !important;
+}
+
+:root[data-theme="winxp"] .theme-option:hover {
+    background: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+:root[data-theme="winxp"] .theme-option.active {
+    background: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+/* ===========================
+   CONTEXT MENU STYLE (WHERE ACCESSIBLE)
+   =========================== */
+:root[data-theme="winxp"] [role="menu"],
+:root[data-theme="winxp"] .dropdown-menu,
+:root[data-theme="winxp"] .context-menu {
+    background: #FFFFFF !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2) !important;
+    padding: 2px 0 !important;
+}
+
+:root[data-theme="winxp"] [role="menuitem"],
+:root[data-theme="winxp"] .dropdown-item,
+:root[data-theme="winxp"] .context-menu-item {
+    padding: 3px 20px 3px 28px !important;
+    font-size: 11px !important;
+    /* Icon column via left padding */
+    border-left: 24px solid #F1EFE2 !important;
+    margin-left: 0 !important;
+}
+
+:root[data-theme="winxp"] [role="menuitem"]:hover,
+:root[data-theme="winxp"] .dropdown-item:hover,
+:root[data-theme="winxp"] .context-menu-item:hover {
+    background: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+:root[data-theme="winxp"] .fade-in {
+    animation: xp-fadeIn 0.3s ease-out;
+}
+
+@keyframes xp-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+    :root[data-theme="winxp"] nav {
+        padding: 2px 4px !important;
+    }
+
+    :root[data-theme="winxp"] .nav-link {
+        font-size: 10px !important;
+        padding: 2px 4px !important;
+    }
+
+    :root[data-theme="winxp"] .container::before {
+        height: 20px;
+        margin: -1rem -1rem 0.5rem -1rem;
+    }
+
+    :root[data-theme="winxp"] .footer {
+        margin: 0 -1rem -1rem -1rem !important;
+    }
+}
+
+/* CUSTOMIZATION GUIDE
+ * ==========================================
+ * Main variables to tweak for this Windows XP Luna theme:
+ *
+ * --xp-toolbar: #D4D0C8        → Toolbar/chrome background
+ * --xp-window-bg: #ECE9D8      → Window background (Luna Silver)
+ * --xp-title-dark: #0A246A     → Title bar dark blue
+ * --xp-title-mid: #1C5AA8      → Title bar mid blue
+ * --xp-title-light: #3A6EA8    → Title bar light blue
+ * --xp-selection: #316AC5      → Selection/hover highlight blue
+ * --xp-silver: #ECE9D8         → Main silver background
+ * --xp-silver-dark: #D4D0C8    → Dark silver (toolbars, buttons)
+ * --xp-silver-border: #ACA899  → Border color
+ * --xp-silver-shadow: #808080  → Shadow/inset border color
+ * --xp-link: #0066CC           → Link color
+ * --xp-progress-green: #37B44A → Progress bar fill color
+ *
+ * Font: Tahoma 11px is the authentic Windows XP system font.
+ *
+ * The blue header strip height can be changed via
+ * .container::before height (currently 28px).
+ *
+ * The raised/etched border effect on toolbars uses box-shadow
+ * with inset white top-left and gray bottom-right borders.
+ *
+ * For XP "Luna Blue" instead of "Luna Silver", change:
+ *   --xp-toolbar to #4A7DB5
+ *   --xp-window-bg to #D6DFF7
+ *   --xp-silver to #D6DFF7
+ * ==========================================
+ */

@@ -10,17 +10,44 @@ class UnifiedThemeManager {
             dark: {
                 name: 'Sombre',
                 icon: '🌙',
-                description: 'Mode sombre moderne (par défaut)'
+                description: 'Mode sombre moderne (par défaut)',
+                css: null
             },
             light: {
-                name: 'Clair', 
+                name: 'Clair',
                 icon: '☀️',
-                description: 'Mode clair'
+                description: 'Mode clair',
+                css: null
             },
             retro: {
                 name: 'Retro',
                 icon: '💾',
-                description: 'Mode rétro synthwave'
+                description: 'Mode rétro synthwave',
+                css: null
+            },
+            msn: {
+                name: 'MSN Messenger',
+                icon: '🦋',
+                description: 'MSN Messenger 7.x / Windows XP Luna Blue',
+                css: 'css/msn-messenger.css'
+            },
+            icq: {
+                name: 'ICQ',
+                icon: '🌼',
+                description: 'ICQ 2000-2003',
+                css: 'css/icq.css'
+            },
+            mirc: {
+                name: 'mIRC',
+                icon: '📟',
+                description: 'mIRC 6.x IRC terminal',
+                css: 'css/mirc.css'
+            },
+            winxp: {
+                name: 'Windows XP',
+                icon: '🪟',
+                description: 'Windows XP Luna Silver / Office XP',
+                css: 'css/winxp-luna.css'
             }
         };
         
@@ -54,11 +81,15 @@ class UnifiedThemeManager {
         
         // Supprimer tous les attributs de thème existants
         document.documentElement.removeAttribute('data-theme');
-        document.documentElement.classList.remove('theme-dark', 'theme-light', 'theme-retro');
-        
+        const themeClasses = Object.keys(this.themes).map(k => `theme-${k}`);
+        document.documentElement.classList.remove(...themeClasses);
+
         // Appliquer le nouveau thème
         document.documentElement.setAttribute('data-theme', theme);
         document.documentElement.classList.add(`theme-${theme}`);
+
+        // Charger/décharger les CSS dynamiques
+        this.loadThemeCSS(theme);
         
         this.currentTheme = theme;
         localStorage.setItem('unified-theme', theme);
@@ -74,6 +105,29 @@ class UnifiedThemeManager {
     }
     
     /**
+     * Charge le fichier CSS associé au thème (si applicable)
+     */
+    loadThemeCSS(theme) {
+        // Supprimer tout CSS de thème dynamique existant
+        const existing = document.getElementById('dynamic-theme-css');
+        if (existing) {
+            existing.remove();
+        }
+
+        // Charger le CSS du nouveau thème si nécessaire
+        const themeInfo = this.themes[theme];
+        if (themeInfo && themeInfo.css) {
+            const link = document.createElement('link');
+            link.id = 'dynamic-theme-css';
+            link.rel = 'stylesheet';
+            // Déterminer le préfixe de chemin (support des sous-répertoires)
+            const pathPrefix = /\/tools\//.test(window.location.pathname) ? '../' : '';
+            link.href = pathPrefix + themeInfo.css;
+            document.head.appendChild(link);
+        }
+    }
+
+    /**
      * Bascule entre les thèmes (cycle)
      */
     toggleTheme() {
@@ -86,7 +140,7 @@ class UnifiedThemeManager {
     }
     
     /**
-     * Crée le sélecteur de thème flottant
+     * Crée le sélecteur de thème flottant avec un select dropdown
      */
     createThemeSelector() {
         // Supprimer l'ancien sélecteur s'il existe
@@ -94,61 +148,64 @@ class UnifiedThemeManager {
         if (existingSelector) {
             existingSelector.remove();
         }
-        
+
         const selector = document.createElement('div');
         selector.id = 'theme-selector';
         selector.className = 'theme-selector';
-        
-        // Bouton principal
-        const mainButton = document.createElement('button');
-        mainButton.className = 'theme-selector-main';
-        mainButton.innerHTML = `<span class="theme-icon">${this.themes[this.currentTheme].icon}</span>`;
-        mainButton.setAttribute('aria-label', 'Sélectionner le thème');
-        mainButton.title = `Thème actuel: ${this.themes[this.currentTheme].name}`;
-        
-        // Menu déroulant
-        const dropdown = document.createElement('div');
-        dropdown.className = 'theme-dropdown';
-        
+
+        // Label
+        const label = document.createElement('label');
+        label.className = 'theme-selector-label';
+        label.htmlFor = 'theme-select-dropdown';
+        label.textContent = this.themes[this.currentTheme].icon;
+        label.title = `Thème actuel: ${this.themes[this.currentTheme].name}`;
+
+        // Select dropdown
+        const select = document.createElement('select');
+        select.id = 'theme-select-dropdown';
+        select.className = 'theme-select-dropdown';
+        select.setAttribute('aria-label', 'Sélectionner le thème');
+
+        // Optgroup: Classiques
+        const classicGroup = document.createElement('optgroup');
+        classicGroup.label = 'Thèmes modernes';
+
+        // Optgroup: Retro
+        const retroGroup = document.createElement('optgroup');
+        retroGroup.label = 'Thèmes rétro';
+
+        const modernThemes = ['dark', 'light', 'retro'];
+
         Object.keys(this.themes).forEach(themeKey => {
-            const option = document.createElement('button');
-            option.className = 'theme-option';
-            option.innerHTML = `
-                <span class="theme-icon">${this.themes[themeKey].icon}</span>
-                <span class="theme-name">${this.themes[themeKey].name}</span>
-            `;
+            const option = document.createElement('option');
+            option.value = themeKey;
+            option.textContent = `${this.themes[themeKey].icon} ${this.themes[themeKey].name}`;
             option.title = this.themes[themeKey].description;
-            
+
             if (themeKey === this.currentTheme) {
-                option.classList.add('active');
+                option.selected = true;
             }
-            
-            option.addEventListener('click', () => {
-                this.setTheme(themeKey);
-                selector.classList.remove('open');
-            });
-            
-            dropdown.appendChild(option);
-        });
-        
-        // Toggle dropdown
-        mainButton.addEventListener('click', () => {
-            selector.classList.toggle('open');
-        });
-        
-        // Fermer quand on clique ailleurs
-        document.addEventListener('click', (e) => {
-            if (!selector.contains(e.target)) {
-                selector.classList.remove('open');
+
+            if (modernThemes.includes(themeKey)) {
+                classicGroup.appendChild(option);
+            } else {
+                retroGroup.appendChild(option);
             }
         });
-        
-        selector.appendChild(mainButton);
-        selector.appendChild(dropdown);
-        
+
+        select.appendChild(classicGroup);
+        select.appendChild(retroGroup);
+
+        select.addEventListener('change', (e) => {
+            this.setTheme(e.target.value);
+        });
+
+        selector.appendChild(label);
+        selector.appendChild(select);
+
         // Ajouter les styles CSS
         this.addThemeSelectorStyles();
-        
+
         // Ajouter au body
         document.body.appendChild(selector);
     }
@@ -168,99 +225,89 @@ class UnifiedThemeManager {
                 right: 20px;
                 z-index: 1000;
                 font-family: inherit;
+                display: flex;
+                align-items: center;
+                gap: 6px;
             }
-            
-            .theme-selector-main {
-                width: 50px;
-                height: 50px;
+
+            .theme-selector-label {
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
                 border: 2px solid var(--border-color, #00ff9f);
                 background: var(--bg-color, #1a1a2e);
                 color: var(--text-color, #00ff9f);
                 cursor: pointer;
-                font-size: 20px;
+                font-size: 18px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
                 transition: all 0.3s ease;
                 box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                flex-shrink: 0;
             }
-            
-            .theme-selector-main:hover {
+
+            .theme-selector-label:hover {
                 transform: scale(1.1);
-                box-shadow: 0 0 20px var(--border-color, #00ff9f);
+                box-shadow: 0 0 15px var(--border-color, #00ff9f);
             }
-            
-            .theme-dropdown {
-                position: absolute;
-                top: 60px;
-                right: 0;
-                background: var(--bg-color, #1a1a2e);
+
+            .theme-select-dropdown {
+                padding: 6px 28px 6px 10px;
                 border: 2px solid var(--border-color, #00ff9f);
-                border-radius: 10px;
-                padding: 10px;
-                min-width: 150px;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-10px);
-                transition: all 0.3s ease;
-                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
-            }
-            
-            .theme-selector.open .theme-dropdown {
-                opacity: 1;
-                visibility: visible;
-                transform: translateY(0);
-            }
-            
-            .theme-option {
-                width: 100%;
-                padding: 8px 12px;
-                border: none;
-                background: transparent;
+                border-radius: 8px;
+                background: var(--bg-color, #1a1a2e);
                 color: var(--text-color, #00ff9f);
+                font-size: 13px;
+                font-family: inherit;
                 cursor: pointer;
-                border-radius: 5px;
-                display: flex;
-                align-items: center;
-                gap: 8px;
+                outline: none;
                 transition: all 0.3s ease;
-                font-size: 14px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                appearance: none;
+                -webkit-appearance: none;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2300ff9f'/%3E%3C/svg%3E");
+                background-repeat: no-repeat;
+                background-position: right 8px center;
+                min-width: 160px;
             }
-            
-            .theme-option:hover {
-                background: var(--highlight-color, rgba(0, 255, 159, 0.2));
+
+            .theme-select-dropdown:hover,
+            .theme-select-dropdown:focus {
+                border-color: var(--heading-color, #ff00ff);
+                box-shadow: 0 0 15px var(--border-color, #00ff9f);
             }
-            
-            .theme-option.active {
-                background: var(--highlight-color, rgba(0, 255, 159, 0.2));
-                color: var(--heading-color, #ff00ff);
+
+            .theme-select-dropdown option,
+            .theme-select-dropdown optgroup {
+                background: var(--bg-color, #1a1a2e);
+                color: var(--text-color, #00ff9f);
+                font-size: 13px;
+                padding: 4px 8px;
             }
-            
-            .theme-icon {
-                font-size: 16px;
+
+            .theme-select-dropdown optgroup {
+                font-weight: bold;
+                font-style: normal;
             }
-            
-            .theme-name {
-                font-size: 14px;
-            }
-            
+
             /* Responsive */
             @media (max-width: 768px) {
                 .theme-selector {
-                    top: 15px;
-                    right: 15px;
+                    top: 12px;
+                    right: 12px;
                 }
-                
-                .theme-selector-main {
-                    width: 45px;
-                    height: 45px;
-                    font-size: 18px;
+
+                .theme-selector-label {
+                    width: 34px;
+                    height: 34px;
+                    font-size: 15px;
                 }
-                
-                .theme-dropdown {
-                    right: -10px;
-                    min-width: 140px;
+
+                .theme-select-dropdown {
+                    min-width: 130px;
+                    font-size: 12px;
+                    padding: 4px 24px 4px 8px;
                 }
             }
         `;
@@ -272,25 +319,16 @@ class UnifiedThemeManager {
      * Met à jour le sélecteur de thème
      */
     updateThemeSelector() {
-        const mainButton = document.querySelector('.theme-selector-main .theme-icon');
-        const activeOption = document.querySelector('.theme-option.active');
-        
-        if (mainButton) {
-            mainButton.textContent = this.themes[this.currentTheme].icon;
-            mainButton.parentElement.title = `Thème actuel: ${this.themes[this.currentTheme].name}`;
+        const label = document.querySelector('.theme-selector-label');
+        const select = document.getElementById('theme-select-dropdown');
+
+        if (label) {
+            label.textContent = this.themes[this.currentTheme].icon;
+            label.title = `Thème actuel: ${this.themes[this.currentTheme].name}`;
         }
-        
-        // Mettre à jour les options actives
-        document.querySelectorAll('.theme-option').forEach(option => {
-            option.classList.remove('active');
-        });
-        
-        const currentOption = Array.from(document.querySelectorAll('.theme-option')).find(
-            option => option.querySelector('.theme-name').textContent === this.themes[this.currentTheme].name
-        );
-        
-        if (currentOption) {
-            currentOption.classList.add('active');
+
+        if (select) {
+            select.value = this.currentTheme;
         }
     }
     

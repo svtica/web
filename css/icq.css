@@ -1,0 +1,489 @@
+/**
+ * ICQ 2000-2003 Theme
+ * Recreates the classic ICQ messaging client aesthetic
+ */
+
+/* ===========================
+   CSS VARIABLES
+   =========================== */
+:root[data-theme="icq"] {
+    /* Primary ICQ Colors */
+    --icq-green: #7CC243;
+    --icq-green-dark: #2A6E00;
+    --icq-green-light: #A8D878;
+    --icq-green-pale: #F0F8E8;
+    --icq-green-gradient-start: #A8D878;
+    --icq-green-gradient-end: #7CC243;
+
+    /* Base Colors */
+    --icq-white: #FFFFFF;
+    --icq-gray-light: #F5F5F5;
+    --icq-gray: #E8E8E8;
+    --icq-gray-mid: #CCCCCC;
+    --icq-gray-dark: #666666;
+    --icq-text: #333333;
+    --icq-text-dark: #000000;
+
+    /* Status Colors */
+    --icq-online: #7CC243;
+    --icq-away: #FFD700;
+    --icq-offline: #999999;
+
+    /* Override unified theme variables */
+    --bg-color: #FFFFFF;
+    --text-color: #333333;
+    --heading-color: #2A6E00;
+    --link-color: #2A6E00;
+    --button-color: #7CC243;
+    --border-color: #CCCCCC;
+    --highlight-color: rgba(124, 194, 67, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --hover-color: rgba(124, 194, 67, 0.2);
+    --active-color: rgba(124, 194, 67, 0.3);
+    --disabled-color: rgba(0, 0, 0, 0.3);
+    --error-color: #E81123;
+    --success-color: #7CC243;
+    --warning-color: #FFD700;
+    --border-radius: 12px;
+}
+
+/* ===========================
+   BODY & BASE
+   =========================== */
+:root[data-theme="icq"] body {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 11px !important;
+    background-color: #F5F5F5 !important;
+    color: #333333 !important;
+    line-height: 1.5;
+}
+
+:root[data-theme="icq"] input,
+:root[data-theme="icq"] textarea,
+:root[data-theme="icq"] button,
+:root[data-theme="icq"] select,
+:root[data-theme="icq"] code,
+:root[data-theme="icq"] pre {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 11px !important;
+}
+
+/* ===========================
+   ANIMATED BACKGROUND - DISABLE
+   =========================== */
+:root[data-theme="icq"] .background {
+    background: #F5F5F5 !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme="icq"] .grid {
+    display: none !important;
+}
+
+/* ===========================
+   NAVIGATION - ICQ TOP BAR
+   =========================== */
+:root[data-theme="icq"] nav {
+    background: linear-gradient(to bottom, #A8D878, #7CC243) !important;
+    border: 1px solid #5FA030 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15) !important;
+    padding: 6px 12px !important;
+    gap: 4px !important;
+}
+
+:root[data-theme="icq"] .nav-link {
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    padding: 4px 10px !important;
+    border-radius: 14px !important;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2) !important;
+}
+
+:root[data-theme="icq"] .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+}
+
+:root[data-theme="icq"] .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.4) !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+}
+
+:root[data-theme="icq"] .nav-theme-toggle {
+    background: #FFFFFF !important;
+    color: #2A6E00 !important;
+    border: 1px solid #5FA030 !important;
+    border-radius: 14px !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    padding: 4px 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+:root[data-theme="icq"] .nav-theme-toggle:hover {
+    background: #F0F8E8 !important;
+    transform: none !important;
+}
+
+/* ===========================
+   CONTAINER - ICQ WINDOW
+   =========================== */
+:root[data-theme="icq"] .container {
+    background-color: #FFFFFF !important;
+    border: 1px solid #CCCCCC !important;
+    border-left: 4px solid #7CC243 !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ICQ Flower watermark via radial-gradient */
+:root[data-theme="icq"] .container::before {
+    content: '';
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 100px;
+    height: 100px;
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+    background:
+        /* Center circle */
+        radial-gradient(circle at 50% 50%, #7CC243 8px, transparent 8px),
+        /* Top petal */
+        radial-gradient(circle at 50% 30%, #7CC243 12px, transparent 12px),
+        /* Bottom petal */
+        radial-gradient(circle at 50% 70%, #7CC243 12px, transparent 12px),
+        /* Left petal */
+        radial-gradient(circle at 30% 50%, #7CC243 12px, transparent 12px),
+        /* Right petal */
+        radial-gradient(circle at 70% 50%, #7CC243 12px, transparent 12px),
+        /* Top-left petal */
+        radial-gradient(circle at 35% 35%, #7CC243 10px, transparent 10px),
+        /* Top-right petal */
+        radial-gradient(circle at 65% 35%, #7CC243 10px, transparent 10px),
+        /* Bottom-left petal */
+        radial-gradient(circle at 35% 65%, #7CC243 10px, transparent 10px),
+        /* Bottom-right petal */
+        radial-gradient(circle at 65% 65%, #7CC243 10px, transparent 10px);
+}
+
+/* ===========================
+   HEADINGS
+   =========================== */
+:root[data-theme="icq"] h1 {
+    color: #2A6E00 !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    border-bottom: 2px solid #7CC243 !important;
+    padding-bottom: 6px !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="icq"] h2 {
+    color: #2A6E00 !important;
+    font-size: 14px !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="icq"] h3,
+:root[data-theme="icq"] h4,
+:root[data-theme="icq"] h5,
+:root[data-theme="icq"] h6 {
+    color: #2A6E00 !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   LINKS
+   =========================== */
+:root[data-theme="icq"] a {
+    color: #2A6E00 !important;
+}
+
+:root[data-theme="icq"] a:hover {
+    color: #7CC243 !important;
+    text-decoration: underline !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   FORMS - ICQ STYLE
+   =========================== */
+:root[data-theme="icq"] input[type="text"],
+:root[data-theme="icq"] input[type="email"],
+:root[data-theme="icq"] input[type="password"],
+:root[data-theme="icq"] input[type="number"],
+:root[data-theme="icq"] input[type="url"],
+:root[data-theme="icq"] textarea,
+:root[data-theme="icq"] select {
+    background: #FFFFFF !important;
+    color: #333333 !important;
+    border: 2px solid #CCCCCC !important;
+    border-radius: 16px !important;
+    padding: 5px 12px !important;
+}
+
+:root[data-theme="icq"] input:focus,
+:root[data-theme="icq"] textarea:focus,
+:root[data-theme="icq"] select:focus {
+    border-color: #7CC243 !important;
+    box-shadow: 0 0 0 2px rgba(124, 194, 67, 0.2) !important;
+}
+
+:root[data-theme="icq"] textarea {
+    border-radius: 12px !important;
+}
+
+/* ===========================
+   BUTTONS - ICQ PILL STYLE
+   =========================== */
+:root[data-theme="icq"] button,
+:root[data-theme="icq"] .button {
+    background: linear-gradient(to bottom, #A8D878, #7CC243) !important;
+    color: #FFFFFF !important;
+    border: 1px solid #5FA030 !important;
+    border-radius: 16px !important;
+    padding: 5px 16px !important;
+    font-weight: bold !important;
+    font-size: 11px !important;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+:root[data-theme="icq"] button:hover,
+:root[data-theme="icq"] .button:hover {
+    background: linear-gradient(to bottom, #B8E888, #8CD253) !important;
+    transform: none !important;
+    box-shadow: 0 2px 6px rgba(124, 194, 67, 0.3) !important;
+}
+
+:root[data-theme="icq"] button:active,
+:root[data-theme="icq"] .button:active {
+    background: linear-gradient(to bottom, #6AB233, #5FA030) !important;
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* ===========================
+   TABLES - ZEBRA STRIPING
+   =========================== */
+:root[data-theme="icq"] table {
+    border: 1px solid #CCCCCC !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06) !important;
+}
+
+:root[data-theme="icq"] th {
+    background: linear-gradient(to bottom, #A8D878, #7CC243) !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    font-weight: bold !important;
+    padding: 6px 10px !important;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.15) !important;
+}
+
+:root[data-theme="icq"] td {
+    padding: 5px 10px !important;
+    font-size: 11px !important;
+    border-bottom: 1px solid #E8E8E8 !important;
+}
+
+/* ICQ zebra striping */
+:root[data-theme="icq"] tr:nth-child(odd) {
+    background-color: #FFFFFF !important;
+}
+
+:root[data-theme="icq"] tr:nth-child(even) {
+    background-color: #F0F8E8 !important;
+}
+
+:root[data-theme="icq"] tr:hover {
+    background-color: rgba(124, 194, 67, 0.15) !important;
+}
+
+/* ===========================
+   TOOL CATEGORIES - ICQ CONTACT LIST
+   =========================== */
+:root[data-theme="icq"] .tool-category {
+    background: #FFFFFF !important;
+    border: 1px solid #E8E8E8 !important;
+    border-left: 4px solid #7CC243 !important;
+    border-radius: 6px !important;
+    padding: 8px 12px !important;
+    transition: all 0.2s ease !important;
+}
+
+:root[data-theme="icq"] .tool-category:nth-child(even) {
+    background: #F0F8E8 !important;
+}
+
+:root[data-theme="icq"] .tool-category:hover {
+    background: rgba(124, 194, 67, 0.1) !important;
+    border-color: #7CC243 !important;
+    transform: none !important;
+    box-shadow: 0 2px 6px rgba(124, 194, 67, 0.15) !important;
+}
+
+:root[data-theme="icq"] .tool-category h4 a {
+    color: #2A6E00 !important;
+    font-weight: bold !important;
+}
+
+:root[data-theme="icq"] .tool-category h4 a:hover {
+    color: #7CC243 !important;
+}
+
+/* ===========================
+   STATUS INDICATORS
+   =========================== */
+:root[data-theme="icq"] .success {
+    color: #7CC243 !important;
+    background-color: rgba(124, 194, 67, 0.1) !important;
+    border-color: #7CC243 !important;
+}
+
+:root[data-theme="icq"] .warning {
+    color: #CC9900 !important;
+    background-color: rgba(255, 215, 0, 0.1) !important;
+}
+
+:root[data-theme="icq"] .error {
+    color: #E81123 !important;
+    background-color: rgba(232, 17, 35, 0.1) !important;
+}
+
+:root[data-theme="icq"] .badge.success {
+    background-color: #7CC243 !important;
+    color: #FFFFFF !important;
+    border-radius: 10px !important;
+    font-weight: bold !important;
+}
+
+/* ===========================
+   SCROLLBARS - ICQ THIN GREEN
+   =========================== */
+:root[data-theme="icq"] * {
+    scrollbar-width: thin;
+    scrollbar-color: #7CC243 #F5F5F5;
+}
+
+:root[data-theme="icq"] *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+:root[data-theme="icq"] *::-webkit-scrollbar-track {
+    background: #F5F5F5;
+    border-radius: 4px;
+}
+
+:root[data-theme="icq"] *::-webkit-scrollbar-thumb {
+    background: #7CC243;
+    border-radius: 4px;
+}
+
+:root[data-theme="icq"] *::-webkit-scrollbar-thumb:hover {
+    background: #5FA030;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+:root[data-theme="icq"] .footer {
+    border-top: 2px solid #7CC243 !important;
+    color: #666666 !important;
+}
+
+:root[data-theme="icq"] .footer a {
+    color: #2A6E00 !important;
+}
+
+/* ===========================
+   THEME SELECTOR OVERRIDES
+   =========================== */
+:root[data-theme="icq"] .theme-selector-main {
+    background: linear-gradient(to bottom, #A8D878, #7CC243) !important;
+    border-color: #5FA030 !important;
+    color: #FFFFFF !important;
+}
+
+:root[data-theme="icq"] .theme-dropdown {
+    background: #FFFFFF !important;
+    border: 1px solid #CCCCCC !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+:root[data-theme="icq"] .theme-option {
+    color: #333333 !important;
+    border-radius: 6px !important;
+    font-size: 11px !important;
+}
+
+:root[data-theme="icq"] .theme-option:hover {
+    background: #F0F8E8 !important;
+    color: #2A6E00 !important;
+}
+
+:root[data-theme="icq"] .theme-option.active {
+    background: #7CC243 !important;
+    color: #FFFFFF !important;
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+:root[data-theme="icq"] .fade-in {
+    animation: icq-fadeIn 0.3s ease-out;
+}
+
+@keyframes icq-fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+    :root[data-theme="icq"] nav {
+        padding: 4px 6px !important;
+    }
+
+    :root[data-theme="icq"] .nav-link {
+        font-size: 10px !important;
+        padding: 3px 6px !important;
+    }
+}
+
+/* CUSTOMIZATION GUIDE
+ * ==========================================
+ * Main variables to tweak for this ICQ theme:
+ *
+ * --icq-green: #7CC243          → Primary ICQ green accent
+ * --icq-green-dark: #2A6E00     → Dark green for text/headings
+ * --icq-green-light: #A8D878    → Light green for gradients
+ * --icq-green-pale: #F0F8E8     → Pale green for zebra stripes
+ * --icq-green-gradient-start: #A8D878 → Top bar gradient start
+ * --icq-green-gradient-end: #7CC243   → Top bar gradient end
+ * --icq-white: #FFFFFF          → Base white background
+ * --icq-gray: #E8E8E8           → Receiver bubble / separator
+ * --icq-online: #7CC243         → Online flower status (green)
+ * --icq-away: #FFD700           → Away flower status (yellow)
+ * --icq-offline: #999999        → Offline flower status (gray)
+ *
+ * Font: Arial 11px is the authentic ICQ font.
+ *
+ * To make the flower watermark more visible, increase
+ * the opacity in .container::before (currently 0.04).
+ *
+ * The green left border stripe width can be changed via
+ * the border-left property on .container (currently 4px).
+ * ==========================================
+ */
