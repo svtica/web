@@ -1,0 +1,515 @@
+/**
+ * MSN Messenger 7.x / Windows XP Luna Blue Theme
+ * Recreates the classic MSN Messenger aesthetic with XP Luna Blue styling
+ */
+
+/* ===========================
+   CSS VARIABLES
+   =========================== */
+:root[data-theme="msn"] {
+    /* Primary Colors - Luna Blue */
+    --msn-blue-dark: #0A246A;
+    --msn-blue-mid: #1C5AA8;
+    --msn-blue-light: #3A6EA8;
+    --msn-blue-highlight: #316AC5;
+
+    /* Luna Silver Palette */
+    --msn-silver-bg: #ECE9D8;
+    --msn-silver-toolbar: #D4D0C8;
+    --msn-silver-border: #ACA899;
+    --msn-silver-dark: #808080;
+
+    /* Chat Colors */
+    --msn-chat-bg: #FFFFFF;
+    --msn-chat-bubble-border: #ACA899;
+    --msn-chat-bubble-bg: #FFFFFF;
+
+    /* Status Colors */
+    --msn-online: #6BB700;
+    --msn-away: #FF8C00;
+    --msn-busy: #E81123;
+    --msn-offline: #808080;
+
+    /* Text Colors */
+    --msn-text-primary: #000000;
+    --msn-text-secondary: #333333;
+    --msn-text-light: #666666;
+    --msn-text-white: #FFFFFF;
+
+    /* Override unified theme variables */
+    --bg-color: #ECE9D8;
+    --text-color: #000000;
+    --heading-color: #0A246A;
+    --link-color: #0A246A;
+    --button-color: #3A6EA8;
+    --border-color: #ACA899;
+    --highlight-color: rgba(49, 106, 197, 0.15);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --hover-color: rgba(49, 106, 197, 0.2);
+    --active-color: rgba(49, 106, 197, 0.3);
+    --disabled-color: rgba(0, 0, 0, 0.3);
+    --error-color: #E81123;
+    --success-color: #6BB700;
+    --warning-color: #FF8C00;
+    --border-radius: 3px;
+}
+
+/* ===========================
+   BODY & BASE
+   =========================== */
+:root[data-theme="msn"] body {
+    font-family: Tahoma, 'Segoe UI', Geneva, sans-serif !important;
+    font-size: 11px !important;
+    background-color: #ECE9D8 !important;
+    color: #000000 !important;
+    line-height: 1.4;
+}
+
+:root[data-theme="msn"] input,
+:root[data-theme="msn"] textarea,
+:root[data-theme="msn"] button,
+:root[data-theme="msn"] select,
+:root[data-theme="msn"] code,
+:root[data-theme="msn"] pre {
+    font-family: Tahoma, 'Segoe UI', Geneva, sans-serif !important;
+    font-size: 11px !important;
+}
+
+/* ===========================
+   ANIMATED BACKGROUND - DISABLE
+   =========================== */
+:root[data-theme="msn"] .background {
+    background: #ECE9D8 !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme="msn"] .grid {
+    display: none !important;
+}
+
+/* ===========================
+   NAVIGATION - XP TOOLBAR
+   =========================== */
+:root[data-theme="msn"] nav {
+    background: linear-gradient(to bottom, #F2F0EA, #D4D0C8) !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 0 1px 0 #FFFFFF,
+        inset 0 -1px 0 #808080,
+        0 1px 3px rgba(0, 0, 0, 0.15) !important;
+    padding: 4px 8px !important;
+    gap: 2px !important;
+}
+
+/* Etched separator simulation */
+:root[data-theme="msn"] nav::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #808080 20%, #808080 80%, transparent);
+}
+
+:root[data-theme="msn"] .nav-link {
+    color: #000000 !important;
+    font-size: 11px !important;
+    padding: 3px 8px !important;
+    border-radius: 2px !important;
+    border: 1px solid transparent !important;
+}
+
+:root[data-theme="msn"] .nav-link:hover {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+    border-color: #316AC5 !important;
+    text-decoration: none !important;
+}
+
+:root[data-theme="msn"] .nav-link.active {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+}
+
+:root[data-theme="msn"] .nav-theme-toggle {
+    background: linear-gradient(to bottom, #3A6EA8, #0A246A) !important;
+    color: #FFFFFF !important;
+    border: 1px solid #0A246A !important;
+    border-radius: 3px !important;
+    font-size: 11px !important;
+    padding: 3px 10px !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3) !important;
+}
+
+:root[data-theme="msn"] .nav-theme-toggle:hover {
+    background: linear-gradient(to bottom, #4A7EB8, #1A3A7A) !important;
+    transform: none !important;
+}
+
+/* ===========================
+   CONTAINER - XP WINDOW
+   =========================== */
+:root[data-theme="msn"] .container {
+    background-color: #FFFFFF !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 0 0 0 1px #FFFFFF,
+        2px 2px 6px rgba(0, 0, 0, 0.2) !important;
+    position: relative;
+}
+
+/* MSN Butterfly watermark */
+:root[data-theme="msn"] .container::before {
+    content: '';
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 80px;
+    height: 80px;
+    opacity: 0.04;
+    background: none;
+    /* MSN Butterfly via clip-path */
+    clip-path: polygon(
+        50% 0%, 55% 15%, 75% 5%, 70% 25%, 95% 20%, 75% 40%,
+        100% 50%, 75% 60%, 95% 80%, 70% 75%, 75% 95%, 55% 85%,
+        50% 100%, 45% 85%, 25% 95%, 30% 75%, 5% 80%, 25% 60%,
+        0% 50%, 25% 40%, 5% 20%, 30% 25%, 25% 5%, 45% 15%
+    );
+    background-color: #0A246A;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ===========================
+   XP TITLE BAR EFFECT ON HEADINGS
+   =========================== */
+:root[data-theme="msn"] h1 {
+    background: linear-gradient(to right, #0A246A, #3A6EA8, #1C5AA8) !important;
+    color: #FFFFFF !important;
+    padding: 6px 12px !important;
+    margin: -1.5rem -1.5rem 1rem -1.5rem !important;
+    font-size: 14px !important;
+    font-weight: bold !important;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 0 !important;
+}
+
+:root[data-theme="msn"] h2 {
+    color: #0A246A !important;
+    font-size: 13px !important;
+    border-bottom: 1px solid #ACA899 !important;
+    padding-bottom: 4px !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="msn"] h3,
+:root[data-theme="msn"] h4,
+:root[data-theme="msn"] h5,
+:root[data-theme="msn"] h6 {
+    color: #0A246A !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   LINKS
+   =========================== */
+:root[data-theme="msn"] a {
+    color: #0A246A !important;
+}
+
+:root[data-theme="msn"] a:hover {
+    color: #316AC5 !important;
+    text-decoration: underline !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   FORMS - XP SUNKEN STYLE
+   =========================== */
+:root[data-theme="msn"] input[type="text"],
+:root[data-theme="msn"] input[type="email"],
+:root[data-theme="msn"] input[type="password"],
+:root[data-theme="msn"] input[type="number"],
+:root[data-theme="msn"] input[type="url"],
+:root[data-theme="msn"] textarea,
+:root[data-theme="msn"] select {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 1px 1px 0 #808080,
+        inset -1px -1px 0 #FFFFFF,
+        inset 2px 2px 0 #D4D0C8 !important;
+    padding: 3px 5px !important;
+}
+
+:root[data-theme="msn"] input:focus,
+:root[data-theme="msn"] textarea:focus,
+:root[data-theme="msn"] select:focus {
+    box-shadow:
+        inset 1px 1px 0 #0A246A,
+        inset -1px -1px 0 #FFFFFF,
+        inset 2px 2px 0 #3A6EA8 !important;
+}
+
+/* ===========================
+   BUTTONS - XP STYLE
+   =========================== */
+:root[data-theme="msn"] button,
+:root[data-theme="msn"] .button {
+    background: linear-gradient(to bottom, #F5F4F0, #D4D0C8) !important;
+    color: #000000 !important;
+    border: 1px solid #808080 !important;
+    border-radius: 3px !important;
+    padding: 3px 12px !important;
+    box-shadow:
+        inset 0 1px 0 #FFFFFF,
+        inset 0 -1px 0 #808080 !important;
+    text-shadow: none !important;
+    font-size: 11px !important;
+}
+
+:root[data-theme="msn"] button:hover,
+:root[data-theme="msn"] .button:hover {
+    background: linear-gradient(to bottom, #B8D6FB, #7AADE4) !important;
+    border-color: #316AC5 !important;
+    color: #000000 !important;
+    transform: none !important;
+    box-shadow:
+        inset 0 1px 0 #FFFFFF,
+        0 0 3px rgba(49, 106, 197, 0.5) !important;
+}
+
+:root[data-theme="msn"] button:active,
+:root[data-theme="msn"] .button:active {
+    background: linear-gradient(to bottom, #7AADE4, #4A8BD6) !important;
+    box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* ===========================
+   TABLES
+   =========================== */
+:root[data-theme="msn"] table {
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="msn"] th {
+    background: linear-gradient(to bottom, #3A6EA8, #0A246A) !important;
+    color: #FFFFFF !important;
+    font-size: 11px !important;
+    padding: 4px 8px !important;
+}
+
+:root[data-theme="msn"] td {
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+    border-bottom: 1px solid #D4D0C8 !important;
+}
+
+:root[data-theme="msn"] tr:nth-child(even) {
+    background-color: #F0EDE4 !important;
+}
+
+:root[data-theme="msn"] tr:hover {
+    background-color: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+:root[data-theme="msn"] tr:hover td {
+    color: #FFFFFF !important;
+}
+
+/* ===========================
+   TOOL CATEGORIES - XP LIST
+   =========================== */
+:root[data-theme="msn"] .tool-category {
+    background: #FFFFFF !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    padding: 8px 12px !important;
+    box-shadow: inset 0 0 0 1px #FFFFFF !important;
+}
+
+:root[data-theme="msn"] .tool-category:hover {
+    background: #E8F0FD !important;
+    border-color: #316AC5 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="msn"] .tool-category h4 a {
+    color: #0A246A !important;
+}
+
+:root[data-theme="msn"] .tool-category h4 a:hover {
+    color: #316AC5 !important;
+}
+
+/* ===========================
+   STATUS INDICATORS
+   =========================== */
+:root[data-theme="msn"] .success {
+    color: #6BB700 !important;
+    background-color: rgba(107, 183, 0, 0.1) !important;
+    border-color: #6BB700 !important;
+}
+
+:root[data-theme="msn"] .warning {
+    color: #FF8C00 !important;
+    background-color: rgba(255, 140, 0, 0.1) !important;
+}
+
+:root[data-theme="msn"] .error {
+    color: #E81123 !important;
+    background-color: rgba(232, 17, 35, 0.1) !important;
+}
+
+:root[data-theme="msn"] .badge.success {
+    background-color: #6BB700 !important;
+    color: #FFFFFF !important;
+    border-radius: 2px !important;
+}
+
+/* ===========================
+   SCROLLBARS - XP CLASSIC
+   =========================== */
+:root[data-theme="msn"] * {
+    scrollbar-width: auto;
+    scrollbar-color: #3A6EA8 #D4D0C8;
+}
+
+:root[data-theme="msn"] *::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+}
+
+:root[data-theme="msn"] *::-webkit-scrollbar-track {
+    background: #D4D0C8;
+    border: 1px solid #808080;
+}
+
+:root[data-theme="msn"] *::-webkit-scrollbar-thumb {
+    background: linear-gradient(to right, #D4D0C8, #C0BDB5);
+    border: 1px solid #808080;
+    box-shadow: inset 1px 1px 0 #FFFFFF;
+}
+
+:root[data-theme="msn"] *::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to right, #B8D6FB, #7AADE4);
+}
+
+:root[data-theme="msn"] *::-webkit-scrollbar-button {
+    background: linear-gradient(to bottom, #F5F4F0, #D4D0C8);
+    border: 1px solid #808080;
+    height: 16px;
+    width: 16px;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+:root[data-theme="msn"] .footer {
+    border-top: 1px solid #ACA899 !important;
+    color: #666666 !important;
+}
+
+:root[data-theme="msn"] .footer a {
+    color: #0A246A !important;
+}
+
+/* ===========================
+   THEME SELECTOR OVERRIDES
+   =========================== */
+:root[data-theme="msn"] .theme-selector-main {
+    background: linear-gradient(to bottom, #3A6EA8, #0A246A) !important;
+    border-color: #0A246A !important;
+    color: #FFFFFF !important;
+}
+
+:root[data-theme="msn"] .theme-dropdown {
+    background: #ECE9D8 !important;
+    border: 1px solid #ACA899 !important;
+    border-radius: 0 !important;
+    box-shadow:
+        inset 0 0 0 1px #FFFFFF,
+        2px 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+
+:root[data-theme="msn"] .theme-option {
+    color: #000000 !important;
+    border-radius: 2px !important;
+    font-size: 11px !important;
+}
+
+:root[data-theme="msn"] .theme-option:hover {
+    background: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+:root[data-theme="msn"] .theme-option.active {
+    background: #316AC5 !important;
+    color: #FFFFFF !important;
+}
+
+/* ===========================
+   ANIMATIONS - SUBTLE FOR MSN
+   =========================== */
+:root[data-theme="msn"] .fade-in {
+    animation: msn-fadeIn 0.3s ease-out;
+}
+
+@keyframes msn-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+    :root[data-theme="msn"] nav {
+        padding: 3px 4px !important;
+    }
+
+    :root[data-theme="msn"] .nav-link {
+        font-size: 10px !important;
+        padding: 2px 4px !important;
+    }
+
+    :root[data-theme="msn"] h1 {
+        margin: -1rem -1rem 0.5rem -1rem !important;
+        font-size: 12px !important;
+    }
+}
+
+/* CUSTOMIZATION GUIDE
+ * ==========================================
+ * Main variables to tweak for this MSN Messenger theme:
+ *
+ * --msn-blue-dark: #0A246A      → Primary dark blue (title bars, accents)
+ * --msn-blue-mid: #1C5AA8       → Mid-tone blue (gradients)
+ * --msn-blue-light: #3A6EA8     → Light blue (sidebar, buttons)
+ * --msn-blue-highlight: #316AC5 → Hover/selection highlight blue
+ * --msn-silver-bg: #ECE9D8      → Main background (Luna Silver)
+ * --msn-silver-toolbar: #D4D0C8 → Toolbar/chrome background
+ * --msn-silver-border: #ACA899  → Border color for panels
+ * --msn-chat-bg: #FFFFFF        → Chat area background
+ * --msn-online: #6BB700         → Online status color (green bubble)
+ * --msn-away: #FF8C00           → Away status color
+ * --msn-busy: #E81123           → Busy status color
+ *
+ * Font: Tahoma 11px is the authentic MSN Messenger font.
+ *       Change to 'Segoe UI' for a more modern XP feel.
+ *
+ * To make the butterfly watermark more visible, increase
+ * the opacity in .container::before (currently 0.04).
+ * ==========================================
+ */

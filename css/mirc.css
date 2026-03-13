@@ -1,0 +1,549 @@
+/**
+ * mIRC 6.x IRC Client Terminal Theme
+ * Recreates the classic mIRC terminal aesthetic
+ */
+
+/* ===========================
+   CSS VARIABLES
+   =========================== */
+:root[data-theme="mirc"] {
+    /* Terminal Colors */
+    --mirc-bg: #000000;
+    --mirc-bg-dark: #001020;
+    --mirc-bg-panel: #111111;
+    --mirc-bg-header: #1A1A1A;
+    --mirc-bg-hover: #003300;
+    --mirc-bg-input: #000000;
+
+    /* Text Colors */
+    --mirc-green: #00FF41;
+    --mirc-green-dim: #00CC33;
+    --mirc-white: #CCCCCC;
+    --mirc-gray: #888888;
+
+    /* mIRC Classic Nick Colors */
+    --mirc-color-red: #FF0000;
+    --mirc-color-green: #00CC00;
+    --mirc-color-yellow: #FFFF00;
+    --mirc-color-cyan: #00FFFF;
+    --mirc-color-magenta: #FF00FF;
+    --mirc-color-blue: #0000FF;
+    --mirc-color-orange: #FF8800;
+
+    /* UI Colors */
+    --mirc-border: #333333;
+    --mirc-border-green: #00FF41;
+    --mirc-scrollbar-thumb: #444444;
+
+    /* Override unified theme variables */
+    --bg-color: #000000;
+    --text-color: #00FF41;
+    --heading-color: #00FF41;
+    --link-color: #00FFFF;
+    --button-color: #00FF41;
+    --border-color: #333333;
+    --highlight-color: rgba(0, 255, 65, 0.1);
+    --shadow-color: rgba(0, 255, 65, 0.2);
+    --hover-color: rgba(0, 255, 65, 0.15);
+    --active-color: rgba(0, 255, 65, 0.25);
+    --disabled-color: rgba(0, 255, 65, 0.3);
+    --error-color: #FF0000;
+    --success-color: #00FF41;
+    --warning-color: #FFFF00;
+    --border-radius: 0px;
+}
+
+/* ===========================
+   BODY & BASE
+   =========================== */
+:root[data-theme="mirc"] body {
+    font-family: 'Courier New', Courier, 'Lucida Console', monospace !important;
+    font-size: 12px !important;
+    background-color: #000000 !important;
+    color: #00FF41 !important;
+    line-height: 1.5;
+}
+
+:root[data-theme="mirc"] input,
+:root[data-theme="mirc"] textarea,
+:root[data-theme="mirc"] button,
+:root[data-theme="mirc"] select,
+:root[data-theme="mirc"] code,
+:root[data-theme="mirc"] pre {
+    font-family: 'Courier New', Courier, 'Lucida Console', monospace !important;
+    font-size: 12px !important;
+}
+
+/* ===========================
+   ANIMATED BACKGROUND - DISABLE
+   =========================== */
+:root[data-theme="mirc"] .background {
+    background: #000000 !important;
+    opacity: 1 !important;
+}
+
+:root[data-theme="mirc"] .grid {
+    display: none !important;
+}
+
+/* ===========================
+   NAVIGATION - IRC HEADER
+   =========================== */
+:root[data-theme="mirc"] nav {
+    background: #1A1A1A !important;
+    border: 1px solid #333333 !important;
+    border-bottom: 2px solid #00FF41 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 4px 8px !important;
+    gap: 2px !important;
+}
+
+:root[data-theme="mirc"] .nav-link {
+    color: #00FF41 !important;
+    font-size: 12px !important;
+    padding: 2px 8px !important;
+    border-radius: 0 !important;
+}
+
+:root[data-theme="mirc"] .nav-link:hover {
+    background-color: #003300 !important;
+    color: #00FF41 !important;
+    text-decoration: none !important;
+}
+
+:root[data-theme="mirc"] .nav-link.active {
+    background-color: #003300 !important;
+    color: #00FF41 !important;
+    font-weight: bold !important;
+    border-bottom: 1px solid #00FF41 !important;
+}
+
+:root[data-theme="mirc"] .nav-theme-toggle {
+    background: transparent !important;
+    color: #00FF41 !important;
+    border: 1px solid #00FF41 !important;
+    border-radius: 0 !important;
+    font-size: 12px !important;
+    padding: 2px 10px !important;
+}
+
+:root[data-theme="mirc"] .nav-theme-toggle:hover {
+    background: #003300 !important;
+    transform: none !important;
+}
+
+/* ===========================
+   CONTAINER - TERMINAL WINDOW
+   =========================== */
+:root[data-theme="mirc"] .container {
+    background-color: #000000 !important;
+    border: 1px solid #333333 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Scanline overlay effect */
+:root[data-theme="mirc"] .container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent 2px,
+        rgba(0, 0, 0, 0.15) 2px,
+        rgba(0, 0, 0, 0.15) 4px
+    );
+}
+
+/* ===========================
+   HEADINGS
+   =========================== */
+:root[data-theme="mirc"] h1 {
+    color: #00FF41 !important;
+    font-size: 14px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    border-bottom: 1px solid #333333 !important;
+    padding-bottom: 4px !important;
+    text-shadow: 0 0 8px rgba(0, 255, 65, 0.5) !important;
+}
+
+:root[data-theme="mirc"] h1::before {
+    content: '*** ';
+    color: #888888;
+}
+
+:root[data-theme="mirc"] h1::after {
+    content: ' ***';
+    color: #888888;
+}
+
+:root[data-theme="mirc"] h2 {
+    color: #00FF41 !important;
+    font-size: 13px !important;
+    text-shadow: none !important;
+}
+
+:root[data-theme="mirc"] h2::before {
+    content: '>> ';
+    color: #888888;
+}
+
+:root[data-theme="mirc"] h3,
+:root[data-theme="mirc"] h4,
+:root[data-theme="mirc"] h5,
+:root[data-theme="mirc"] h6 {
+    color: #00CC33 !important;
+    text-shadow: none !important;
+}
+
+/* ===========================
+   LINKS
+   =========================== */
+:root[data-theme="mirc"] a {
+    color: #00FFFF !important;
+}
+
+:root[data-theme="mirc"] a:hover {
+    color: #00FF41 !important;
+    text-decoration: underline !important;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5) !important;
+}
+
+/* ===========================
+   FORMS - TERMINAL INPUT
+   =========================== */
+:root[data-theme="mirc"] input[type="text"],
+:root[data-theme="mirc"] input[type="email"],
+:root[data-theme="mirc"] input[type="password"],
+:root[data-theme="mirc"] input[type="number"],
+:root[data-theme="mirc"] input[type="url"],
+:root[data-theme="mirc"] textarea,
+:root[data-theme="mirc"] select {
+    background: #000000 !important;
+    color: #00FF41 !important;
+    border: 1px solid #333333 !important;
+    border-radius: 0 !important;
+    padding: 4px 8px !important;
+    caret-color: #00FF41;
+}
+
+:root[data-theme="mirc"] input:focus,
+:root[data-theme="mirc"] textarea:focus,
+:root[data-theme="mirc"] select:focus {
+    border-color: #00FF41 !important;
+    box-shadow: 0 0 5px rgba(0, 255, 65, 0.3) !important;
+    outline: none !important;
+}
+
+/* Blinking cursor animation for inputs */
+:root[data-theme="mirc"] input:focus,
+:root[data-theme="mirc"] textarea:focus {
+    animation: mirc-blink 1s step-end infinite;
+}
+
+@keyframes mirc-blink {
+    50% { border-color: #00FF41; box-shadow: 0 0 8px rgba(0, 255, 65, 0.5); }
+}
+
+/* Input placeholder */
+:root[data-theme="mirc"] input::placeholder,
+:root[data-theme="mirc"] textarea::placeholder {
+    color: #888888 !important;
+    font-style: italic !important;
+}
+
+/* ===========================
+   BUTTONS - TERMINAL STYLE
+   =========================== */
+:root[data-theme="mirc"] button,
+:root[data-theme="mirc"] .button {
+    background: transparent !important;
+    color: #00FF41 !important;
+    border: 1px solid #00FF41 !important;
+    border-radius: 0 !important;
+    padding: 4px 12px !important;
+    font-size: 12px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-shadow: none !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="mirc"] button:hover,
+:root[data-theme="mirc"] .button:hover {
+    background: #003300 !important;
+    color: #00FF41 !important;
+    transform: none !important;
+    box-shadow: 0 0 8px rgba(0, 255, 65, 0.3) !important;
+}
+
+:root[data-theme="mirc"] button:active,
+:root[data-theme="mirc"] .button:active {
+    background: #004400 !important;
+}
+
+/* ===========================
+   TABLES
+   =========================== */
+:root[data-theme="mirc"] table {
+    border: 1px solid #333333 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="mirc"] th {
+    background: #1A1A1A !important;
+    color: #00FF41 !important;
+    font-size: 12px !important;
+    padding: 4px 8px !important;
+    border-bottom: 1px solid #00FF41 !important;
+    text-transform: uppercase !important;
+}
+
+:root[data-theme="mirc"] td {
+    padding: 3px 8px !important;
+    font-size: 12px !important;
+    border-bottom: 1px solid #222222 !important;
+    color: #00FF41 !important;
+}
+
+:root[data-theme="mirc"] tr:nth-child(even) {
+    background-color: rgba(0, 255, 65, 0.03) !important;
+}
+
+:root[data-theme="mirc"] tr:hover {
+    background-color: #003300 !important;
+}
+
+/* ===========================
+   TOOL CATEGORIES - IRC CHANNEL LIST
+   =========================== */
+:root[data-theme="mirc"] .tool-category {
+    background: #111111 !important;
+    border: 1px solid #333333 !important;
+    border-radius: 0 !important;
+    padding: 6px 10px !important;
+}
+
+/* Nick color cycling via nth-child */
+:root[data-theme="mirc"] .tool-category:nth-child(5n+1) h4 a {
+    color: #FF0000 !important;
+}
+
+:root[data-theme="mirc"] .tool-category:nth-child(5n+2) h4 a {
+    color: #00CC00 !important;
+}
+
+:root[data-theme="mirc"] .tool-category:nth-child(5n+3) h4 a {
+    color: #FFFF00 !important;
+}
+
+:root[data-theme="mirc"] .tool-category:nth-child(5n+4) h4 a {
+    color: #00FFFF !important;
+}
+
+:root[data-theme="mirc"] .tool-category:nth-child(5n+5) h4 a {
+    color: #FF00FF !important;
+}
+
+/* IRC-style prefix for tool names */
+:root[data-theme="mirc"] .tool-category h4 a::before {
+    content: '<';
+    color: #888888;
+}
+
+:root[data-theme="mirc"] .tool-category h4 a::after {
+    content: '>';
+    color: #888888;
+}
+
+:root[data-theme="mirc"] .tool-category:hover {
+    background: #003300 !important;
+    border-color: #00FF41 !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+:root[data-theme="mirc"] .tool-category p {
+    color: #888888 !important;
+    font-style: italic !important;
+}
+
+/* ===========================
+   STATUS INDICATORS
+   =========================== */
+:root[data-theme="mirc"] .success {
+    color: #00FF41 !important;
+    background-color: rgba(0, 255, 65, 0.1) !important;
+    border-color: #00FF41 !important;
+}
+
+:root[data-theme="mirc"] .warning {
+    color: #FFFF00 !important;
+    background-color: rgba(255, 255, 0, 0.1) !important;
+}
+
+:root[data-theme="mirc"] .error {
+    color: #FF0000 !important;
+    background-color: rgba(255, 0, 0, 0.1) !important;
+}
+
+:root[data-theme="mirc"] .badge.success {
+    background-color: #00FF41 !important;
+    color: #000000 !important;
+    border-radius: 0 !important;
+    font-weight: bold !important;
+}
+
+/* ===========================
+   SCROLLBARS - DARK TERMINAL
+   =========================== */
+:root[data-theme="mirc"] * {
+    scrollbar-width: thin;
+    scrollbar-color: #444444 #111111;
+}
+
+:root[data-theme="mirc"] *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+:root[data-theme="mirc"] *::-webkit-scrollbar-track {
+    background: #111111;
+}
+
+:root[data-theme="mirc"] *::-webkit-scrollbar-thumb {
+    background: #444444;
+    border-radius: 0;
+}
+
+:root[data-theme="mirc"] *::-webkit-scrollbar-thumb:hover {
+    background: #666666;
+}
+
+/* ===========================
+   FOOTER
+   =========================== */
+:root[data-theme="mirc"] .footer {
+    border-top: 1px solid #333333 !important;
+    color: #888888 !important;
+}
+
+:root[data-theme="mirc"] .footer::before {
+    content: '*** ';
+    color: #888888;
+}
+
+:root[data-theme="mirc"] .footer a {
+    color: #00FFFF !important;
+}
+
+/* ===========================
+   THEME SELECTOR OVERRIDES
+   =========================== */
+:root[data-theme="mirc"] .theme-selector-main {
+    background: #111111 !important;
+    border-color: #00FF41 !important;
+    color: #00FF41 !important;
+    border-radius: 0 !important;
+}
+
+:root[data-theme="mirc"] .theme-selector-main:hover {
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.3) !important;
+}
+
+:root[data-theme="mirc"] .theme-dropdown {
+    background: #111111 !important;
+    border: 1px solid #333333 !important;
+    border-radius: 0 !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+}
+
+:root[data-theme="mirc"] .theme-option {
+    color: #00FF41 !important;
+    border-radius: 0 !important;
+    font-size: 12px !important;
+}
+
+:root[data-theme="mirc"] .theme-option:hover {
+    background: #003300 !important;
+}
+
+:root[data-theme="mirc"] .theme-option.active {
+    background: #003300 !important;
+    color: #00FF41 !important;
+    border-left: 2px solid #00FF41 !important;
+}
+
+/* ===========================
+   ANIMATIONS
+   =========================== */
+:root[data-theme="mirc"] .fade-in {
+    animation: mirc-fadeIn 0.2s ease-out;
+}
+
+@keyframes mirc-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===========================
+   RESPONSIVE
+   =========================== */
+@media (max-width: 768px) {
+    :root[data-theme="mirc"] nav {
+        padding: 3px 4px !important;
+    }
+
+    :root[data-theme="mirc"] .nav-link {
+        font-size: 10px !important;
+        padding: 2px 4px !important;
+    }
+
+    /* Disable scanlines on mobile for performance */
+    :root[data-theme="mirc"] .container::after {
+        display: none;
+    }
+}
+
+/* CUSTOMIZATION GUIDE
+ * ==========================================
+ * Main variables to tweak for this mIRC theme:
+ *
+ * --mirc-bg: #000000            → Main terminal background
+ * --mirc-bg-dark: #001020       → Alternative navy background
+ * --mirc-bg-panel: #111111      → Sidebar/panel background
+ * --mirc-bg-header: #1A1A1A     → Header bar background
+ * --mirc-bg-hover: #003300      → Row hover highlight
+ * --mirc-green: #00FF41         → Primary terminal green text
+ * --mirc-green-dim: #00CC33     → Dimmer green for secondary text
+ * --mirc-white: #CCCCCC         → White/light text
+ * --mirc-gray: #888888          → System message gray
+ *
+ * Nick Colors (cycle via nth-child):
+ * --mirc-color-red: #FF0000
+ * --mirc-color-green: #00CC00
+ * --mirc-color-yellow: #FFFF00
+ * --mirc-color-cyan: #00FFFF
+ * --mirc-color-magenta: #FF00FF
+ *
+ * Font: 'Courier New' 12px is the authentic mIRC font.
+ *       Try 'Lucida Console' or 'Consolas' for alternatives.
+ *
+ * Scanline effect: Modify the repeating-linear-gradient in
+ * .container::after. Set display:none to disable.
+ *
+ * To switch to navy background instead of pure black,
+ * change --mirc-bg to #001020.
+ * ==========================================
+ */
