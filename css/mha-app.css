@@ -39,16 +39,16 @@ input {
 
 #response {
   overflow-y: auto;
-  position: relative;
+  position: static;
   width: 100%;
   padding-bottom: 0;
   max-height: 70vh;
 }
 
 #response table {
-  color: #333333;
+  color: var(--text-color);
   border-width: 1px;
-  border-color: #a8b2b2;
+  border-color: var(--border-color);
   border-collapse: collapse;
   margin-bottom: 0;
 }
@@ -56,17 +56,18 @@ input {
 #response th {
   border-width: 1px;
   border-style: solid;
-  border-color: #a8b2b2;
+  border-color: var(--border-color);
   padding: 8px;
   text-align: center;
   cursor: pointer;
 }
 
-td {
+#response td {
   border-width: 1px;
   border-style: solid;
-  border-color: #a8b2b2;
+  border-color: var(--border-color);
   padding-left: 2px;
+  color: var(--text-color);
 }
 
 .allowBreak {
@@ -98,12 +99,12 @@ td {
 }
 
 .oddRow {
-  background-color: #cde6f7; /* 2013 light background color */
+  background-color: var(--highlight-color);
 }
 
 .tableHeader {
-  background-color: #0072c6; /*2013 hero color*/
-  color: #ffffff;
+  background-color: var(--button-color);
+  color: var(--bg-color);
 }
 
 #inputHeaders {
@@ -114,8 +115,8 @@ td {
 }
 
 .sectionHeader {
-  background-color: #0072c6; /*2013 hero color*/
-  color: #ffffff;
+  background-color: var(--button-color);
+  color: var(--bg-color);
   padding-top: 8px;
   padding-bottom: 8px;
   font-weight: bold;
@@ -123,8 +124,8 @@ td {
 }
 
 .tableCaption {
-  background-color: rgb(234, 236, 238);
-  color: #000000;
+  background-color: var(--highlight-color);
+  color: var(--text-color);
   padding-top: 8px;
   padding-bottom: 8px;
   font-weight: bold;
@@ -217,7 +218,7 @@ td {
 
 .commandBar {
   height: 44px;
-  background-color: #f4f4f4;
+  background-color: var(--highlight-color);
   padding: 0;
 }
 
