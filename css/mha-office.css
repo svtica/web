@@ -8749,7 +8749,7 @@
   font-size: 14px;
   padding-top: 15px;
   padding-right: 0;
-  position: static;
+  position: relative;
 }
 .ms-ListItem.ms-ListItem--document .ms-ListItem-secondaryText {
   display: block;
